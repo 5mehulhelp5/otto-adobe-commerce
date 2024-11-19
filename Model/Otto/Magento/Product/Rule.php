@@ -1,0 +1,42 @@
+<?php
+
+declare(strict_types=1);
+
+namespace M2E\Otto\Model\Otto\Magento\Product;
+
+class Rule extends \M2E\Otto\Model\Magento\Product\Rule
+{
+    /** @var \M2E\Otto\Model\Otto\Magento\Product\Rule\Condition\CombineFactory */
+    private Rule\Condition\CombineFactory $ottoRuleCombineFactory;
+
+    public function __construct(
+        \M2E\Otto\Model\Otto\Magento\Product\Rule\Condition\CombineFactory $ottoRuleCombineFactory,
+        \Magento\Framework\Data\Form $form,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Framework\Model\ResourceModel\Iterator $resourceIterator,
+        \M2E\Otto\Model\Magento\Product\Rule\Condition\CombineFactory $ruleConditionCombineFactory,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Framework\Registry $registry,
+        \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
+        array $data = []
+    ) {
+        parent::__construct(
+            $form,
+            $productFactory,
+            $resourceIterator,
+            $ruleConditionCombineFactory,
+            $context,
+            $registry,
+            $resource,
+            $resourceCollection,
+            $data
+        );
+        $this->ottoRuleCombineFactory = $ottoRuleCombineFactory;
+    }
+
+    public function getConditionObj(): \M2E\Otto\Model\Magento\Product\Rule\Condition\AbstractModel
+    {
+        return $this->ottoRuleCombineFactory->create();
+    }
+}

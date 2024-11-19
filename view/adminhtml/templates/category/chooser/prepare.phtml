@@ -1,0 +1,29 @@
+<?php
+/**
+ * @var \M2E\Otto\Block\Adminhtml\Category\Chooser\Prepare $block
+ */
+?>
+
+<script>
+    require([
+        'Otto/Category/Chooser'
+    ], () => {
+        window.OttoCategoryChooserObj = new OttoCategoryChooser(
+            <?= $block->getAccountId() ?>
+        );
+    });
+</script>
+
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Magento_Ui/js/core/app": {
+                "components": {
+                    "category_search": {
+                        "component": "M2E_Otto/js/Category/Chooser/Tabs/Search",
+                        "searchUrl": "<?= $block->getSearchUrl() ?>"                    }
+                }
+            }
+        }
+    }
+</script>

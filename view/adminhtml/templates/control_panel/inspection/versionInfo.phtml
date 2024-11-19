@@ -1,0 +1,46 @@
+<?php
+/** @var \M2E\Otto\Block\Adminhtml\ControlPanel\Inspection\VersionInfo $block */
+?>
+
+<table class="form-list" cellspacing="0" cellpadding="0">
+
+    <tr>
+        <td class="label">
+            <label><?php
+                echo $block->__('Latest Version'); ?>: </label>
+        </td>
+        <td class="value">
+            <?php if ($this->latestPublicVersion) : ?>
+                <?php echo $this->latestPublicVersion; ?>
+                <?php $versionForUrl = str_replace('.', '-', $this->latestPublicVersion); ?>
+                <a href="<?php echo "https://docs-m2.m2epro.com/m2e-otto-release-notes-policy"; ?>" target="_blank">
+                    <?php echo $block->__('[release notes]'); ?>
+                </a>
+            <?php else : ?>
+                --
+            <?php endif; ?>
+        </td>
+    </tr>
+
+    <?php
+    if (!$block->getData('is_support_mode')) : ?>
+        <tr>
+            <td class="label">
+                <label><?php
+                    echo $block->__('History'); ?>: </label>
+            </td>
+            <td class="value">
+                <?php
+                $url = $block->getUrl(
+                    '*/controlPanel_database/manageTable',
+                    ['table' => \M2E\Otto\Helper\Module\Database\Tables::TABLE_NAME_SETUP]
+                ); ?>
+                <a target="_blank" href="<?php
+                echo $url; ?>"><?php
+                    echo $block->__('show'); ?></a>
+            </td>
+        </tr>
+    <?php
+    endif; ?>
+
+</table>

@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <carriers>
+            <ottoshipping>
+                <active>1</active>
+                <allowed_methods>ottoshipping</allowed_methods>
+                <methods>ottoshipping</methods>
+                <sallowspecific>0</sallowspecific>
+                <model>M2E\Otto\Model\Magento\Shipping</model>
+                <name>M2E Otto Shipping</name>
+                <title>M2E Otto Shipping</title>
+                <handling_type>F</handling_type>
+            </ottoshipping>
+        </carriers>
+        <payment>
+            <ottopayment>
+                <active>1</active>
+                <model>M2E\Otto\Model\Magento\Payment</model>
+                <order_status>pending</order_status>
+                <title>M2E Otto Payment</title>
+                <allowspecific>0</allowspecific>
+                <sort_order>1</sort_order>
+            </ottopayment>
+        </payment>
+    </default>
+</config>

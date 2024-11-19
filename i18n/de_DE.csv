@@ -1,0 +1,1346 @@
+"Creation Date",Erstellungsdatum
+"Update Date",Aktualisierungsdatum
+Actions,Aktionen
+Account,Konto
+Select,Auswählen
+Reset,Zurücksetzen
+"No recently used Categories","Keine kürzlich verwendeten Kategorien"
+"Change Category","Kategorie ändern"
+Edit,Bearbeiten
+Category,Kategorie
+"Not Selected","Nicht ausgewählt"
+"No results","Keine Treffer"
+"No saved Categories","Keine gespeicherten Kategorien"
+"Category Settings","Kategorie Einstellungen"
+Specifics,Artikelmerkmale
+"Please select a category to continue.","Bitte wählen Sie eine Kategorie, um fortzufahren."
+disabled,deaktiviert
+Title,Titel
+Details,Details
+Check,Überprüfen
+ID,ID
+Run,Ausführen
+Overview,Überblick
+Inspection,Inspektion
+Database,Datenbank
+"Module Tools",Modulwerkzeuge
+Cron,Cron
+Debug,Debug
+"Table Name",Tabellenname
+Records,Datensätze
+"Size (Mb)","Größe (Mb)"
+Back,Zurück
+"Additional Actions","Zusätzliche Aktionen"
+"Flush Cache","Cache leeren"
+"Append Row","Zeile anhängen"
+"Total Run Time",Gesamtlaufzeit
+Delete,Löschen
+Update,Aktualisieren
+Magento,Magento
+Integration,Integration
+"Are you sure?","Sind Sie sicher?"
+Confirmation,Bestätigung
+Help,Hilfe
+"Hide Block","Block ausblenden"
+"Show Tips","Tipps anzeigen"
+"Hide Tips","Tipps ausblenden"
+Info,Info
+Warning,Warnung
+Error,Fehler
+Close,Schließen
+Success,Erfolg
+None,Keine
+Add,Hinzufügen
+Save,Speichern
+Send,Senden
+Cancel,Abbrechen
+Confirm,Bestätigen
+Submit,Einreichen
+"In Progress","In Bearbeitung"
+Product(s),Produkt(e)
+Continue,Fortsetzen
+Complete,Abgeschlossen
+Yes,Ja
+No,Nein
+Collapse,Einklappen
+Expand,Erweitern
+"Reset Auto Rules","Automatische Regeln zurücksetzen"
+"Please select the Products you want to perform the Action on.","Bitte wählen Sie die Produkte aus, für die Sie die Aktion durchführen möchten."
+"Please select Items.","Bitte wählen Sie Artikel aus."
+"Please select Action.","Bitte wählen Sie eine Aktion aus."
+"View Full Product Log","Vollständiges Produktprotokoll anzeigen"
+"This is a required field.","Dies ist ein Pflichtfeld."
+"Please enter valid UPC","Bitte geben Sie eine gültige UPC ein"
+"Please enter valid EAN","Bitte geben Sie eine gültige EAN ein"
+"Please enter valid ISBN","Bitte geben Sie eine gültige ISBN ein"
+"Invalid input data. Decimal value required. Example 12.05","Ungültige Eingabedaten. Dezimalwert erforderlich. Beispiel: 12,05"
+"Email is not valid.","E-Mail ist nicht gültig."
+"You should select Attribute Set first.","Sie sollten zuerst ein Attribut-Set auswählen."
+"Create a New One...","Einen neuen erstellen..."
+"Creation of New Magento Attribute","Erstellung eines neuen Magento-Attributs"
+"You should select Store View","Sie sollten eine Store-Ansicht auswählen"
+"Insert Magento Attribute in %s%","Magento-Attribut in %s% einfügen"
+Attribute,Attribut
+Insert,Einfügen
+"Settings have been saved.","Einstellungen wurden gespeichert."
+"You must select at least one Site you will work with.","Sie müssen mindestens eine Seite auswählen, mit der Sie arbeiten werden."
+"Preparing to start. Please wait ...","Vorbereitung zum Start. Bitte warten ..."
+"Unauthorized! Please login again","Nicht autorisiert! Bitte melden Sie sich erneut an"
+"Reset Unmanaged Listings","Nicht verwaltete Auflistungen zurücksetzen"
+"
+                This Tool allows you to quickly <strong>Create</strong> a new <strong>Magento Attribute</strong>
+                for the selected Option. In order to Create an Attribute, you have to fill in the Attribute Label,
+                Attribute Code, Catalog Input Type, Scope, Default Value and Attribute Sets fields.<br/><br/>
+
+                <strong>Note:</strong> Some of the fields may not be available for selection. The availability
+                depends on the Option for which the Attribute is being created.<br/>
+                <strong>Note:</strong> This Option does not imply automatic Product Attribute Value set up.
+                After the Attribute
+                becomes available in Magento, you should Manually provide the Value for the Product.","
+Dieses Tool ermöglicht es Ihnen, schnell ein neues <strong>Magento-Attribut</strong>
+                für die ausgewählte Option zu erstellen. Um ein Attribut zu erstellen, müssen Sie die Felder Attributlabel,
+                Attributcode, Katalogeingabetyp, Gültigkeitsbereich, Standardwert und Attributsets ausfüllen.<br/><br/>
+
+                <strong>Hinweis:</strong> Einige der Felder sind möglicherweise nicht zur Auswahl verfügbar. Die Verfügbarkeit
+                hängt von der Option ab, für die das Attribut erstellt wird.<br/>
+                <strong>Hinweis:</strong> Diese Option beinhaltet keine automatische Einrichtung von Produktattributwerten.
+                Nachdem das Attribut in Magento verfügbar ist, müssen Sie den Wert für das Produkt manuell bereitstellen."
+"Default Label",Standardlabel
+"Attribute Code","Attribut Code"
+"Catalog Input Type","Katalog Input Type"
+Scope,Umfang
+"Store View","Ansicht speichern"
+Website,Webseite
+Global,Global
+"Default Value","Standard Wert"
+"Attribute Sets",Attribute-Sets
+"Will be added to the all Attribute Sets.","Wird zu allen Attribut-Sets hinzugefügt."
+"Please use only letters (a-z),
+                numbers (0-9) or underscore(_) in this field, first character should be a letter.","Bitte geben Sie in dieses Feld nur Buchstaben (a-z), 
+                 Ziffern (0-9) oder Unterstriche (_) ein, das erste Zeichen sollte ein Buchstabe sein."
+"Attribute with the same code already exists.","Das Attribut mit demselben Code existiert bereits."
+"Attribute has been created.","Attribut wurde erstellt."
+"Please enter a valid date.","Bitte geben Sie ein gültiges Datum an."
+"Text Field",Textfeld
+"Text Area","Mehrzeiliger Textbereich"
+Price,Preis
+"Multiple Select",Mehrfachauswahl
+Date,Datum
+Yes/No,Ja/Nein
+N/A,N/A
+Linked,Verlinkt
+Any,Jeder
+List,Auflisten
+Relist,"Neu auflisten"
+Revise,Überarbeiten
+Stop,Aufhalten
+Relink,"Erneut verlinken"
+"Remove from Channel / Remove from Listing","Vom Kanal entfernen / Von der Auflistung entfernen"
+"External Change","Externe Änderung"
+Dashboard,Dashboard
+"Notification Settings",Benachrichtigungseinstellungen
+"Version Info",Versionsinformationen
+"Current Version","Aktuelle Version"
+"[release notes]",[Veröffentlichungshinweise]
+"Latest Public Version","Neueste öffentliche Version"
+"Cron Info",Cron-Info
+Type,Typ
+"Last Run","Letzter Lauf"
+"not working","nicht funktionierend"
+"Notify Me","Benachrichtige mich"
+"Do Not Notify","Nicht benachrichtigen"
+"On each Extension Page","Auf jeder Erweiterungsseite"
+"On each Magento Page","Auf jeder Magento-Seite"
+"As Magento System Notification","Als Magento-Systembenachrichtigung"
+"Send me an Email","Schicke mir eine E-Mail"
+Email,E-Mail
+"Notification Level",Benachrichtigungsstufe
+"Critical / Error","Kritisch / Fehler"
+Notice,Hinweis
+"Clear Log(s)","Log(s) löschen"
+"Delete Listing(s)","Auflistung(en) löschen"
+"Title / Info","Titel / Info"
+"Total Items","Gesamtanzahl der Artikel"
+"Active Items","Aktive Artikel"
+"Inactive Items","Inaktive Artikel"
+Products,Produkte
+"Edit Settings","Einstellungen bearbeiten"
+Other,Andere
+"Product ID",Produkt-ID
+"Product Title / Product SKU","Produkttitel / Produkt SKU"
+"Stock Availability","Verfügbarkeit auf Lager"
+"In Stock",Vorrätig
+"Out of Stock",Ausverkauft
+SKU,SKU
+"Link To This Product","Link zu diesem Produkt"
+"From the list below you should select a Magento Product to which you would like the Item
+                 to be linked. Click on Link To This Product link to set accordance.","Wählen Sie aus der unten stehenden Liste ein Magento-Produkt aus, mit dem der Artikel
+                 verknüpft werden soll. Klicken Sie auf Link To This Product (Mit diesem Produkt verknüpfen), um die Einstellungen vorzunehmen."
+"Move To This Listing","Zu dieser Auflistung wechseln"
+"Listing Type","Art der Auflistung"
+"M2E Otto","M2E Otto"
+Unmanaged,Unverwaltet
+"Are you sure you want to create empty Listing?","Sind Sie sicher, dass Sie eine leere Auflistung erstellen wollen?"
+"View Mode","Ansicht Modus"
+QTY,QTY
+"Based on Magento Categories","Basierend auf Magento-Kategorien"
+"You must select at least 1 Category.","Sie müssen mindestens 1 Kategorie auswählen."
+"Rule with the same Title already exists.","Es existiert bereits eine Regel mit demselben Titel."
+"Listing Settings Customization","Auflistung Einstellungen Anpassung"
+Remove,Löschen
+"Magento Category","Magento Kategorie"
+Action,Aktion
+"The Quantity of chosen Products in each Category is shown in brackets.<br/>
+                If the Product belongs to several Categories, it is shown in each Category.
+                And if you remove the Category with such Product it will be subtracted from each Category.","Die Menge der ausgewählten Produkte in jeder Kategorie wird in Klammern angezeigt.<br/>
+                Wenn das Produkt zu mehreren Kategorien gehört, wird es in jeder Kategorie angezeigt.
+                Und wenn Sie die Kategorie mit einem solchen Produkt entfernen, wird es aus jeder Kategorie abgezogen."
+of,von
+"Set Category (manually)","Kategorie festlegen (manuell)"
+"Product Title",Produkt-Titel
+"Otto Category","Kategorie Otto"
+"Category Selected","Kategorie Ausgewählt"
+"Category Not Selected","Nicht ausgewählte Kategorie"
+"Edit Category","Kategorie editieren"
+"Reset Category","Kategorie zurücksetzen"
+"You need to choose Otto Categories for Products in order to list them on Otto.","Sie müssen Otto-Kategorien für Produkte auswählen, um sie bei Otto auflisten zu können."
+"Choose one of the Options below.","Wählen Sie eine der unten stehenden Optionen."
+"Products will be Listed using the same Otto Category.","Produkte werden unter Verwendung derselben Otto-Kategorie aufgelistet."
+"Set Otto Categories for each Product (or a group of Products) manually.","Legen Sie Otto-Kategorien für jedes Produkt (oder eine Gruppe von Produkten) manuell fest."
+Categories,Kategorien
+"Set Category","Kategorie setzen"
+"Select Products","Produkte auswählen"
+"Remove Category","Kategorie entfernen"
+"Add New Rule","Neue Regel hinzufügen"
+"Add/Edit Categories Rule","Kategorieregel hinzufügen/bearbeiten"
+"Start Configure","Konfigurieren starten"
+"<h3>
+ Do you want to set up a Rule by which Products will be automatically Added or
+ Deleted from the current M2E Otto Listing?
+</h3>
+Click <b>Start Configure</b> to create a Rule or <b>Cancel</b> if you do not want to do it now.
+<br/><br/>
+<b>Note:</b> You can always return to it by clicking Auto Add/Remove Rules Button on this Page.","<h3>
+ Möchten Sie eine Regel festlegen, nach der Produkte automatisch zum aktuellen M2E Otto Listing hinzugefügt oder daraus entfernt werden?
+</h3>
+Klicken Sie auf <b>Start Konfigurieren</b>, um eine Regel zu erstellen, oder auf <b>Abbrechen</b>, wenn Sie dies jetzt nicht tun möchten.
+<br/><br/>
+<b>Hinweis:</b> Sie können jederzeit darauf zurückkommen, indem Sie auf dieser Seite auf die Schaltfläche Auto-Hinzufügen/Entfernen-Regeln klicken."
+Visibility,Sichtbarkeit
+Status,Zustand
+Websites,Webseiten
+"<p>After an M2E Otto listing is configured and created, Magento Products should
+                    be added into it. <br> The Products you add to the Listing will further be
+                    Listed on Otto.</p><br>
+                    <p>There are several different options of how Magento products can be found/selected
+                    and added to the Listing.</p>","<p>Nachdem eine M2E Otto-Auflistung konfiguriert und erstellt wurde, sollten Magento-Produkte in diese Auflistung
+                     aufgenommen werden. <br> Die Produkte, die Sie der Auflistung hinzufügen, werden außerdem auf Otto aufgelistet.</p><br>
+                     <p>Es gibt verschiedene Möglichkeiten, wie Magento-Produkte gefunden/ausgewählt und der Auflistung hinzugefügt        
+                     werden können.</p>"
+"Choose how you want to display Products for selection","Wählen Sie, wie Sie Produkte für die Auswahl anzeigen möchten"
+"Products displayed as a list without any grouping.","Produkte, die als Liste ohne Gruppierung angezeigt werden."
+"Products grouped by Magento Categories.","Produkte nach Magento-Kategorien sortiert."
+"Add Products","Produkte hinzufügen"
+"List Added Products Now","Liste hinzugefügte Produkte jetzt"
+go_to_the_listing,für_zu_auflistung
+"Go To The Listing","Zur Auflistung gehen"
+"Back to Unmanaged Items","Zurück zu nicht verwalteten Elementen"
+"All unsaved changes will be lost and you will be returned to the Listings grid.","Alle ungespeicherten Änderungen gehen verloren und Sie werden zum Listenfeld zurückgegeben."
+Unknown,Unbekannt
+Manual,Manuell
+Automatic,Automatisch
+more,mehr
+Description,Beschreibung
+"Last Action was completed.","Die letzte Aktion wurde abgeschlossen."
+"Using a Grouped View Mode, the logs records which are not older than %date are
+            displayed here in order to prevent any possible Performance-related issues.","Bei Verwendung eines gruppierten Ansichtsmodus werden die Protokollsätze, die nicht älter als %date sind
+            angezeigt, um möglichen Leistungsproblemen vorzubeugen."
+"Only messages with a unique Product ID","Nur Nachrichten mit einer eindeutigen Produkt-ID"
+Listing,Auflistung
+"Magento Product","Magento Produkt"
+Message,Nachricht
+"Run Mode",Lauf-Modus
+Separated,Getrennt
+Grouped,Gruppiert
+"Only messages with a unique Order ID","Nur Nachrichten mit einer eindeutigen Auftrags-ID"
+"Otto Order #","Otto-Bestellung #"
+"Magento Order #","Magento-Bestellung #"
+"Please correct the column format and try again.","Bitte korrigieren Sie das Spaltenformat und versuchen Sie es erneut."
+"Show Advanced Filter","Erweiterte Filter anzeigen"
+"Advanced Filter","Erweiterte Filter"
+"Hide Advanced Filter","Erweiterte Filter ausblenden"
+Conditions,Bedingungen
+"Magento Inventory (MSI) is enabled.
+                M2E Otto will update your product quantity based on Product Salable QTY. Read more
+                <a target='_blank' href='%url'>here</a>.","Magento Inventory (MSI) ist aktiviert.
+                 M2E Otto wird Ihre Produktmenge basierend auf der Produktverkaufsmenge aktualisieren. Lesen Sie mehr dazu
+                 <a target='_blank' href='%url'>hier</a>."
+"Please enter correct Product ID or SKU.","Bitte geben Sie die richtige Produkt-ID oder SKU ein."
+"Please enter correct Product ID.","Bitte geben Sie die richtige Produkt-ID ein."
+"Edit Shipping Address","Lieferadresse bearbeiten"
+"As M2E Otto was not able to find appropriate Product in Magento Catalog,
+                     you are supposed to find and map it manually.
+                     <br/><br/><b>Note:</b> Magento Order can be only created when all Products of
+                     Order are found in Magento Catalog.","Da M2E Otto das entsprechende Produkt im Magento-Katalog nicht finden konnte,
+                    müssen Sie es manuell suchen und zuordnen.
+                    <br/><br/><b>Hinweis:</b> Ein Magento-Auftrag kann nur erstellt werden, wenn alle Produkte des
+                    Auftrags im Magento-Katalog gefunden werden."
+"Create Date",Erstellungsdatum
+"From Date","Von Datum"
+"To Date","Bis dato"
+Reimport,Reimport
+"(in progress)","(in Bearbeitung)"
+"M2E Otto provides an automatic order synchronization as basic functionality.
+Use manual order import as an alternative only in <a href=""%url"" target=""_blank"">these cases</a>.","M2E Otto bietet eine automatische Bestellsynchronisierung als grundlegende Funktionalität an.
+Verwenden Sie die manuelle Bestelleingabe nur als Alternative in <a href=""%url"" target=""_blank"">diesen Fällen</a>."
+"Order Reimport","Bestellung Reimport"
+"Add Account","Konto hinzufügen"
+"Get Access","Zugang erhalten"
+"Save And Close","Speichern und Schließen"
+"Save And Continue Edit","Speichern und mit Bearbeitung fortfahren"
+"Save And Back","Speichern und zurück"
+General,Allgemein
+"Unmanaged Listings","Nicht verwaltete Auflistungen"
+Orders,Auftrag
+"Invoices & Shipments","Rechnungen & Versand"
+"The specified Title is already used for other Account. Account Title must be unique.","Der angegebene Titel wird bereits für ein anderes Konto verwendet. Der Kontotitel muss einzigartig sein."
+"Be attentive! By Deleting Account you delete all information on it from M2E Otto Server. This will cause inappropriate work of all Accounts' copies.","Seien Sie aufmerksam! Durch das Löschen des Kontos löschen Sie alle Informationen darüber vom M2E Otto Server. Dies wird das unangemessene Funktionieren aller Kopien der Konten verursachen."
+"No Customer entry is found for specified ID.","Kein Kundeneintrag wurde für die angegebene ID gefunden."
+"If Yes is chosen, you must select at least one Attribute for Product Linking.","Wenn Ja ausgewählt wird, müssen Sie mindestens ein Attribut für die Produktverknüpfung auswählen."
+"You should create at least one Response Template.","Sie sollten mindestens eine Antwortvorlage erstellen."
+"Title or Identifier of Otto Account for your internal use.","Titel oder Kennung des Otto-Kontos für Ihren internen Gebrauch."
+"Access Details",Zugangsdetails
+"Grant Access","Zugang gewähren"
+"Get Token","Token erhalten"
+Invoices,Rechnungen
+"Magento Invoice Creation","Erstellung einer Magento-Rechnung"
+Disabled,Deaktiviert
+Enabled,Aktiviert
+"Enable to automatically create Magento Invoices when payment is completed.","Aktivieren Sie die automatische Erstellung von Magento-Rechnungen, wenn die Zahlung abgeschlossen ist."
+Shipments,Lieferungen
+"Magento Shipment Creation","Erstellung einer Magento-Sendung"
+"Enable to automatically create shipment for the Magento order when the associated order
+                    on Channel is shipped.","Aktivieren, um automatisch eine Sendung für die Magento-Bestellung zu erstellen, wenn die zugehörige Bestellung auf dem Kanal versendet wird."
+"Product Is Listed By M2E Otto","Produkt ist durch M2E Otto gelistet"
+"Create Order in Magento","Bestellung in Magento erstellen"
+"Choose whether a Magento Order should be created if an Otto Order is received for
+                    an Otto Item Listed using M2E Otto.","Wählen Sie, ob eine Magento-Bestellung erstellt werden soll, wenn eine Bestellung über Otto für einen Artikel eingegangen ist, der über M2E Otto gelistet wurde."
+"Magento Store View Source","Magento Store View Quelle"
+"Use Store View from Listing","Verwenden Sie die Store-Ansicht aus der Auflistung"
+"Choose Store View Manually","Store-Ansicht manuell auswählen"
+"Choose to specify the Magento Store View here or to keep the Magento
+                    Store View used in the M2E Otto Listing.","Wählen Sie, ob Sie die Magento Store-Ansicht hier spezifizieren möchten oder ob Sie die in der M2E Otto-Auflistung verwendete Magento Store-Ansicht beibehalten möchten."
+"Magento Store View","Magento Store-Ansicht"
+"The Magento Store View that Orders will be placed in.","Die Magento Store-Ansicht, in der Bestellungen platziert werden."
+"Product Is Listed By Any Other Software","Produkt ist durch eine andere Software gelistet"
+"Choose whether a Magento Order should be created if an Otto Order is received
+for an item that does <b>not</b> belong to the M2E Otto Listing.","Wählen Sie, ob eine Magento-Bestellung erstellt werden soll, wenn eine Otto-Bestellung für einen Artikel eingegangen ist, der <b>nicht</b> zur M2E Otto-Auflistung gehört."
+"Magento Order Number",Magento-Bestellnummer
+Source,Quelle
+Otto,Otto
+"If source is set to Magento, Magento Order numbers are created basing on your Magento Settings.
+                    If source is set to Otto, Magento Order numbers are the same as Otto Order numbers.","Wenn die Quelle auf Magento gesetzt ist, werden Magento-Bestellnummern basierend auf Ihren Magento-Einstellungen erstellt. Wenn die Quelle auf Otto gesetzt ist, sind die Magento-Bestellnummern identisch mit den Otto-Bestellnummern."
+"General Prefix","Allgemeines Präfix"
+e.g.,z.B.
+"Shipping information",Versandinformationen
+"Import Ship by date to Magento order","Versanddatum in Magento-Bestellung importieren"
+"Override invalid Region/State required value","Ungültigen Wert für erforderliche Region/Bundesland überschreiben"
+"When enabled, the invalid Region/State value will be replaced with an alternative one to create
+                     an order in Magento.","Wenn aktiviert, wird der ungültige Wert für Region/Bundesland durch einen alternativen ersetzt, um eine Bestellung in Magento zu erstellen."
+"Customer Settings",Kundeneinstellungen
+Customer,Kunde
+"Guest Account",Gastkonto
+"Predefined Customer","Vordefinierter Kunde"
+"Create New","Neu erstellen"
+"<b>Guest Account:</b> Magento Guest Checkout Option must be enabled to use this Option.
+                    Use the default Guest Account. Do not create a Customer Account.<br/><br/>
+                    <b>Predefined Customer:</b> Use a specific Customer for all Orders.
+                    You should specify the Magento Customer ID to use.<br/><br/>
+                    <b>Create New:</b> Create a new Customer in Magento for the Order.
+                    If an existing Magento Customer has the same email address as the email address used for the
+                    Otto Order, the Order will be assigned to that Customer instead.","<b>Gastkonto:</b> Die Magento-Gastkasse-Option muss aktiviert sein, um diese Option zu nutzen. Verwenden Sie das Standard-Gastkonto. Erstellen Sie kein Kundenkonto.<br/><br/>
+<b>Vordefinierter Kunde:</b> Verwenden Sie einen spezifischen Kunden für alle Bestellungen. Sie sollten die Magento-Kunden-ID angeben, die verwendet werden soll.<br/><br/>
+<b>Neu erstellen:</b> Erstellen Sie einen neuen Kunden in Magento für die Bestellung. Wenn ein bestehender Magento-Kunde dieselbe E-Mail-Adresse wie die für die Otto-Bestellung verwendete E-Mail-Adresse hat, wird die Bestellung stattdessen diesem Kunden zugewiesen."
+"Customer ID",Kunden-ID
+"Associate to Website","Mit Website verknüpfen"
+"Customer Group",Kundengruppe
+"Send Emails When The Following Is Created","E-Mails senden, wenn Folgendes erstellt wird"
+"Magento Order",Magento-Bestellung
+Invoice,Rechnung
+"<p>Necessary emails will be sent according to Magento Settings in
+                    Stores > Configuration > Sales > Sales Emails.</p>
+                    <p>Hold Ctrl Button to choose more than one Option.</p>","<p>Die erforderlichen E-Mails werden gemäß den Magento-Einstellungen unter Stores > Configuration > Sales > Sales Emails gesendet.</p>
+<p>Halten Sie die Strg-Taste gedrückt, um mehr als eine Option auszuwählen.</p>"
+"Billing Address Usage","Verwendung der Rechnungsadresse"
+Always,Immer
+"Buyer & Recipient have the same name","Käufer und Empfänger haben denselben Namen"
+"When to use shipping address as billing.","Wann die Versandadresse als Rechnungsadresse verwendet werden soll."
+"Choose if you want to use your customer’s shipping address as the billing one regularly
+                    or only if the buyer and recipient have the same names.","Wählen Sie aus, ob Sie die Versandadresse Ihres Kunden regelmäßig als Rechnungsadresse verwenden möchten oder nur, wenn Käufer und Empfänger denselben Namen haben."
+"Order Creation Rules","Regeln für die Bestellungserstellung"
+"Please note that Immediate Magento order creation sets certain limits to the update of
+                            the later order changes. If the shipping or tax details are modified after checkout is
+                            completed, these changes will not be reflected in Magento order.","Bitte beachten Sie, dass die sofortige Erstellung von Magento-Bestellungen bestimmte Grenzen für die Aktualisierung späterer Bestelländerungen setzt. Wenn die Versand- oder Steuerdetails nach Abschluss des Checkouts geändert werden, werden diese Änderungen nicht in der Magento-Bestellung widergespiegelt."
+"For %number day","Für %number Tage"
+"For %number days","Für %number Tage"
+"Reserve Quantity","Reservierte Menge"
+"Choose for how long M2E Otto should reserve Magento Product quantity per Otto Order until
+                    Magento Order is created.","Wählen Sie, wie lange M2E Otto die Magento Produktmenge pro Otto Order reservieren soll, bis
+                    Magento Bestellung erstellt wird."
+"Order Tax Settings","Steuereinstellungen bestellen"
+"Tax Source","Steuer Quelle"
+"Import Unmanaged Listings","Nicht verwaltete Auflistungen importieren"
+"Choose whether to import items that have been listed on Otto either directly or using a tool
+                    other than M2E Otto. M2E Otto will import only active Otto items.","Wählen Sie, ob Sie Artikel importieren möchten, die entweder direkt oder über ein anderes Tool als M2E Otto aufgelistet wurden.
+                    als M2E Otto. M2E Otto importiert nur aktive Otto-Artikel."
+"Product Linking",Produktverknüpfung
+"Choose whether imported Otto Listings should automatically link to a
+                    Product in your Magento Inventory.","Wählen Sie, ob importierte Otto Auflistungen automatisch mit einem
+                    Produkt in Ihrem Magento-Inventar verknüpft werden sollen."
+"Magento Product Linking Settings","Magento Produkteinstellungen"
+"<p>In this section you can provide settings for automatic Linking of the newly
+                    imported Unmanaged Listings to the appropriate Magento Products.</p><br>
+                    <p>The imported Items are linked based on the correspondence between Otto Item
+                    values and Magento Product Attribute values. </p>","<p>In diesem Abschnitt können Sie Einstellungen für die automatische Verlinkung der neu importierten
+                    importierten Unmanaged Auflistungen mit den entsprechenden Magento Produkten vornehmen.</p><br>
+                    <p>Die importierten Artikel werden auf der Grundlage der Übereinstimmung zwischen den Otto Artikel
+                    values and Magento Product Attribute values. </p>"
+"Product SKU",Produkt-SKU
+"Magento Attributes","Magento Attribute"
+Priority,Priorität
+EAN,EAN
+"Listing Title",Auflistungstitel
+"Product Name",Produktname
+"Related Store Views","Verwandte Shop-Ansichten"
+"Choose the Magento Store View that you’d like to use for imported Channel Items","Wählen Sie die Magento Store View, die Sie für importierte Artikel verwenden möchten"
+"Installation ID",Installations-ID
+"Category Path / Category ID","Kategorie-Pfad / Kategorie-ID"
+"Not Listed",Ungelistet
+Listed,Aufgeführt
+"Listed (Hidden)","Auflistung (Versteckt)"
+"Inactive (Sold)","Inaktiv (verkauft)"
+"Inactive (Stopped)","Inaktiv (Angehalten)"
+"Inactive (Finished)","Inaktiv (Beendet)"
+"Inactive (Blocked)","Inaktiv (Blockiert)"
+"Step 1","Schritt 1"
+"General Settings","Generelle Einstellungen"
+"Step 2","Schritt 2"
+Policies,Richtlinien
+"Creating A New Listing","Eine neue Auflistung erstellen"
+"Next Step","Nächster Schritt"
+"Create a descriptive and meaningful Title for your M2E Otto Listing. <br/>
+                    This is used for reference within M2E Otto and will not appear on your Otto Listings.","Erstellen Sie einen beschreibenden und aussagekräftigen Titel für Ihre M2E Otto Auflistung.<br/>
+                    Dieser wird als Referenz innerhalb von M2E Otto verwendet und erscheint nicht in Ihren M2E Otto Auflistungen."
+"Otto Settings",Otto-Einstellungen
+"Magento Settings","Magento Einstellungen"
+"Choose the Magento Store View you want to use for this M2E Otto Listing.
+                     Please remember that Attribute values from the selected Store View will be used in the Listing.","Wählen Sie die Magento Store View, die Sie für diese M2E Otto Auflistung verwenden möchten.
+                     Bitte denken Sie daran, dass die Attributwerte der ausgewählten Store View in der Auflistung verwendet werden."
+Default,Standard
+"The specified Title is already used for other Listing. Listing Title must be unique.","Der angegebene Titel wird bereits für andere Auflistungen verwendet. Der Titel der Auflistung muss eindeutig sein."
+"Account not found, please create it.","Konto nicht gefunden, bitte erstellen Sie es."
+"Please wait while Synchronization is finished.","Bitte warten Sie, bis die Synchronisierung abgeschlossen ist."
+"Previous Step","Vorheriger Schritt"
+Selling,Verkauf
+"No Policies available.","Keine Policen verfügbar."
+View,Siehe
+or,oder
+"Add New","Neu hinzufügen"
+"Selling Policy",Verkaufsrichtlinie
+"Description Policy",Beschreibungsrichtlinie
+"Shipping Policy",Versandrichtlinien
+Synchronization,Synchronisierung
+"Synchronization Policy",Synchronisierungsrichtlinie
+"Add Listing","Auflistung hinzufügen"
+Manage,Verwalten
+Configuration,Konfiguration
+"Logs & Events","Protokolle und Ereignisse"
+"Clear Log","Log löschen"
+"Delete Listing","Auflistung löschen"
+"Admin (Default Values)","Admin (Standardwerte)"
+"Edit Listing Title","Titel der Auflistung bearbeiten"
+"Items By Listing","Artikel nach Auflistung"
+"Unmanaged Items","Nicht verwaltete Artikel"
+"<p>Saving Policy under a distinctive title will let you easily and quickly search for
+                    it in case you need to use it in a different M2E Otto Listing in the future.</p><br>
+                    <p>More detailed information you can find
+                    <a href=""%url"" target=""_blank"" class=""external-link"">here</a>.</p>","<p>Das Speichern der Richtlinie unter einem eindeutigen Titel ermöglicht es Ihnen, diese schnell und einfach zu finden, falls Sie sie in Zukunft in einer anderen M2E Otto-Auflistung verwenden müssen.</p><br>
+<p>Weitere detaillierte Informationen finden Sie <a href=""%url"" target=""_blank"" class=""external-link"">hier</a>.</p>"
+"Please specify Policy Title","Bitte geben Sie den Richtlinientitel an"
+"Save as New Policy","Als neue Richtlinie speichern"
+Customized,"Individuell angepasst"
+"Policy with the same Title already exists.","Eine Richtlinie mit demselben Titel existiert bereits."
+"Save New Policy","Neue Richtlinie speichern"
+"Products import is in progress","Der Import von Produkten ist in Bearbeitung"
+"Some Items were not linked. Please edit <i>Product Linking Settings</i> under
+            <i>Configuration > Account > Unmanaged Listings</i> or try to link manually.","Einige Artikel wurden nicht verknüpft. Bitte bearbeiten Sie die <i>Produktverknüpfungseinstellungen</i> unter <i>Konfiguration > Konto > Nicht verwaltete Auflistungen</i> oder versuchen Sie, manuell zu verknüpfen."
+"Link Item ""%product_title%"" with Magento Product","Verknüpfen Sie den Artikel ""%product_title%"" mit dem Magento-Produkt"
+"Product does not exist.","Produkt existiert nicht."
+"Product(s) was Linked.","Produkt(e) wurde(n) verknüpft."
+"Add New Listing","Neue Auflistung hinzufügen"
+"Product was Linked.","Das Produkt wurde verknüpft."
+"Linking Product","Produkt verknüpfen"
+"Current Otto version only supports Simple Products in Linking. Please, choose Simple Product.","Die aktuelle Otto-Version unterstützt nur einfache Produkte bei der Verknüpfung. Bitte wählen Sie ein einfaches Produkt aus."
+"Link Item(s) to Products","Artikel mit Produkten verknüpfen"
+"Processing %product_title% Product(s).","Verarbeitung von %product_title% Produkt(en)."
+"Moving Otto Items","Otto-Artikel verschieben"
+"Not enough data.","Nicht genügend Daten."
+"Product(s) was Unlinked.","Produkt(e) wurde(n) nicht verknüpft."
+"Product(s) was Removed.","Produkt(e) wurde(n) entfernt."
+"Task completed. Please wait ...","Aufgabe abgeschlossen. Bitte warten Sie ..."
+"Sending %product_title% Product(s) data on Otto.","Senden von %product_title% Produkt(e)-Daten an Otto."
+"The Listing was locked by another process. Please try again later.","Die Auflistung wurde von einem anderen Prozess gesperrt. Bitte versuchen Sie es später erneut."
+"Listing is empty.","Die Auflistung ist leer."
+"Confirm the Unmanaged Listings reset","Bestätigen Sie das Zurücksetzen der nicht verwalteten Auflistungen"
+"This action will remove all the items from Otto Unmanaged Listings.
+    It will take some time to import them again.","Mit dieser Aktion werden alle Artikel aus den nicht verwalteten Auflistungen von Otto entfernt.
+    Es wird einige Zeit dauern, sie wieder zu importieren."
+"Do you want to reset the Unmanaged Listings?","Möchten Sie die nicht verwalteten Auflistungen zurücksetzen?"
+CSV,CSV
+"Product Title / Product SKU / Otto Category","Produkttitel / Produkt SKU / Otto Kategorie"
+"Available QTY","Verfügbare Menge"
+Stopped,Angehalten
+Linking,Verknüpfung
+"Link Item(s) Automatically","Artikel automatisch verknüpfen"
+"Move Item(s) to Listing","Artikel in die Auflistung verschieben"
+"Remove Item(s)","Artikel entfernen"
+"Unlink Item(s)","Artikelverknüpfung aufheben"
+Link,Verlinken
+Move,Verschieben
+"<p>Otto Listing is a group of Magento Products sold on a certain Shop
+                    from a particular Account. M2E Otto has several options to display the content of
+                    Listings referring to different data details. Each of the view options contains a
+                    unique set of available Actions accessible in the Mass Actions drop-down.</p>","<p>M2E Otto Auflistung ist eine Gruppe von Magento-Produkten, die in einem bestimmten Geschäft von einem bestimmten Konto aus verkauft werden. M2E Otto bietet mehrere Optionen zur Anzeige des Inhalts von Auflistungen, die sich auf verschiedene Datendetails beziehen. Jede der Ansichtsoptionen enthält einen einzigartigen Satz von verfügbaren Aktionen, die im Dropdown-Menü ""Mass Actions"" zugänglich sind.</p>"
+"Compatibility Attribute",Kompatibilitätsattribut
+"Create new","Neu erstellen"
+"Otto Product SKU","Otto Produkt SKU"
+"Listing Actions","Auflistung von Aktionen"
+"List Item(s) on Otto","Artikel bei Otto auflisten"
+"Revise Item(s) on Otto","Artikel auf Otto überarbeiten"
+"Relist Item(s) on Otto","Artikel bei Otto neu auflisten"
+"Stop Item(s) on Otto","Artikel bei Otto anhalten"
+"Stop on Otto / Remove From Listing","Stop auf Otto / Aus Auflistung entfernen"
+"View Full Product Log.","Vollständiges Produktprotokoll anzeigen."
+"Listing All Items On Otto","Auflistung aller Artikel bei Otto"
+"Listing Selected Items On Otto","Auflistung ausgewählter Artikel bei Otto"
+"Revising Selected Items On Otto","Überarbeitung ausgewählter Artikel zu Otto"
+"Relisting Selected Items On Otto","Neuauflistung ausgewählter Artikel bei Otto"
+"Stopping Selected Items On Otto","Anhalten ausgewählter Artikel bei Otto"
+"Stopping On Otto And Removing From Listing Selected Items","Anhalten bei Otto und Entfernen von ausgewählten Artikeln aus der Auflistung"
+"Removing From Listing Selected Items","Aus der Auflistung entfernen Ausgewählte Artikel"
+"Listing Policies Overrides","Auflistung von Policies Überschreibungen"
+"Use from Listing Settings","Verwendung von Auflistung Einstellungen"
+"Custom Settings","Benutzerdefinierte Einstellungen"
+"Edit Description Policy Setting","Beschreibung bearbeiten Policy-Einstellung"
+"Edit Selling Policy Setting","Einstellung der Selling Policy bearbeiten"
+"Edit Synchronization Policy Setting","Einstellung der Synchronisierungs-Policy bearbeiten"
+For,Für
+Overrides,Überschreibt
+Settings,Einstellungen
+"This Log contains information about the actions applied to M2E Otto Listings and related Items.","Dieses Protokoll enthält Informationen über die Aktionen, die auf M2E Otto Auflistungen und zugehörige Artikel angewendet wurden."
+"Order importing in progress.","Der Import der Bestellung läuft."
+"Order importing is canceled.","Der Import von Bestellungen wird abgebrochen."
+"Order Settings",Bestelleinstellungen
+"Order Address Information","Informationen zur Bestelladresse"
+"Buyer Name",Käufername
+"Buyer Email","Käufer E-Mail"
+"Recipient Name",Empfängername
+"Street Address",Straße
+City,Stadt
+Country,Land
+"Zip/Postal Code",Plz/Postleitzahl
+Telephone,Telefon
+"Sale Date",Verkaufsdatum
+"Ship By Date",Versanddatum
+Items,Artikel
+Buyer,Käufer
+"Total Paid","Gesamt bezahlt"
+"Order Cancellation",Bestellungsstornierung
+"Reserve QTY","Reservierte Menge"
+"Cancel QTY Reserve","Reservierte Menge stornieren"
+"Mark Order(s) as Shipped","Bestellung(en) als versendet markieren"
+"Resend Shipping Information","Versandinformationen erneut senden"
+"Create Magento Order","Magento-Bestellung erstellen"
+Deleted,Gelöscht
+"View Full Order Log","Vollständiges Bestellprotokoll anzeigen"
+Pending,Ausstehend
+Unshipped,Unversendet
+Shipped,Versandt
+Canceled,Storniert
+"Shipped partially","Teilweise versandt"
+"Canceled partially","Teilweise storniert"
+"Mark as Shipped","Als versandt markieren"
+"Are you sure that you want to create new Magento Order?","Sind Sie sicher, dass Sie eine neue Magento-Bestellung erstellen möchten?"
+"Add Note","Notiz hinzufügen"
+"Custom Note","Benutzerdefinierte Notiz"
+Product,Produkt
+"Original Price","Ursprünglicher Preis"
+Discounts,Rabatte
+"Tax Percent","Steuersatz in Prozent"
+"Link to Magento Product","Link zum Magento-Produkt"
+"Set Options","Optionen ändern"
+Unlink,"Verknüpfung aufheben"
+"Product Not Found","Produkt nicht gefunden"
+"Out Of Stock",Ausverkauft
+Platform,Platform
+Seller,Verkäufer
+Main,Haupt
+"Product Identifier",Produkt-Kennung
+"Not Set","Nicht festgelegt"
+"Otto uses EAN to associate your Item with its catalog. Select Attribute where the
+                     Product ID values are stored.","Otto verwendet EAN, um Ihren Artikel mit seinem Katalog zu verknüpfen. Wählen Sie das Attribut, in dem die
+                     Produkt-ID-Werte gespeichert werden."
+"<p>This Page displays the list of the Policies you are currently using in your Listings.
+            Policy is a combination of settings that can be used in different Listings.</p><br>
+            <p>You can <strong>Delete</strong> a Policy only if it's not being used for Listing.</p>","<p>Auf dieser Seite wird die Liste der Policen angezeigt, die Sie derzeit in Ihren Auflistungen verwenden.
+               Policy ist eine Kombination von Einstellungen, die in verschiedenen Auflistungen verwendet werden können.</p><br>
+               <p>Sie können eine Policy nur <strong>Löschen</strong>, wenn sie nicht zur Auflistung verwendet wird..</p>"
+"Add Policy","Police hinzufügen"
+Shipping,Versand
+"Add Category","Kategorie hinzufügen"
+"Update Category Data","Kategorie-Daten aktualisieren"
+"Item Specifics cannot have the same Labels.","Artikel-Spezifikationen können nicht die gleichen Etiketten haben."
+"Category Attributes","Kategorie Attribute"
+"Otto Recommended","Otto empfohlen"
+"Custom Attribute","Benutzerdefiniertes Attribut"
+"Add more","Mehr hinzufügen"
+"Saved Categories","Gespeicherte Kategorien"
+Browse,Durchsuchen
+"This category is invite-only. Please reach out to your account manager or contact
+        Otto support for permission to access this category, or select another category that is available.","Diese Kategorie ist nur auf Einladung zugänglich. Bitte wenden Sie sich an Ihren Account-Manager oder den Otto-Support, um die 
+         Berechtigung für den Zugriff auf diese Kategorie zu erhalten, oder wählen Sie eine andere verfügbare Kategorie aus."
+"Attributes: Total","Attribute: Insgesamt"
+"Attributes: Used","Attribute: Gebraucht"
+"Product Attributes",Produkt-Attribute
+Images,Bilder
+"Main Image",Hauptbild
+"Product Base Image","Produkt Basisbild"
+"Up to","Bis zu"
+"Gallery Images","Galerie Bilder"
+"Product Images",Produktbilder
+"Adds small thumbnails that appear under the large Base Image.
+                     You can add up to 8 additional photos to each Listing on Otto.
+                        <br/><b>Note:</b> Text, Multiple Select or Dropdown type Attribute can be used.
+                        The value of Attribute must contain absolute urls.
+                        <br/>In Text type Attribute urls must be separated with comma.
+                        <br/>e.g. http://mymagentostore.com/images/baseimage1.jpg,
+                        http://mymagentostore.com/images/baseimage2.jpg","Fügt kleine Vorschaubilder hinzu, die unter dem großen Basisbild erscheinen.
+                     Sie können jeder Anzeige auf Otto bis zu 8 zusätzliche Fotos hinzufügen.
+                        <br/><b>Hinweis:</b> Attributtypen wie Text, Mehrfachauswahl oder Dropdown können verwendet werden.
+                        Der Wert des Attributs muss absolute Urls enthalten.
+                        <br/>Bei einem Attribut vom Typ Text müssen Urls mit einem Komma getrennt werden.
+                        <br/>z.B. http://mymagentostore.com/images/baseimage1.jpg,
+                        http://mymagentostore.com/images/baseimage2.jpg"
+"Custom Value","Benutzerdefinierter Wert"
+"This is the Title that Buyers will see on Otto. A good Title ensures better visibility.","Dies ist der Titel, den die Käufer auf Otto sehen werden. Ein guter Titel sorgt für bessere Sichtbarkeit."
+"Title Value","Titel Wert"
+Preview,Vorschau
+"Product Description",Produktbeschreibung
+"Product Short Description",Produkt-Kurzbeschreibung
+"View / Edit Custom Description","Benutzerdefinierte Beschreibung anzeigen/bearbeiten"
+"Bullet Points",Aufzählungspunkte
+"Specify at least one bullet point that will clearly but briefly describe
+                         key information about the product and benefit its search. <p>Up to 5 bullet points may be included
+                         with min of 3 and max of 180 characters per point.","Geben Sie mindestens einen Aufzählungspunkt an, der die wichtigsten Informationen über das Produkt klar, aber kurz beschreibt 
+                        und dessen Suche erleichtert. <p>Bis zu 5 Aufzählungspunkte können enthalten sein, mit mindestens 3 und 
+                        maximal 180 Zeichen pro Punkt."
+"Show Editor","Editor anzeigen"
+"Hide Editor","Editor ausblenden"
+"Insert Customs","Zoll einfügen"
+"Description Value","Beschreibung Wert"
+"Adding Image","Bild hinzufügen"
+"Custom Insertions","Benutzerdefinierte Einfügungen"
+"Description Preview","Vorschau der Beschreibung"
+"Please enter a valid Magento product ID.","Bitte geben Sie eine gültige Magento Produkt-ID ein."
+"Please enter Description Value.","Bitte geben Sie den Wert der Beschreibung ein."
+"Otto Price","Otto Preis"
+"
+                    If you would like to preview the Description data for the particular Magento Product, please,
+                    provide its ID into the <strong>Magento Product ID</strong> input and select
+                    a <strong>Magento Store View</strong> the values
+                    should be taken from. As a result you will see the Item Description which will be sent to
+                    Otto basing on the settings you specified.<br />
+
+                    Also, you can press a <strong>Select Randomly</strong> button to allow M2E Otto
+                    to automatically select the most suitable Product for its previewing.","
+Wenn Sie die Beschreibungsdaten für ein bestimmtes Magento-Produkt vorab ansehen möchten, geben Sie
+                    bitte dessen ID in das Feld <strong>Magento-Produkt-ID</strong> ein und wählen Sie eine
+                    <strong>Magento-                    Shopansicht</strong> aus, aus der die Werte entnommen werden sollen. Als Ergebnis
+                    sehen Sie die Artikelbeschreibung, die basierend auf den von Ihnen angegebenen Einstellungen an Otto gesendet wird.<br />
+
+                    Außerdem können Sie die Schaltfläche <strong>Zufällig auswählen</strong> drücken, um M2E Otto zu erlauben,
+                    automatisch das am besten geeignete Produkt für seine Vorschau auszuwählen."
+"Select Randomly","Zufällig auswählen"
+"Magento Product ID","Magento Produkt ID"
+"Select Product","Produkt auswählen"
+"View Random Product","Zufälliges Produkt anzeigen"
+"Enter Product Id","Produkt-Id eingeben"
+"Add %template_name Policy","%template_name Richtlinie hinzufügen"
+Duplicate,Duplizieren
+"<br/><b>Note:</b> All changes you have made will be automatically
+                    applied to all M2E Otto Listings where this Policy is used.","<br/><b>Hinweis:</b> Alle von Ihnen vorgenommenen Änderungen werden automatisch auf alle M2E Otto Auflistung
+                   angewendet, in denen diese Policy verwendet wird."
+"Policy Title is not unique.","Policy Title ist nicht eindeutig."
+"Do not show this message anymore","Diese Meldung nicht mehr anzeigen"
+"Save Policy","Richtlinie speichern"
+Quantity,Menge
+"Product Quantity","Produkt Menge"
+"The number of Items you want to sell on Otto.<br/><br/>
+                    <b>Product Quantity:</b> the number of Items on Otto will be the same as in Magento.<br/>
+                    <b>Custom Value:</b> set a Quantity in the Policy here.<br/>
+                    <b>Magento Attribute:</b> takes the number from the Attribute you specify.","Die Anzahl der Artikel, die Sie auf Otto verkaufen möchten.<br/><br/>
+                   <b>Produktmenge:</b> Die Anzahl der Artikel auf Otto entspricht der Anzahl in Magento.<br/>
+                   <b>Benutzerdefinierter Wert:</b> Legen Sie hier eine Menge in der Richtlinie fest.<br/>
+                   <b>Magento-Attribut:</b> Nimmt die Zahl aus dem von Ihnen angegebenen Attribut."
+"Quantity Value","Menge Wert"
+"Quantity Percentage","Menge Prozentsatz"
+"Sets the percentage for calculation of Items number to be Listed on Otto basing on
+                    Product Quantity or Magento Attribute. E.g., if Quantity Percentage is set to 10% and
+                    Product Quantity is 100, the Quantity to be Listed on
+                    Otto will be calculated as <br/>100 *10%  = 10.<br/>","Legt den Prozentsatz fest, um die Anzahl der auf Otto zu listenenden Artikel basierend auf der
+                  Produktmenge oder dem Magento-Attribut zu berechnen. Zum Beispiel, wenn der Mengenprozentsatz auf 10% eingestellt ist und die
+                  Produktmenge 100 beträgt, wird die zu listende Menge auf
+                  Otto wie folgt berechnet: <br/>100 * 10% = 10.<br/>"
+"Conditional Quantity","Bedingte Menge"
+"Choose whether to limit the amount of Stock you list on Otto,
+                    eg because you want to set some Stock aside for sales off Otto.<br/><br/>
+                    If this Setting is <b>Enabled</b> you can specify the maximum Quantity to be Listed.
+                    If this Setting is <b>Disabled</b>
+                    all Stock for the Product will be Listed as available on Otto.","Wählen Sie aus, ob Sie die Menge an Lager begrenzen möchten, die Sie auf Otto listen, z. B.
+                    weil Sie einen Teil des Lagerbestands für Verkäufe außerhalb von Otto zurückhalten möchten.<br/><br/>
+                    Wenn diese Einstellung <b>aktiviert</b> ist, können Sie die maximale Menge festlegen, die aufgelistet werden soll.
+                    Wenn diese Einstellung <b>deaktiviert</b> ist, wird der gesamte Lagerbestand für das Produkt als verfügbar auf Otto aufgelistet."
+"Minimum Quantity to Be Listed","Mindestmenge für die Auflistung"
+"If you have 2 pieces in Stock but set a Minimum Quantity to Be Listed of 5,
+                    Item will not be Listed on Otto.<br/>
+                    Otherwise, the Item will be Listed with Quantity according to the Settings in the Selling Policy","Wenn Sie 2 Stück auf Lager haben, aber eine Mindestmenge festlegen, die auf 5 aufgelistet werden soll, wird der
+                     Artikel nicht auf Otto aufgeführt.<br/>
+                     Andernfalls wird der Artikel mit der Menge gemäß den Einstellungen in der Verkaufsrichtlinie aufgelistet"
+"Maximum Quantity to Be Listed","Höchstmenge für die Auflistung"
+"Set a maximum number to sell on Otto, e.g. if you have 10 Items in Stock but want
+                    to keep 2 Items back, set a Maximum Quantity of 8.","Legen Sie eine maximale Anzahl zum Verkauf auf Otto fest, z. B. wenn Sie 10 Artikel auf Lager haben,
+                    aber 2 Artikel zurückhalten möchten, setzen Sie eine maximale Menge von 8."
+"Wrong value. Must be no more than 30. Max applicable length is 6 characters,
+                 including the decimal (e.g., 12.345).","Falscher Wert. Darf nicht mehr als 30 sein. Die maximale zulässige Länge beträgt 6 Zeichen,
+                 einschließlich des Dezimalpunkts (z. B. 12.345)."
+"Price Change is not valid.","Preisänderung ist nicht gültig."
+"Wrong value. Only integer numbers.","Falscher Wert. Nur ganzzahlige Werte."
+"% of Price","% des Preises"
+"Add Price Change",Preisänderung
+"Handling time",Bearbeitungszeit
+"Enter the number of business days it takes
+                 to prepare and ship the product after receiving an order.","Geben Sie die Anzahl der Arbeitstage an, die benötigt werden
+                 um das Produkt nach Eingang einer Bestellung vorzubereiten und zu versenden."
+"Select one of the delivery types for your products.","Wählen Sie eine der Lieferarten für Ihre Produkte."
+"Must be greater than ""Min"".","Muss größer als ""Min"" sein."
+"Inconsistent Settings in Relist and Stop Rules.","Inkonsistente Einstellungen in Relist- und Stop-Regeln."
+"You need to choose at least one Time for the schedule to run.","Sie müssen mindestens eine Zeit auswählen, zu der der Zeitplan ausgeführt werden soll."
+"You should specify time.","Sie sollten die Zeit angeben."
+"Wrong value.","Falscher Wert."
+"Must be greater than ""Active From"" Date.","Muss größer sein als das Datum ""Aktiv von""."
+"Must be greater than ""From Time"".","Muss größer sein als ""Von Zeit""."
+"List Rules","Liste Regeln"
+"Revise Rules","Regeln revidieren"
+"Relist Rules",Relist-Regeln
+"Stop Rules",Stopp-Regeln
+"List Action","Auflistung Aktion"
+"List Conditions","Auflistung Bedingungen"
+"Product Status",Produktstatus
+"<p><strong>Enabled:</strong> List Items on Otto automatically
+                    if they have status Enabled
+                    in Magento Product. (Recommended)</p>
+                    <p><strong>Any:</strong> List Items with any Magento Product status on Otto
+                    automatically</p>","<p><strong>Aktiviert:</strong> Artikel automatisch auf Otto listen, wenn sie
+                   im Magento-Produkt den Status ""Aktiviert"" haben. (Empfohlen)</p>
+                   <p><strong>Beliebig:</strong> Artikel automatisch mit jedem Magento-Produktstatus auf Otto listen.</p>"
+"<b>In Stock:</b> List Items automatically if Products are in Stock. (Recommended.)<br/>
+                    <b>Any:</b> List Items automatically, regardless of Stock availability.","<b>Auf Lager:</b> Artikel automatisch listen, wenn Produkte auf Lager sind. (Empfohlen.)<br/>
+                   <b>Beliebig:</b> Artikel automatisch listen, unabhängig von der Verfügbarkeit des Lagerbestands."
+"More or Equal","Mehr oder Gleiches"
+"<p><strong>Any:</strong> List Items automatically with any Quantity available.</p>
+                    <p><strong>More or Equal:</strong> List Items automatically if the Quantity
+                    according to the Selling Policy is at least equal to the number you set.
+                    (Recommended)</p>","<p><strong>Beliebig:</strong> Artikel automatisch mit jeder verfügbaren Menge listen.</p>
+                   <p><strong>Mehr oder Gleich:</strong> Artikel automatisch listen,
+                   wenn die Menge gemäß der Verkaufsrichtlinie mindestens gleich der von Ihnen festgelegten Anzahl ist.
+                   (Empfohlen)</p>"
+"Advanced Conditions","Erweiterte Bedingungen"
+"<p>Define Magento Attribute value(s) based on which a product must be listed on the Channel.<br>
+                    Once both List Conditions and Advanced Conditions are met, the product will be listed.</p>","<p>Definieren Sie den Wert(e) des Magento-Attributs, anhand dessen ein Produkt auf dem Kanal aufgelistet werden muss.<br>
+                    Sobald sowohl die Listenbedingungen als auch die erweiterten Bedingungen erfüllt sind, wird das Produkt aufgelistet.</p>"
+"Please be very thoughtful before enabling this option as this functionality
+                        can have a negative impact on the Performance of your system.<br> It can decrease the speed
+                        of running in case you have a lot of Products with the high number of changes made to them.","Bitte seien Sie sehr umsichtig, bevor Sie diese Option aktivieren, da diese Funktionalität
+                      sich negativ auf die Leistung Ihres Systems auswirken kann.<br>Es kann die Geschwindigkeit des Betriebs
+                      verringern, wenn Sie viele Produkte mit einer großen Anzahl von Änderungen haben, die an ihnen vorgenommen wurden."
+Mode,Modus
+"Relist Action",Relist-Aktion
+"Choose whether you want to Relist Items covered by M2E Otto Listings using this
+                    Policy if the Relist Conditions are met.","Wählen Sie, ob Sie Artikel, die von M2E Otto Auflistungen abgedeckt werden, mit dieser Richtlinie erneut anbieten möchten.
+                    Policy, wenn die Wiedereinstellungsbedingungen erfüllt sind."
+"Relist When Stopped Manually","Bei manueller Beendigung neu auflisten"
+"Choose whether you want the Automatic Relist Rules to Relist Items even
+                    if they've been Stopped manually.","Wählen Sie aus, ob Sie möchten, dass die automatischen Neuauflistungsregeln Artikel neu auflisten,
+                     auch wenn sie manuell gestoppt wurden."
+"Relist Conditions","Bedingungen neu auflisten"
+"<p><strong>Enabled:</strong> Relist Items on Otto automatically if they have status
+                    Enabled in Magento Product. (Recommended)</p>
+                    <p><strong>Any:</strong> Relist Items on Otto automatically with any
+                    Magento Product status.</p>","<p><strong>Aktiviert:</strong> Artikel automatisch auf Otto neu auflisten, wenn sie im Magento-Produkt den Status
+                    ""Aktiviert"" haben. (Empfohlen)</p>
+                    <p><strong>Beliebig:</strong> Artikel automatisch auf Otto neu auflisten, unabhängig vom Status
+                    des Magento-Produkts.</p>"
+"<p><strong>In Stock:</strong> Relist Items automatically if Products are in Stock.
+                    (Recommended)</p>
+                    <p><strong>Any:</strong> Relist Items automatically regardless of Stock availability.</p>","<p><strong>Auf Lager:</strong> Artikel automatisch neu auflisten, wenn Produkte auf Lager sind.
+                   (Empfohlen)</p>
+                   <p><strong>Beliebig:</strong> Artikel automatisch neu auflisten, unabhängig von der Verfügbarkeit des Lagerbestands.</p>"
+"<p><strong>Any:</strong> Relist Items automatically with any Quantity available.</p>
+                    <p><strong>More or Equal:</strong> Relist Items automatically if the Quantity is at least equal
+                    to the number you set, according to the Selling Policy. (Recommended)</p>","<p><strong>Beliebig:</strong> Artikel automatisch neu auflisten, mit jeder verfügbaren Menge.</p>
+                     <p><strong>Mehr oder Gleich:</strong> Artikel automatisch neu auflisten, wenn die Menge gemäß der Verkaufsrichtlinie mindestens
+                    gleich der von Ihnen festgelegten Anzahl ist. (Empfohlen)</p>"
+"<p>Define Magento Attribute value(s) based on which a product must be relisted on the Channel.<br>
+                    Once both Relist Conditions and Advanced Conditions are met, the product will be relisted.</p>","<p>Definieren Sie den Wert(e) des Magento-Attributs, anhand dessen ein Produkt auf dem Kanal neu aufgelistet werden muss.<br>
+                    Sobald sowohl die Neulisten-Bedingungen als auch die erweiterten Bedingungen erfüllt sind, wird das Produkt neu aufgelistet.</p>"
+"Please be very thoughtful before enabling this option as this functionality
+                        can have a negative impact on the Performance of your system.<br> It can decrease the
+                        speed of running in case you have a lot of Products with the high number
+                        of changes made to them.","Bitte denken Sie sehr sorgfältig darüber nach, bevor Sie diese Option aktivieren,
+                      da diese Funktion die Leistung Ihres Systems <br>negativ beeinflussen kann. Es kann die
+                      Ausführungsgeschwindigkeit verringern, wenn Sie viele Produkte mit einer hohen
+                      Anzahl von Änderungen haben."
+"Revise Conditions","Bedingungen überarbeiten"
+"Automatically revises Item Quantity on Otto when Product Quantity, Magento Attribute
+                    used for Item Quantity or Custom Quantity value are modified in Magento or Policy Template.
+                    The Quantity management is the basic functionality the Magento-to-Otto integration is based on
+                    and it cannot be disabled.","Die Artikelmenge auf Otto wird automatisch überarbeitet, wenn die Produktmenge, das Magento-Attribut,
+                    das für die Artikelmenge verwendet wird, oder der benutzerdefinierte Mengenwert in Magento oder der Richtlinienvorlage geändert wird
+                     Die Mengenverwaltung ist die grundlegende Funktionalität, auf der die Magento-zu-Otto-Integration basiert,
+                     und sie kann nicht deaktiviert werden."
+"Conditional Revise","Bedingte Überarbeitung"
+"Revise When Less or Equal to","Überarbeiten wenn kleiner oder gleich"
+"Set the Item Quantity limit at which the Revise Action should be triggered.
+                    It is recommended to keep this value relatively low, between 10 and 20 Items.","Legen Sie den Grenzwert für die Artikelmenge fest, bei dem die Aktion ""Überarbeiten"" ausgelöst werden soll.
+                    Es wird empfohlen, diesen Wert relativ niedrig zu halten, zwischen 10 und 20 Artikeln."
+"Automatically revises Item Price on Otto when Product Price, Special Price or Magento Attribute
+                    used for Item Price are modified in Magento or Policy Template.","Ändert automatisch den Artikelpreis bei Otto, wenn der Produktpreis, der Sonderpreis oder das Magento-Attribut
+                    die für den Artikelpreis verwendet werden, in Magento oder im Policy Template geändert werden."
+"<br/>Disabling this option might affect synchronization performance. Please read
+             <a href=""%url"" target=""_blank"">this article</a> before using the option.","<br/>Das Deaktivieren dieser Option könnte sich auf die Leistung der Synchronisierung auswirken. Bitte lesen Sie <a href=""%url"" target=""_blank"">diesen Artikel</a>, bevor Sie die Option verwenden."
+"Set the Conditions when M2E Otto should stop Listings on Otto.<br/><br/>
+                    If all Conditions are set to No or No Action then no Otto Items using this Synchronization
+                    Policy will be Stopped.
+                    If all Options are enabled, then an Item will be Stopped if at least one of the Stop
+                    Conditions is met.<br/><br/>
+                    More detailed information about ability to work with this Page you can find
+                    <a href=""%url"" target=""_blank"" class=""external-link"">here</a>.","Legen Sie die Bedingungen fest, unter denen M2E Otto Auflistungen auf Otto einstellen soll.<br/><br/>
+                Wenn alle Bedingungen auf ""Nein"" oder ""Keine Aktion"" gesetzt sind, werden keine Otto-Artikel unter Verwendung
+                dieser Synchronisierungsrichtlinie gestoppt.<br/><br/>
+                Wenn alle Optionen aktiviert sind, wird ein Artikel gestoppt, wenn mindestens eine der Stop-Bedingungen erfüllt ist.
+                Weitere detaillierte Informationen zur Arbeit mit dieser Seite finden Sie
+                <a href=""%url"" target=""_blank"" class=""external-link"">hier</a>."
+"Stop Action","Aktion stoppen"
+"Enable to automatically stop the Item(s) when the Stop Conditions are met.","Aktivieren Sie diese Option, um das/die Objekt(e) automatisch anzuhalten, wenn die Anhaltebedingungen erfüllt sind."
+"Stop Conditions","Bedingungen anhalten"
+"Stop When Status Disabled","Anhalten, wenn Status Deaktiviert"
+"Automatically stops an Item that is on Otto if Status is
+                    changed to 'Disabled' in Magento.","Stoppt automatisch einen Artikel, der auf Otto ist, wenn der Status in Magento auf 'Deaktiviert' geändert wird."
+"Stop When Out Of Stock","Anhalten, wenn nicht vorrätig"
+"Automatically stops an Item that is on Otto if Stock Availability is changed
+                    to 'Out of Stock' in Magento.","Stoppt automatisch einen Artikel, der sich bei Otto befindet, wenn die Lagerverfügbarkeit
+                    in Magento auf 'Nicht vorrätig' geändert wird."
+"Stop When Quantity Is","Anhalten, wenn die Menge erreicht ist"
+"No Action","Keine Aktion"
+"Less or Equal","Weniger oder gleich"
+"Automatically stops an Item on Otto if Quantity according to the
+                     Selling Policy is changed <b>and</b> it meets the selected Conditions.","Automatisch stoppt ein Artikel auf Otto, wenn die Menge gemäß der Verkaufsrichtlinie geändert wird <b>und</b> es den ausgewählten Bedingungen entspricht."
+"<p>Define Magento Attribute value(s) based on which a product must be stopped on the Channel.<br>
+                    Once at least one Stop or Advanced Condition is met, the product will be stopped.</p>","<p>Definieren Sie den Wert(e) des Magento-Attributs, anhand dessen ein Produkt auf dem Kanal gestoppt werden muss.<br>
+Sobald mindestens eine Stop- oder erweiterte Bedingung erfüllt ist, wird das Produkt gestoppt.</p>"
+"Stop When Meet","Anhalten bei Treffen"
+"Settings saved","Gespeicherte Einstellungen"
+"Default Config",Standard-Konfiguration
+All,Alle
+"The Log includes information about synchronization of
+                             M2E Otto Listings, Orders, Shops, Unmanaged Listings.","Das Protokoll enthält Informationen über die Synchronisation von
+                             M2E Otto Auflistungen, Bestellungen, Shops, nicht verwalteten Auflistungen."
+"Fatal Error","Fataler Fehler"
+Task,Aufgabe
+Detailed,Ausführlich
+"Products Thumbnail","Produkte Vorschaubild"
+"Do Not Show","Nicht anzeigen"
+Show,Anzeigen
+"Choose whether you want to see Thumbnail Images for Products on the
+                    Add Products and View Listing Pages.","Wählen Sie, ob Sie Miniaturbilder für Produkte auf den Seiten
+                    Seiten ""Produkte hinzufügen"" und ""Auflistung anzeigen"" sehen möchten."
+"Help Information",Hilfe-Informationen
+"<p>Choose whether you want the help information to be available at the top of
+                    each M2E Otto Page.</p><br>
+                    <p><strong>Please note</strong>, it does not disable the help-tips
+                    (the icons with the additional information next to the main options).</p>","<p>Wählen Sie aus, ob Sie möchten, dass die Hilfsinformationen oben auf
+                   jeder M2E Otto-Seite verfügbar sind.</p><br>
+                    <p><strong>Bitte beachten Sie,</strong> dass dies die Hilfetexte nicht deaktiviert
+                    (die Symbole mit den zusätzlichen Informationen neben den Hauptoptionen).</p>"
+"Restore All Helps & Remembered Choices","Alle Hilfen und erinnerten Entscheidungen wiederherstellen"
+"Quantity & Price","Menge & Preis"
+"Manage Stock ""No"", Backorders","Lagerbestand verwalten ""Nein"", Rückstände"
+Disallow,Ablehnen
+Allow,Erlauben
+"Choose whether M2E Otto is allowed to List Products with unlimited stock or that are
+                    temporarily out of stock.<br>
+                    <b>Disallow</b> is the recommended setting for Otto Integration.","Wählen Sie, ob M2E Otto Auflistungen von Produkten mit unbegrenztem Bestand oder von Produkten, die
+                    vorübergehend nicht auf Lager sind..<br>
+                    <b>Ausschließen</b> ist die empfohlene Einstellung für die Otto-Integration."
+"Quantity To Be Listed","Noch aufzulistende Menge"
+"Set a number to List, e.g. if you have Manage Stock ""No"" in Magento Product and set this Value
+                    to 10, 10 will be sent as available Quantity to the Channel.","Legen Sie eine Zahl für die Auflistung fest, z.B. wenn Sie in Magento Product Manage Stock ""No"" haben und diesen Wert
+                    auf 10 setzen, wird 10 als verfügbare Menge an den Channel gesendet."
+"Convert Magento Price Attribute","Magento-Preisattribut konvertieren"
+"<p>Choose whether Magento Price Attribute values should be converted automatically.
+                    With this option enabled, M2E Otto will provide currency conversion based on Magento
+                    Currency Settings.</p>
+                    <p><strong>For example</strong>, the Item Price is set to be taken from Magento Price
+                    Attribute (e.g. 5 USD).<br>
+                    If this Item is listed on Shop with a different Base Currency (e.g. GBP),
+                    the currency conversion is performed automatically based on the set exchange rate
+                    (e.g. 1 USD = 0.82 GBP).<br>
+                    The Item will be available on Channel at the Price of 4.1 GBP.</p>","<p>Wählen Sie aus, ob Magento-Preisattributwerte automatisch konvertiert werden sollen. Mit dieser Option aktiviert,
+                  wird M2E Otto Währungsumrechnung basierend auf den Magento-Währungseinstellungen
+                  durchführen.</p>
+                   <p><strong>Zum Beispiel:</strong> Der Artikelpreis wird aus dem
+                  Magento-Preisattribut übernommen (z.B. 5 USD).<br>
+                  Wenn dieser Artikel in einem Shop mit einer anderen Basiswährung (z.B. GBP)
+                  aufgeführt ist, wird die Währungsumrechnung automatisch basierend auf dem festgelegten Wechselkurs durchgeführt
+                  (z.B. 1 USD = 0,82 GBP).<br>
+                  Der Artikel wird auf dem Kanal zum Preis von 4,1 GBP verfügbar sein.</p>"
+"Help Blocks have been restored.","Die Hilfe-Blöcke wurden wiederhergestellt."
+"<p>To use M2E Otto, you need to register on M2E Accounts and generate a
+License Key.</p><br>
+
+                    <p>Your email address used during the initial setup of M2E Otto automatically
+                    registers you on
+                    M2E Accounts. After logging in, you can manage your Subscription and Billing information.</p><br>
+
+                    <p>License Key is a unique identifier of M2E Otto instance which is generated automatically
+                    and strictly associated with the current IP and Domain of your Magento.</p><br>
+
+                    <p>The same License Key cannot be used for different domains, sub-domains or IPs.
+                    If your Magento Server changes its location, the new License Key must be obtained and provided
+                    to M2E Otto License section. Click <strong>Save</strong> after the changes are made.</p><br>
+
+                    <p><strong>Note:</strong> If you need some assistance to activate your M2E Otto instance,
+                    please contact Support Team at <a href=""mailto:support@m2epro.com"">support@m2epro.com</a>.</p>","<p>Um M2E Otto zu verwenden, müssen Sie sich bei M2E Accounts registrieren und einen Lizenzschlüssel generieren.</p><br>
+
+                <p>Ihre E-Mail-Adresse, die während der erstmaligen Einrichtung von M2E Otto verwendet wurde, registriert Sie
+                 automatisch bei M2E Accounts. Nach dem Einloggen können Sie Ihr Abonnement und Ihre
+                 Abrechnungsinformationen verwalten.</p><br>
+
+                 <p>Der Lizenzschlüssel ist ein eindeutiger Identifikator der M2E Otto-Instanz, der automatisch generiert wird und
+                 streng mit der aktuellen IP und dem Domainnamen Ihres Magento verbunden ist.</p><br>
+
+                 <p>Derselbe Lizenzschlüssel kann nicht für verschiedene Domains, Subdomains oder IPs verwendet werden. Wenn
+                 sich der Standort Ihres Magento-Servers ändert, muss ein neuer Lizenzschlüssel erhalten und im Lizenzabschnitt von
+                 M2E Otto bereitgestellt werden. Klicken Sie nach den Änderungen auf <strong>Speichern</strong>.</p><br>
+
+                 <p><strong>Hinweis:</strong> Wenn Sie Hilfe benötigen, um Ihre M2E Otto-Instanz zu aktivieren, kontaktieren
+                Sie das Support-Team unter <a href=""mailto:support@m2epro.com"">support@m2epro.com</a>.</p>"
+"License Key","License Key"
+"Associated Email","Zugehörige E-Mail"
+"This email address is associated with your License.
+                        You can also use it to access
+                        <a href=""%url"" target=""_blank"" class=""external-link"">M2E Accounts</a>.","Diese E-Mail-Adresse ist mit Ihrer Lizenz verknüpft.
+                       Sie können sie auch verwenden, um auf
+                       <a href=""%url"" target=""_blank"" class=""external-link"">M2E Accounts</a> zuzugreifen."
+"Manage License","Lizenz verwalten"
+"Valid Location","Gültiger Standort"
+"Your Domain","Ihre Domain"
+Domain,Domain
+"Your IP","Ihre IP"
+IP(s),IP(s)
+"' 'General' 'Additional","""General"" ""Zusätzlich"""
+Refresh,Aktualisieren
+"Use Existing License","Vorhandene Lizenz verwenden"
+"Internal Server Error","Interner Serverfehler"
+"New License Key","Neuer License Key"
+"First Name",Vorname
+"Last Name",Nachname
+Phone,Telefon
+"Postal Code",Postleitzahl
+"Set preferences for automatic clearing of Log data, then click <strong>Save</strong>.
+                    You may clear the relevant logs manually by clicking <strong>Clear All</strong>.","Legen Sie die Einstellungen für das automatische Löschen von Protokolldaten fest und klicken Sie dann auf <strong>Speichern</strong>.
+                   Sie können die entsprechenden Protokolle auch manuell löschen, indem Sie auf <strong>Alle löschen</strong> klicken."
+"M2E Otto Listings Logs & Events Clearing","M2E Otto Auflistungen Logs & Events Clearing"
+"Enables automatic clearing of Log data. Can help reduce Database size.","Ermöglicht die automatische Löschung von Protokolldaten. Kann helfen, die Datenbankgröße zu reduzieren."
+"Keep For (days)","Aufbewahrungsdauer (Tage)"
+"Specify for how long you want to keep Log data before it is automatically cleared.","Geben Sie an, wie lange Sie die Protokolldaten aufbewahren möchten, bevor sie automatisch gelöscht werden."
+"Orders Logs & Events Clearing","Auftragsprotokolle und Ereignislöschung"
+"Synchronization Logs & Events Clearing","Synchronisationsprotokolle und Ereignisse löschen"
+"Clear All","Alles löschen"
+"Please enter a valid value greater than 14 and less than 90 days.","Bitte geben Sie einen gültigen Wert ein, der größer als 14 und kleiner als 90 Tage ist."
+Module,Modul
+"Automatic Synchronization","Automatische Synchronisierung"
+"Inventory and Order synchronization stops. The Module interface remains available.","Die Bestands- und Auftragssynchronisierung wird gestoppt. Die Modulschnittstelle bleibt verfügbar."
+"Module Interface and Automatic Synchronization","Modulschnittstelle und automatische Synchronisation"
+"Inventory and Order synchronization stops. The Module interface becomes unavailable.","Die Bestands- und Auftragssynchronisierung wird angehalten. Die Modulschnittstelle ist nicht mehr verfügbar."
+Step,Schritt
+Completed,Erledigt
+"Terms and Privacy","Bedingungen und Datenschutz"
+"not selected","nicht gewählt"
+"Module Registration","Modul Registrierung"
+"Account Onboarding",Konto-Einführung
+"Step 3","Schritt 3"
+"Step 4","Schritt 4"
+"First Listing Creation","Erstellung der ersten Auflistung"
+"The Otto token obtaining is currently unavailable. Please try again later.","Der Otto-Gutschein ist derzeit nicht verfügbar. Bitte versuchen Sie es später erneut."
+"Create First Listing","Erste Auflistung erstellen"
+Skip,Überspringen
+"In this section, you can provide various Otto Marketplace settings, such as Product Identifier configurations, to optimize your marketplace presence.","In diesem Abschnitt können Sie verschiedene Otto Marketplace-Einstellungen, wie beispielsweise Produktkennzeichnungskonfigurationen, zur Optimierung Ihrer Marktplatzpräsenz vorstellen."
+"Anytime you can change these settings under","Diese Einstellungen können jederzeit geändert werden unter"
+"Otto > Configuration > Settings","Otto > Konfiguration > Einstellungen"
+"M2E Otto is disabled. Inventory and Order synchronization is not running. The Module interface is unavailable.<br>You can enable the Module under <i>Stores > Settings > Configuration > M2E Otto > Module</i>.","M2E Otto ist deaktiviert. Die Inventar- und Bestellsynchronisierung läuft nicht. Die Modulschnittstelle ist nicht verfügbar.<br>Sie können das Modul unter <i>Stores > Einstellungen > Konfiguration > M2E Otto > Modul</i> aktivieren."
+"<p>M2E Otto interface cannot work properly and there is no way to work with it correctly,
+                    as your Magento is set to the Production Mode and the static content data was not deployed.</p>","<p>Die M2E Otto-Schnittstelle kann nicht ordnungsgemäß funktionieren, und es gibt keine Möglichkeit, ordnungsgemäß damit zu arbeiten,
+                    da Ihr Magento im Produktionsmodus eingestellt ist und die statischen Inhaltsdaten nicht bereitgestellt wurden.</p>"
+"<p>Static content data was not deployed during the last M2E Otto installation/upgrade.
+                 It may affect some elements of your Magento user interface.</p>
+                 <p>Please follow <a href=""%1"" target=""_blank"">these instructions</a>
+                 to deploy static view files.</p>
+
+                 <a href=""%2"">Don't Show Again</a><br>","<p>Die statischen Inhaltsdaten wurden während der letzten M2E Otto-Installation/Aktualisierung nicht bereitgestellt.
+                Dies kann einige Elemente Ihrer Magento-Benutzeroberfläche beeinflussen.</p>
+                <p>Bitte befolgen Sie <a href=""%1"" target=""_blank"">diese Anweisungen</a>, um statische Ansichtsdateien bereitzustellen.</p>
+
+                <a href=""%2"">Nicht mehr anzeigen</a><br>"
+title,titel
+text,text
+"Automatic Synchronization is disabled. You can enable it under <i>Stores > Settings >
+                        Configuration > M2E Otto > Module & Channels > Automatic Synchronization</i>.","Die automatische Synchronisierung ist deaktiviert. Sie können sie unter <i>Stores > Einstellungen >
+                        Konfiguration > M2E Otto > Modul & Kanäle > Automatische Synchronisierung</i> aktivieren."
+"M2E Otto Module requires activation. Go to the <a href=""%1"" target =""_blank"">License Page</a>.","Das M2E Otto-Modul muss aktiviert werden. Gehen Sie zur <a href=""%1"" target =""_blank"">Lizenzseite</a>."
+"Step is invalid","Schritt ist ungültig"
+"Status is invalid","Status ist ungültig"
+"Control Panel","Control Panel"
+Changed.,Geändert.
+"Extension upgrade was completed.","Das Upgrade der Erweiterung wurde abgeschlossen."
+"Help Center","Help Center"
+"Health Status",Gesundheitszustand
+"Settings are saved.","Die Einstellungen werden gespeichert."
+"Please select Item(s) to clear.","Bitte wählen Sie den/die zu löschenden Artikel aus."
+"The Listing(s) Log was cleared.","Das Protokoll der Auflistung(en) wurde gelöscht."
+"Only Linked Products must be selected.","Es müssen nur verknüpfte Produkte ausgewählt werden."
+"Set Your Categories","Kategorien festlegen"
+"Otto Category is not set for some Products.","Die Otto-Kategorie ist für einige Produkte nicht festgelegt."
+"Required attributes is not set for some Otto Category","Erforderliche Attribute sind für einige Otto-Kategorien nicht festgelegt"
+"Set Category (All Products same Category)","Kategorie festlegen (alle Produkte derselben Kategorie)"
+"Set Category (Manually for each Product)","Kategorie festlegen (Manuell für jedes Produkt)"
+"Cannot start Wizard, Listing ID must be provided first.","Assistent kann nicht gestartet werden, Auflistung ID muss zuerst angegeben werden."
+"Cannot access Wizard, Wizard ID is missing.","Zugriff auf Assistent nicht möglich, Assistenten-ID fehlt."
+"Wizard not found.","Wizard nicht gefunden."
+"Select Magento Products","Magento-Produkte auswählen"
+"Add Magento Products","Magento-Produkte hinzufügen"
+Congratulations,Glückwunsch
+"Please complete the current step to proceed.","Bitte schließen Sie den aktuellen Schritt ab, um fortzufahren."
+"M2E Otto is currently under maintenance","M2E Otto ist derzeit in Wartung"
+"Please specify Required Options.","Bitte geben Sie die gewünschten Optionen an."
+"Order Item was Linked.","Artikel bestellen wurde verlinkt."
+"Order Item does not exist.","Bestellung Artikel existiert nicht."
+"Linking Product ""%title""","Verlinkung Produkt ""%title"""
+"Product does not have Required Options.","Das Produkt hat keine erforderlichen Optionen."
+"Please select Order(s).","Bitte wählen Sie Bestellung(en)."
+"QTY reserve for selected Order(s) was canceled.","Die Mengenreservierung für die ausgewählte(n) Bestellung(en) wurde aufgehoben."
+"QTY reserve for selected Order(s) was not canceled.","Die Mengenreserve für die ausgewählte(n) Bestellung(en) wurde nicht storniert."
+"QTY reserve for selected Order(s) was not canceled. Reason: %error_message","Die Mengenreserve für die ausgewählte(n) Bestellung(en) wurde nicht storniert. Grund: %error_message"
+"QTY for selected Order(s) was reserved.","Die Menge für die ausgewählte(n) Bestellung(en) wurde reserviert."
+"QTY for selected Order(s) was not reserved.","Die Menge für die ausgewählte(n) Bestellung(en) wurde nicht reserviert."
+"QTY for selected Order(s) was not reserved. Reason: %error_message","Die Menge für die ausgewählte(n) Bestellung(en) wurde nicht reserviert. Grund: %error_message"
+"Shipping Information has been resend.","Versandinformationen wurden erneut versandt."
+"Item was Unlinked.","Artikel wurde nicht verlinkt."
+"Account id not set.","Konto-Id nicht gesetzt."
+"Not found Account.","Nicht gefunden Konto."
+"From date not set.","Das Startdatum wurde nicht festgelegt."
+"To date not set.","Das Enddatum wurde nicht festgelegt."
+"Account must be specified.","Das Konto muss angegeben werden."
+Sales,Umsatz
+"Auth code was saved","Auth-Code wurde gespeichert"
+"The Otto access obtaining is currently unavailable.<br/>Reason: %error_message","Der Zugriff auf Otto ist derzeit nicht verfügbar.<br/>Grund: %error_message"
+"Please enter a title.","Bitte geben Sie einen Titel ein."
+"Account is not found and cannot be deleted.","Das Konto wurde nicht gefunden und kann nicht gelöscht werden."
+"Account was deleted.","Konto wurde gelöscht."
+"Account does not exist.","Das Konto existiert nicht."
+"Edit Account","Konto bearbeiten"
+"Work with this Account is currently unavailable for the following reason: <br/> %error_message","Die Arbeit mit diesem Konto ist derzeit aufgrund des folgenden Fehlers nicht verfügbar: <br/> %error_message"
+Accounts,Konten
+"We were unable to save your account settings because of an error (%error_message).
+                 Please review your information and try again","Wir konnten Ihre Kontoeinstellungen aufgrund eines Fehlers (%error_message) nicht speichern.  Bitte überprüfen Sie Ihre Informationen und versuchen Sie es erneut"
+"Account was saved","Konto wurde gespeichert"
+"Please select Item(s) to remove.","Bitte wählen Sie Artikel zum Entfernen aus."
+"%s record(s) were deleted.","%s Datensatz/e wurden gelöscht."
+"[%count] Category cannot be removed until it’s unassigned from the existing products.","[%count] Die Kategorie kann erst entfernt werden, wenn ihre Zuordnung zu den vorhandenen Produkten aufgehoben wurde."
+"Category not found.","Kategorie nicht gefunden."
+"Category data was saved.","Die Kategoriedaten wurden gespeichert."
+"New Listing Creation","Erstellung neuer Auflistungen"
+"Listing was Added","Auflistung wurde hinzugefügt"
+"Edit M2E Otto Listing ""%listing_title"" Settings","M2E Otto Auflistung ""%listing_title"" Einstellungen bearbeiten"
+"The Listing was saved.","Die Auflistung wurde gespeichert."
+"Please make sure you finish adding new Products before moving to the next step.","Bitte stellen Sie sicher, dass Sie das Hinzufügen neuer Produkte abschließen, bevor Sie zum nächsten Schritt übergehen."
+"All Unmanaged Items","Alle nicht verwalteten Artikel"
+"Unmanaged Listings were reset.","Nicht verwaltete Auflistungen wurden zurückgesetzt."
+"Listing does not exist.","Die Auflistung existiert nicht."
+"M2E Otto Listing ""%listing_title""","M2E Otto Auflistung ""%listing_title"""
+"Listing Product does not exist.","Auflistung Produkt existiert nicht."
+"M2E Otto Listing ""%s"" Log","M2E Otto Auflistung ""%s"" Log"
+"M2E Otto Listing Product ""%1"" Log","M2E Otto Auflistung Produkt ""%1"" Log"
+"Listings Logs & Events","Auflistungen Logs & Ereignisse"
+"Order does not exist.","Ordnung gibt es nicht."
+"Order #%order_id Log","Bestellung #%order_id Log"
+"Orders Logs & Events","Bestellungen Logs & Ereignisse"
+"Magento Order(s) were created.","Magento Order(s) wurden erstellt."
+"%count Magento order(s) were not created. Please <a target=""_blank"" href=""%url"">view Log</a>
+                for the details.","%count Magento-Bestellung(en) wurden nicht erstellt. Bitte <a target=""_blank"" href=""%url"">sieh dir das Log an</a>,
+               um die Details zu erfahren."
+"%count Magento order(s) are already created for the selected Otto order(s).","%count Magento-Bestellung(en) sind bereits für die ausgewählte(n) Otto-Bestellung(en) angelegt."
+"Updating Order(s) Status to Shipped in Progress...","Aktualisierung des Status der Bestellung(en) auf Versendet in Bearbeitung..."
+"View Order Details","Bestelldetails anzeigen"
+"Policy cannot be deleted as it is used in Listing Settings.","Die Policy kann nicht gelöscht werden, da sie in den Auflistungseinstellungen verwendet wird."
+"Policy was deleted.","Die Richtlinie wurde gelöscht."
+"You don't have any products in Magento catalog.","Sie haben keine Produkte im Magento-Katalog."
+"Description Policy data is not specified.","Beschreibung Die Policy-Daten sind nicht angegeben."
+"Magento Product does not exist.","Magento Produkt existiert nicht."
+"The Product Description attribute is selected as a source of the Otto Item Description,
+                    but this Product has empty description.","Das Attribut Produktbeschreibung ist als Quelle für die Beschreibung des Otto-Artikels ausgewählt,
+                    aber dieses Produkt hat eine leere Beschreibung."
+"The Product you selected is not presented in any M2E Otto Listing.
+                    Thus, the values of the M2E Otto Attribute(s), which are used in the Item Description,
+                    will be ignored and displayed like #attribute label#.
+                    Please, change the Product ID to preview the data.","Das von Ihnen ausgewählte Produkt ist in keiner M2E Otto Auflistung enthalten.
+                    Daher werden die Werte der M2E Otto-Attribute, die in der Artikelbeschreibung verwendet werden,
+                    ignoriert und als #attribute label# angezeigt.
+                    Bitte ändern Sie die Produkt-ID, um eine Vorschau der Daten zu erhalten."
+"Preview Description","Vorschau Beschreibung"
+"Policy does not exist.","Es gibt keine Policy."
+"Edit ""%template_title"" Synchronization Policy","Synchronisierungs-Policy ""%template_title"" bearbeiten"
+"Add Synchronization Policy","Synchronisierungs-Policy hinzufügen"
+"Edit ""%template_title"" Selling Policy","Bearbeiten der ""%template_title"" Selling Policy"
+"Add Selling Policy","Add Selling Policy"
+"Edit ""%template_title"" Description Policy","Bearbeiten von ""%template_title"" Beschreibung Policy"
+"Add Description Policy","Beschreibung hinzufügen Policy"
+"Edit ""%template_title"" Shipping Policy","Bearbeite ""%template_title"" Versandrichtlinie"
+"Add Shipping Policy","Versandrichtlinie hinzufügen"
+"Policy was not saved.","Die Policy wurde nicht gespeichert."
+"Policy was saved.","Policy wurde gespeichert."
+"You are trying to use the unknown License Key.","Sie versuchen den unbekannten Lizenzschlüssel zu verwenden."
+"The License Key has been updated.","Der Lizenzschlüssel wurde aktualisiert."
+"The License has been refreshed.","Die Lizenz wurde aktualisiert."
+"Log for %title has been cleared.","Log für %title wurde gelöscht."
+"All Log for %title has been cleared.","Alle Protokolle für %title wurden gelöscht."
+"Contact Us","Kontaktiere uns"
+"Synchronization Logs",Synchronisationsprotokolle
+"Configuration of %channel Integration","Konfiguration von %channel Integration"
+"Auth Code is not defined","Auth Code ist nicht definiert"
+"You should fill all required fields.","Sie sollten alle erforderlichen Felder ausfüllen."
+"License Creation is failed. Please contact M2E Otto Support for resolution.","Die Lizenzerstellung ist fehlgeschlagen. Bitte kontaktieren Sie den M2E Otto Support für eine Lösung."
+"Requested store is not found","Angeforderter Speicher wird nicht gefunden"
+"Website with code %value already exists","Website mit Code %value existiert bereits"
+"Fatal error occurred","Fataler Fehler aufgetreten"
+string,string
+here,hier
+"Otto Integration",Otto-Integration
+"%1 doesn't extends \M2E\Otto\Model\ActiveRecord\AbstractModel","%1 doesn't extends \M2E\Otto\Model\ActiveRecord\AbstractModel"
+"M2E Otto Server connection failed. Find the solution <a target=""_blank"" href=""%url"">here</a>","M2E Otto Server Verbindung fehlgeschlagen. Finden Sie die Lösung <a target=""_blank"" href=""%url"">hier</a>"
+"Internal Server Error(s) [%error_message]","Internal Server Error(s) [%error_message]"
+"The ""Reserve Cancellation"" Action for Account ""%1"" was completed with error.","Die Aktion ""Reservierungsstorno"" für das Konto ""%1"" wurde mit einem Fehler abgeschlossen."
+"The ""Update"" Action for Account ""%1"" was completed with error.","Die Aktion ""Aktualisierung"" für das Konto ""%1"" wurde mit einem Fehler abgeschlossen."
+"The ""Upload Orders By User"" Action for Otto Account ""%account"" was completed with error.","Die Aktion ""Bestellungen nach Benutzer hochladen"" für das Otto-Konto ""%account"" wurde mit einem Fehler abgeschlossen."
+"M2E Otto Health Status Notification","M2E Otto Benachrichtigung über den Gesundheitszustand"
+"Product was Added","Produkt wurde hinzugefügt"
+"Listing was deleted","Auflistung wurde gelöscht"
+"Item was Moved.","Der Artikel wurde verschoben."
+"Item was deleted from Magento.","Der Artikel wurde aus dem Magento gelöscht."
+"Item was deleted from Magento and stopped on the Channel.","Artikel wurde aus Magento gelöscht und im Channel gestoppt."
+"You cannot proceed because the Wizard has already been completed.","Sie können nicht fortfahren, da der Assistent bereits abgeschlossen ist."
+"M2E Otto Notes","M2E Otto Notizen"
+is,ist
+"is not","ist nicht"
+"equals or greater than","gleich oder größer ist als"
+"equals or less than","ist gleich oder kleiner als"
+"greater than","größer als"
+"less than","weniger als"
+contains,enthält
+"does not contain","enthält nicht"
+"is one of","ist eines der"
+"is not one of","ist nicht einer der"
+"is empty","ist leer"
+"is not empty","nicht leer ist"
+"Please choose a Condition to add...","Bitte wählen Sie eine Bedingung zum Hinzufügen..."
+"Conditions Combination","Bedingungen Kombination"
+"Product Attribute",Produkt-Attribut
+ALL,ALLE
+ANY,ANY
+TRUE,TRUE
+FALSE,FALSE
+"If %1 of these Conditions are %2:","Wenn %1 dieser Bedingungen %2 sind:"
+"If %1 of these Conditions are %1:","Wenn %1 dieser Bedingungen %1 sind:"
+"Attribute Set",Attributsatz
+"Open Chooser","Auswahlliste öffnen"
+"Product Type",Produkttyp
+"Shipping order error. Reason: %reason","Fehler beim Versenden der Bestellung. Grund: %reason"
+"The Product could not be found in Magento catalog.","Das Produkt konnte nicht im Magento-Katalog gefunden werden."
+"Custom Note was added to the corresponding Otto order: %note.","Custom Note wurde der entsprechenden Otto-Bestellung hinzugefügt: %note."
+"Custom Note for the corresponding Otto order was deleted.","Benutzerdefinierte Notiz für die entsprechende Otto-Bestellung wurde gelöscht."
+"Custom Note for the corresponding Otto order was updated: %note.","Custom Note für die entsprechende Otto-Bestellung wurde aktualisiert: %note."
+"Otto Delivery Option","Otto Delivery Option"
+"%1: Attribute(s) %2 were not found in this Product and its value was not sent.","%1: Attribut(e) %2 wurde(n) in diesem Produkt nicht gefunden und sein Wert wurde nicht gesendet."
+"Item(s) were not listed. The List rules set in Synchronization Policy are not met.","Eintrag(e) wurden nicht aufgelistet. Die in der Synchronisierungsrichtlinie festgelegten Listenregeln sind nicht erfüllt."
+"Item(s) were not revised. No relevant product changes were detected to be updated on the channel.","Artikel(e) wurden nicht überarbeitet. Es wurden keine relevanten Produktänderungen auf dem Kanal erkannt."
+"Item(s) were not relisted. The Relist rules set in Synchronization Policy are not met.","Item(s) wurden nicht verknüpft. Die in der Synchronisierungsrichtlinie festgelegten Relist-Regeln werden nicht erfüllt."
+"Item(s) were not stopped. The Stop rules set in Synchronization Policy are not met.","Item(s) wurden nicht gestoppt. Die Stop-Regeln in der Synchronisierungsrichtlinie sind nicht erfüllt."
+"Item is Listed or not available","Artikel ist aufgelistet oder nicht verfügbar"
+"Otto Values",Otto-Werte
+Active,Aktiv
+Inactive/Blocked,Inaktiv/Blockiert
+"Product was Deleted","Produkt wurde gelöscht"
+"%1 doesn't extends AbstractFeature","%1 erweitert nicht AbstractFeature"
+"Show Otto Order","Otto-Bestellung anzeigen"
+"You need to choose Categories for Products in order to list them on Otto.","Sie müssen Kategorien für Produkte auswählen, um sie bei Otto auflisten zu können."
+Attributes,Attribute
+"Please select Category.","Bitte wählen Sie eine Kategorie."
+"System | Current Time","System | Aktuelle Zeit"
+"Module [Public]","Modul [Public]"
+"Module [Setup]","Modul [Einrichtung]"
+"Module Environment","Modul Umwelt"
+Maintenance,Wartung
+enabled,aktiviert
+change,verändern
+"Core Resource","Zentrale Ressource"
+set,setzen
+PHP,PHP
+[info],[info]
+"Server API","Server API"
+"Memory Limit",Speichergrenze
+"Max Execution Time","Maximale Ausführungszeit"
+Unlimited,Unbegrenzt
+MySQL,MySQL
+"MySQL Database | Tables Prefix","MySQL Database | Tables Prefix"
+"Extension Key","Extension Key"
+"Domain [valid | real]","Domain [valid | real]"
+"IP [valid | real]","IP [valid | real]"
+"Directory [root]","Directory [root]"
+"Directory [m2e]","Directory [m2e]"
+"[read more]","[read more]"
+"Magento Cron State","Magento Cron State"
+"Disabled by Developer","Deaktiviert durch Entwickler"
+History,Historie
+show,anzeigen
+"Run Task","Aufgabe ausführen"
+"Task Name","Aufgabe Name"
+"-- run all --","-- run all --"
+"Table `%table_name`","Tabelle `%table_name`"
+"(%amount records)","(%amount records)"
+Information,Information
+License,Lizenz
+"Collapse All","Alle einklappen"
+"Expand All","Alle erweitern"
+"Errors Summary","Fehler Zusammenfassung"
+"The Products below will not be Moved into the chosen Listing. <br/>
+                    <div style=""font-weight: normal;"">
+                        <strong>Possible reason:</strong>
+                        The Products are already present in the chosen Listing.<br/>
+                    </div>","Die unten aufgeführten Produkte werden nicht in die gewählte Auflistung verschoben. <br/>
+                     <div style=""font-weight: normal;"">
+                        <strong>Möglicher Grund:</strong>
+                        Die Produkte sind bereits in der gewählten Auflistung vorhanden.<br/>
+                  </div>"
+"Selected Products: ","Ausgewählte Produkte: "
+"Selected Categories: ","Ausgewählte Kategorien: "
+"Categories of selected Magento Products","Kategorien ausgewählter Magento-Produkte"
+"Product(s) have been <strong>Added</strong> to the Listing.<br/><br/>
+            At this point you can either <strong>Go To The Listing</strong>, or <strong>List Added Products</strong> Now.<br/><br/>
+            %1","Produkt(e) wurden der Auflistung <strong>hinzugefügt</strong>.<br/><br/>
+            An diesem Punkt können Sie entweder <strong>zur Auflistung gehen</strong> oder <strong>hinzugefügte 
+            Produkte</strong> jetzt auflisten.<br/><br/>
+%1"
+"Product(s) have been <strong>Added</strong> to the Listing.<br/><br/>
+            At this point, you can either <strong>Go To The Listing</strong>, or go <strong>Back to the Unmanaged Items</strong>.<br/><br/>
+            %1","Produkt(e) wurden der Auflistung <strong>hinzugefügt</strong>.<br/><br/>
+              An diesem Punkt können Sie entweder <strong>zur Auflistung gehen</strong> oder <strong>zurück zu den nicht verwalteten Artikeln</strong> gehen.<br/><br/>
+             %1"
+"Export to:","Exportieren in:"
+"records found","gefundene Datensätze"
+selected,ausgewählt
+"per page","pro Seite"
+"Previous page","Vorherige Seite"
+"of %1","von %1"
+"Next page","Nächste Seite"
+"Payment Method",Zahlungsmethode
+"Otto Order ID","Otto-Bestellung ID"
+"Cash On Delivery Cost",Nachnahmekosten
+"Buyer Tax ID","Käufer Steuer-ID"
+"Changes have been made to this section that have not been saved.","Es wurden Änderungen an diesem Abschnitt vorgenommen, die nicht gespeichert wurden."
+"This tab contains invalid data. Please resolve this before saving.","Diese Registerkarte enthält ungültige Daten. Bitte beheben Sie dies vor dem Speichern."
+"No Magento Order Created","Keine Magento-Bestellung erstellt"
+"Otto Order",Otto-Bestellung
+"Purchase Create Time","Kaufen Zeit erstellen"
+"Purchase Update Time",Kauf-Update-Zeit
+"Reservation Time","Reservierung Zeit"
+"Order Status",Bestellstatus
+"Buyer Information","Informationen für den Käufer"
+"Payment Information",Zahlungsinformationen
+"Order Currency",Bestellwährung
+Attention!,Achtung!
+"Order Currency is not enabled in Magento. Please, enable it in ","Die Bestellwährung ist in Magento nicht aktiviert. Bitte aktivieren Sie sie in "
+"Stores > Settings > Configuration > General > Currency Setup.","Stores > Settings > Configuration > General > Currency Setup."
+"There's no rate for Order Currency in Magento. Please, add Currency convert rate in ","Es gibt keinen Kurs für die Bestellwährung in Magento. Bitte, fügen Sie Währung konvertieren Rate in "
+"Stores > Currency > Currency Rates.","Stores > Currency > Currency Rates."
+"Payment Date",Zahlungsdatum
+"Shipping & Handling Information","Versand- und Bearbeitungsinformationen"
+"Shipping Service","Versand Service"
+"Shipping Cost","Kosten für den Versand"
+"Shipping Time",Versandzeit
+"Tracking Details","Details zur Verfolgung"
+Carrier,Träger
+Number,Nummer
+"Transaction Item(s)","Transaktion(en) Artikel"
+"Custom Notes","Benutzerdefinierte Notizen"
+"Checkout Message From Buyer","Checkout Nachricht vom Käufer"
+"Order Log","Logbuch bestellen"
+"Order Totals","Bestellte Summen"
+"Subtotal (Incl. Tax)","Zwischensumme (inkl. MwSt.)"
+"Shipping & Handling (Incl. Tax)","Versand & Bearbeitung (inkl. MwSt.)"
+"Grand Total",Gesamtsumme
+Name,Name
+"Private Restriction","Private Einschränkung"
+Address,Adresse
+Value,Wert
+"Enter category name","Name der Kategorie eingeben"
+"If your description contains M2E Otto Attributes, some of them such as Image URLs, Images, etc. might display for the previewing the value which is different from the actual one that will be sent to Otto.","Wenn Ihre Beschreibung M2E Otto-Attribute enthält, kann es sein, dass einige von ihnen, wie z. B. Bild-URLs, Bilder usw., in der Vorschau einen anderen Wert anzeigen als den, der tatsächlich an Otto gesendet wird."
+Currency,Währung
+"The Currency for Otto Listings.","Die Währung für Otto Auflistungen."
+"Price Change",Preisänderung
+[CURRENCY],[CURRENCY]
+"You may adjust Magento Price value that will be submitted to Channel.","Sie können den Wert des Magento-Preises, der an den Channel übermittelt wird, anpassen."
+"Product Price",Produktpreis
+"Special Price",Sonderpreis
+"The Price for Fixed Price Items.","Der Preis für Artikel zum Festpreis."
+"Absolute Value increase","Absoluter Wertanstieg"
+"Absolute Value decrease","Absolute Wertminderung"
+"Percentage increase","Prozentualer Anstieg"
+"Percentage decrease","Prozentualer Rückgang"
+"Click here to get help for this page.","Klicken Sie hier, um Hilfe für diese Seite zu erhalten."
+"Congratulations! You have registered your M2E Otto Extension and linked your Otto Account to it.","Herzlichen Glückwunsch! Sie haben Ihre M2E-Otto-Erweiterung registriert und Ihr Otto-Konto damit verknüpft."
+"The next step involves creating your first M2E Otto Listing.","Der nächste Schritt ist die Erstellung Ihrer ersten M2E Otto Auflistung."
+"M2E Otto Listing is a group of Magento Products combined under specific sets of rules. <br/>These are the
+                    Products which will be offered as Otto Items by a Seller on a particular Shop.","M2E Otto Auflistung ist eine Gruppe von Magento Produkten, die nach bestimmten Regeln zusammengefasst werden. <br/>
+                   Dies sind die Produkte, die von einem Verkäufer in einem bestimmten Shop als Otto-Artikel angeboten werden."
+"Click on the <strong>Create First Listing</strong> button to proceed.
+             Or click on the <strong>Skip</strong> button if you want to create your first listing later.","Klicken Sie auf die<strong>Schaltfläche Erste Auflistung erstellen</strong>, um fortzufahren.
+              Oder klicken Sie auf die Schaltfläche <strong>Überspringen</strong>, wenn Sie Ihre erste Auflistung später erstellen möchten."
+"Please choose a category to continue.","Bitte wählen Sie eine Kategorie, um fortzufahren."
+"Please complete all required attributes to proceed.","Bitte füllen Sie alle erforderlichen Attribute aus, um fortzufahren."
+"To proceed, the category data must be specified.","Um fortzufahren, müssen die Kategoriedaten angegeben werden."
+Attention,Achtung
+OK,OK
+"Interface & Magento inventory","Schnittstelle & Magento-Inventar"
+"Logs Clearing","Logs Clearing"
+"M2E Otto Payment","M2E Otto Payment"
+"M2E Otto Shipping","M2E Otto Versand"

@@ -1,0 +1,25 @@
+{
+    "name" : "m2e/otto-adobe-commerce",
+    "description" : "M2E Otto is an Adobe Commerce trusted (TM) extension that allows merchants of all sizes to integrate Magento-based system(s) into Otto Market fully",
+    "type" : "magento2-module",
+    "version" : "1.6.0",
+    "license" : "proprietary",
+    "keywords" : [
+        "magento",
+        "otto",
+        "m2e",
+        "otto market"
+    ],
+    "homepage" : "https://m2epro.com/",
+    "require" : {
+        "php" : ">=7.4"
+    },
+    "autoload" : {
+        "files" : [
+            "registration.php"
+        ],
+        "psr-4" : {
+            "M2E\\Otto\\" : ""
+        }
+    }
+}

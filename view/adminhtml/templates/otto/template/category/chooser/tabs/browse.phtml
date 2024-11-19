@@ -1,0 +1,52 @@
+<?php
+
+/** @var \M2E\Otto\Block\Adminhtml\Otto\Template\Category\Chooser\Tabs\Browse $block */
+
+$isWizard = !$block->viewHelper->isInstallationWizardFinished();
+
+$block->js->add(
+    "
+require([
+    'Otto/Otto/Template/Category/Chooser/Tabs/Browse'
+], function(){
+
+    window.OttoTemplateCategoryChooserTabsBrowseObj = new OttoTemplateCategoryChooserTabsBrowse();
+
+    OttoTemplateCategoryChooserTabsBrowseObj.setAccountId(OttoCategoryChooserObj.getAccountId());
+    OttoTemplateCategoryChooserTabsBrowseObj.showCategoryGroups('chooser_browser-selects');
+    OttoTemplateCategoryChooserTabsBrowseObj.observe('leaf_selected', function(selectedCategories) {
+        const lastCategory = selectedCategories[selectedCategories.length-1];
+       OttoCategoryChooserObj.selectCategory(lastCategory['category_dictionary_id'], lastCategory['category_group_id'], lastCategory['title']);
+
+    });
+});
+
+"
+);
+?>
+
+<div id="categoryChooserTabs_search_content" aria-labelledby="categoryChooserTabs_search"
+     class="ui-tabs-panel ui-widget-content ui-corner-bottom" role="tabpanel" aria-hidden="true"
+     >
+    <div class="chooser_input_container">
+        <input id="category_search_query" type="text" placeholder="<?=
+        __('Enter category name'); ?>"
+               onkeyup="OttoTemplateCategoryChooserTabsBrowseObj.applySearchFilter();">
+        <a onclick="OttoTemplateCategoryChooserTabsBrowseObj.resetSearchFilter()" style="margin-left: 2rem;"><?=
+            __('Reset'); ?></a>
+    </div>
+</div>
+
+<style>
+    .category-children-block {
+        display: inline-block;
+        margin-left: 10px;
+    }
+    [data-invite_only="1"] {
+        color: gray
+    }
+</style>
+
+<div id="chooser_browser">
+    <div id="chooser_browser-selects"></div>
+</div>

@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+
+    <menu>
+
+        <!-- Otto Menu-->
+
+        <add id="M2E_Otto::otto" title="Otto" module="M2E_Otto" sortOrder="35"
+             dependsOnModule="M2E_Otto" resource="M2E_Otto::otto"/>
+
+        <!-- Listing -->
+
+        <add id="M2E_Otto::listings" module="M2E_Otto" sortOrder="10" parent="M2E_Otto::otto"
+             title="Listings" resource="M2E_Otto::listings"/>
+        <add id="M2E_Otto::listings_items" module="M2E_Otto" sortOrder="10"
+             parent="M2E_Otto::listings" title="Items" action="m2e_otto/otto_listing/index"
+             resource="M2E_Otto::listings"/>
+        <add id="M2E_Otto::listings_search" module="M2E_Otto" sortOrder="20"
+             parent="M2E_Otto::listings" title="Search" action="m2e_otto/product_grid/allItems"
+             resource="M2E_Otto::listings"/>
+        <add id="M2E_Otto::listings_logs" title="Logs &#38; Events" module="M2E_Otto" sortOrder="20"
+             parent="M2E_Otto::listings" action="m2e_otto/otto_log_listing_product/index"
+             resource="M2E_Otto::listings_logs"/>
+
+        <!-- Configuration -->
+
+        <add id="M2E_Otto::configuration" module="M2E_Otto" sortOrder="20" parent="M2E_Otto::otto"
+             title="Configuration" resource="M2E_Otto::configuration"/>
+        <add id="M2E_Otto::configuration_templates" title="Policies" module="M2E_Otto" sortOrder="10"
+             parent="M2E_Otto::configuration" action="m2e_otto/otto_template/index"
+             resource="M2E_Otto::configuration_templates"/>
+        <add id="M2E_Otto::configuration_categories" module="M2E_Otto" sortOrder="20"
+             parent="M2E_Otto::configuration" title="Categories"
+             action="m2e_otto/otto_template_category/index"
+             resource="M2E_Otto::configuration_categories"/>
+        <add id="M2E_Otto::configuration_accounts" title="Accounts" module="M2E_Otto" sortOrder="30"
+             parent="M2E_Otto::configuration" action="m2e_otto/otto_account/index"
+             resource="M2E_Otto::configuration_accounts"/>
+        <add id="M2E_Otto::configuration_settings" title="Settings" module="M2E_Otto" sortOrder="40"
+             parent="M2E_Otto::configuration" action="m2e_otto/otto_settings/index"
+             resource="M2E_Otto::configuration_settings"/>
+
+        <!-- Sales -->
+
+        <add id="M2E_Otto::sales" module="M2E_Otto" sortOrder="30" parent="M2E_Otto::otto"
+             title="Sales" resource="M2E_Otto::sales"/>
+        <add id="M2E_Otto::sales_orders" module="M2E_Otto" sortOrder="10" parent="M2E_Otto::sales"
+             title="Orders" action="m2e_otto/otto_order/index" resource="M2E_Otto::sales_orders"/>
+        <add id="M2E_Otto::sales_logs" title="Logs &#38; Events" module="M2E_Otto" sortOrder="20"
+             parent="M2E_Otto::sales" action="m2e_otto/otto_log_order/index"
+             resource="M2E_Otto::sales_logs"/>
+
+        <!-- Help center -->
+
+        <add id="M2E_Otto::help_center" title="Help Center" module="M2E_Otto" sortOrder="40"
+             parent="M2E_Otto::otto" resource="M2E_Otto::help_center"/>
+        <add id="M2E_Otto::help_center_health_status" title="Health Status" module="M2E_Otto" sortOrder="10"
+             parent="M2E_Otto::help_center" action="m2e_otto/healthStatus/index"
+             resource="M2E_Otto::help_center_health_status"/>
+        <add id="M2E_Otto::help_center_synchronization_log" title="Synchronization Logs" module="M2E_Otto"
+             sortOrder="20" parent="M2E_Otto::help_center" action="m2e_otto/synchronization_log/index"
+             resource="M2E_Otto::help_center_synchronization_log"/>
+        <add id="M2E_Otto::help_center_m2e_support" title="M2E Support" module="M2E_Otto" sortOrder="30"
+             parent="M2E_Otto::help_center" action="m2e_otto/support/index"
+             resource="M2E_Otto::help_center_m2e_support"/>
+
+    </menu>
+
+</config>

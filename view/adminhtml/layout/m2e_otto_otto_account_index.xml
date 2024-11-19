@@ -1,0 +1,25 @@
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="m2e_otto_general_handler"/>
+    <head>
+        <css src="M2E_Otto::css/account/grid.css"/>
+    </head>
+    <body>
+        <referenceBlock name="menu">
+            <action method="setActive">
+                <argument name="itemId" xsi:type="string">M2E_Otto::configuration_accounts</argument>
+            </action>
+        </referenceBlock>
+
+        <referenceBlock name="main.top">
+            <block class="M2E\Otto\Block\Adminhtml\Otto\Account\HelpBlock" />
+        </referenceBlock>
+
+        <referenceContainer name="content">
+            <container name="m2e.otto.account.grid">
+                <uiComponent name="m2e_otto_account_grid"/>
+            </container>
+            <block class="M2E\Otto\Block\Adminhtml\Otto\Account\CreatePopup" />
+        </referenceContainer>
+    </body>
+</page>

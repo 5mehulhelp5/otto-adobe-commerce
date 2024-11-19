@@ -1,0 +1,104 @@
+<?php
+
+/** @var \M2E\Otto\Block\Adminhtml\Order\Edit\ShippingAddress $block */
+
+?>
+
+<table class="order-info form-list">
+    <tbody>
+
+    <tr>
+        <td class="label"><?= __('Name'); ?></td>
+        <td class="value">
+            <strong>
+                <?= \M2E\Otto\Helper\Data::escapeHtml($block->getOrder()->getBuyerName()) ?>
+            </strong>
+        </td>
+    </tr>
+
+    <tr>
+        <td class="label"><?= __('Email'); ?></td>
+        <td class="value">
+            <strong>
+                <?php
+                if ($block->getOrder()->getBuyerEmail() != '') { ?>
+                    <?php
+                    if (stripos($block->getOrder()->getBuyerEmail(), 'Invalid Request') !== false) { ?>
+                        &lt;<?= __('Private Restriction'); ?>&gt;<br/>
+                    <?php
+                    } else { ?>
+                        &lt;<?= \M2E\Otto\Helper\Data::escapeHtml($block->getOrder()->getBuyerEmail()); ?>&gt;<br/>
+                    <?php
+                    } ?>
+                <?php
+                } ?>
+            </strong>
+        </td>
+    </tr>
+    <tr>
+        <td class="label"><?= __('Address'); ?></td>
+        <td class="value">
+            <strong>
+
+                <?php
+                if (!empty($block->getShippingAddress())) : ?>
+
+                    <?php
+                    if (!empty($block->getShippingAddress()['recipient_name'])): ?>
+                        <?= \M2E\Otto\Helper\Data::escapeHtml($block->getShippingAddress()['recipient_name']); ?>
+                    <?php
+                    endif; ?>
+
+                    <?php
+                    if (!empty($block->getShippingAddress()['street'])) : ?>
+                        <br/><?= \M2E\Otto\Helper\Data::escapeHtml($block->getShippingAddress()['street']); ?>
+                    <?php
+                    endif; ?>
+
+                    <?php
+                    if (!empty($block->getShippingAddress()['city'])) : ?>
+                        <?php
+                        $addressData = array_filter([
+                            $block->getShippingAddress()['city'],
+                            $block->getShippingAddress()['state'] ?? '',
+                            $block->getShippingAddress()['postal_code'],
+                        ]);
+                        ?>
+                        <br/><?= \M2E\Otto\Helper\Data::escapeHtml(implode(', ', $addressData)) ?>
+                    <?php
+                    endif; ?>
+
+                    <?php
+                    if (!empty($block->getShippingAddress()['country_name'])) : ?>
+                        <br/>
+                        <?php
+                        if (!empty($block->getShippingAddress()['country_name'])) {
+                            echo \M2E\Otto\Helper\Data::escapeHtml($block->getShippingAddress()['country_name']);
+                        } else {
+                            echo \M2E\Otto\Helper\Data::escapeHtml($block->getShippingAddress()['country_code']);
+                        }
+                        ?>
+                    <?php
+                    endif; ?>
+
+                    <?php
+                    if (
+                        !empty($block->getShippingAddress()['phone']) && stripos(
+                            $block->getShippingAddress()['phone'],
+                            'Invalid Request'
+                        ) === false
+                    ) : ?>
+                        <br/><?= 'T: ' . \M2E\Otto\Helper\Data::escapeHtml(
+                            $block->getShippingAddress()['phone']
+                        ); ?>
+                    <?php
+                    endif; ?>
+
+                <?php
+                endif; ?>
+
+            </strong>
+        </td>
+    </tr>
+    </tbody>
+</table>
