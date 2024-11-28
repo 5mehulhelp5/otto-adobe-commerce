@@ -58,7 +58,12 @@ class Checker
             return false;
         }
 
-        $provideCategoryValue = $product->getDataProvider()->getCategory()->getValue();
+        $providerResult = $product->getDataProvider()->getCategory();
+        if (!$providerResult->isSuccess()) {
+            return false;
+        }
+
+        $provideCategoryValue = $providerResult->getValue();
 
         return $provideCategoryValue->title !== $product->getOnlineCategoryName()
             || $provideCategoryValue->attributesHash !== $product->getOnlineCategoryAttributesData();
@@ -70,7 +75,12 @@ class Checker
             return false;
         }
 
-        $provideDetailsValue = $product->getDataProvider()->getDetails()->getValue();
+        $providerResult = $product->getDataProvider()->getDetails();
+        if (!$providerResult->isSuccess()) {
+            return false;
+        }
+
+        $provideDetailsValue = $providerResult->getValue();
 
         return $provideDetailsValue->mpn !== $product->getOnlineMpn()
             || $provideDetailsValue->manufacturer !== $product->getOnlineManufacturer();

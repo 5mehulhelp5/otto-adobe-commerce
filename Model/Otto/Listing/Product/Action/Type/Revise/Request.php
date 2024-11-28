@@ -20,17 +20,6 @@ class Request extends \M2E\Otto\Model\Otto\Listing\Product\Action\AbstractReques
         $dataProvider = $product->getDataProvider();
 
         $priceData = $dataProvider->getPrice()->getValue();
-        $categoryData = $dataProvider->getCategory()->getValue();
-        $deliveryData = $dataProvider->getDelivery()->getValue();
-        $detailsData = $dataProvider->getDetails()->getValue();
-
-        $brandId = $product->getOnlineBrandId();
-        $brandName = null;
-        $brandResolverResult = $dataProvider->getBrand();
-        if ($brandResolverResult->isSuccess()) {
-            $brandId = $brandResolverResult->getValue()->id;
-            $brandName = $brandResolverResult->getValue()->name;
-        }
 
         $request = [
             'sku' => $product->getOttoProductSKU(),
@@ -46,7 +35,22 @@ class Request extends \M2E\Otto\Model\Otto\Listing\Product\Action\AbstractReques
 
         ];
 
-        if ($actionConfigurator->isDetailsAllowed()) {
+        if (
+            $actionConfigurator->isDetailsAllowed()
+            && $dataProvider->getCategory()->isSuccess()
+        ) {
+            $categoryData = $dataProvider->getCategory()->getValue();
+            $deliveryData = $dataProvider->getDelivery()->getValue();
+            $detailsData = $dataProvider->getDetails()->getValue();
+
+            $brandId = $product->getOnlineBrandId();
+            $brandName = null;
+            $brandResolverResult = $dataProvider->getBrand();
+            if ($brandResolverResult->isSuccess()) {
+                $brandId = $brandResolverResult->getValue()->id;
+                $brandName = $brandResolverResult->getValue()->name;
+            }
+
             $request['details'] = [
                 'ean' => $dataProvider->getEan()->getValue(),
                 'product_reference' => $product->getOnlineProductReference(),

@@ -159,7 +159,11 @@ class DataProvider
 
         $value = $builder->getCategory($this->product);
 
-        $result = DataProvider\Category\Result::success($value);
+        if ($value === null) {
+            $result = DataProvider\Category\Result::error($builder->getWarningMessages());
+        } else {
+            $result = DataProvider\Category\Result::success($value);
+        }
 
         $this->addResult(DataProvider\CategoryProvider::NICK, $result);
 
@@ -239,7 +243,11 @@ class DataProvider
 
         $value = $builder->getDetails($this->product);
 
-        $result = DataProvider\Details\Result::success($value);
+        if ($value === null) {
+            $result = DataProvider\Details\Result::error($builder->getWarningMessages());
+        } else {
+            $result = DataProvider\Details\Result::success($value);
+        }
 
         $this->addResult(DataProvider\DetailsProvider::NICK, $result);
 

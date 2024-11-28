@@ -18,8 +18,14 @@ class CategoryProvider implements DataBuilderInterface
         $this->magentoAttributeRetriever = $magentoAttributeRetriever;
     }
 
-    public function getCategory(\M2E\Otto\Model\Product $product): \M2E\Otto\Model\Product\DataProvider\Category\Value
+    public function getCategory(\M2E\Otto\Model\Product $product): ?\M2E\Otto\Model\Product\DataProvider\Category\Value
     {
+        if (!$product->hasCategoryTemplate()) {
+            $this->addWarningMessage((string)__('Product details were not updated because the category is not set for the product.'));
+
+            return null;
+        }
+
         $category = $product->getCategoryTemplate();
 
         $productAttributeData = $this->getProductAttributeData($product, $category);

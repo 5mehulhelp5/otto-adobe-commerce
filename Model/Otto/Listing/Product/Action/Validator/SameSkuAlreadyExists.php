@@ -40,7 +40,7 @@ class SameSkuAlreadyExists implements \M2E\Otto\Model\Otto\Listing\Product\Actio
 
         $existProduct = $this->productRepository->findListedOrLockedProductsBySku($id, $ottoProductSku);
 
-        if ($existProduct) {
+        if ($existProduct && ($existProduct->getId() !== $product->getId())) {
             return (string)__(
                 'Product with the same SKU already exists in your %listing_title Listing',
                 [

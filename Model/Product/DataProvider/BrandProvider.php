@@ -26,6 +26,10 @@ class BrandProvider implements DataBuilderInterface
 
     public function getBrand(\M2E\Otto\Model\Product $product): ?Brand\Value
     {
+        if (!$product->hasCategoryTemplate()) {
+            return null;
+        }
+
         $category = $product->getCategoryTemplate();
 
         $attribute = $category->getBrandAttribute();

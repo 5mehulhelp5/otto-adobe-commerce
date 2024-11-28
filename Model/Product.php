@@ -123,8 +123,11 @@ class Product extends \M2E\Otto\Model\ActiveRecord\AbstractModel implements
              ->setOttoProductUrl($unmanagedProduct->getOttoProductUrl())
              ->setOttoProductMoin($unmanagedProduct->getOttoProductMoin())
              ->setOnlineProductReference($unmanagedProduct->getProductReference())
-             ->setOnlineShippingProfileId($unmanagedProduct->getShippingProfileId())
-             ->setOnlineDeliveryType($unmanagedProduct->getDeliveryType());
+             ->setOnlineShippingProfileId($unmanagedProduct->getShippingProfileId());
+
+        if ($unmanagedProduct->getDeliveryType() !== null) {
+            $this->setOnlineDeliveryType($unmanagedProduct->getDeliveryType());
+        }
 
         if ($unmanagedProduct->getCategory() !== null) {
             $this->setOnlineCategoryName($unmanagedProduct->getCategory());
@@ -416,7 +419,7 @@ class Product extends \M2E\Otto\Model\ActiveRecord\AbstractModel implements
 
     public function hasCategoryTemplate(): bool
     {
-        return !empty($this->getData(ListingProductResource::COLUMN_TEMPLATE_CATEGORY_ID));
+        return $this->getTemplateCategoryId() !== 0;
     }
 
     public function getTemplateCategoryId(): int

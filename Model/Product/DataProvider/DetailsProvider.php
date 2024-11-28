@@ -19,8 +19,12 @@ class DetailsProvider implements DataBuilderInterface
         $this->magentoAttributeRetriever = $magentoAttributeRetriever;
     }
 
-    public function getDetails(\M2E\Otto\Model\Product $product): \M2E\Otto\Model\Product\DataProvider\Details\Value
+    public function getDetails(\M2E\Otto\Model\Product $product): ?\M2E\Otto\Model\Product\DataProvider\Details\Value
     {
+        if (!$product->hasCategoryTemplate()) {
+            return null;
+        }
+
         $bulletPoints = $product->getDescriptionTemplateSource()->getBulletPoints();
 
         $category = $product->getCategoryTemplate();
