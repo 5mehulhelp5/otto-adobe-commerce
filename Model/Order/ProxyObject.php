@@ -326,7 +326,7 @@ class ProxyObject
             'country_id' => $rawAddressData['billing_country_id'],
             'city' => $rawAddressData['billing_city'],
             'street' => $rawAddressData['billing_street'],
-            'phone' => $rawAddressData['billing_telephone'],
+            'telephone' => $rawAddressData['billing_telephone'],
             'company' => $rawAddressData['billing_company'],
         ];
     }

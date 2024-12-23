@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace M2E\Otto\Model\Dictionary\Attribute;
 
-use M2E\Otto\Model\Dictionary\Attribute;
 use M2E\Otto\Model\ResourceModel\Dictionary\Attribute as AttributeDictionaryResource;
 
 class Repository
@@ -50,6 +49,27 @@ class Repository
         );
 
         return array_values($collection->getItems());
+    }
+
+    public function getByCategoryGroupIdAndTitle(string $categoryGroupId, string $title): ?\M2E\Otto\Model\Dictionary\Attribute
+    {
+        $collection = $this->collectionFactory->create();
+
+        $collection->addFieldToFilter(
+            AttributeDictionaryResource::COLUMN_TITLE,
+            ['eq' => $title]
+        );
+        $collection->addFieldToFilter(
+            AttributeDictionaryResource::COLUMN_CATEGORY_GROUP_ID,
+            ['eq' => $categoryGroupId]
+        );
+
+        $item = $collection->getFirstItem();
+        if ($item->isObjectNew()) {
+            return null;
+        }
+
+        return $item;
     }
 
     public function getAttributesCountByCategoryGroupId(string $categoryGroupId): int

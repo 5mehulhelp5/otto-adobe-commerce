@@ -31,4 +31,15 @@ class LogBuffer
     {
         return $this->logs;
     }
+
+    public function getWarningMessages(): array
+    {
+        return array_map(
+            static fn(LogRecord $log) => $log->getMessage(),
+            array_filter(
+                $this->logs,
+                static fn(LogRecord $log) => $log->getSeverity() === \M2E\Otto\Model\Response\Message::TYPE_WARNING
+            )
+        );
+    }
 }

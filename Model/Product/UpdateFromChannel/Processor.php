@@ -70,7 +70,15 @@ class Processor
 
     private function isNeedUpdateProductReference(): bool
     {
-        return empty($this->product->getOnlineProductReference());
+        if (empty($this->channelProduct->getProductReference())) {
+            return false;
+        }
+
+        if (empty($this->product->getOnlineProductReference())) {
+            return true;
+        }
+
+        return $this->product->getOnlineProductReference() !== $this->channelProduct->getProductReference();
     }
 
     private function isNeedUpdateOttoProductSku(): bool

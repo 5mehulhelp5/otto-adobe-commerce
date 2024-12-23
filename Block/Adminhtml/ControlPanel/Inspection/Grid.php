@@ -105,7 +105,7 @@ class Grid extends WidgetAbstractGrid
                     'checkAction' => [
                         'caption' => __('Check'),
                         'field' => 'id',
-                        'onclick' => 'ControlPanelInspectionObj.checkAction()',
+                        'onclick_action' => 'ControlPanelInspectionObj.checkAction()',
                     ],
                 ],
             ]

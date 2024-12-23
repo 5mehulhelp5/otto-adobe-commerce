@@ -7,7 +7,7 @@ namespace M2E\Otto\Model\Otto\Listing\Product\Action;
 abstract class AbstractRequest
 {
     private RequestData $requestData;
-    private array $warningMessages = [];
+    private LogBuffer $logBuffer;
     private array $metadata = [];
 
     // ----------------------------------------
@@ -15,12 +15,15 @@ abstract class AbstractRequest
     public function build(
         \M2E\Otto\Model\Product $product,
         \M2E\Otto\Model\Otto\Listing\Product\Action\Configurator $actionConfigurator,
+        LogBuffer $logBuffer,
         array $params
     ): RequestData {
         /** @psalm-suppress RedundantPropertyInitializationCheck */
         if (isset($this->requestData)) {
             return $this->requestData;
         }
+
+        $this->logBuffer = $logBuffer;
 
         $data = $this->getActionData($product, $actionConfigurator, $params);
         $this->metadata = $this->getActionMetadata();
@@ -49,14 +52,11 @@ abstract class AbstractRequest
 
     protected function addWarningMessage(string $message): void
     {
-        $this->warningMessages[sha1($message)] = $message;
+        $this->getLogBuffer()->addWarning($message);
     }
 
-    /**
-     * @return string[]
-     */
-    public function getWarningMessages(): array
+    protected function getLogBuffer(): LogBuffer
     {
-        return array_values($this->warningMessages);
+        return $this->logBuffer;
     }
 }

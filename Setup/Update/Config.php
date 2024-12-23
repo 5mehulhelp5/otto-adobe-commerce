@@ -50,6 +50,7 @@ class Config implements \M2E\Otto\Model\Setup\Upgrade\Entity\ConfigInterface
             ],
             'y25_m11' => [
                 \M2E\Otto\Setup\Update\y24_m11\AddShippingProfiles::class,
+                \M2E\Otto\Setup\Update\y24_m11\AddAttributeMapping::class,
             ],
         ];
     }

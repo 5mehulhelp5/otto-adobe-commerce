@@ -20,12 +20,14 @@ class Form extends \M2E\Otto\Block\Adminhtml\Magento\Form\AbstractForm
     private SynchronizationCollectionFactory $synchronizationCollectionFactory;
     private DescriptionCollectionFactory $descriptionCollectionFactory;
     private ShippingCollectionFactory $shippingCollectionFactory;
+    private \M2E\Otto\Model\Template\Shipping\ShippingService $shippingService;
 
     public function __construct(
         SellingFormatCollectionFactory $sellingFormatCollectionFactory,
         SynchronizationCollectionFactory $synchronizationCollectionFactory,
         DescriptionCollectionFactory $descriptionCollectionFactory,
         ShippingCollectionFactory $shippingCollectionFactory,
+        \M2E\Otto\Model\Template\Shipping\ShippingService $shippingService,
         \M2E\Otto\Model\Listing\Repository $listingRepository,
         \M2E\Otto\Block\Adminhtml\Magento\Context\Template $context,
         \Magento\Framework\Registry $registry,
@@ -39,6 +41,7 @@ class Form extends \M2E\Otto\Block\Adminhtml\Magento\Form\AbstractForm
         $this->synchronizationCollectionFactory = $synchronizationCollectionFactory;
         $this->descriptionCollectionFactory = $descriptionCollectionFactory;
         $this->shippingCollectionFactory = $shippingCollectionFactory;
+        $this->shippingService = $shippingService;
         parent::__construct($context, $registry, $formFactory, $data);
     }
 
@@ -528,7 +531,8 @@ JS
 
     protected function getShippingTemplates(int $accountId): array
     {
-        $formData = $this->getListingData();
+        $this->shippingService->silenceSync();
+
         $collection = $this->shippingCollectionFactory->create();
         $collection->addFieldToFilter('account_id', $accountId);
         $collection->addFieldToFilter('is_custom_template', 0);

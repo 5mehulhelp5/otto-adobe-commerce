@@ -21,6 +21,7 @@ class Integration extends AbstractCommand
     private \M2E\Otto\Model\Product\ActionCalculator $actionCalculator;
     /** @var \M2E\Otto\Model\Otto\Listing\Product\Action\Type\Stop\RequestFactory */
     private Type\Stop\RequestFactory $stopRequestFactory;
+    private \M2E\Otto\Model\Otto\Listing\Product\Action\LogBufferFactory $logBufferFactory;
 
     public function __construct(
         \Magento\Framework\Data\Form\FormKey $formKey,
@@ -31,6 +32,7 @@ class Integration extends AbstractCommand
         \M2E\Otto\Model\Otto\Listing\Product\Action\Type\Stop\RequestFactory $stopRequestFactory,
         \M2E\Otto\Model\Product\Repository $productRepository,
         \M2E\Otto\Model\Product\ActionCalculator $actionCalculator,
+        \M2E\Otto\Model\Otto\Listing\Product\Action\LogBufferFactory $logBufferFactory,
         Context $context
     ) {
         parent::__construct($controlPanelHelper, $context);
@@ -41,6 +43,7 @@ class Integration extends AbstractCommand
         $this->productRepository = $productRepository;
         $this->actionCalculator = $actionCalculator;
         $this->stopRequestFactory = $stopRequestFactory;
+        $this->logBufferFactory = $logBufferFactory;
     }
 
     /**
@@ -186,7 +189,7 @@ HTML;
             '<pre>%s</pre>',
             htmlspecialchars(
                 json_encode(
-                    $request->build($product, $actionConfigurator, [])->toArray(),
+                    $request->build($product, $actionConfigurator, $this->logBufferFactory->create(), [])->toArray(),
                     JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR,
                 ),
                 ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401,

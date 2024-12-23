@@ -133,6 +133,10 @@ class Updater
                 $existProduct->makeProductIncomplete($new->isChannelProductInComplete());
             }
 
+            if ($existProduct->getProductReference() !== $new->getProductReference()) {
+                $existProduct->setProductReference($new->getProductReference());
+            }
+
             $this->unmanagedRepository->save($existProduct);
         }
     }

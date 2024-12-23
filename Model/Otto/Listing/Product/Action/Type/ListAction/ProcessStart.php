@@ -48,6 +48,7 @@ class ProcessStart extends \M2E\Otto\Model\Otto\Listing\Product\Action\Async\Abs
         $requestData = $this->getRequest()->build(
             $this->getListingProduct(),
             $this->getActionConfigurator(),
+            $this->getLogBuffer(),
             $this->getParams()
         );
 

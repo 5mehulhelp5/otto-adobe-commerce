@@ -1,14 +1,27 @@
-# M2E Otto Connect
+M2E OTTO Connect is a trusted Adobe Commerce (Magento) extension that enables businesses to fully integrate their Magento-based systems with the otto.de marketplace.
 
-M2E Otto Connect is a trusted Magento extension that enables merchants of all sizes to fully integrate their Magento-based systems with Otto.
+The extension makes it easy to upload your Magento inventory to OTTO. It provides automatic inventory and order synchronization, keeping your product and order information up-to-date both on Magento and OTTO.
 
-The extension makes it easy to upload Magento inventory to the otto.de marketplace. It provides automatic inventory and order synchronization, keeping product and order information up-to-date both on Magento and Otto.
+Installation
 
-Here's how else M2E Otto Connect can benefit your business:
+1. Install Composer Installer.
 
-- List your Magento products on Otto in several clicks
-- Customize your Magento product settings specifically for Otto
-- Enjoy real-time, automated synchronization for prices and quantities
-- Manage Otto orders directly in Magento
+2. Provide the Composer Installer as a dependence on the composer.json file of your project. Use the command:
 
-Check out our [user documentation](https://docs-m2.m2epro.com/otto-magento-integration) to learn more about the extension.
+composer require m2e/otto-adobe-commerce
+
+3. To complete the installation, run the commands:
+
+php bin/magento setup:upgrade
+php bin/magento setup:di:compile
+php bin/magento setup:static-content:deploy
+
+Setup
+
+1. Once M2E OTTO Connect is installed, you’ll see an additional tab in your Adobe Commerce (Magento) admin panel.
+
+2. Click on the tab and connect your OTTO account.
+
+3. Follow the short step-by-step wizard to provide the general settings.
+
+Check out our [user documentation](https://docs-m2.m2epro.com/docs-category/otto-magento-integration-en/) for more information about the extension.

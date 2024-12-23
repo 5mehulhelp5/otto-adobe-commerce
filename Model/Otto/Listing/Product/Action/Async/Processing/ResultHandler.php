@@ -21,6 +21,7 @@ class ResultHandler implements \M2E\Otto\Model\Processing\SimpleResultHandlerInt
     private array $requestMetadata;
     private array $configuratorData;
     private int $statusChanger;
+    private array $warningMessages;
 
     public function __construct(
         \M2E\Otto\Model\Product\Repository $listingProductRepository,
@@ -45,6 +46,7 @@ class ResultHandler implements \M2E\Otto\Model\Processing\SimpleResultHandlerInt
         $this->requestMetadata = $processingParams->getRequestMetadata();
         $this->configuratorData = $processingParams->getConfiguratorData();
         $this->statusChanger = $processingParams->getStatusChanger();
+        $this->warningMessages = $processingParams->getWarningMessages();
     }
 
     public function processSuccess(array $resultData, array $messages): void
@@ -66,7 +68,8 @@ class ResultHandler implements \M2E\Otto\Model\Processing\SimpleResultHandlerInt
             $this->actionLog,
             $this->actionStartParams,
             $this->requestMetadata,
-            $this->statusChanger
+            $this->statusChanger,
+            $this->warningMessages
         );
 
         $endProcessor->process($resultData, $messages);

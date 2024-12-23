@@ -21,7 +21,7 @@ class Settings extends \M2E\Otto\Block\Adminhtml\Magento\AbstractContainer
 
         $this->addButton('save', [
             'label' => __('Save'),
-            'onclick' => 'SettingsObj.saveSettings()',
+            'onclick' => 'OttoSettingsObj.saveSettings()',
             'class' => 'primary',
         ]);
     }

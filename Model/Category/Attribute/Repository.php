@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace M2E\Otto\Model\Category\Attribute;
 
-use M2E\Otto\Model\ResourceModel\Category as CategoryResource;
 use M2E\Otto\Model\ResourceModel\Category\Attribute as AttributeResource;
 use M2E\Otto\Model\Category\Attribute;
 
@@ -61,7 +60,12 @@ class Repository
 
     public function findProductAttributes(int $categoryId): array
     {
-        return $this->findByCategoryId($categoryId, [\M2E\Otto\Model\Category\Attribute::ATTRIBUTE_TYPE_PRODUCT]);
+        return $this->findByCategoryId(
+            $categoryId,
+            [
+                \M2E\Otto\Model\Category\Attribute::ATTRIBUTE_TYPE_PRODUCT
+            ]
+        );
     }
 
     public function findMpnAttribute(int $categoryId): ?\M2E\Otto\Model\Category\Attribute

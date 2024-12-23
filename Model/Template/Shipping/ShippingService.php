@@ -32,6 +32,14 @@ class ShippingService
         $this->accountRepository = $accountRepository;
     }
 
+    public function silenceSync(): void
+    {
+        try {
+            $this->sync();
+        } catch (\M2E\Otto\Model\Exception $e) {
+        }
+    }
+
     public function sync(): void
     {
         if (!$this->isNeedSync()) {

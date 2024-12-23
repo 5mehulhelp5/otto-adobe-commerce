@@ -25,10 +25,12 @@ class Category extends \M2E\Otto\Model\ActiveRecord\AbstractModel
 
     private \M2E\Otto\Model\ResourceModel\Product\CollectionFactory $listingProductCollectionFactory;
     private \M2E\Otto\Helper\Data\Cache\Permanent $cache;
+    private \M2E\Otto\Model\Category\Attribute\Repository $attributeRepository;
 
     public function __construct(
         \M2E\Otto\Model\ResourceModel\Product\CollectionFactory $listingProductCollectionFactory,
         \M2E\Otto\Helper\Data\Cache\Permanent $cache,
+        \M2E\Otto\Model\Category\Attribute\Repository $attributeRepository,
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
@@ -45,6 +47,7 @@ class Category extends \M2E\Otto\Model\ActiveRecord\AbstractModel
 
         $this->listingProductCollectionFactory = $listingProductCollectionFactory;
         $this->cache = $cache;
+        $this->attributeRepository = $attributeRepository;
     }
 
     public function _construct(): void
@@ -96,6 +99,14 @@ class Category extends \M2E\Otto\Model\ActiveRecord\AbstractModel
         return (int)$this->getData('category_id');
     }
 
+    /**
+     * @return string
+     */
+    public function getCategoryGgroupId()
+    {
+        return $this->getData('category_group_id');
+    }
+
     // ---------------------------------------
 
     public function getCreateDate()
@@ -121,5 +132,13 @@ class Category extends \M2E\Otto\Model\ActiveRecord\AbstractModel
             'path' => $this->getData('category_path'),
             'attribute' => $this->getData('category_attribute'),
         ];
+    }
+
+    /**
+     * @return \M2E\Otto\Model\Category\Attribute[]
+     */
+    public function getAttributes(): array
+    {
+        return $this->attributeRepository->findByCategoryId($this->getId());
     }
 }

@@ -60,6 +60,8 @@ class Tables
     public const TABLE_NAME_CATEGORY_ATTRIBUTES = self::PREFIX . 'category_attributes';
     public const TABLE_NAME_BRAND = self::PREFIX . 'brand';
 
+    public const TABLE_NAME_ATTRIBUTE_MAPPING = self::PREFIX . 'attribute_mapping';
+
     private \Magento\Framework\App\ResourceConnection $resourceConnection;
     private Structure $databaseHelper;
     private \M2E\Otto\Helper\Magento\Staging $stagingHelper;

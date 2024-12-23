@@ -51,11 +51,9 @@ class Processor extends \M2E\Otto\Model\Otto\Listing\Product\Action\AbstractSync
         $requestData = $request->build(
             $this->getListingProduct(),
             $this->getActionConfigurator(),
-            $this->getParams(),
+            $this->getLogBuffer(),
+            $this->getParams()
         );
-        foreach ($request->getWarningMessages() as $warningMessage) {
-            $this->addActionWarningLog($warningMessage);
-        }
 
         $command = new \M2E\Otto\Model\Otto\Connector\Item\DeleteCommand(
             $this->getAccount()->getServerHash(),
@@ -80,7 +78,6 @@ class Processor extends \M2E\Otto\Model\Otto\Listing\Product\Action\AbstractSync
         );
 
         $responseObj->process();
-
         $responseObj->generateResultMessage();
 
         return 'Item was Removed';

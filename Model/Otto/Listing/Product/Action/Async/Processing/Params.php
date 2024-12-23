@@ -15,6 +15,7 @@ class Params
     private array $requestMetadata;
     private array $configuratorData;
     private int $statusChanger;
+    private array $warningMessages;
 
     public function toArray(): array
     {
@@ -27,7 +28,8 @@ class Params
             'action_start_params' => $this->getActionStartParams(),
             'request_metadata' => $this->getRequestMetadata(),
             'configurator_data' => $this->getConfiguratorData(),
-            'status_changer' => $this->getStatusChanger()
+            'status_changer' => $this->getStatusChanger(),
+            'warning_messages' => $this->getWarningMessages()
         ];
     }
 
@@ -58,7 +60,8 @@ class Params
             $data['action_start_params'],
             $data['request_metadata'],
             $data['configurator_data'],
-            $data['status_changer']
+            $data['status_changer'],
+            $data['warning_messages'] ?? []
         );
     }
 
@@ -71,7 +74,8 @@ class Params
         array $actionStartParams,
         array $requestMetadata,
         array $configuratorData,
-        int $statusChanger
+        int $statusChanger,
+        array $warningMessages
     ) {
         $this->listingProductId = $listingProductId;
         $this->actionLogId = $actionLogId;
@@ -82,6 +86,7 @@ class Params
         $this->requestMetadata = $requestMetadata;
         $this->configuratorData = $configuratorData;
         $this->statusChanger = $statusChanger;
+        $this->warningMessages = $warningMessages;
     }
 
     public function getListingProductId(): int
@@ -127,5 +132,10 @@ class Params
     public function getStatusChanger(): int
     {
         return $this->statusChanger;
+    }
+
+    public function getWarningMessages(): array
+    {
+        return $this->warningMessages;
     }
 }

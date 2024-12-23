@@ -4,6 +4,7 @@ define([
 ], function (jQuery) {
     window.OttoTemplateCategorySpecifics = Class.create(Common, {
 
+        isCustomChanged: false,
         maxSelectedSpecifics: 45,
         specificsSnapshot: {},
 
@@ -69,8 +70,13 @@ define([
             this.specificsSnapshot = this.collectSpecifics();
         },
 
+
+        markAsCustomChanged: function () {
+            this.isCustomChanged = true;
+        },
+
         isSpecificsChanged: function () {
-            return JSON.stringify(this.specificsSnapshot) !== JSON.stringify(this.collectSpecifics())
+            return this.isCustomChanged || JSON.stringify(this.specificsSnapshot) !== JSON.stringify(this.collectSpecifics())
         },
 
         collectSpecifics: function () {

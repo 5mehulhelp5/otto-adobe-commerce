@@ -86,6 +86,11 @@ class Attribute extends \M2E\Otto\Model\ActiveRecord\AbstractModel
         return (string)$this->getData(AttributeResource::COLUMN_ATTRIBUTE_TITLE);
     }
 
+    public function setValueCustomAttributeMode(): void
+    {
+        $this->setValueMode(self::VALUE_MODE_CUSTOM_ATTRIBUTE);
+    }
+
     public function setValueMode(int $mode): void
     {
         $this->setData(AttributeResource::COLUMN_VALUE_MODE, $mode);

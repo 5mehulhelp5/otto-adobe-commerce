@@ -37,6 +37,7 @@ use M2E\Otto\Model\ResourceModel\Dictionary\Attribute as AttributeDictionaryReso
 use M2E\Otto\Model\ResourceModel\Category as CategoryResource;
 use M2E\Otto\Model\ResourceModel\Category\Attribute as CategoryAttributeResource;
 use M2E\Otto\Model\ResourceModel\Brand as BrandResource;
+use M2E\Otto\Model\ResourceModel\AttributeMapping\Pair as PairResource;
 
 class Installer
 {
@@ -2206,6 +2207,67 @@ class Installer
             ->setOption('row_format', 'dynamic');
         $this->getConnection()->createTable($registryTable);
         #endregion
+
+        # region attribute_mapping
+        $attributeMappingTable = $this
+            ->getConnection()
+            ->newTable($this->getFullTableName(TablesHelper::TABLE_NAME_ATTRIBUTE_MAPPING));
+        $attributeMappingTable
+            ->addColumn(
+                PairResource::COLUMN_ID,
+                Table::TYPE_INTEGER,
+                null,
+                [
+                    'unsigned' => true,
+                    'primary' => true,
+                    'nullable' => false,
+                    'auto_increment' => true,
+                ]
+            )
+            ->addColumn(
+                PairResource::COLUMN_TYPE,
+                Table::TYPE_TEXT,
+                100,
+                ['nullable' => false]
+            )
+            ->addColumn(
+                PairResource::COLUMN_CHANNEL_ATTRIBUTE_TITLE,
+                Table::TYPE_TEXT,
+                255,
+                ['nullable' => false]
+            )
+            ->addColumn(
+                PairResource::COLUMN_CHANNEL_ATTRIBUTE_CODE,
+                Table::TYPE_TEXT,
+                255,
+                ['nullable' => false]
+            )
+            ->addColumn(
+                PairResource::COLUMN_MAGENTO_ATTRIBUTE_CODE,
+                Table::TYPE_TEXT,
+                255,
+                ['nullable' => false]
+            )
+            ->addColumn(
+                PairResource::COLUMN_UPDATE_DATE,
+                Table::TYPE_DATETIME,
+                null,
+                ['default' => null]
+            )
+            ->addColumn(
+                PairResource::COLUMN_CREATE_DATE,
+                Table::TYPE_DATETIME,
+                null,
+                ['default' => null]
+            )
+            ->addIndex('type', PairResource::COLUMN_TYPE)
+            ->addIndex('create_date', PairResource::COLUMN_CREATE_DATE)
+            ->setOption('type', 'INNODB')
+            ->setOption('charset', 'utf8')
+            ->setOption('collate', 'utf8_general_ci')
+            ->setOption('row_format', 'dynamic');
+        $this->getConnection()->createTable($attributeMappingTable);
+        # endregion
 
         # region tag
         $tagTable = $this->getConnection()

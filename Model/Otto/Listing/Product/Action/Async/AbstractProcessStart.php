@@ -123,7 +123,8 @@ abstract class AbstractProcessStart
             $this->getParams(),
             $requestMetadata,
             $this->getActionConfigurator()->getSerializedData(),
-            $this->getStatusChanger()
+            $this->getStatusChanger(),
+            $this->logBuffer->getWarningMessages()
         );
     }
 

@@ -8,7 +8,7 @@ class Tabs extends \M2E\Otto\Block\Adminhtml\Magento\Tabs\AbstractTabs
 {
     public const TAB_ID_SYNCHRONIZATION = 'synchronization';
 
-    protected function _construct()
+    protected function _construct(): void
     {
         parent::_construct();
         $this->setId('configuration_settings_tabs');
@@ -26,15 +26,11 @@ class Tabs extends \M2E\Otto\Block\Adminhtml\Magento\Tabs\AbstractTabs
 
     public function getActiveTabById($id)
     {
-        return isset($this->_tabs[$id]) ? $this->_tabs[$id] : null;
+        return $this->_tabs[$id] ?? null;
     }
 
     protected function _beforeToHtml()
     {
-        $this->jsTranslator->addTranslations([
-            'Settings saved' => __('Settings saved'),
-            'Error' => __('Error'),
-        ]);
         $this->js->addRequireJs(
             [
                 's' => 'Otto/Settings',

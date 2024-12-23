@@ -23,7 +23,8 @@ abstract class AbstractProcessEnd
         \M2E\Otto\Model\Otto\Listing\Product\Action\LogBuffer $logBuffer,
         array $params,
         array $requestMetadata,
-        int $statusChanger
+        int $statusChanger,
+        array $warningMessages
     ): void {
         $this->actionLogger = $actionLogger;
         $this->lockManager = $lockManager;
@@ -32,6 +33,10 @@ abstract class AbstractProcessEnd
         $this->params = $params;
         $this->requestMetadata = $requestMetadata;
         $this->statusChanger = $statusChanger;
+
+        foreach ($warningMessages as $warningMessage) {
+            $this->getLogBuffer()->addWarning($warningMessage);
+        }
     }
 
     public function process(array $resultData, array $messages): void
