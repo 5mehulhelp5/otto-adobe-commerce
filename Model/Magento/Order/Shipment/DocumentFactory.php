@@ -1,50 +1,27 @@
 <?php
 
+declare(strict_types=1);
+
 namespace M2E\Otto\Model\Magento\Order\Shipment;
 
-/**
- * Class \M2E\Otto\Model\Magento\Order\Shipment\DocumentFactory
- */
 class DocumentFactory
 {
-    /** @var \Magento\Framework\ObjectManagerInterface */
-    protected $objectManager;
-
-    /** @var \M2E\Otto\Helper\Factory */
-    protected $helperFactory;
-
-    //########################################
+    private \Magento\Sales\Model\Order\ShipmentDocumentFactory $shipmentDocumentFactory;
 
     public function __construct(
-        \M2E\Otto\Helper\Factory $helperFactory,
-        \Magento\Framework\ObjectManagerInterface $objectManager
+        \Magento\Sales\Model\Order\ShipmentDocumentFactory $shipmentDocumentFactory
     ) {
-        $this->objectManager = $objectManager;
-        $this->helperFactory = $helperFactory;
+        $this->shipmentDocumentFactory = $shipmentDocumentFactory;
     }
-
-    //########################################
 
     /**
      * @param \Magento\Sales\Model\Order $order
+     * @param \Magento\Sales\Api\Data\ShipmentItemCreationInterface[] $items
      *
      * @return \Magento\Sales\Api\Data\ShipmentInterface
      */
-    public function create(\Magento\Sales\Model\Order $order, $items = [])
+    public function create(\Magento\Sales\Model\Order $order, array $items): \Magento\Sales\Api\Data\ShipmentInterface
     {
-        return $this->resolveFactory()->create($order, $items);
+        return $this->shipmentDocumentFactory->create($order, $items);
     }
-
-    //########################################
-
-    private function resolveFactory()
-    {
-        if (version_compare($this->helperFactory->getObject('Magento')->getVersion(), '2.2.0', '<')) {
-            return $this->objectManager->get(\Magento\Sales\Model\Order\ShipmentFactory::class);
-        }
-
-        return $this->objectManager->get(\Magento\Sales\Model\Order\ShipmentDocumentFactory::class);
-    }
-
-    //########################################
 }

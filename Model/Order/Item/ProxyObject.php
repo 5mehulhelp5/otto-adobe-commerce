@@ -2,49 +2,39 @@
 
 namespace M2E\Otto\Model\Order\Item;
 
-class ProxyObject extends \M2E\Otto\Model\AbstractModel
+class ProxyObject
 {
-    protected \M2E\Otto\Model\Order\Item $item;
+    private \M2E\Otto\Model\Order\Item $item;
 
-    protected $qty;
+    private int $qty;
 
-    protected $price;
+    private float $price;
 
-    protected $subtotal;
+    private $subtotal;
 
-    protected $additionalData = [];
+    private array $additionalData = [];
 
     public function __construct(
         \M2E\Otto\Model\Order\Item $item
     ) {
-        parent::__construct();
         $this->item = $item;
         $this->subtotal = $this->getOriginalPrice() * $this->getOriginalQty();
     }
 
-    /**
-     * @return float
-     * @throws \M2E\Otto\Model\Exception\Logic
-     */
-    public function getOriginalPrice()
+    public function getOriginalPrice(): float
     {
-        $price = $this->item->getSalePrice();
-
-        return $price;
+        return $this->item->getSalePrice();
     }
 
     /**
      * @return int
      */
-    public function getOriginalQty()
+    public function getOriginalQty(): int
     {
         return $this->item->getQtyPurchased();
     }
 
-    /**
-     * @return \M2E\Otto\Model\Order\ProxyObject
-     */
-    public function getProxyOrder()
+    public function getProxyOrder(): \M2E\Otto\Model\Order\ProxyObject
     {
         return $this->item->getOrder()->getProxy();
     }
@@ -152,55 +142,45 @@ class ProxyObject extends \M2E\Otto\Model\AbstractModel
         return $this->getProxyOrder()->convertPriceToBase($this->getPrice());
     }
 
-    /**
-     * @param float $price
-     *
-     * @return $this
-     */
-    public function setPrice($price)
+    public function setPrice($price): void
     {
         if ($price <= 0) {
             throw new \InvalidArgumentException('Price cannot be less than zero.');
         }
 
         $this->price = $price;
-
-        return $this;
     }
 
-    /**
-     * @return float
-     */
-    public function getPrice()
+    public function getPrice(): float
     {
-        if ($this->price !== null) {
+        /** @psalm-suppress RedundantPropertyInitializationCheck */
+        if (isset($this->price)) {
             return $this->price;
         }
 
         return $this->subtotal / $this->getQty();
     }
 
-    public function setQty($qty)
+    public function setQty($qty): void
     {
         if ((int)$qty <= 0) {
             throw new \InvalidArgumentException('QTY cannot be less than zero.');
         }
 
         $this->qty = (int)$qty;
-
-        return $this;
     }
 
-    public function getQty()
+    public function getQty(): int
     {
-        if ($this->qty !== null) {
+        /** @psalm-suppress RedundantPropertyInitializationCheck */
+        if (isset($this->qty)) {
             return $this->qty;
         }
 
         return $this->getOriginalQty();
     }
 
-    public function hasTax()
+    public function hasTax(): bool
     {
         return $this->getProxyOrder()->hasTax();
     }
@@ -236,13 +216,9 @@ class ProxyObject extends \M2E\Otto\Model\AbstractModel
         return null;
     }
 
-    /**
-     * @return array
-     * @throws \Exception
-     */
-    public function getAdditionalData()
+    public function getAdditionalData(): array
     {
-        if (count($this->additionalData) == 0) {
+        if (empty($this->additionalData)) {
             $this->additionalData[\M2E\Otto\Helper\Data::CUSTOM_IDENTIFIER]['pretended_to_be_simple']
                 = $this->pretendedToBeSimple();
             $this->additionalData[\M2E\Otto\Helper\Data::CUSTOM_IDENTIFIER]['items'][] = [

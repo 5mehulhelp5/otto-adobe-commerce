@@ -42,11 +42,6 @@
                   instance="M2E\Otto\Observer\Order\Service\Quote\Submit\Before"
                   shared="false"/>
     </event>
-    <event name="sales_quote_address_collect_totals_after">
-        <observer name="otto_observer_order_quote_address_collect_totals_after"
-                  instance="M2E\Otto\Observer\Order\Quote\Address\Collect\Totals\After"
-                  shared="false"/>
-    </event>
 
     <!-- products -->
 

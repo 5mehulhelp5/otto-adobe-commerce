@@ -41,6 +41,7 @@ class Upgrader
         '1.5.3' => ['to' => '1.6.0', 'upgrade' => \M2E\Otto\Setup\Upgrade\v1_6_0\Config::class],
         '1.6.0' => ['to' => '1.6.1', 'upgrade' => null],
         '1.6.1' => ['to' => '1.7.0', 'upgrade' => \M2E\Otto\Setup\Upgrade\v1_7_0\Config::class],
+        '1.7.0' => ['to' => '1.8.0', 'upgrade' => \M2E\Otto\Setup\Upgrade\v1_8_0\Config::class],
     ];
 
     private \Psr\Log\LoggerInterface $logger;

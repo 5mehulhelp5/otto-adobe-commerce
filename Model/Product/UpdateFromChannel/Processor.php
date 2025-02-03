@@ -60,6 +60,10 @@ class Processor
 
     private function isNeedUpdateMoin(): bool
     {
+        if (empty($this->channelProduct->getMoin())) {
+            return false;
+        }
+
         return $this->product->getOttoProductMoin() !== $this->channelProduct->getMoin();
     }
 
@@ -160,6 +164,11 @@ class Processor
         }
 
         if ($this->isNeedUpdateProductValid()) {
+            $this->addInstructionData(
+                Product::INSTRUCTION_TYPE_CHANNEL_STATUS_CHANGED,
+                40,
+            );
+
             if ($this->channelProduct->isChannelProductInComplete()) {
                 $this->product->makeProductIncomplete();
 

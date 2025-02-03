@@ -32,7 +32,7 @@ class ProcessorSyncFactory
     ): Type\Delete\Processor {
         $actionLogger = $this->loggerFactory->create(
             $actionLogId,
-            \M2E\Otto\Model\Listing\Log::ACTION_DELETE_PRODUCT,
+            \M2E\Otto\Model\Listing\Log::ACTION_REMOVE_PRODUCT,
             $this->getInitiatorByChanger($statusChanger),
         );
 

@@ -305,24 +305,6 @@ class Other extends \M2E\Otto\Model\ActiveRecord\AbstractModel
 
     // ---------------------------------------
 
-    public function moveToListingSucceed(): void
-    {
-        $listingProductId = $this->getMovedToListingProductId();
-        $listingProduct = $this->listingProductRepository->get($listingProductId);
-        if ($listingProduct->getId()) {
-            $this->listingLogService->addProduct(
-                $listingProduct,
-                \M2E\Otto\Helper\Data::INITIATOR_USER,
-                \M2E\Otto\Model\Listing\Log::ACTION_MOVE_FROM_OTHER_LISTING,
-                $this->listingLogService->getNextActionId(),
-                (string)__('Item was Moved.'),
-                \M2E\Otto\Model\Log\AbstractModel::TYPE_INFO,
-            );
-        }
-
-        $this->delete();
-    }
-
     public function setMovedToListingProductId(int $id): void
     {
         $this->setData(ListingOtherResource::COLUMN_MOVED_TO_LISTING_PRODUCT_ID, $id);
@@ -336,11 +318,6 @@ class Other extends \M2E\Otto\Model\ActiveRecord\AbstractModel
     public function getRelatedStoreId(): int
     {
         return $this->getAccount()->getUnmanagedListingSettings()->getRelatedStoreId();
-    }
-
-    public function isListingCorrectForMove(\M2E\Otto\Model\Listing $listing): bool
-    {
-        return $listing->getAccount()->getId() === $this->getAccountId();
     }
 
     public function getQtyActualizeDate()

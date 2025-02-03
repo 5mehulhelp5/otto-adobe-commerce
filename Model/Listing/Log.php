@@ -56,7 +56,7 @@ class Log extends \M2E\Otto\Model\Log\AbstractModel
     public const ACTION_DELETE_PRODUCT = 24;
     public const _ACTION_DELETE_PRODUCT = 'Remove Product from Channel';
     public const ACTION_REMOVE_PRODUCT = 17;
-    public const _ACTION_REMOVE_PRODUCT = 'Remove from Channel / Remove from Listing';
+    public const _ACTION_REMOVE_PRODUCT = 'Stop on Otto / Remove from Listing';
     public const ACTION_DELETE_AND_REMOVE_PRODUCT = 23;
     public const _ACTION_DELETE_AND_REMOVE_PRODUCT = 'Remove from Channel & Listing';
     public const ACTION_SWITCH_TO_AFN_ON_COMPONENT = 29;

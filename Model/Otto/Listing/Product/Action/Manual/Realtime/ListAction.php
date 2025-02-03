@@ -28,7 +28,7 @@ class ListAction extends AbstractRealtime
             $product,
             \M2E\Otto\Helper\Data::INITIATOR_USER,
             \M2E\Otto\Model\Listing\Log::ACTION_LIST_PRODUCT,
-            null,
+            $this->getLogActionId(),
             $this->createSkipListMessage(),
             \M2E\Otto\Model\Log\AbstractModel::TYPE_INFO,
         );

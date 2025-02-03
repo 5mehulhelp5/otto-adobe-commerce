@@ -47,7 +47,7 @@ class Tabs extends \M2E\Otto\Block\Adminhtml\Magento\Tabs\AbstractHorizontalStat
                 self::UNMANAGED_ITEMS_TAB_ID,
                 (string)__('Unmanaged Items'),
                 $this->getUrl(
-                    '*/otto_listing_unmanaged/index',
+                    '*/product_grid/unmanaged',
                     ['account' => $firstAccount->getId()]
                 )
             );

@@ -8,8 +8,10 @@ class InterfaceAndMagentoInventory extends \M2E\Otto\Block\Adminhtml\System\Conf
 {
     /** @var \M2E\Otto\Helper\Module\Configuration */
     private $configurationHelper;
+    private \M2E\Otto\Model\Product\InspectDirectChanges\Config $inspectDirectChangesConfig;
 
     public function __construct(
+        \M2E\Otto\Model\Product\InspectDirectChanges\Config $inspectDirectChangesConfig,
         \M2E\Otto\Helper\Module\Configuration $configurationHelper,
         \M2E\Otto\Block\Adminhtml\Magento\Context\Template $context,
         \Magento\Framework\Registry $registry,
@@ -18,6 +20,7 @@ class InterfaceAndMagentoInventory extends \M2E\Otto\Block\Adminhtml\System\Conf
     ) {
         parent::__construct($context, $registry, $formFactory, $data);
         $this->configurationHelper = $configurationHelper;
+        $this->inspectDirectChangesConfig = $inspectDirectChangesConfig;
     }
 
     protected function _prepareForm()
@@ -163,6 +166,34 @@ details.</p><br>
                     the currency conversion is performed automatically based on the set exchange rate
                     (e.g. 1 USD = 0.82 GBP).<br>
                     The Item will be available on Channel at the Price of 4.1 GBP.</p>'
+                ),
+            ]
+        );
+
+        $fieldset = $form->addFieldset(
+            'direct_database_changes_field',
+            [
+                'legend' => __('Direct Database Changes'),
+                'collabsable' => false,
+            ]
+        );
+
+        $inspectorMode = $this->inspectDirectChangesConfig->isEnableProductInspectorMode();
+
+        $fieldset->addField(
+            'listing_product_inspector_mode',
+            self::SELECT,
+            [
+                'name' => 'groups[direct_database_changes][fields][listing_product_inspector_mode][value]',
+                'label' => __('Track Direct Database Changes'),
+                'values' => [
+                    ['value' => 0, 'label' => __('No')],
+                    ['value' => 1, 'label' => __('Yes')],
+                ],
+                'value' => $inspectorMode,
+                'tooltip' => __(
+                    'Enable this option to ensure M2E detects changes when Magento Product information' .
+                    ' is updated not through Magento Core Models (e.g., direct SQL updates)'
                 ),
             ]
         );

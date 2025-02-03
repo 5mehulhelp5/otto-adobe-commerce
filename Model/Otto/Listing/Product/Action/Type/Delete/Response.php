@@ -26,6 +26,6 @@ class Response extends \M2E\Otto\Model\Otto\Listing\Product\Action\Type\Abstract
 
     public function generateResultMessage(): void
     {
-        $this->getLogBuffer()->addSuccess('Item was Removed');
+        $this->getLogBuffer()->addSuccess('Item was Stopped');
     }
 }

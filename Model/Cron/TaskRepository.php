@@ -16,10 +16,12 @@ class TaskRepository
             Task\Order\SyncTask::NICK => Task\Order\SyncTask::class,
             Task\Order\UploadByUser::NICK => Task\Order\UploadByUser::class,
             Task\Order\UpdateTask::NICK => Task\Order\UpdateTask::class,
+            Task\Order\CreateFailedTask::NICK => Task\Order\CreateFailedTask::class,
             Task\InventorySyncTask::NICK => Task\InventorySyncTask::class,
             Task\InstructionsProcess::NICK => Task\InstructionsProcess::class,
             Task\ProcessScheduledActionsTask::NICK => Task\ProcessScheduledActionsTask::class,
             Task\Product\StopQueue::NICK => Task\Product\StopQueue::class,
+            Task\Product\InspectDirectChangesTask::NICK => Task\Product\InspectDirectChangesTask::class,
         ],
         #endregion
 

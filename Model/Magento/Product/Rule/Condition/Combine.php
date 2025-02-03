@@ -4,12 +4,11 @@ namespace M2E\Otto\Model\Magento\Product\Rule\Condition;
 
 class Combine extends AbstractModel
 {
-    protected $_logger;
     protected $_useCustomOptions = true;
-
     protected static $_conditionModels = [];
-    /** @var \M2E\Otto\Model\Magento\Product\Rule\Condition\ProductFactory */
-    private ProductFactory $ruleConditionProductFactory;
+
+    protected \Psr\Log\LoggerInterface $_logger;
+    private \M2E\Otto\Model\Magento\Product\Rule\Condition\ProductFactory $ruleConditionProductFactory;
     private \Magento\Framework\ObjectManagerInterface $objectManager;
 
     public function __construct(
@@ -48,10 +47,7 @@ class Combine extends AbstractModel
         return $this;
     }
 
-    /**
-     * @return array
-     */
-    public function getNewChildSelectOptions()
+    public function getNewChildSelectOptions(): array
     {
         $conditions = [
             [
@@ -203,9 +199,9 @@ class Combine extends AbstractModel
         return $this;
     }
 
-    public function getValueElementType()
+    public function getValueElementType(): string
     {
-        return 'select';
+        return \M2E\Otto\Model\Magento\Product\Rule\Condition\AbstractModel::VALUE_ELEMENT_TYPE_SELECT;
     }
 
     protected function beforeLoadValidate($condition)
@@ -251,7 +247,7 @@ class Combine extends AbstractModel
                         $cond->loadArray($condArr, $key);
                     }
                 } catch (\Exception $e) {
-                    $this->_logger->critical($e);
+                    $this->_logger->critical($e->getMessage());
                 }
             }
         }

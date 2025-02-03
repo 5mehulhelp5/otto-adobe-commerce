@@ -6,6 +6,21 @@ use Magento\Rule\Model\Condition\ConditionInterface;
 
 abstract class AbstractModel extends \M2E\Otto\Model\AbstractModel implements ConditionInterface
 {
+    public const INPUT_TYPE_STRING = 'string';
+    public const INPUT_TYPE_NUMERIC = 'numeric';
+    public const INPUT_TYPE_DATE = 'date';
+    public const INPUT_TYPE_SELECT = 'select';
+    public const INPUT_TYPE_BOOLEAN = 'boolean';
+    public const INPUT_TYPE_MULTISELECT = 'multiselect';
+    public const INPUT_TYPE_GRID = 'grid';
+    public const INPUT_TYPE_CATEGORY = 'category';
+    public const INPUT_TYPE_PRICE = 'price';
+
+    public const VALUE_ELEMENT_TYPE_TEXT = 'text';
+    public const VALUE_ELEMENT_TYPE_SELECT = 'select';
+    public const VALUE_ELEMENT_TYPE_MULTISELECT = 'multiselect';
+    public const VALUE_ELEMENT_TYPE_DATE = 'date';
+
     /**
      * Defines which operators will be available for this condition
      * @var string
@@ -67,15 +82,15 @@ abstract class AbstractModel extends \M2E\Otto\Model\AbstractModel implements Co
     {
         if (null === $this->_defaultOperatorInputByType) {
             $this->_defaultOperatorInputByType = [
-                'string' => ['==', '!=', '>=', '>', '<=', '<', '{}', '!{}', '()', '!()', '??', '!??'],
-                'numeric' => ['==', '!=', '>=', '>', '<=', '<', '()', '!()'],
-                'date' => ['==', '>=', '<='],
-                'select' => ['==', '!='],
-                'boolean' => ['==', '!='],
-                'multiselect' => ['{}', '!{}', '()', '!()'],
-                'grid' => ['()', '!()'],
+                self::INPUT_TYPE_STRING => ['==', '!=', '>=', '>', '<=', '<', '{}', '!{}', '()', '!()', '??', '!??'],
+                self::INPUT_TYPE_NUMERIC => ['==', '!=', '>=', '>', '<=', '<', '()', '!()'],
+                self::INPUT_TYPE_DATE => ['==', '>=', '<='],
+                self::INPUT_TYPE_SELECT => ['==', '!='],
+                self::INPUT_TYPE_BOOLEAN => ['==', '!='],
+                self::INPUT_TYPE_MULTISELECT => ['{}', '!{}', '()', '!()'],
+                self::INPUT_TYPE_GRID => ['()', '!()'],
             ];
-            $this->_arrayInputTypes = ['multiselect', 'grid'];
+            $this->_arrayInputTypes = [self::INPUT_TYPE_MULTISELECT, self::INPUT_TYPE_GRID];
         }
 
         return $this->_defaultOperatorInputByType;
@@ -225,7 +240,7 @@ abstract class AbstractModel extends \M2E\Otto\Model\AbstractModel implements Co
     public function getInputType()
     {
         if (null === $this->_inputType) {
-            return 'string';
+            return self::INPUT_TYPE_STRING;
         }
 
         return $this->_inputType;
@@ -304,7 +319,10 @@ abstract class AbstractModel extends \M2E\Otto\Model\AbstractModel implements Co
 
     public function getValue()
     {
-        if ($this->getInputType() === 'date' && !$this->getIsValueParsed()) {
+        if (
+            $this->getInputType() === self::INPUT_TYPE_DATE
+            && !$this->getIsValueParsed()
+        ) {
             // date format intentionally hard-coded
             $this->setValue(
                 $this->_localeDate->formatDate(
@@ -359,7 +377,7 @@ abstract class AbstractModel extends \M2E\Otto\Model\AbstractModel implements Co
      * Get inherited conditions selectors
      * @return array
      */
-    public function getNewChildSelectOptions()
+    public function getNewChildSelectOptions(): array
     {
         return [
             ['value' => '', 'label' => __('Please choose a Condition to add...')],
@@ -471,7 +489,7 @@ abstract class AbstractModel extends \M2E\Otto\Model\AbstractModel implements Co
      */
     public function getValueElementType()
     {
-        return 'text';
+        return self::VALUE_ELEMENT_TYPE_TEXT;
     }
 
     public function getValueElementRenderer()
@@ -493,7 +511,7 @@ abstract class AbstractModel extends \M2E\Otto\Model\AbstractModel implements Co
             'after_element_html' => $this->getValueAfterElementHtml(),
             'explicit_apply' => $this->getExplicitApply(),
         ];
-        if ($this->getInputType() === 'date') {
+        if ($this->getInputType() === self::INPUT_TYPE_DATE) {
             // date format intentionally hard-coded
             $elementParams['date_format'] = $this->_localeDate->getDateFormat(\IntlDateFormatter::MEDIUM);
             $elementParams['time_format'] = $this->_localeDate->getTimeFormat(\IntlDateFormatter::MEDIUM);
@@ -569,7 +587,11 @@ abstract class AbstractModel extends \M2E\Otto\Model\AbstractModel implements Co
             return false;
         }
 
-        if ($this->getInputType() === 'date' && !empty($validatedValue) && !is_numeric($validatedValue)) {
+        if (
+            $this->getInputType() === self::INPUT_TYPE_DATE
+            && !empty($validatedValue)
+            && !is_numeric($validatedValue)
+        ) {
             $validatedValue = (int)\M2E\Otto\Helper\Date::createDateGmt($validatedValue)->format('U');
         }
 
@@ -578,7 +600,11 @@ abstract class AbstractModel extends \M2E\Otto\Model\AbstractModel implements Co
          */
         $value = $this->getValueParsed();
 
-        if ($this->getInputType() === 'date' && !empty($value) && !is_numeric($value)) {
+        if (
+            $this->getInputType() === self::INPUT_TYPE_DATE
+            && !empty($value)
+            && !is_numeric($value)
+        ) {
             $value = (int)\M2E\Otto\Helper\Date::createDateGmt($value)->format('U');
         }
 

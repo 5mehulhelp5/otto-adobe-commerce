@@ -4,78 +4,59 @@ namespace M2E\Otto\Model\Magento\Order;
 
 class Invoice
 {
-    /** @var \Magento\Framework\DB\TransactionFactory */
-    private $transactionFactory = null;
-
-    /** @var \Magento\Sales\Model\Order $magentoOrder */
-    private $magentoOrder = null;
-
-    /** @var \Magento\Sales\Model\Order\Invoice $invoice */
-    private $invoice = null;
-
-    private \M2E\Otto\Helper\Data\GlobalData $globalDataHelper;
+    private \Magento\Sales\Model\Order $magentoOrder;
+    /** @var \Magento\Sales\Model\Order\Item[] */
+    private array $itemsToInvoice;
+    private \Magento\Framework\DB\TransactionFactory $transactionFactory;
 
     public function __construct(
-        \Magento\Framework\DB\TransactionFactory $transactionFactory,
-        \M2E\Otto\Helper\Data\GlobalData $globalDataHelper
+        \Magento\Sales\Model\Order $magentoOrder,
+        array $itemsToInvoice,
+        \Magento\Framework\DB\TransactionFactory $transactionFactory
     ) {
         $this->transactionFactory = $transactionFactory;
-        $this->globalDataHelper = $globalDataHelper;
-    }
-
-    /**
-     * @param \Magento\Sales\Model\Order $magentoOrder
-     *
-     * @return $this
-     */
-    public function setMagentoOrder(\Magento\Sales\Model\Order $magentoOrder)
-    {
         $this->magentoOrder = $magentoOrder;
-
-        return $this;
+        $this->itemsToInvoice = $itemsToInvoice;
     }
 
-    public function getInvoice()
+    public function create(): \Magento\Sales\Model\Order\Invoice
     {
-        return $this->invoice;
-    }
-
-    public function buildInvoice()
-    {
-        $this->prepareInvoice();
-    }
-
-    private function prepareInvoice()
-    {
-        // Skip invoice observer
-        // ---------------------------------------
-        $this->globalDataHelper->unsetValue('skip_invoice_observer');
-        $this->globalDataHelper->setValue('skip_invoice_observer', true);
-        // ---------------------------------------
-
-        $qtys = [];
-        foreach ($this->magentoOrder->getAllItems() as $item) {
-            $qtyToInvoice = $item->getQtyToInvoice();
-
-            if ($qtyToInvoice == 0) {
-                continue;
-            }
-
-            $qtys[$item->getId()] = $qtyToInvoice;
+        $itemsToInvoice = $this->prepareItems();
+        if (empty($itemsToInvoice)) {
+            throw new \M2E\Otto\Model\Exception\Logic('No items to invoice');
         }
 
         // Create invoice
         // ---------------------------------------
-        $this->invoice = $this->magentoOrder->prepareInvoice($qtys);
-        $this->invoice->register();
+        $invoice = $this->magentoOrder->prepareInvoice($itemsToInvoice);
+        $invoice->register();
         // it is necessary for updating qty_invoiced field in sales_flat_order_item table
-        $this->invoice->getOrder()->setIsInProcess(true);
+        $invoice->getOrder()->setIsInProcess(true);
 
         $this->transactionFactory
             ->create()
-            ->addObject($this->invoice)
-            ->addObject($this->invoice->getOrder())
+            ->addObject($invoice)
+            ->addObject($invoice->getOrder())
             ->save();
+
         // ---------------------------------------
+
+        return $invoice;
+    }
+
+    private function prepareItems(): array
+    {
+        $result = [];
+        foreach ($this->itemsToInvoice as $magentoOrderItem) {
+            $qtyToInvoice = $magentoOrderItem->getQtyToInvoice();
+
+            if (empty($qtyToInvoice)) {
+                continue;
+            }
+
+            $result[$magentoOrderItem->getId()] = $qtyToInvoice;
+        }
+
+        return $result;
     }
 }

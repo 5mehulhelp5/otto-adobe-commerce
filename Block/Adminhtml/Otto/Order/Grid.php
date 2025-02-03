@@ -17,10 +17,10 @@ class Grid extends AbstractGrid
     private \M2E\Otto\Block\Adminhtml\Otto\Order\StatusHelper $orderStatusHelper;
     private \M2E\Otto\Helper\Url $urlHelper;
     private \M2E\Otto\Model\Currency $currency;
-    private \M2E\Otto\Model\Order\Log\ServiceFactory $orderLogServiceFactory;
+    private \M2E\Otto\Model\Order\LogicItemCollectionFactory $orderLogicItemCollectionFactory;
 
     public function __construct(
-        \M2E\Otto\Model\Order\Log\ServiceFactory $orderLogServiceFactory,
+        \M2E\Otto\Model\Order\LogicItemCollectionFactory $orderLogicItemCollectionFactory,
         \M2E\Otto\Helper\Url $urlHelper,
         \M2E\Otto\Block\Adminhtml\Otto\Order\StatusHelper $orderStatusHelper,
         \M2E\Otto\Model\ResourceModel\Order\CollectionFactory $orderCollectionFactory,
@@ -39,11 +39,11 @@ class Grid extends AbstractGrid
         $this->orderStatusHelper = $orderStatusHelper;
         $this->urlHelper = $urlHelper;
         $this->currency = $currency;
-        $this->orderLogServiceFactory = $orderLogServiceFactory;
+        $this->orderLogicItemCollectionFactory = $orderLogicItemCollectionFactory;
         parent::__construct($context, $backendHelper, $data);
     }
 
-    public function _construct()
+    public function _construct(): void
     {
         parent::_construct();
 
@@ -315,8 +315,13 @@ class Grid extends AbstractGrid
 
     public function callbackPurchaseCreateDate($value, \M2E\Otto\Model\Order $row, $column, $isExport)
     {
+        $purchaseDate = $row->getPurchaseCreateDate();
+        if (empty($purchaseDate)) {
+            return '';
+        }
+
         return $this->_localeDate->formatDate(
-            $row->getPurchaseCreateDate(),
+            $purchaseDate,
             \IntlDateFormatter::MEDIUM,
             true
         );
@@ -324,8 +329,13 @@ class Grid extends AbstractGrid
 
     public function callbackShippingDateTo($value, \M2E\Otto\Model\Order $row, $column, $isExport)
     {
+        $shippingDate = $row->getShippingDateTo();
+        if (empty($shippingDate)) {
+            return '';
+        }
+
         return $this->_localeDate->formatDate(
-            $row->getShippingDateTo(),
+            $shippingDate,
             \IntlDateFormatter::MEDIUM,
             true
         );
@@ -405,41 +415,53 @@ HTML;
         /** @var \M2E\Otto\Model\Order\Item[] $items */
         $items = $this->itemsCollection->getItemsByColumnValue('order_id', $row->getId());
 
-        $groupedItems = $this->groupItems($items, $row);
+        $logicItemCollection = $this->orderLogicItemCollectionFactory->create(
+            $items
+        );
 
         $html = '';
-        foreach ($groupedItems as $item) {
-            if ($html != '') {
-                $html .= '<br/>';
-            }
-
-            $skuHtml = '';
-            if ($item['sku']) {
-                $sku = \M2E\Otto\Helper\Data::escapeHtml($item['sku']);
-                if ($item['product'] !== null) {
-                    $sku = sprintf(
-                        '<a href="%s" target="_blank">%s</a>',
-                        $this->getUrl('catalog/product/edit', ['id' => $item['product']->getId()]),
-                        $sku
-                    );
-                }
-
-                $skuHtml = sprintf(
-                    '<span style="padding-left: 10px;"><b>%s:</b>&nbsp;%s</span><br/>',
-                    __('SKU'),
+        foreach ($logicItemCollection->getAll() as $logicItem) {
+            $sku = \M2E\Otto\Helper\Data::escapeHtml($logicItem->getSku());
+            if ($logicItem->isMappedForMagentoProduct()) {
+                $sku = sprintf(
+                    '<a href="%s" target="_blank">%s</a>',
+                    $this->getUrl('catalog/product/edit', ['id' => $logicItem->getMagentoProduct()->getProductId()]),
                     $sku
                 );
             }
 
-            $qtyPurchasedHtml = sprintf(
-                '<span style="padding-left: 10px;"><b>%s:</b>&nbsp;%d</span><br/>',
-                __('QTY'),
-                $item['qty']
+            $skuHtml = sprintf(
+                '<div style="padding-left: 10px;"><b>%s:</b>&nbsp;%s</div>',
+                __('SKU'),
+                $sku
             );
 
+            $cancelledLabel = '';
+            if ($logicItem->isSomeItemCancelled()) {
+                $cancelledLabel = sprintf('&nbsp;<span style="color: red">(%s)</span>', __('Cancelled'));
+            } elseif ($logicItem->isSomeItemReturned()) {
+                $cancelledLabel = sprintf('&nbsp;<span style="color: red">(%s)</span>', __('Returned'));
+            }
+
+            $qtyPurchasedHtml = sprintf(
+                '<div style="padding-left: 10px;"><b>%s:</b>&nbsp;%d%s</div>',
+                __('QTY'),
+                $logicItem->getQty(),
+                $cancelledLabel
+            );
+
+            $wrapperClass = "order-item-wrapper";
+            if (
+                $logicItem->isSomeItemCancelled()
+                || $logicItem->isSomeItemReturned()
+            ) {
+                $wrapperClass .= ' cancelled';
+            }
+
             $html .= sprintf(
-                '%s<br><small>%s%s</small>',
-                \M2E\Otto\Helper\Data::escapeHtml($item['title']),
+                '<div class="%s">%s<small>%s%s</small></div>',
+                $wrapperClass,
+                \M2E\Otto\Helper\Data::escapeHtml($logicItem->getTitle()),
                 $skuHtml,
                 $qtyPurchasedHtml
             );
@@ -458,6 +480,7 @@ HTML;
     public function callbackColumnTotal($value, \M2E\Otto\Model\Order $row, $column, $isExport)
     {
         $amount = $row->getSubtotalPrice() + $row->getShippingPrice();
+
         return $this->currency->formatPrice($row->getCurrency(), $amount);
     }
 
@@ -580,38 +603,5 @@ JS
         );
 
         return parent::_toHtml();
-    }
-
-    private function groupItems(array $items, \M2E\Otto\Model\Order $row): array
-    {
-        $groupedItems = [];
-
-        foreach ($items as $item) {
-            $sku = $item->getSku();
-            if (!isset($groupedItems[$sku])) {
-                $groupedItems[$sku] = [
-                    'title' => $item->getTitle(),
-                    'sku' => $sku,
-                    'qty' => 0,
-                    'product' => null
-                ];
-
-                try {
-                    $groupedItems[$sku]['product'] = $item->getProduct();
-                } catch (\M2E\Otto\Model\Exception $e) {
-                    $groupedItems[$sku]['product'] = null;
-                    $logService = $this->orderLogServiceFactory->create();
-                    $logService->addMessage(
-                        $row->getId(),
-                        $e->getMessage(),
-                        \M2E\Otto\Model\Log\AbstractModel::TYPE_ERROR
-                    );
-                }
-            }
-
-            $groupedItems[$sku]['qty'] += $item->getQtyPurchased();
-        }
-
-        return $groupedItems;
     }
 }

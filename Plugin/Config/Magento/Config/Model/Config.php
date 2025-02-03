@@ -135,6 +135,7 @@ class Config extends \M2E\Otto\Plugin\AbstractPlugin
         $fields = array_merge(
             $groups['interface']['fields'],
             $groups['quantity_and_price']['fields'],
+            $groups['direct_database_changes']['fields'],
         );
 
         foreach ($fields as $field => $value) {

@@ -122,6 +122,9 @@
                 <item name="m2e_otto_product_by_issues_grid_source" xsi:type="string">
                     M2E\Otto\Model\ResourceModel\Product\Grid\ByIssues\Collection
                 </item>
+                <item name="m2e_otto_product_unmanaged_grid_data_source" xsi:type="string">
+                    M2E\Otto\Model\ResourceModel\Listing\Other\Grid\Collection
+                </item>
             </argument>
         </arguments>
     </type>

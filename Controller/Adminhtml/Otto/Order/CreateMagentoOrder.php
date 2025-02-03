@@ -6,16 +6,16 @@ use M2E\Otto\Controller\Adminhtml\Otto\AbstractOrder;
 
 class CreateMagentoOrder extends AbstractOrder
 {
-    private \M2E\Otto\Model\OrderFactory $orderFactory;
-    private \M2E\Otto\Model\ResourceModel\Order $orderResource;
+    private \M2E\Otto\Model\Order\MagentoProcessor $magentoCreate;
+    private \M2E\Otto\Model\Order\Repository $orderRepository;
 
     public function __construct(
-        \M2E\Otto\Model\OrderFactory $orderFactory,
-        \M2E\Otto\Model\ResourceModel\Order $orderResource
+        \M2E\Otto\Model\Order\Repository $orderRepository,
+        \M2E\Otto\Model\Order\MagentoProcessor $magentoCreate
     ) {
         parent::__construct();
-        $this->orderFactory = $orderFactory;
-        $this->orderResource = $orderResource;
+        $this->magentoCreate = $magentoCreate;
+        $this->orderRepository = $orderRepository;
     }
 
     public function execute()
@@ -26,11 +26,15 @@ class CreateMagentoOrder extends AbstractOrder
         $errors = 0;
 
         foreach ($orderIds as $orderId) {
-            $order = $this->orderFactory->create();
-            $this->orderResource->load($order, (int)$orderId);
-            $order->getLogService()->setInitiator(\M2E\Otto\Helper\Data::INITIATOR_USER);
+            $order = $this->orderRepository->find((int)$orderId);
+            if ($order === null) {
+                continue;
+            }
 
-            if ($order->getMagentoOrderId() !== null && !$isForce) {
+            if (
+                $order->getMagentoOrderId() !== null
+                && !$isForce
+            ) {
                 $warnings++;
                 continue;
             }
@@ -38,21 +42,9 @@ class CreateMagentoOrder extends AbstractOrder
             // Create magento order
             // ---------------------------------------
             try {
-                $order->createMagentoOrder($isForce);
-            } catch (\Exception $e) {
+                $this->magentoCreate->process($order, $isForce, \M2E\Otto\Helper\Data::INITIATOR_USER, false, false);
+            } catch (\Throwable $e) {
                 $errors++;
-            }
-
-            // ---------------------------------------
-
-            if ($order->canCreateInvoice()) {
-                $order->createInvoice();
-            }
-
-            $order->createShipments();
-
-            if ($order->canCreateTracks()) {
-                $order->createTracks();
             }
         }
 

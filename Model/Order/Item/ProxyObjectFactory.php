@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace M2E\Otto\Model\Order\Item;
 
 class ProxyObjectFactory
@@ -12,11 +14,8 @@ class ProxyObjectFactory
     }
 
     public function create(
-        \M2E\Otto\Model\Order\Item $orderItem,
-        array $data = []
+        \M2E\Otto\Model\Order\Item $orderItem
     ): ProxyObject {
-        $data['item'] = $orderItem;
-
-        return $this->objectManager->create(ProxyObject::class, $data);
+        return $this->objectManager->create(ProxyObject::class, ['item' => $orderItem]);
     }
 }

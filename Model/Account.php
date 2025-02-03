@@ -293,4 +293,33 @@ class Account extends \M2E\Otto\Model\ActiveRecord\AbstractModel
     {
         return (string)$this->getData(AccountResource::COLUMN_MODE);
     }
+
+    public function isMagentoOrdersStatusMappingDefault(): bool
+    {
+        $setting = $this->getSetting(
+            'magento_orders_settings',
+            ['order_status_mapping', 'mode'],
+            \M2E\Otto\Model\Account\Settings\Order::ORDERS_STATUS_MAPPING_MODE_DEFAULT
+        );
+
+        return $setting == \M2E\Otto\Model\Account\Settings\Order::ORDERS_STATUS_MAPPING_MODE_DEFAULT;
+    }
+
+    public function getMagentoOrdersStatusProcessing(): string
+    {
+        if ($this->isMagentoOrdersStatusMappingDefault()) {
+            return \M2E\Otto\Model\Account\Settings\Order::ORDERS_STATUS_MAPPING_PROCESSING;
+        }
+
+        return $this->getSetting('magento_orders_settings', ['order_status_mapping', 'processing']);
+    }
+
+    public function getMagentoOrdersStatusShipped(): string
+    {
+        if ($this->isMagentoOrdersStatusMappingDefault()) {
+            return \M2E\Otto\Model\Account\Settings\Order::ORDERS_STATUS_MAPPING_SHIPPED;
+        }
+
+        return $this->getSetting('magento_orders_settings', ['order_status_mapping', 'shipped']);
+    }
 }

@@ -24,7 +24,7 @@ class InactiveChecker extends \M2E\Otto\Model\Instruction\SynchronizationTemplat
         \M2E\Otto\PublicServices\Product\SqlChange::INSTRUCTION_TYPE_PRODUCT_CHANGED,
         \M2E\Otto\PublicServices\Product\SqlChange::INSTRUCTION_TYPE_STATUS_CHANGED,
         \M2E\Otto\PublicServices\Product\SqlChange::INSTRUCTION_TYPE_QTY_CHANGED,
-        \M2E\Otto\Model\Cron\Task\Product\InspectDirectChanges::INSTRUCTION_TYPE,
+        \M2E\Otto\Model\Product\InspectDirectChanges::INSTRUCTION_TYPE,
     ];
 
     private \M2E\Otto\Model\ScheduledAction\CreateService $scheduledActionCreate;

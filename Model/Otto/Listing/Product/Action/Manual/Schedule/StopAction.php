@@ -28,7 +28,7 @@ class StopAction extends AbstractSchedule
             $product,
             \M2E\Otto\Helper\Data::INITIATOR_USER,
             \M2E\Otto\Model\Listing\Log::ACTION_STOP_PRODUCT,
-            null,
+            $this->getLogActionId(),
             $this->createSkipStopMessage(),
             \M2E\Otto\Model\Log\AbstractModel::TYPE_INFO,
         );

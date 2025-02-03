@@ -329,19 +329,6 @@ class Builder
         }
     }
 
-    private function getDiscount($productPriceInItem, $associatedProductQty, $OriginalQty)
-    {
-        $total = 0;
-        $roundPrice = round(($productPriceInItem / $associatedProductQty), 2) * $associatedProductQty;
-
-        if ($productPriceInItem !== $roundPrice) {
-            $this->quote->setUseOttoDiscount(true);
-            $total = ($roundPrice - $productPriceInItem) * $OriginalQty;
-        }
-
-        return $total;
-    }
-
     /**
      * Mage_Sales_Model_Quote_Address caches items after each collectTotals call. Some extensions calls collectTotals
      * after adding new item to quote in observers. So we need clear this cache before adding new item to quote.

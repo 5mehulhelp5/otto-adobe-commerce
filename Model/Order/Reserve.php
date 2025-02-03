@@ -223,7 +223,7 @@ class Reserve
         $productsExistCount = 0;
         $validatedOrderItems = [];
 
-        foreach ($this->order->getItemsCollection()->getItems() as $item) {
+        foreach ($this->order->getItems() as $item) {
             /**@var \M2E\Otto\Model\Order\Item $item */
 
             $products = $this->getItemProductsByAction($item, $action);
@@ -294,8 +294,10 @@ class Reserve
         /** @var \Magento\Framework\DB\Transaction $transaction */
         $transaction = $this->transactionFactory->create();
 
-        foreach ($this->order->getItemsCollection()->getItems() as $item) {
-            /**@var \M2E\Otto\Model\Order\Item $item */
+        foreach ($this->order->getItems() as $item) {
+            if ($item->isStatusCancelled() && $action === self::ACTION_SUB) {
+                continue;
+            }
 
             if ($action === self::ACTION_SUB) {
                 $qty = $item->getQtyPurchased();
@@ -552,8 +554,8 @@ class Reserve
 
             case self::ACTION_SUB:
                 if (
-                    $item->getMagentoProductId() &&
-                    ($item->getMagentoProduct()->isSimpleType() || $item->getMagentoProduct()->isDownloadableType())
+                    $item->getMagentoProductId()
+                    && ($item->getMagentoProduct()->isSimpleType() || $item->getMagentoProduct()->isDownloadableType())
                 ) {
                     return [$item->getMagentoProductId()];
                 }

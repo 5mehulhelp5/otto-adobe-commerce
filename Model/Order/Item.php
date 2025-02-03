@@ -91,6 +91,11 @@ class Item extends \M2E\Otto\Model\ActiveRecord\AbstractModel
         return (int)$this->getData('order_id');
     }
 
+    public function isMappedWithMagentoProduct(): bool
+    {
+        return $this->getMagentoProductId() !== null;
+    }
+
     public function getMagentoProductId(): ?int
     {
         $productId = $this->getData(OrderItemResource::COLUMN_PRODUCT_ID);
@@ -268,7 +273,6 @@ class Item extends \M2E\Otto\Model\ActiveRecord\AbstractModel
         if ($this->listingProduct === null) {
             $collection = $this->listingProductCollectionFactory->create();
             $collection->addFieldToFilter('otto_product_sku', $this->getOttoProductSku());
-            /** @var \M2E\Otto\Model\Product $listingProduct */
             $listingProduct = $collection->getFirstItem();
 
             $this->listingProduct = $listingProduct;
@@ -448,10 +452,7 @@ class Item extends \M2E\Otto\Model\ActiveRecord\AbstractModel
         return $magentoProduct->exists();
     }
 
-    /**
-     * @return \M2E\Otto\Model\AbstractModel
-     */
-    public function getProxy(): \M2E\Otto\Model\AbstractModel
+    public function getProxy(): \M2E\Otto\Model\Order\Item\ProxyObject
     {
         if ($this->proxy === null) {
             $this->proxy = $this->proxyObjectFactory->create($this);
@@ -475,9 +476,9 @@ class Item extends \M2E\Otto\Model\ActiveRecord\AbstractModel
         return $this->getData('title');
     }
 
-    public function getSku()
+    public function getSku(): string
     {
-        return $this->getData('otto_product_sku');
+        return (string)$this->getData('otto_product_sku');
     }
 
     public function getSalePrice(): float
@@ -542,6 +543,11 @@ class Item extends \M2E\Otto\Model\ActiveRecord\AbstractModel
         return $this->getStatus() === \M2E\Otto\Model\Order::STATUS_RETURNED;
     }
 
+    public function isStatusCancelled(): bool
+    {
+        return $this->getStatus() === \M2E\Otto\Model\Order::STATUS_CANCELED;
+    }
+
     public function getStatus(): int
     {
         return (int)$this->getData(\M2E\Otto\Model\ResourceModel\Order\Item::COLUMN_STATUS);
@@ -561,9 +567,6 @@ class Item extends \M2E\Otto\Model\ActiveRecord\AbstractModel
         return false;
     }
 
-    /**
-     * @throws \M2E\Otto\Model\Exception\Logic
-     */
     public function getTrackingDetails(): array
     {
         $trackingDetails = $this->getData('tracking_details');
@@ -571,12 +574,19 @@ class Item extends \M2E\Otto\Model\ActiveRecord\AbstractModel
             return [];
         }
 
-        return \M2E\Otto\Helper\Json::decode($trackingDetails) ?? [];
+        return (array)json_decode($trackingDetails, true);
     }
 
     public function canCreateMagentoOrder(): bool
     {
-        return $this->isOrdersCreationEnabled();
+        if (
+            $this->isOrdersCreationEnabled()
+            && ($this->isStatusUnshipped() || $this->isStatusShipped())
+        ) {
+            return true;
+        }
+
+        return false;
     }
 
     public function isReservable(): bool
@@ -657,61 +667,9 @@ class Item extends \M2E\Otto\Model\ActiveRecord\AbstractModel
      */
     protected function createProduct(): \Magento\Catalog\Model\Product
     {
-        if (!$this->getAccount()->getOrdersSettings()->isUnmanagedListingCreateProductAndOrderEnabled()) {
-            throw new \M2E\Otto\Model\Order\Exception\ProductCreationDisabled(
-                (string)__('The Product could not be found in Magento catalog.'),
-            );
-        }
-
-        $order = $this->getOrder();
-
-        $itemImporter = $this->orderItemImporterFactory->create($this);
-
-        $rawItemData = $itemImporter->getDataFromChannel();
-
-        if (empty($rawItemData)) {
-            $message = 'Data obtaining for Otto Item failed. Please try again later.';
-            throw new \M2E\Otto\Model\Exception($message);
-        }
-
-        $productData = $itemImporter->prepareDataForProductCreation($rawItemData);
-
-        // Try to find exist product with sku from Otto
-        // ---------------------------------------
-        $collection = $this->magentoProductCollectionFactory->create();
-        $collection->setStoreId($this->getOrder()->getAssociatedStoreId());
-        $collection->addAttributeToSelect('sku');
-        $collection->addAttributeToFilter('sku', $productData['sku']);
-        /** @var \Magento\Catalog\Model\Product $product */
-        $product = $collection->getFirstItem();
-
-        if ($product->getId()) {
-            return $product;
-        }
-
-        // ---------------------------------------
-
-        $storeId = $this->getAccount()->getOrdersSettings()->getUnmanagedListingStoreId();
-        if ($storeId == 0) {
-            $storeId = $this->magentoStoreHelper->getDefaultStoreId();
-        }
-
-        $productData['store_id'] = $storeId;
-        $productData['tax_class_id'] = $this->getAccount()->getOrdersSettings()->getUnmanagedListingProductTaxClassId();
-
-        // Create product in magento
-        // ---------------------------------------
-        $productBuilder = $this->productBuilderFactory->create();
-        $productBuilder->setData($productData);
-        $productBuilder->buildProduct();
-        // ---------------------------------------
-
-        $order->addSuccessLog(
-            'Product for Otto Item #%id% was created in Magento Catalog.',
-            ['!id' => $this->getOttoItemId()],
+        throw new \M2E\Otto\Model\Order\Exception\ProductCreationDisabled(
+            (string)__('The product associated with this order could not be found in the Magento catalog.'),
         );
-
-        return $productBuilder->getProduct();
     }
 
     protected function associateWithProductEvent(\Magento\Catalog\Model\Product $product)

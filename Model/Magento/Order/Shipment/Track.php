@@ -9,44 +9,30 @@ use Magento\Sales\Model\ResourceModel\Order\Shipment\Track\Collection as TrackCo
 
 class Track
 {
-    private ?\Magento\Sales\Model\Order $magentoOrder = null;
-    private array $supportedCarriers = [];
-
+    private \Magento\Sales\Model\Order $magentoOrder;
+    private array $trackingDetails;
+    private array $supportedCarriers;
     private \Magento\Sales\Model\Order\Shipment\TrackFactory $shipmentTrackFactory;
     private \M2E\Otto\Observer\Shipment\EventRuntimeManager $shipmentEventRuntimeManager;
-    private \M2E\Otto\Model\Order $order;
-    private array $trackingDetails = [];
 
     public function __construct(
+        \Magento\Sales\Model\Order $magentoOrder,
+        array $trackingDetails,
+        array $supportedCarriers,
         \M2E\Otto\Observer\Shipment\EventRuntimeManager $shipmentEventRuntimeManager,
-        \Magento\Sales\Model\Order\Shipment\TrackFactory $shipmentTrackFactory,
-        \M2E\Otto\Model\Order $order,
-        array $trackingDetails
+        \Magento\Sales\Model\Order\Shipment\TrackFactory $shipmentTrackFactory
     ) {
+        $this->magentoOrder = $magentoOrder;
         $this->shipmentTrackFactory = $shipmentTrackFactory;
         $this->shipmentEventRuntimeManager = $shipmentEventRuntimeManager;
-        $this->order = $order;
         $this->trackingDetails = $trackingDetails;
-    }
-
-    public function setSupportedCarriers(array $supportedCarriers): self
-    {
         $this->supportedCarriers = $supportedCarriers;
-
-        return $this;
     }
 
-    public function getTracks(): array
-    {
-        return $this->prepareTracks();
-    }
-
-    // ----------------------------------------
-
-    private function prepareTracks(): array
+    public function create(): array
     {
         $trackingDetails = $this->getFilteredTrackingDetails();
-        if (count($trackingDetails) == 0) {
+        if (empty($trackingDetails)) {
             return [];
         }
 
@@ -56,12 +42,12 @@ class Track
         // ---------------------------------------
 
         /** @var \Magento\Sales\Model\Order\Shipment $shipment */
-        $shipment = $this->getMagentoOrder()->getShipmentsCollection()->getFirstItem();
+        $shipment = $this->magentoOrder->getShipmentsCollection()->getFirstItem();
 
         // Sometimes Magento returns an array instead of Collection by a call of $shipment->getTracksCollection()
         if (
-            $shipment->hasData(ShipmentInterface::TRACKS) &&
-            !($shipment->getData(ShipmentInterface::TRACKS) instanceof TrackCollection)
+            $shipment->hasData(ShipmentInterface::TRACKS)
+            && !($shipment->getData(ShipmentInterface::TRACKS) instanceof TrackCollection)
         ) {
             $shipment->unsetData(ShipmentInterface::TRACKS);
         }
@@ -77,7 +63,9 @@ class Track
                     : $this->getCarrierCode((string)$trackingDetail['shipping_carrier'])
             );
 
-            $shipment->addTrack($track)->save();
+            $shipment->addTrack($track)
+                     ->save();
+
             $tracks[] = $track;
         }
 
@@ -88,33 +76,19 @@ class Track
 
     private function getFilteredTrackingDetails(): array
     {
-        if ($this->getMagentoOrder()->getTracksCollection()->getSize() <= 0) {
+        if (empty($this->magentoOrder->getTracksCollection()->getSize())) {
             return $this->trackingDetails;
         }
 
-        foreach ($this->getMagentoOrder()->getTracksCollection() as $track) {
+        foreach ($this->magentoOrder->getTracksCollection() as $track) {
             foreach ($this->trackingDetails as $key => $trackingDetail) {
-                if (
-                    strtolower($track->getData('track_number'))
-                    == strtolower($trackingDetail['tracking_number'])
-                ) {
+                if (strtolower((string)$track->getData('track_number')) === strtolower((string)$trackingDetail['tracking_number'])) {
                     unset($this->trackingDetails[$key]);
                 }
             }
         }
 
         return $this->trackingDetails;
-    }
-
-    private function getMagentoOrder(): ?\Magento\Sales\Model\Order
-    {
-        if ($this->magentoOrder !== null) {
-            return $this->magentoOrder;
-        }
-
-        $this->magentoOrder = $this->order->getMagentoOrder();
-
-        return $this->magentoOrder;
     }
 
     private function getCarrierCode(string $title): string

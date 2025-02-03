@@ -10,6 +10,7 @@ use Magento\Framework\Message\MessageInterface;
 
 class Order extends AbstractForm
 {
+    private \Magento\Sales\Model\Order\Config $orderConfig;
     private \Magento\Customer\Model\ResourceModel\Group\CollectionFactory $customerGroupCollectionFactory;
     private \Magento\Tax\Model\ResourceModel\TaxClass\CollectionFactory $taxClassCollectionFactory;
     private \M2E\Otto\Helper\Magento\Store\Website $storeWebsite;
@@ -17,6 +18,7 @@ class Order extends AbstractForm
     private ?Account $account;
 
     public function __construct(
+        \Magento\Sales\Model\Order\Config $orderConfig,
         \M2E\Otto\Helper\Magento\Store $storeHelper,
         \Magento\Tax\Model\ResourceModel\TaxClass\CollectionFactory $taxClassCollectionFactory,
         \Magento\Customer\Model\ResourceModel\Group\CollectionFactory $customerGroupCollectionFactory,
@@ -32,6 +34,7 @@ class Order extends AbstractForm
         $this->storeWebsite = $storeWebsite;
         $this->storeHelper = $storeHelper;
         $this->account = $account;
+        $this->orderConfig = $orderConfig;
 
         parent::__construct($context, $registry, $formFactory, $data);
     }
@@ -454,6 +457,60 @@ for an item that does <b>not</b> belong to the M2E Otto Listing.'
                     \M2E\Otto\Model\Account\Settings\Order::TAX_MODE_MAGENTO => __('Magento')
                 ],
                 'value' => $orderSettings->getTaxMode(),
+            ]
+        );
+
+        $fieldset = $form->addFieldset(
+            'magento_block_otto_accounts_magento_orders_status_mapping',
+            [
+                'legend' => __('Order Status Mapping'),
+                'collapsable' => true,
+            ]
+        );
+
+        $fieldset->addField(
+            'magento_orders_status_mapping_mode',
+            'select',
+            [
+                'name' => 'magento_orders_settings[order_status_mapping][mode]',
+                'label' => __('Status Mapping'),
+                'values' => [
+                    \M2E\Otto\Model\Account\Settings\Order::ORDERS_STATUS_MAPPING_MODE_DEFAULT => __('Default Order Statuses'),
+                    \M2E\Otto\Model\Account\Settings\Order::ORDERS_STATUS_MAPPING_MODE_CUSTOM => __('Custom Order Statuses'),
+                ],
+                'value' => $orderSettings->getStatusMappingMode(),
+                'tooltip' => __(
+                    'Configure the mapping between Otto and Magento order statuses.
+                    Magento order statuses will automatically update according to these settings.'
+                ),
+            ]
+        );
+
+        $statusList = $this->orderConfig->getStatuses();
+
+        $fieldset->addField(
+            'magento_orders_status_mapping_processing',
+            'select',
+            [
+                'container_id' => 'magento_orders_status_mapping_processing_container',
+                'name' => 'magento_orders_settings[order_status_mapping][processing]',
+                'label' => __('Order Status is Unshipped / Partially Shipped'),
+                'values' => $statusList,
+                'value' => $orderSettings->getStatusMappingForProcessing(),
+                'disabled' => $orderSettings->isOrderStatusMappingModeDefault(),
+            ]
+        );
+
+        $fieldset->addField(
+            'magento_orders_status_mapping_shipped',
+            'select',
+            [
+                'container_id' => 'magento_orders_status_mapping_shipped_container',
+                'name' => 'magento_orders_settings[order_status_mapping][shipped]',
+                'label' => __('Shipping Is Completed'),
+                'values' => $statusList,
+                'value' => $orderSettings->getStatusMappingForProcessingShipped(),
+                'disabled' => $orderSettings->isOrderStatusMappingModeDefault(),
             ]
         );
 

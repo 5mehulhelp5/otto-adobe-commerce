@@ -19,6 +19,35 @@ class MappingService
         $this->listingOtherRepository = $listingOtherRepository;
     }
 
+    public function mapProduct(\M2E\Otto\Model\Listing\Other $other, int $magentoProductId): void
+    {
+        if ($other->getMagentoProductId() !== 0) {
+            throw new \RuntimeException('Product already mapped.');
+        }
+
+        $other->mapToMagentoProduct($magentoProductId);
+
+        $this->listingOtherRepository->save($other);
+    }
+
+    /**
+     * @param \M2E\Otto\Model\Listing\Other[] $otherListings
+     *
+     * @return void
+     */
+    public function unMap(array $otherListings): void
+    {
+        foreach ($otherListings as $otherListing) {
+            if ($otherListing->getMagentoProductId() === 0) {
+                continue;
+            }
+
+            $otherListing->unmapProduct();
+
+            $this->listingOtherRepository->save($otherListing);
+        }
+    }
+
     /**
      * @param \M2E\Otto\Model\Listing\Other[] $otherListings
      *

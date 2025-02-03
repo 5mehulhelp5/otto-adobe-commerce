@@ -35,7 +35,7 @@ class CreateUnmanaged extends \M2E\Otto\Controller\Adminhtml\AbstractListing
 
     public function execute()
     {
-        $listingId = (int)$this->getRequest()->getParam('listingId');
+        $listingId = (int)$this->getRequest()->getParam('listing_id');
         if (empty($listingId)) {
             $this->getMessageManager()->addError(__('Cannot start Wizard, Listing ID must be provided first.'));
 
@@ -71,34 +71,24 @@ class CreateUnmanaged extends \M2E\Otto\Controller\Adminhtml\AbstractListing
             if (count($selectedProducts) == $errorsCount) {
                 $manager->cancel();
 
-                $this->setJsonContent(
-                    [
-                        'result' => false,
-                        'message' => __(
-                            'Products were not moved because they already exist in the selected Listing or do not
-                            belong to the channel account or marketplace of the listing.'
-                        ),
-                    ]
+                $this->getMessageManager()->addErrorMessage(
+                    __(
+                        'Products were not moved because they already exist in the selected Listing or do not
+                            belong to the channel account of the listing.'
+                    )
                 );
 
-                return $this->getResult();
+                return $this->_redirect('*/product_grid/unmanaged');
             }
 
-            $this->setJsonContent(
-                [
-                    'result' => true,
-                    'isFailed' => true,
-                    'wizardId' => $wizard->getId(),
-                    'message' => __(
-                        'Some products were not moved because they already exist in the selected Listing or do not
-                        belong to the channel account or marketplace of the listing.'
-                    ),
-                ]
+            $this->getMessageManager()->addErrorMessage(
+                __(
+                    'Some products were not moved because they already exist in the selected Listing or do not
+                    belong to the channel account of the listing.'
+                )
             );
-        } else {
-            $this->setJsonContent(['result' => true, 'wizardId' => $wizard->getId()]);
         }
 
-        return $this->getResult();
+        return $this->_redirect('*/listing_wizard/index', ['id' => $wizard->getId()]);
     }
 }

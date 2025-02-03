@@ -13,6 +13,8 @@ class Order extends \M2E\Otto\Model\ActiveRecord\AbstractModel
     public const MAGENTO_ORDER_CREATION_FAILED_YES = 1;
     public const MAGENTO_ORDER_CREATION_FAILED_NO = 0;
 
+    public const MAGENTO_ORDER_CREATE_MAX_TRIES = 3;
+
     public const STATUS_UNKNOWN = 0;
     public const STATUS_PENDING = 1;
     public const STATUS_UNSHIPPED = 2;
@@ -24,8 +26,8 @@ class Order extends \M2E\Otto\Model\ActiveRecord\AbstractModel
     public const STATUS_RETURNED_PARTIALLY = 7;
     public const STATUS_CANCELED_PARTIALLY = 8;
 
-    /** @var float|int|null */
-    private $subTotalPrice = null;
+    private $statusUpdateRequired = false;
+    private float $subTotalPrice;
     private ?float $grandTotalPrice = null;
 
     private ?\Magento\Sales\Model\Order $magentoOrder = null;
@@ -41,19 +43,14 @@ class Order extends \M2E\Otto\Model\ActiveRecord\AbstractModel
     private \M2E\Otto\Model\Magento\Quote\Manager $quoteManager;
     private \M2E\Otto\Model\Magento\Quote\BuilderFactory $magentoQuoteBuilderFactory;
     private \M2E\Otto\Model\Magento\Order\Updater $magentoOrderUpdater;
-    private \M2E\Otto\Model\Magento\Order\ShipmentFactory $shipmentFactory;
-    private \M2E\Otto\Model\Magento\Order\Shipment\TrackFactory $magentoOrderShipmentTrackFactory;
-    private \M2E\Otto\Model\Magento\Order\Invoice $magentoOrderInvoice;
 
     private \Magento\Store\Model\StoreManager $storeManager;
     private \Magento\Sales\Model\OrderFactory $orderFactory;
 
     private \Magento\Framework\App\ResourceConnection $resourceConnection;
-    private \M2E\Otto\Helper\Module\Exception $helperModuleException;
 
     private \Magento\Catalog\Helper\Product $productHelper;
     private \Magento\Sales\Model\Order\Email\Sender\OrderSender $orderSender;
-    private \Magento\Sales\Model\Order\Email\Sender\InvoiceSender $invoiceSender;
     private \M2E\Otto\Model\Order\ProxyObjectFactory $proxyObjectFactory;
     private Otto\Order\ShippingAddressFactory $shippingAddressFactory;
 
@@ -69,17 +66,19 @@ class Order extends \M2E\Otto\Model\ActiveRecord\AbstractModel
     private \M2E\Otto\Model\Account\Repository $accountRepository;
     private Order\Repository $orderRepository;
     /** @var \M2E\Otto\Model\Order\Item[] */
-    private ?array $items = null;
+    private array $items;
+
+    private \M2E\Otto\Model\Order\LogicItemCollection $logicItemCollection;
+    /** @var \M2E\Otto\Model\Order\LogicItemCollectionFactory */
+    private Order\LogicItemCollectionFactory $logicItemCollectionFactory;
 
     public function __construct(
+        \M2E\Otto\Model\Order\LogicItemCollectionFactory $logicItemCollectionFactory,
         \M2E\Otto\Model\Order\Repository $orderRepository,
         \M2E\Otto\Model\Account\Repository $accountRepository,
         \M2E\Otto\Model\Magento\Quote\Manager $quoteManager,
         \M2E\Otto\Model\Magento\Quote\BuilderFactory $magentoQuoteBuilderFactory,
         \M2E\Otto\Model\Magento\Order\Updater $magentoOrderUpdater,
-        \M2E\Otto\Model\Magento\Order\ShipmentFactory $shipmentFactory,
-        \M2E\Otto\Model\Magento\Order\Shipment\TrackFactory $magentoOrderShipmentTrackFactory,
-        \M2E\Otto\Model\Magento\Order\Invoice $magentoOrderInvoice,
         \M2E\Otto\Model\Order\ReserveFactory $orderReserveFactory,
         \M2E\Otto\Model\Order\Log\ServiceFactory $orderLogServiceFactory,
         \M2E\Otto\Model\Order\ProxyObjectFactory $proxyObjectFactory,
@@ -91,10 +90,8 @@ class Order extends \M2E\Otto\Model\ActiveRecord\AbstractModel
         \M2E\Otto\Helper\Data\GlobalData $globalDataHelper,
         \M2E\Otto\Helper\Module\Logger $loggerHelper,
         \M2E\Otto\Helper\Module\Exception $exceptionHelper,
-        \M2E\Otto\Helper\Module\Exception $helperModuleException,
         \Magento\Store\Model\StoreManager $storeManager,
         \Magento\Sales\Model\Order\Email\Sender\OrderSender $orderSender,
-        \Magento\Sales\Model\Order\Email\Sender\InvoiceSender $invoiceSender,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Framework\App\ResourceConnection $resourceConnection,
         \Magento\Catalog\Helper\Product $productHelper,
@@ -118,11 +115,8 @@ class Order extends \M2E\Otto\Model\ActiveRecord\AbstractModel
         $this->resourceConnection = $resourceConnection;
         $this->productHelper = $productHelper;
         $this->quoteManager = $quoteManager;
-        $this->helperModuleException = $helperModuleException;
         $this->orderSender = $orderSender;
-        $this->invoiceSender = $invoiceSender;
         $this->proxyObjectFactory = $proxyObjectFactory;
-        $this->shipmentFactory = $shipmentFactory;
         $this->shippingAddressFactory = $shippingAddressFactory;
         $this->orderChangeCollectionFactory = $orderChangeCollectionFactory;
         $this->orderLogServiceFactory = $orderLogServiceFactory;
@@ -135,12 +129,11 @@ class Order extends \M2E\Otto\Model\ActiveRecord\AbstractModel
         $this->magentoStoreHelper = $magentoStoreHelper;
         $this->magentoQuoteBuilderFactory = $magentoQuoteBuilderFactory;
         $this->magentoOrderUpdater = $magentoOrderUpdater;
-        $this->magentoOrderShipmentTrackFactory = $magentoOrderShipmentTrackFactory;
-        $this->magentoOrderInvoice = $magentoOrderInvoice;
         $this->accountRepository = $accountRepository;
+        $this->logicItemCollectionFactory = $logicItemCollectionFactory;
     }
 
-    public function _construct()
+    public function _construct(): void
     {
         parent::_construct();
         $this->_init(\M2E\Otto\Model\ResourceModel\Order::class);
@@ -202,13 +195,17 @@ class Order extends \M2E\Otto\Model\ActiveRecord\AbstractModel
      */
     public function getItems(): array
     {
-        if ($this->items !== null) {
+        /** @psalm-suppress RedundantPropertyInitializationCheck */
+        if (isset($this->items)) {
             return $this->items;
         }
 
         return $this->items = $this->orderRepository->findItemsByOrder($this);
     }
 
+    /**
+     * @deprecated
+     */
     public function getItemsCollection(): \M2E\Otto\Model\ResourceModel\Order\Item\Collection
     {
         if ($this->itemsCollection === null) {
@@ -221,6 +218,16 @@ class Order extends \M2E\Otto\Model\ActiveRecord\AbstractModel
         }
 
         return $this->itemsCollection;
+    }
+
+    public function getLogicItemsCollection(): \M2E\Otto\Model\Order\LogicItemCollection
+    {
+        /** @psalm-suppress RedundantPropertyInitializationCheck */
+        if (!isset($this->logicItemCollection)) {
+            $this->logicItemCollection = $this->logicItemCollectionFactory->createFromOrder($this);
+        }
+
+        return $this->logicItemCollection;
     }
 
     public function getMagentoOrderCreationLatestAttemptDate()
@@ -303,7 +310,7 @@ class Order extends \M2E\Otto\Model\ActiveRecord\AbstractModel
 
     public function canCreateMagentoOrder(): bool
     {
-        if ($this->getMagentoOrderId() !== null) {
+        if ($this->hasMagentoOrder()) {
             return false;
         }
 
@@ -315,10 +322,21 @@ class Order extends \M2E\Otto\Model\ActiveRecord\AbstractModel
             return false;
         }
 
-        foreach ($this->getItemsCollection()->getItems() as $item) {
-            if (!$item->canCreateMagentoOrder()) {
-                return false;
+        $itemResults = [];
+        foreach ($this->getLogicItemsCollection()->getAllowedForCreateInMagento() as $logicItem) {
+            foreach ($logicItem->getItemsAllowedForCreateInMagento() as $orderItem) {
+                $itemResults[] = $orderItem->canCreateMagentoOrder();
             }
+        }
+
+        if (empty($itemResults)) {
+            return false;
+        }
+
+        // All order item (except items in status Cancelled and Returned)
+        // must be in status Unshipped or Shipped
+        if (in_array(false, $itemResults, true)) {
+            return false;
         }
 
         return true;
@@ -346,21 +364,21 @@ class Order extends \M2E\Otto\Model\ActiveRecord\AbstractModel
         return (string)$this->getData(\M2E\Otto\Model\ResourceModel\Order::COLUMN_OTTO_ORDER_NUMBER);
     }
 
-    //########################################
+    // ---------------------------------------
 
     public function isCanceled(): bool
     {
         return $this->getOrderStatus() === self::STATUS_CANCELED;
     }
 
-    //########################################
+    // ---------------------------------------
 
     public function getOrderStatus(): int
     {
         return (int)($this->getData('order_status') ?? 0);
     }
 
-    //########################################
+    // ---------------------------------------
 
     public function isStatusPending(): bool
     {
@@ -622,10 +640,12 @@ class Order extends \M2E\Otto\Model\ActiveRecord\AbstractModel
     /**
      * Associate each order item with product in magento
      */
-    public function associateItemsWithProducts()
+    public function associateItemsWithProducts(): void
     {
-        foreach ($this->getItemsCollection()->getItems() as $item) {
-            $item->associateWithProduct();
+        foreach ($this->getLogicItemsCollection()->getAllowedForCreateInMagento() as $logicItem) {
+            foreach ($logicItem->getItemsAllowedForCreateInMagento() as $item) {
+                $item->associateWithProduct();
+            }
         }
     }
 
@@ -772,7 +792,7 @@ class Order extends \M2E\Otto\Model\ActiveRecord\AbstractModel
 
     public function getMagentoOrder(): ?\Magento\Sales\Model\Order
     {
-        if ($this->getMagentoOrderId() === null) {
+        if (!$this->hasMagentoOrder()) {
             return null;
         }
 
@@ -887,162 +907,21 @@ class Order extends \M2E\Otto\Model\ActiveRecord\AbstractModel
         return true;
     }
 
-    /**
-     * @throws \Magento\Framework\Exception\AlreadyExistsException
-     * @throws \M2E\Otto\Model\Exception\Logic
-     */
-    public function createInvoice(): ?\Magento\Sales\Model\Order\Invoice
-    {
-        $invoice = null;
-
-        try {
-            if (!$this->canCreateInvoice()) {
-                return null;
-            }
-
-            $magentoOrder = $this->getMagentoOrder();
-
-            $invoiceBuilder = $this->magentoOrderInvoice;
-            $invoiceBuilder->setMagentoOrder($magentoOrder);
-            $invoiceBuilder->buildInvoice();
-
-            $invoice = $invoiceBuilder->getInvoice();
-
-            if ($this->getAccount()->getOrdersSettings()->isCustomerNewNotifyWhenInvoiceCreated()) {
-                $this->invoiceSender->send($invoice);
-            }
-        } catch (\Throwable $throwable) {
-            $this->helperModuleException->process($throwable);
-            $this->addErrorLog(
-                'Invoice was not created. Reason: %msg%',
-                ['msg' => $throwable->getMessage()]
-            );
-        }
-
-        if ($invoice !== null) {
-            $this->addSuccessLog(
-                'Invoice #%invoice_id% was created.',
-                ['!invoice_id' => $invoice->getIncrementId()]
-            );
-        }
-
-        return $invoice;
-    }
-
-    public function canCreateInvoice(): bool
-    {
-        if ($this->isStatusPending()) {
-            return false;
-        }
-
-        if (!$this->getAccount()->getInvoiceAndShipmentSettings()->isCreateMagentoInvoice()) {
-            return false;
-        }
-
-        $magentoOrder = $this->getMagentoOrder();
-        if ($magentoOrder === null) {
-            return false;
-        }
-
-        if ($magentoOrder->hasInvoices() || !$magentoOrder->canInvoice()) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * @throws \M2E\Otto\Model\Exception\Logic
-     * @throws \Magento\Framework\Exception\AlreadyExistsException
-     */
-    public function createShipments(): ?array
-    {
-        if (!$this->canCreateShipments()) {
-            if ($this->getMagentoOrder() && $this->getMagentoOrder()->getIsVirtual()) {
-                $this->addInfoLog(
-                    'Magento Order was created without the Shipping Address since your Virtual Product ' .
-                    'has no weight and cannot be shipped.'
-                );
-            }
-
-            return null;
-        }
-
-        $shipments = [];
-
-        try {
-            if (!$this->canCreateShipments()) {
-                return null;
-            }
-
-            /** @var \M2E\Otto\Model\Magento\Order\Shipment $shipmentBuilder */
-            $shipmentBuilder = $this->shipmentFactory->create($this->getMagentoOrder());
-            $shipmentBuilder->setMagentoOrder($this->getMagentoOrder());
-            $shipmentBuilder->buildShipments();
-
-            $shipments = $shipmentBuilder->getShipments();
-        } catch (\Throwable $throwable) {
-            $this->helperModuleException->process($throwable);
-            $this->addErrorLog(
-                'Shipment was not created. Reason: %msg%',
-                ['msg' => $throwable->getMessage()]
-            );
-        }
-
-        if (!empty($shipments)) {
-            foreach ($shipments as $shipment) {
-                $this->addSuccessLog('Shipment #%shipment_id% was created.', [
-                    '!shipment_id' => $shipment->getIncrementId(),
-                ]);
-
-                $this->addCreatedMagentoShipment($shipment);
-            }
-        } else {
-            $this->addWarningLog('Shipment was not created.');
-        }
-
-        return $shipments;
-    }
-
-    public function canCreateShipments(): bool
-    {
-        if (
-            $this->isStatusPending()
-            || $this->isStatusUnshipping()
-            || $this->isCanceled()
-        ) {
-            return false;
-        }
-
-        if (!$this->getAccount()->getInvoiceAndShipmentSettings()->isCreateMagentoShipment()) {
-            return false;
-        }
-
-        $magentoOrder = $this->getMagentoOrder();
-        if ($magentoOrder === null) {
-            return false;
-        }
-
-        if ($magentoOrder->hasShipments() || !$magentoOrder->canShip()) {
-            return false;
-        }
-
-        return true;
-    }
-
     public function isStatusUnshipping(): bool
     {
         return $this->getOrderStatus() === self::STATUS_UNSHIPPED;
     }
 
-    /**
-     * @throws \M2E\Otto\Model\Exception\Logic
-     */
+    public function isStatusShipping(): bool
+    {
+        return $this->getOrderStatus() === self::STATUS_SHIPPED;
+    }
+
     public function addCreatedMagentoShipment(\Magento\Sales\Model\Order\Shipment $magentoShipment): self
     {
         $additionalData = $this->getAdditionalData();
         $additionalData['created_shipments_ids'][] = $magentoShipment->getId();
-        $this->setSettings('additional_data', $additionalData)->save();
+        $this->setSettings('additional_data', $additionalData);
 
         return $this;
     }
@@ -1253,17 +1132,27 @@ class Order extends \M2E\Otto\Model\ActiveRecord\AbstractModel
         return $this->grandTotalPrice;
     }
 
-    /**
-     * @return float|int|null
-     */
-    public function getSubtotalPrice()
+    public function getStatusForMagentoOrder(): string
     {
-        if ($this->subTotalPrice === null) {
+        if ($this->isStatusUnshipping()) {
+            return $this->getAccount()->getOrdersSettings()->getStatusMappingForProcessing();
+        }
+
+        if ($this->isStatusShipping()) {
+            return $this->getAccount()->getOrdersSettings()->getStatusMappingForProcessingShipped();
+        }
+
+        return '';
+    }
+
+    public function getSubtotalPrice(): float
+    {
+        /** @psalm-suppress RedundantPropertyInitializationCheck */
+        if (!isset($this->subTotalPrice)) {
             $subtotal = 0;
 
-            /** @var \M2E\Otto\Model\Order\Item $item */
-            foreach ($this->getItemsCollection() as $item) {
-                $subtotal += $item->getSalePrice() * $item->getQtyPurchased();
+            foreach ($this->getLogicItemsCollection()->getAll() as $logicItem) {
+                $subtotal += $logicItem->getSubtotalPrice();
             }
 
             $this->subTotalPrice = $subtotal;
@@ -1282,83 +1171,24 @@ class Order extends \M2E\Otto\Model\ActiveRecord\AbstractModel
         return (float)($shippingDetails['price'] ?? 0.0);
     }
 
-    /**
-     * @throws \M2E\Otto\Model\Exception\Logic
-     * @throws \Magento\Framework\Exception\AlreadyExistsException
-     */
-    public function createTracks(): ?array
-    {
-        if (!$this->canCreateTracks()) {
-            return null;
-        }
-
-        $tracks = [];
-
-        try {
-            $trackBuilder = $this->magentoOrderShipmentTrackFactory
-                ->create($this, $this->getShippingTrackingDetails())
-                ->setSupportedCarriers(\M2E\Otto\Helper\Component\Otto::getCarriers());
-
-            $tracks = $trackBuilder->getTracks();
-        } catch (\Throwable $throwable) {
-            $this->addErrorLog(
-                'Tracking details were not imported. Reason: %msg%',
-                ['msg' => $throwable->getMessage()]
-            );
-        }
-
-        if (!empty($tracks)) {
-            $this->addSuccessLog('Tracking details were imported.');
-        }
-
-        return $tracks;
-    }
-
-    /**
-     * @throws \M2E\Otto\Model\Exception\Logic
-     */
-    public function canCreateTracks(): bool
-    {
-        $trackingDetails = $this->getShippingTrackingDetails();
-        if (empty($trackingDetails)) {
-            return false;
-        }
-
-        $magentoOrder = $this->getMagentoOrder();
-        if ($magentoOrder === null) {
-            return false;
-        }
-
-        if (!$magentoOrder->hasShipments()) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * @throws \M2E\Otto\Model\Exception\Logic
-     */
     public function getShippingTrackingDetails(): array
     {
         $trackingDetails = [];
 
-        $items = $this->getItemsCollection()->getItems();
-        foreach ($items as $item) {
-            $trackingDetails[] = $item->getTrackingDetails();
-        }
-
         $existedTrackingNumbers = [];
-        foreach ($trackingDetails as $key => $trackingDetail) {
-            if (
-                empty($trackingDetail['tracking_number'] ?? null)
-                || in_array($trackingDetail['tracking_number'], $existedTrackingNumbers)
-            ) {
-                unset($trackingDetails[$key]);
+        foreach ($this->getItems() as $item) {
+            $itemDetails = $item->getTrackingDetails();
+            if (empty($itemDetails['tracking_number'])) {
                 continue;
             }
 
-            $existedTrackingNumbers[] = $trackingDetail['tracking_number'];
+            if (isset($existedTrackingNumbers[$itemDetails['tracking_number']])) {
+                continue;
+            }
+
+            $trackingDetails[] = $itemDetails;
+
+            $existedTrackingNumbers[$itemDetails['tracking_number']] = true;
         }
 
         return $trackingDetails;
@@ -1386,8 +1216,15 @@ class Order extends \M2E\Otto\Model\ActiveRecord\AbstractModel
         return true;
     }
 
-    public function isStatusShipping(): bool
+    public function markAsStatusUpdateRequired(): self
     {
-        return $this->getOrderStatus() === self::STATUS_SHIPPED;
+        $this->statusUpdateRequired = true;
+
+        return $this;
+    }
+
+    public function getStatusUpdateRequired(): bool
+    {
+        return $this->statusUpdateRequired;
     }
 }

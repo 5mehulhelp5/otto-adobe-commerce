@@ -190,20 +190,13 @@ class Updater extends \Magento\Framework\DataObject
 
     //########################################
 
-    /**
-     * Update status
-     *
-     * @param $status
-     *
-     * @return null
-     */
-    public function updateStatus($status)
+    public function updateStatus(string $status): void
     {
         if ($this->magentoOrder->isCanceled()) {
             return;
         }
 
-        if ($status == '') {
+        if (empty($status)) {
             return;
         }
 
@@ -219,7 +212,7 @@ class Updater extends \Magento\Framework\DataObject
         $this->needSave = true;
     }
 
-    //########################################
+    // ----------------------------------------
 
     public function cancel()
     {
@@ -229,12 +222,12 @@ class Updater extends \Magento\Framework\DataObject
         $this->magentoOrder->cancel()->save();
     }
 
-    //########################################
+    // ----------------------------------------
 
     /**
      * Save magento order only once and only if it's needed
      */
-    public function finishUpdate()
+    public function finishUpdate(): void
     {
         if ($this->needSave) {
             $this->magentoOrder->save();

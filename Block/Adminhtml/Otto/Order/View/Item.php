@@ -55,7 +55,7 @@ class Item extends AbstractGrid
 
     protected function _prepareCollection()
     {
-        $collection = $this->orderItemRepository->getGroupOrderItems($this->order->getId());
+        $collection = $this->orderItemRepository->getGroupOrderItemsCollection($this->order->getId());
         $this->setCollection($collection);
 
         return parent::_prepareCollection();
@@ -151,7 +151,7 @@ class Item extends AbstractGrid
     public function callbackColumnProduct($value, \M2E\Otto\Model\Order\Item $row, $column, $isExport)
     {
         $productLink = '';
-        if ($row->getMagentoProductId()) {
+        if ($row->isMappedWithMagentoProduct()) {
             $productUrl = $this->getUrl('catalog/product/edit', [
                 'id' => $row->getMagentoProductId(),
                 'store' => $row->getOrder()->getStoreId(),
@@ -164,7 +164,7 @@ class Item extends AbstractGrid
         }
 
         $editLink = '';
-        if (!$row->getMagentoProductId()) {
+        if (!$row->isMappedWithMagentoProduct()) {
             $onclick = "OrderEditItemObj.edit('{$this->getId()}', '{$row->getOrderItemsIds()}')";
             $editLink = sprintf(
                 '<a class="gray" href="javascript:void(0);" onclick="%s">%s</a>',
@@ -173,7 +173,10 @@ class Item extends AbstractGrid
             );
         }
 
-        if ($row->getMagentoProductId() && $row->getMagentoProduct()->isProductWithVariations()) {
+        if (
+            $row->isMappedWithMagentoProduct()
+            && $row->getMagentoProduct()->isProductWithVariations()
+        ) {
             $onclick = "OrderEditItemObj.edit('{$this->getId()}', '{$row->getOrderItemsIds()}',)";
             $editLink = sprintf(
                 '<a class="gray" href="javascript:void(0);" onclick="%s">%s</a>',
@@ -183,7 +186,7 @@ class Item extends AbstractGrid
         }
 
         $discardLink = '';
-        if ($row->getMagentoProductId()) {
+        if ($row->isMappedWithMagentoProduct()) {
             $onclick = "OrderEditItemObj.unassignProduct('{$this->getId()}', '{$row->getOrderItemsIds()}')";
             $discardLink = sprintf(
                 '<a class="gray" href="javascript:void(0);" onclick="%s">%s</a>',
@@ -207,6 +210,20 @@ class Item extends AbstractGrid
             $editLink,
             $discardLink
         );
+
+        if ($row->isStatusCancelled()) {
+            $actionLine = sprintf(
+                '<div><span class="canceled-order-item">%s</span></div>',
+                __('Item was Canceled')
+            );
+        }
+
+        if ($row->isStatusReturned()) {
+            $actionLine = sprintf(
+                '<div><span class="canceled-order-item">%s</span></div>',
+                __('Item was Returned')
+            );
+        }
 
         return $titleLine . $skuLine . $actionLine;
     }

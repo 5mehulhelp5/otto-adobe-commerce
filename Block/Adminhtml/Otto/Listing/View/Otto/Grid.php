@@ -88,6 +88,7 @@ class Grid extends \M2E\Otto\Block\Adminhtml\Listing\View\AbstractGrid
                 'additional_data' => ListingProductResource::COLUMN_ADDITIONAL_DATA,
                 'online_title' => ListingProductResource::COLUMN_ONLINE_TITLE,
                 'online_qty' => ListingProductResource::COLUMN_ONLINE_QTY,
+                'online_sku' => ListingProductResource::COLUMN_ONLINE_SKU,
                 'online_category' => ListingProductResource::COLUMN_ONLINE_CATEGORY,
                 'online_price' => ListingProductResource::COLUMN_ONLINE_PRICE,
                 'template_category_id' => ListingProductResource::COLUMN_TEMPLATE_CATEGORY_ID,

@@ -1,71 +1,66 @@
 <?php
 
+declare(strict_types=1);
+
 namespace M2E\Otto\Model\Magento\Order;
 
-use M2E\Otto\Model\MSI\Magento\Order\Shipment as MSIShipment;
-use Magento\InventoryShippingAdminUi\Model\IsOrderSourceManageable;
-use Magento\InventoryShippingAdminUi\Model\IsWebsiteInMultiSourceMode;
-use Magento\InventorySalesApi\Model\GetSkuFromOrderItemInterface;
 use Magento\InventoryApi\Api\StockRepositoryInterface;
 use Magento\InventoryConfigurationApi\Api\GetStockItemConfigurationInterface;
 use Magento\InventoryConfigurationApi\Model\IsSourceItemManagementAllowedForProductTypeInterface;
+use Magento\InventorySalesApi\Model\GetSkuFromOrderItemInterface;
+use Magento\InventoryShippingAdminUi\Model\IsOrderSourceManageable;
+use Magento\InventoryShippingAdminUi\Model\IsWebsiteInMultiSourceMode;
 
-/**
- * Class \M2E\Otto\Model\Magento\Order\ShipmentFactory
- */
 class ShipmentFactory
 {
-    /** @var \Magento\Framework\ObjectManagerInterface */
-    protected $objectManager;
-
-    /** @var \M2E\Otto\Helper\Factory */
-    protected $helperFactory;
-
-    //########################################
+    private \Magento\Framework\ObjectManagerInterface $objectManager;
+    private \M2E\Otto\Helper\Magento $magentoHelper;
 
     public function __construct(
-        \M2E\Otto\Helper\Factory $helperFactory,
-        \Magento\Framework\ObjectManagerInterface $objectManager
+        \Magento\Framework\ObjectManagerInterface $objectManager,
+        \M2E\Otto\Helper\Magento $magentoHelper
     ) {
         $this->objectManager = $objectManager;
-        $this->helperFactory = $helperFactory;
+        $this->magentoHelper = $magentoHelper;
     }
 
-    //########################################
-
     /**
-     * @param \Magento\Sales\Model\Order $order
-     * @param array $data
+     * @param \Magento\Sales\Api\Data\OrderInterface $magentoOrder
+     * @param \Magento\Sales\Model\Order\Item[] $itemsToShipment
      *
-     * @return \Magento\Sales\Api\Data\ShipmentInterface
+     * @return \M2E\Otto\Model\Magento\Order\Shipment
      */
-    public function create(\Magento\Sales\Api\Data\OrderInterface $order, array $data = [])
-    {
-        return $this->isMsiMode($order)
-            ? $this->objectManager->create(MSIShipment::class, $data)
-            : $this->objectManager->create(Shipment::class, $data);
+    public function create(
+        \Magento\Sales\Api\Data\OrderInterface $magentoOrder,
+        array $itemsToShipment
+    ): \M2E\Otto\Model\Magento\Order\Shipment {
+        $prepareShipmentsProcessor = $this->isMsiMode($magentoOrder)
+            ? $this->objectManager->get(\M2E\Otto\Model\MSI\Magento\Order\PrepareShipments::class)
+            : $this->objectManager->get(\M2E\Otto\Model\Magento\Order\PrepareShipments::class);
+
+        return $this->objectManager->create(
+            Shipment::class,
+            [
+                'magentoOrder' => $magentoOrder,
+                'itemsToShip' => $itemsToShipment,
+                'prepareShipmentsInterfaceProcessor' => $prepareShipmentsProcessor,
+            ]
+        );
     }
 
-    //########################################
-
-    /**
-     * @param \Magento\Sales\Model\Order $order
-     *
-     * @return bool
-     */
-    private function isMsiMode(\Magento\Sales\Api\Data\OrderInterface $order)
+    private function isMsiMode(\Magento\Sales\Api\Data\OrderInterface $order): bool
     {
-        if (!$this->helperFactory->getObject('Magento')->isMSISupportingVersion()) {
+        if (!$this->magentoHelper->isMSISupportingVersion()) {
             return false;
         }
 
         $websiteId = (int)$order->getStore()->getWebsiteId();
 
-        return $this->objectManager->get(IsWebsiteInMultiSourceMode::class)->execute($websiteId) &&
-            $this->isOrderSourceManageable($order);
+        return $this->objectManager->get(IsWebsiteInMultiSourceMode::class)->execute($websiteId)
+            && $this->isOrderSourceManageable($order);
     }
 
-    private function isOrderSourceManageable(\Magento\Sales\Api\Data\OrderInterface $order)
+    private function isOrderSourceManageable(\Magento\Sales\Api\Data\OrderInterface $order): bool
     {
         if (class_exists(IsOrderSourceManageable::class)) {
             return $this->objectManager->get(IsOrderSourceManageable::class)->execute($order);
@@ -97,6 +92,4 @@ class ShipmentFactory
 
         return false;
     }
-
-    //########################################
 }

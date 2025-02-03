@@ -4,29 +4,23 @@ namespace M2E\Otto\Model\Magento\Product\Rule\Condition;
 
 class Product extends AbstractModel
 {
-    protected $url;
-    protected $config;
-    protected $productFactory;
-    protected $attrSetCollection;
-    protected $localeFormat;
+    protected \Magento\Backend\Model\UrlInterface $url;
+    protected \Magento\Eav\Model\Config $config;
+    protected \Magento\Catalog\Model\ProductFactory $productFactory;
+    protected \Magento\Eav\Model\ResourceModel\Entity\Attribute\Set\Collection $attrSetCollection;
+    protected \Magento\Framework\Locale\FormatInterface $localeFormat;
 
     protected $_entityAttributeValues = null;
-
     protected $_isUsedForRuleProperty = 'is_used_for_promo_rules';
-
     protected $_arrayInputTypes = [];
-
     protected $_customFiltersCache = [];
+
     private \M2E\Otto\Helper\Magento\Attribute $magentoAttributeHelper;
-    private \M2E\Otto\Model\Magento\Product\Rule\Custom\StockFactory $stockFactory;
-    private \M2E\Otto\Model\Magento\Product\Rule\Custom\TypeIdFactory $typeIdFactory;
-    private \M2E\Otto\Model\Magento\Product\Rule\Custom\QtyFactory $qtyFactory;
+    private \M2E\Otto\Model\Magento\Product\Rule\Custom\CustomFilterFactory $customFilterFactory;
 
     public function __construct(
         \M2E\Otto\Helper\Magento\Attribute $magentoAttributeHelper,
-        \M2E\Otto\Model\Magento\Product\Rule\Custom\StockFactory $stockFactory,
-        \M2E\Otto\Model\Magento\Product\Rule\Custom\TypeIdFactory $typeIdFactory,
-        \M2E\Otto\Model\Magento\Product\Rule\Custom\QtyFactory $qtyFactory,
+        \M2E\Otto\Model\Magento\Product\Rule\Custom\CustomFilterFactory $customFilterFactory,
         \Magento\Backend\Model\UrlInterface $url,
         \Magento\Eav\Model\Config $config,
         \Magento\Eav\Model\ResourceModel\Entity\Attribute\Set\Collection $attrSetCollection,
@@ -41,9 +35,8 @@ class Product extends AbstractModel
         $this->attrSetCollection = $attrSetCollection;
         $this->productFactory = $productFactory;
         $this->localeFormat = $localeFormat;
-        $this->stockFactory = $stockFactory;
-        $this->typeIdFactory = $typeIdFactory;
-        $this->qtyFactory = $qtyFactory;
+        $this->customFilterFactory = $customFilterFactory;
+
         parent::__construct($context, $data);
     }
 
@@ -176,12 +169,28 @@ class Product extends AbstractModel
             /*
              * '{}' and '!{}' are left for back-compatibility and equal to '==' and '!='
              */
-            $this->_defaultOperatorInputByType['category'] = ['==', '!=', '{}', '!{}', '()', '!()'];
-            $this->_arrayInputTypes[] = 'category';
+            $this->_defaultOperatorInputByType[AbstractModel::INPUT_TYPE_CATEGORY] = [
+                '==',
+                '!=',
+                '{}',
+                '!{}',
+                '()',
+                '!()',
+            ];
+            $this->_arrayInputTypes[] = AbstractModel::INPUT_TYPE_CATEGORY;
             /*
              * price and price range modification
              */
-            $this->_defaultOperatorInputByType['price'] = ['==', '!=', '>=', '>', '<=', '<', '{}', '!{}'];
+            $this->_defaultOperatorInputByType[AbstractModel::INPUT_TYPE_PRICE] = [
+                '==',
+                '!=',
+                '>=',
+                '>',
+                '<=',
+                '<',
+                '{}',
+                '!{}',
+            ];
         }
 
         return $this->_defaultOperatorInputByType;
@@ -214,13 +223,13 @@ class Product extends AbstractModel
         $attributes['attribute_set_id'] = __('Attribute Set');
         $attributes['category_ids'] = __('Category');
 
-        foreach ($this->getCustomFilters() as $filterId => $instanceName) {
+        foreach ($this->getCustomFilters() as $customFilterClassName) {
             // $this->_data property is not initialized jet, so we can't cache a created custom filter as
             // it requires that data
-            $customFilterInstance = $this->getCustomFilterInstance($filterId, false);
+            $customFilterInstance = $this->getCustomFilterInstance($customFilterClassName, false);
 
-            if ($customFilterInstance instanceof \M2E\Otto\Model\Magento\Product\Rule\Custom\AbstractModel) {
-                $attributes[$filterId] = $customFilterInstance->getLabel();
+            if ($customFilterInstance instanceof \M2E\Otto\Model\Magento\Product\Rule\Custom\AbstractCustomFilter) {
+                $attributes[$customFilterClassName] = $customFilterInstance->getLabel();
             }
         }
     }
@@ -404,34 +413,35 @@ class Product extends AbstractModel
             return $this->getCustomFilterInstance($this->getAttribute())->getInputType();
         }
         if ($this->getAttribute() === 'attribute_set_id') {
-            return 'select';
+            return AbstractModel::INPUT_TYPE_SELECT;
         }
         if (!is_object($this->getAttributeObject())) {
-            return 'string';
+            return AbstractModel::INPUT_TYPE_STRING;
         }
         if ($this->getAttributeObject()->getAttributeCode() === 'category_ids') {
-            return 'category';
+            return AbstractModel::INPUT_TYPE_CATEGORY;
         }
         switch ($this->getAttributeObject()->getFrontendInput()) {
             case 'select':
-                return 'select';
+                return AbstractModel::INPUT_TYPE_SELECT;
 
             case 'multiselect':
-                return 'multiselect';
+                return AbstractModel::INPUT_TYPE_MULTISELECT;
 
             case 'date':
-                return 'date';
+                return AbstractModel::INPUT_TYPE_DATE;
 
             case 'boolean':
-                return 'boolean';
+                return AbstractModel::INPUT_TYPE_BOOLEAN;
 
             default:
-                return 'string';
+                return AbstractModel::INPUT_TYPE_STRING;
         }
     }
 
     /**
      * Retrieve value element type
+     *
      * @return string
      */
     public function getValueElementType()
@@ -440,24 +450,24 @@ class Product extends AbstractModel
             return $this->getCustomFilterInstance($this->getAttribute())->getValueElementType();
         }
         if ($this->getAttribute() === 'attribute_set_id') {
-            return 'select';
+            return AbstractModel::VALUE_ELEMENT_TYPE_SELECT;
         }
         if (!is_object($this->getAttributeObject())) {
-            return 'text';
+            return AbstractModel::VALUE_ELEMENT_TYPE_TEXT;
         }
         switch ($this->getAttributeObject()->getFrontendInput()) {
             case 'select':
             case 'boolean':
-                return 'select';
+                return AbstractModel::VALUE_ELEMENT_TYPE_SELECT;
 
             case 'multiselect':
-                return 'multiselect';
+                return AbstractModel::VALUE_ELEMENT_TYPE_MULTISELECT;
 
             case 'date':
-                return 'date';
+                return AbstractModel::VALUE_ELEMENT_TYPE_DATE;
 
             default:
-                return 'text';
+                return AbstractModel::VALUE_ELEMENT_TYPE_TEXT;
         }
     }
 
@@ -471,7 +481,7 @@ class Product extends AbstractModel
 
         if (
             $this->isFilterCustom($this->getAttribute())
-            && $this->getCustomFilterInstance($this->getAttribute())->getInputType() === 'date'
+            && $this->getCustomFilterInstance($this->getAttribute())->getInputType() === AbstractModel::INPUT_TYPE_DATE
         ) {
             $element->setImage($this->_assetRepo->getUrl('M2E_Otto::images/grid-cal.gif'));
         }
@@ -489,13 +499,14 @@ class Product extends AbstractModel
 
     /**
      * Retrieve Explicit Apply
+     *
      * @return bool
      */
-    public function getExplicitApply()
+    public function getExplicitApply(): bool
     {
         if (
             $this->isFilterCustom($this->getAttribute())
-            && $this->getCustomFilterInstance($this->getAttribute())->getInputType() === 'date'
+            && $this->getCustomFilterInstance($this->getAttribute())->getInputType() === AbstractModel::INPUT_TYPE_DATE
         ) {
             return true;
         }
@@ -562,7 +573,7 @@ class Product extends AbstractModel
     public function getOperatorForValidate()
     {
         $op = $this->getOperator();
-        if ($this->getInputType() === 'category') {
+        if ($this->getInputType() === AbstractModel::INPUT_TYPE_CATEGORY) {
             if ($op === '==') {
                 $op = '{}';
             } elseif ($op === '!=') {
@@ -576,9 +587,16 @@ class Product extends AbstractModel
     protected function getCustomFilters(): array
     {
         return [
-            'is_in_stock' => 'Stock',
-            'qty' => 'Qty',
-            'type_id' => 'TypeId',
+            \M2E\Otto\Model\Magento\Product\Rule\Custom\Magento\Stock::NICK,
+            \M2E\Otto\Model\Magento\Product\Rule\Custom\Magento\Qty::NICK,
+            \M2E\Otto\Model\Magento\Product\Rule\Custom\Magento\TypeId::NICK,
+            \M2E\Otto\Model\Magento\Product\Rule\Custom\Otto\Moin::NICK,
+            \M2E\Otto\Model\Magento\Product\Rule\Custom\Otto\OnlineTitle::NICK,
+            \M2E\Otto\Model\Magento\Product\Rule\Custom\Otto\OnlineSku::NICK,
+            \M2E\Otto\Model\Magento\Product\Rule\Custom\Otto\OnlineQty::NICK,
+            \M2E\Otto\Model\Magento\Product\Rule\Custom\Otto\OnlineCategory::NICK,
+            \M2E\Otto\Model\Magento\Product\Rule\Custom\Otto\OnlinePrice::NICK,
+            \M2E\Otto\Model\Magento\Product\Rule\Custom\Otto\Status::NICK,
         ];
     }
 
@@ -586,45 +604,39 @@ class Product extends AbstractModel
     {
         $customFilters = $this->getCustomFilters();
 
-        return isset($customFilters[$filterId]);
+        return in_array($filterId, $customFilters, true);
     }
 
     /**
-     * @param $filterId
+     * @param string $filterType
      * @param bool $isReadyToCache
      *
-     * @return \M2E\Otto\Model\Magento\Product\Rule\Custom\AbstractModel
+     * @return \M2E\Otto\Model\Magento\Product\Rule\Custom\AbstractCustomFilter
      * @throws \M2E\Otto\Model\Exception\Logic
      */
     protected function getCustomFilterInstance(
-        $filterId,
+        string $filterType,
         bool $isReadyToCache = true
-    ): ?\M2E\Otto\Model\Magento\Product\Rule\Custom\AbstractModel {
-        $customFilters = $this->getCustomFilters();
-        if (!isset($customFilters[$filterId])) {
+    ): ?\M2E\Otto\Model\Magento\Product\Rule\Custom\AbstractCustomFilter {
+        if (!$this->isFilterCustom($filterType)) {
             return null;
         }
 
-        if (isset($this->_customFiltersCache[$filterId])) {
-            return $this->_customFiltersCache[$filterId];
+        if (isset($this->_customFiltersCache[$filterType])) {
+            return $this->_customFiltersCache[$filterType];
         }
 
-        switch ($filterId) {
-            case 'is_in_stock':
-                $model = $this->stockFactory->create();
-                break;
-            case 'qty':
-                $model = $this->qtyFactory->create();
-                break;
-            case 'type_id':
-                $model = $this->typeIdFactory->create();
-                break;
-            default:
-                throw new \M2E\Otto\Model\Exception\Logic(sprintf('Unknown custom filter - %s', $filterId));
-        }
+        $model = $this->customFilterFactory->createByType($filterType);
 
-        $isReadyToCache && $this->_customFiltersCache[$filterId] = $model;
+        if ($isReadyToCache) {
+            $this->_customFiltersCache[$filterType] = $model;
+        }
 
         return $model;
+    }
+
+    private function getAttribute()
+    {
+        return $this->getData('attribute');
     }
 }

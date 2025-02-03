@@ -6,7 +6,7 @@ namespace M2E\Otto\Helper\Module;
 
 class Configuration
 {
-    private const CONFIG_GROUP = '/general/configuration/';
+    public const CONFIG_GROUP = '/general/configuration/';
 
     private \M2E\Otto\Model\Config\Manager $config;
 
@@ -57,6 +57,14 @@ class Configuration
         return (int)$this->config->getGroupValue(
             self::CONFIG_GROUP,
             'magento_attribute_price_type_converting_mode'
+        );
+    }
+
+    public function getProductInspectorMode(): int
+    {
+        return (int)$this->config->getGroupValue(
+            self::CONFIG_GROUP,
+            'listing_product_inspector_mode'
         );
     }
 
@@ -154,6 +162,14 @@ class Configuration
                 self::CONFIG_GROUP,
                 'magento_attribute_price_type_converting_mode',
                 $values['magento_attribute_price_type_converting_mode']
+            );
+        }
+
+        if (isset($values['listing_product_inspector_mode'])) {
+            $this->config->setGroupValue(
+                self::CONFIG_GROUP,
+                'listing_product_inspector_mode',
+                $values['listing_product_inspector_mode']
             );
         }
     }

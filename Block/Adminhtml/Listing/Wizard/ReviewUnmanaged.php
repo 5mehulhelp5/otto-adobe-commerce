@@ -37,12 +37,14 @@ class ReviewUnmanaged extends \M2E\Otto\Block\Adminhtml\Magento\AbstractContaine
 
     private function addGoToUnmanagedButton(): void
     {
+        $accountId = $this->uiWizardRuntimeStorage->getManager()->getListing()->getAccountId();
+
         $buttonBlock = $this->getLayout()
                             ->createBlock(\M2E\Otto\Block\Adminhtml\Magento\Button::class)
                             ->setData(
                                 [
                                     'label' => __('Back to Unmanaged Items'),
-                                    'onclick' => 'setLocation(\'' . $this->generateCompleteUrl(false, $this->getUrl('*/Otto_listing_unmanaged/index')) . '\');',
+                                    'onclick' => 'setLocation(\'' . $this->generateCompleteUrl(false, $this->getUrl('*/product_grid/unmanaged', ['account' => $accountId])) . '\');',
                                     'class' => 'primary go',
                                 ],
                             );

@@ -12,8 +12,10 @@ class Creator extends \Magento\Framework\DataObject
     private \M2E\Otto\Model\Otto\Order\BuilderFactory $orderBuilderFactory;
     private \M2E\Otto\Helper\Module\Exception $exceptionHelper;
     private \M2E\Otto\Model\Order\Repository $orderRepository;
+    private \M2E\Otto\Model\Order\MagentoProcessor $magentoCreate;
 
     public function __construct(
+        \M2E\Otto\Model\Order\MagentoProcessor $magentoCreate,
         \M2E\Otto\Model\Synchronization\LogService $syncLogService,
         \M2E\Otto\Model\Otto\Order\BuilderFactory $orderBuilderFactory,
         \M2E\Otto\Model\Order\Repository $orderRepository,
@@ -25,6 +27,7 @@ class Creator extends \Magento\Framework\DataObject
         $this->exceptionHelper = $exceptionHelper;
         $this->orderRepository = $orderRepository;
         $this->syncLogService = $syncLogService;
+        $this->magentoCreate = $magentoCreate;
     }
 
     public function setValidateAccountCreateDate(bool $mode): void
@@ -96,37 +99,12 @@ class Creator extends \Magento\Framework\DataObject
         }
     }
 
-    public function createMagentoOrder(\M2E\Otto\Model\Order $order)
+    public function createMagentoOrder(\M2E\Otto\Model\Order $order): void
     {
-        if ($order->canCreateMagentoOrder()) {
-            try {
-                $order->getLogService()->setInitiator(\M2E\Otto\Helper\Data::INITIATOR_EXTENSION);
-
-                $order->addInfoLog(
-                    'Magento order creation rules are met. M2E Otto will attempt to create Magento order.',
-                    [],
-                    [],
-                    true
-                );
-
-                $order->createMagentoOrder();
-            } catch (\Throwable $exception) {
-                return;
-            }
-        }
-
-        if ($order->getReserve()->isNotProcessed() && $order->isReservable()) {
-            $order->getReserve()->place();
-        }
-
-        if ($order->canCreateInvoice()) {
-            $order->createInvoice();
-        }
-
-        $order->createShipments();
-
-        if ($order->canCreateTracks()) {
-            $order->createTracks();
+        try {
+            $this->magentoCreate->process($order, false, \M2E\Otto\Helper\Data::INITIATOR_EXTENSION, true, true);
+        } catch (\M2E\Otto\Model\Order\Exception\UnableCreateMagentoOrder $e) {
+            return;
         }
     }
 

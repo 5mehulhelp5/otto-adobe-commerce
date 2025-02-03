@@ -12,7 +12,7 @@ class ProxyObject
     public const USER_ID_ATTRIBUTE_CODE = 'otto_user_id';
 
     /** @var \M2E\Otto\Model\Order\Item\ProxyObject[] */
-    private ?array $items = null;
+    private array $items;
     private ?\Magento\Store\Api\Data\StoreInterface $store = null;
     private array $addressData = [];
 
@@ -51,20 +51,22 @@ class ProxyObject
 
     /**
      * @return \M2E\Otto\Model\Order\Item\ProxyObject[]
-     * @throws \M2E\Otto\Model\Exception\Logic
      */
     public function getItems(): ?array
     {
-        if ($this->items === null) {
+        /** @psalm-suppress RedundantPropertyInitializationCheck */
+        if (!isset($this->items)) {
             $items = [];
 
-            foreach ($this->order->getItemsCollection()->getItems() as $item) {
-                $proxyItem = $item->getProxy();
-                if ($proxyItem->getQty() <= 0) {
-                    continue;
-                }
+            foreach ($this->order->getLogicItemsCollection()->getAllowedForCreateInMagento() as $logicItem) {
+                foreach ($logicItem->getItemsAllowedForCreateInMagento() as $orderItem) {
+                    $proxyItem = $orderItem->getProxy();
+                    if ($proxyItem->getQty() <= 0) {
+                        continue;
+                    }
 
-                $items[] = $proxyItem;
+                    $items[] = $proxyItem;
+                }
             }
 
             $this->items = $this->mergeItems($items);
@@ -447,7 +449,7 @@ class ProxyObject
     /**
      * @return bool
      */
-    public function hasTax()
+    public function hasTax(): bool
     {
         return $this->order->hasTax();
     }

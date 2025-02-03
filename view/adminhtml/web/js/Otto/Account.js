@@ -103,6 +103,8 @@ define([
                         .observe('change', this.magentoOrdersCustomerModeChange)
                         .simulate('change');
 
+                $('magento_orders_status_mapping_mode').observe('change', OttoAccountObj.magentoOrdersStatusMappingModeChange);
+
                 $('order_number_example-note').previous().remove();
             }
         },
@@ -179,6 +181,16 @@ define([
                 $('magento_orders_listings_store_id_container').hide();
                 $('magento_orders_listings_store_id').value = '';
             }
+        },
+
+        magentoOrdersStatusMappingModeChange: function() {
+            // Reset dropdown selected values to default
+            $('magento_orders_status_mapping_processing').value = Otto.php.constant('Account\\Settings\\Order::ORDERS_STATUS_MAPPING_PROCESSING');
+            $('magento_orders_status_mapping_shipped').value = Otto.php.constant('Account\\Settings\\Order::ORDERS_STATUS_MAPPING_SHIPPED');
+
+            var disabled = $('magento_orders_status_mapping_mode').value == Otto.php.constant('Account\\Settings\\Order::ORDERS_STATUS_MAPPING_MODE_DEFAULT');
+            $('magento_orders_status_mapping_processing').disabled = disabled;
+            $('magento_orders_status_mapping_shipped').disabled = disabled;
         },
 
         magentoOrdersListingsOtherModeChange: function () {

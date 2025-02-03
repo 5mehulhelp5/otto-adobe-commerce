@@ -154,6 +154,17 @@ class Data extends \M2E\Otto\Block\Adminhtml\Magento\Form\AbstractForm
             ]
         );
 
+        if (!empty($formData['shipping_profile_id'])) {
+            $fieldset->addField(
+                'type_hidden',
+                'hidden',
+                [
+                    'name' => 'shipping[type]',
+                    'value' => $formData['type'],
+                ]
+            );
+        }
+
         $fieldset->addField(
             'type',
             self::SELECT,
@@ -163,7 +174,8 @@ class Data extends \M2E\Otto\Block\Adminhtml\Magento\Form\AbstractForm
                 'values' => $this->getTypeDataOptions(),
                 'value' => $formData['type'] ?? '',
                 'required' => true,
-                'tooltip' => __('Select one of the delivery types for your products.')
+                'tooltip' => __('Select one of the delivery types for your products.'),
+                'disabled' => !empty($formData['shipping_profile_id']),
             ]
         );
 

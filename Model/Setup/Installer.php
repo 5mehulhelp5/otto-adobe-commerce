@@ -2,6 +2,7 @@
 
 namespace M2E\Otto\Model\Setup;
 
+use M2E\Otto\Helper\Module\Configuration;
 use M2E\Otto\Model\ResourceModel\Log\System as LogSystemResource;
 use M2E\Otto\Helper\Module\Database\Tables as TablesHelper;
 use M2E\Otto\Model\ResourceModel\Account as AccountResource;
@@ -38,6 +39,7 @@ use M2E\Otto\Model\ResourceModel\Category as CategoryResource;
 use M2E\Otto\Model\ResourceModel\Category\Attribute as CategoryAttributeResource;
 use M2E\Otto\Model\ResourceModel\Brand as BrandResource;
 use M2E\Otto\Model\ResourceModel\AttributeMapping\Pair as PairResource;
+use M2E\Otto\Model\ResourceModel\Order as OrderResource;
 
 class Installer
 {
@@ -2377,7 +2379,7 @@ class Installer
                 ]
             )
             ->addColumn(
-                'account_id',
+                OrderResource::COLUMN_ACCOUNT_ID,
                 Table::TYPE_INTEGER,
                 null,
                 [
@@ -2395,7 +2397,7 @@ class Installer
                 ]
             )
             ->addColumn(
-                'magento_order_id',
+                OrderResource::COLUMN_MAGENTO_ORDER_ID,
                 Table::TYPE_INTEGER,
                 null,
                 [
@@ -2403,7 +2405,7 @@ class Installer
                 ]
             )
             ->addColumn(
-                'magento_order_creation_failure',
+                OrderResource::COLUMN_MAGENTO_ORDER_CREATION_FAILURE,
                 Table::TYPE_SMALLINT,
                 null,
                 [
@@ -2412,7 +2414,7 @@ class Installer
                 ]
             )
             ->addColumn(
-                'magento_order_creation_fails_count',
+                OrderResource::COLUMN_MAGENTO_ORDER_CREATION_FAILS_COUNT,
                 Table::TYPE_SMALLINT,
                 null,
                 [
@@ -2421,7 +2423,7 @@ class Installer
                 ]
             )
             ->addColumn(
-                'magento_order_creation_latest_attempt_date',
+                OrderResource::COLUMN_MAGENTO_ORDER_CREATION_LATEST_ATTEMPT_DATE,
                 Table::TYPE_DATETIME
             )
             ->addColumn(
@@ -2527,10 +2529,10 @@ class Installer
             ->addIndex('paid_amount', 'paid_amount')
             ->addIndex('purchase_create_date', 'purchase_create_date')
             ->addIndex('shipping_date_to', 'shipping_date_to')
-            ->addIndex('account_id', 'account_id')
-            ->addIndex('magento_order_id', 'magento_order_id')
-            ->addIndex('magento_order_creation_failure', 'magento_order_creation_failure')
-            ->addIndex('magento_order_creation_fails_count', 'magento_order_creation_fails_count')
+            ->addIndex('account_id', OrderResource::COLUMN_ACCOUNT_ID)
+            ->addIndex('magento_order_id', OrderResource::COLUMN_MAGENTO_ORDER_ID)
+            ->addIndex('magento_order_creation_failure', OrderResource::COLUMN_MAGENTO_ORDER_CREATION_FAILURE)
+            ->addIndex('magento_order_creation_fails_count', OrderResource::COLUMN_MAGENTO_ORDER_CREATION_FAILS_COUNT)
             ->addIndex(
                 'magento_order_creation_latest_attempt_date',
                 'magento_order_creation_latest_attempt_date'
@@ -3681,21 +3683,22 @@ class Installer
         $config->insert('/logs/listings/', 'last_action_id', '0');
         $config->insert('/logs/grouped/', 'max_records_count', '100000');
         $config->insert('/support/', 'contact_email', 'support@m2epro.com');
-        $config->insert('/general/configuration/', 'view_show_block_notices_mode', '1');
-        $config->insert('/general/configuration/', 'view_show_products_thumbnails_mode', '1');
-        $config->insert('/general/configuration/', 'view_products_grid_use_alternative_mysql_select_mode', '0');
-        $config->insert('/general/configuration/', 'other_pay_pal_url', 'paypal.com/cgi-bin/webscr/');
-        $config->insert('/general/configuration/', 'product_index_mode', '1');
-        $config->insert('/general/configuration/', 'product_force_qty_mode', '0');
-        $config->insert('/general/configuration/', 'product_force_qty_value', '10');
-        $config->insert('/general/configuration/', 'qty_percentage_rounding_greater', '0');
-        $config->insert('/general/configuration/', 'magento_attribute_price_type_converting_mode', '0');
+        $config->insert(Configuration::CONFIG_GROUP, 'listing_product_inspector_mode', '0');
+        $config->insert(Configuration::CONFIG_GROUP, 'view_show_block_notices_mode', '1');
+        $config->insert(Configuration::CONFIG_GROUP, 'view_show_products_thumbnails_mode', '1');
+        $config->insert(Configuration::CONFIG_GROUP, 'view_products_grid_use_alternative_mysql_select_mode', '0');
+        $config->insert(Configuration::CONFIG_GROUP, 'other_pay_pal_url', 'paypal.com/cgi-bin/webscr/');
+        $config->insert(Configuration::CONFIG_GROUP, 'product_index_mode', '1');
+        $config->insert(Configuration::CONFIG_GROUP, 'product_force_qty_mode', '0');
+        $config->insert(Configuration::CONFIG_GROUP, 'product_force_qty_value', '10');
+        $config->insert(Configuration::CONFIG_GROUP, 'qty_percentage_rounding_greater', '0');
+        $config->insert(Configuration::CONFIG_GROUP, 'magento_attribute_price_type_converting_mode', '0');
         $config->insert(
-            '/general/configuration/',
+            Configuration::CONFIG_GROUP,
             'create_with_first_product_options_when_variation_unavailable',
             '1'
         );
-        $config->insert('/general/configuration/', 'secure_image_url_in_item_description_mode', '0');
+        $config->insert(Configuration::CONFIG_GROUP, 'secure_image_url_in_item_description_mode', '0');
         $config->insert('/magento/product/simple_type/', 'custom_types', '');
         $config->insert('/magento/product/downloadable_type/', 'custom_types', '');
         $config->insert('/magento/product/configurable_type/', 'custom_types', '');
@@ -3704,7 +3707,11 @@ class Installer
         $config->insert('/health_status/notification/', 'mode', 1);
         $config->insert('/health_status/notification/', 'email', '');
         $config->insert('/health_status/notification/', 'level', 40);
-        $config->insert('/listing/product/inspector/', 'max_allowed_instructions_count', '2000');
+        $config->insert(
+            \M2E\Otto\Model\Product\InspectDirectChanges\Config::GROUP,
+            \M2E\Otto\Model\Product\InspectDirectChanges\Config::KEY_MAX_ALLOWED_PRODUCT_COUNT,
+            '2000'
+        );
         $config->insert('/listing/product/instructions/cron/', 'listings_products_per_one_time', '1000');
         $config->insert('/listing/product/scheduled_actions/', 'max_prepared_actions_count', '3000');
         #endregion

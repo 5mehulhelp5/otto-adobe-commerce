@@ -5,18 +5,22 @@ declare(strict_types=1);
 namespace M2E\Otto\Model\Listing\Other;
 
 use M2E\Otto\Model\ResourceModel\Listing\Other as ListingOtherResource;
+use Magento\Ui\Component\MassAction\Filter as MassActionFilter;
 
 class Repository
 {
     private \M2E\Otto\Model\ResourceModel\Listing\Other\CollectionFactory $collectionFactory;
     private \M2E\Otto\Model\ResourceModel\Listing\Other $resource;
     private \M2E\Otto\Model\Listing\OtherFactory $objectFactory;
+    private \M2E\Otto\Helper\Module\Database\Structure $dbStructureHelper;
 
     public function __construct(
+        \M2E\Otto\Helper\Module\Database\Structure $dbStructureHelper,
         \M2E\Otto\Model\ResourceModel\Listing\Other\CollectionFactory $collectionFactory,
         \M2E\Otto\Model\ResourceModel\Listing\Other $resource,
         \M2E\Otto\Model\Listing\OtherFactory $objectFactory
     ) {
+        $this->dbStructureHelper = $dbStructureHelper;
         $this->collectionFactory = $collectionFactory;
         $this->resource = $resource;
         $this->objectFactory = $objectFactory;
@@ -156,5 +160,115 @@ class Repository
         $collection->addFieldToFilter(\M2E\Otto\Model\ResourceModel\Listing\Other::COLUMN_ACCOUNT_ID, $accountId);
 
         return (int)$collection->getSize() > 0;
+    }
+
+    /**
+     * @param \Magento\Ui\Component\MassAction\Filter $filter
+     * @param int $accountId
+     *
+     * @return \M2E\Otto\Model\Listing\Other[]
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function findForMovingByMassActionSelectedProducts(MassActionFilter $filter, int $accountId): array
+    {
+        $collection = $this->collectionFactory->create();
+        $filter->getCollection($collection);
+
+        $collection->addFieldToFilter(
+            ListingOtherResource::COLUMN_MAGENTO_PRODUCT_ID,
+            ['notnull' => true]
+        );
+
+        $collection->addFieldToFilter(
+            ListingOtherResource::COLUMN_ACCOUNT_ID,
+            $accountId
+        );
+
+        return array_values($collection->getItems());
+    }
+
+    /**
+     * @param \Magento\Ui\Component\MassAction\Filter $filter
+     * @param int $accountId
+     *
+     * @return \M2E\Otto\Model\Listing\Other[]
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function findForAutoMappingByMassActionSelectedProducts(MassActionFilter $filter, int $accountId): array
+    {
+        $collection = $this->collectionFactory->create();
+        $filter->getCollection($collection);
+
+        $collection->addFieldToFilter(
+            ListingOtherResource::COLUMN_MAGENTO_PRODUCT_ID,
+            ['null' => true]
+        );
+
+        $collection->addFieldToFilter(
+            ListingOtherResource::COLUMN_ACCOUNT_ID,
+            $accountId
+        );
+
+        return array_values($collection->getItems());
+    }
+
+    /**
+     * @param \Magento\Ui\Component\MassAction\Filter $filter
+     * @param int $accountId
+     *
+     * @return \M2E\Otto\Model\Listing\Other[]
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function findForUnmappingByMassActionSelectedProducts(MassActionFilter $filter, int $accountId): array
+    {
+        $collection = $this->collectionFactory->create();
+        $filter->getCollection($collection);
+
+        $collection->addFieldToFilter(
+            ListingOtherResource::COLUMN_MAGENTO_PRODUCT_ID,
+            ['notnull' => true]
+        );
+
+        $collection->addFieldToFilter(
+            ListingOtherResource::COLUMN_ACCOUNT_ID,
+            $accountId
+        );
+
+        return array_values($collection->getItems());
+    }
+
+    /**
+     * @param array $ids
+     * @param int $accountId
+     *
+     * @return array|bool
+     * @throws \Zend_Db_Statement_Exception
+     */
+    public function findPrepareMoveToListingByIds(array $ids, int $accountId)
+    {
+        $listingOtherCollection = $this->collectionFactory->create();
+        $listingOtherCollection->addFieldToFilter('id', ['in' => $ids]);
+        $listingOtherCollection->addFieldToFilter(
+            \M2E\Otto\Model\ResourceModel\Listing\Other::COLUMN_MAGENTO_PRODUCT_ID,
+            ['notnull' => true]
+        );
+
+        $listingOtherCollection->getSelect()->join(
+            ['cpe' => $this->dbStructureHelper->getTableNameWithPrefix('catalog_product_entity')],
+            'magento_product_id = cpe.entity_id'
+        );
+
+        $listingOtherCollection->addFieldToFilter(
+            ListingOtherResource::COLUMN_ACCOUNT_ID,
+            $accountId
+        );
+
+        return $listingOtherCollection
+            ->getSelect()
+            ->reset(\Magento\Framework\DB\Select::COLUMNS)
+            ->group(['account_id'])
+            ->columns(['account_id'])
+            ->query()
+            ->fetch();
     }
 }

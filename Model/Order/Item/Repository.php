@@ -43,12 +43,7 @@ class Repository
         return array_values($itemsCollection->getItems());
     }
 
-    /**
-     * @param int $orderId
-     *
-     * @return \M2E\Otto\Model\ResourceModel\Order\Item\Collection
-     */
-    public function getGroupOrderItems(int $orderId): OrderItem\Collection
+    public function getGroupOrderItemsCollection(int $orderId): OrderItem\Collection
     {
         $collection = $this->orderItemCollectionFactory->create();
         $collection->addFieldToFilter(OrderItem::COLUMN_ORDER_ID, $orderId);

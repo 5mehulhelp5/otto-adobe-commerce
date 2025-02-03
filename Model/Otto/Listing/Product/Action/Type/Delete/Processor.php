@@ -78,9 +78,8 @@ class Processor extends \M2E\Otto\Model\Otto\Listing\Product\Action\AbstractSync
         );
 
         $responseObj->process();
-        $responseObj->generateResultMessage();
 
-        return 'Item was Removed';
+        return 'Item was Stopped';
     }
 
     protected function processFail(

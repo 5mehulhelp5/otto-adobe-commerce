@@ -1,61 +1,52 @@
 <?php
 
+declare(strict_types=1);
+
 namespace M2E\Otto\Model\Magento\Order;
 
 class Shipment
 {
-    /** @var \Magento\Sales\Model\Order */
-    protected $magentoOrder;
+    private \Magento\Sales\Model\Order $magentoOrder;
 
-    /** @var \Magento\Sales\Model\Order\Shipment[] */
-    protected $shipments = [];
+    /** @var \Magento\Sales\Model\Order\Item[] */
+    private array $itemsToShip;
 
     // ---------------------------------------
 
-    /** @var \Magento\Framework\DB\TransactionFactory */
-    protected $transactionFactory;
-
-    /** @var \M2E\Otto\Model\Magento\Order\Shipment\DocumentFactory */
-    protected $shipmentDocumentFactory;
-
+    private \Magento\Framework\DB\TransactionFactory $transactionFactory;
     private \M2E\Otto\Observer\Shipment\EventRuntimeManager $shipmentEventRuntimeManager;
+    private \M2E\Otto\Model\Magento\Order\Shipment\PrepareShipmentsInterface $prepareShipmentsInterfaceProcessor;
 
     public function __construct(
+        \Magento\Sales\Model\Order $magentoOrder,
+        array $itemsToShip,
+        \M2E\Otto\Model\Magento\Order\Shipment\PrepareShipmentsInterface $prepareShipmentsInterfaceProcessor,
         \M2E\Otto\Observer\Shipment\EventRuntimeManager $shipmentEventRuntimeManager,
-        \M2E\Otto\Model\Magento\Order\Shipment\DocumentFactory $shipmentDocumentFactory,
         \Magento\Framework\DB\TransactionFactory $transactionFactory
     ) {
-        $this->shipmentDocumentFactory = $shipmentDocumentFactory;
         $this->transactionFactory = $transactionFactory;
         $this->shipmentEventRuntimeManager = $shipmentEventRuntimeManager;
+        $this->magentoOrder = $magentoOrder;
+        $this->itemsToShip = $itemsToShip;
+        $this->prepareShipmentsInterfaceProcessor = $prepareShipmentsInterfaceProcessor;
     }
 
     /**
-     * @param \Magento\Sales\Model\Order $magentoOrder
-     *
-     * @return $this
+     * @return \Magento\Sales\Model\Order\Shipment[]
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function setMagentoOrder(\Magento\Sales\Model\Order $magentoOrder)
+    public function create(): array
     {
-        $this->magentoOrder = $magentoOrder;
-
-        return $this;
-    }
-
-    public function getShipments()
-    {
-        return $this->shipments;
-    }
-
-    public function buildShipments()
-    {
-        $this->prepareShipments();
+        $shipments = $this->prepareShipmentsInterfaceProcessor->prepareShipments(
+            $this->magentoOrder,
+            $this->itemsToShip
+        );
 
         $this->shipmentEventRuntimeManager->skipEvents();
 
         /** @var \Magento\Framework\DB\Transaction $transaction */
         $transaction = $this->transactionFactory->create();
-        foreach ($this->shipments as $shipment) {
+        foreach ($shipments as $shipment) {
             // it is necessary for updating qty_shipped field in sales_flat_order_item table
             $shipment->getOrder()->setIsInProcess(true);
 
@@ -67,20 +58,14 @@ class Shipment
 
         try {
             $transaction->save();
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $this->magentoOrder->getShipmentsCollection()->clear();
+
             throw $e;
         }
 
         $this->shipmentEventRuntimeManager->doNotSkipEvents();
-    }
 
-    protected function prepareShipments()
-    {
-        /** @var \Magento\Sales\Model\Order\Shipment $shipment */
-        $shipment = $this->shipmentDocumentFactory->create($this->magentoOrder);
-        $shipment->register();
-
-        $this->shipments[] = $shipment;
+        return $shipments;
     }
 }

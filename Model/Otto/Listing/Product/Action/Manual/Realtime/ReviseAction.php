@@ -31,7 +31,7 @@ class ReviseAction extends AbstractRealtime
             $product,
             \M2E\Otto\Helper\Data::INITIATOR_USER,
             \M2E\Otto\Model\Listing\Log::ACTION_REVISE_PRODUCT,
-            null,
+            $this->getLogActionId(),
             $this->createSkipReviseMessage(),
             \M2E\Otto\Model\Log\AbstractModel::TYPE_INFO,
         );

@@ -6,8 +6,7 @@ namespace M2E\Otto\Model\Otto\Magento\Product;
 
 class Rule extends \M2E\Otto\Model\Magento\Product\Rule
 {
-    /** @var \M2E\Otto\Model\Otto\Magento\Product\Rule\Condition\CombineFactory */
-    private Rule\Condition\CombineFactory $ottoRuleCombineFactory;
+    private \M2E\Otto\Model\Otto\Magento\Product\Rule\Condition\CombineFactory $ottoRuleCombineFactory;
 
     public function __construct(
         \M2E\Otto\Model\Otto\Magento\Product\Rule\Condition\CombineFactory $ottoRuleCombineFactory,
@@ -35,7 +34,7 @@ class Rule extends \M2E\Otto\Model\Magento\Product\Rule
         $this->ottoRuleCombineFactory = $ottoRuleCombineFactory;
     }
 
-    public function getConditionObj(): \M2E\Otto\Model\Magento\Product\Rule\Condition\AbstractModel
+    public function getConditionObj(): \M2E\Otto\Model\Otto\Magento\Product\Rule\Condition\Combine
     {
         return $this->ottoRuleCombineFactory->create();
     }

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace M2E\Otto\Model\Account\Settings;
 
+use M2E\Otto\Model\Account;
+
 class Order
 {
     public const NUMBER_SOURCE_MAGENTO = 'magento';
@@ -26,6 +28,12 @@ class Order
     public const TAX_MODE_CHANNEL = 1;
     public const TAX_MODE_MAGENTO = 2;
     public const TAX_MODE_MIXED = 3;
+
+    public const ORDERS_STATUS_MAPPING_MODE_DEFAULT = 0;
+    public const ORDERS_STATUS_MAPPING_MODE_CUSTOM = 1;
+
+    public const ORDERS_STATUS_MAPPING_PROCESSING = 'processing';
+    public const ORDERS_STATUS_MAPPING_SHIPPED = 'complete';
 
     private array $listing = [
         'mode' => true,
@@ -70,6 +78,12 @@ class Order
             'order_created' => false,
         ],
         'billing_address_mode' => self::USE_SHIPPING_ADDRESS_AS_BILLING_IF_SAME_CUSTOMER_AND_RECIPIENT,
+    ];
+
+    private array $orderStatusMapping = [
+        'mode' => self::ORDERS_STATUS_MAPPING_MODE_DEFAULT,
+        'processing' => self::ORDERS_STATUS_MAPPING_PROCESSING,
+        'shipped' => self::ORDERS_STATUS_MAPPING_SHIPPED,
     ];
 
     // ----------------------------------------
@@ -246,6 +260,30 @@ class Order
         return (int)$this->customer['billing_address_mode'];
     }
 
+    // ----------------------------------------
+
+    public function getStatusMappingMode(): int
+    {
+        return (int)$this->orderStatusMapping['mode'];
+    }
+
+    public function getStatusMappingForProcessing(): string
+    {
+        return $this->orderStatusMapping['processing'];
+    }
+
+    public function getStatusMappingForProcessingShipped(): string
+    {
+        return $this->orderStatusMapping['shipped'];
+    }
+
+    public function isOrderStatusMappingModeDefault(): bool
+    {
+        return $this->getStatusMappingMode() === self::ORDERS_STATUS_MAPPING_MODE_DEFAULT;
+    }
+
+    // ----------------------------------------
+
     public function useMagentoOrdersShippingAddressAsBillingAlways(): bool
     {
         return $this->getCustomerBillingAddressMode() === self::USE_SHIPPING_ADDRESS_AS_BILLING_ALWAYS;
@@ -297,6 +335,13 @@ class Order
             );
         }
 
+        if (isset($data['order_status_mapping'])) {
+            $new->orderStatusMapping = array_merge(
+                $new->orderStatusMapping,
+                $this->prepareOrderStatusMappingData($data['order_status_mapping']),
+            );
+        }
+
         return $new;
     }
 
@@ -310,6 +355,7 @@ class Order
             'tax' => $this->tax,
             'qty_reservation' => $this->qtyReservation,
             'shipping_information' => $this->shippingInformation,
+            'order_status_mapping' => $this->orderStatusMapping,
         ];
     }
 
@@ -432,5 +478,26 @@ class Order
         }
 
         return $customer;
+    }
+
+    private function prepareOrderStatusMappingData(array $orderStatus): array
+    {
+        if (isset($orderStatus['mode'])) {
+            if ($orderStatus['mode'] === self::ORDERS_STATUS_MAPPING_MODE_DEFAULT) {
+                return $this->orderStatusMapping;
+            }
+
+            $orderStatus['mode'] = (int)$orderStatus['mode'];
+        }
+
+        if (isset($orderStatus['processing'])) {
+            $orderStatus['processing'] = (string)$orderStatus['processing'];
+        }
+
+        if (isset($orderStatus['shipped'])) {
+            $orderStatus['shipped'] = (string)$orderStatus['shipped'];
+        }
+
+        return $orderStatus;
     }
 }

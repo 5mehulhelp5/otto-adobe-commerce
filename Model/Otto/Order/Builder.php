@@ -72,6 +72,7 @@ class Builder extends \Magento\Framework\DataObject
         if (empty($existOrders)) {
             $this->status = self::STATUS_NEW;
             $this->order = $this->orderFactory->create();
+            $this->order->markAsStatusUpdateRequired();
 
             return;
         }
@@ -107,6 +108,8 @@ class Builder extends \Magento\Framework\DataObject
         // ---------------------------------------
         $this->order = reset($existOrders);
         $this->status = self::STATUS_UPDATED;
+
+        $this->order->markAsStatusUpdateRequired();
         // ---------------------------------------
     }
 
@@ -322,6 +325,7 @@ class Builder extends \Magento\Framework\DataObject
 
         $magentoOrderUpdater = $this->magentoOrderUpdater;
         $magentoOrderUpdater->setMagentoOrder($magentoOrder);
+        $magentoOrderUpdater->updateStatus($this->order->getStatusForMagentoOrder());
 
         $proxy = $this->order->getProxy();
         $proxy->setStore($this->order->getStore());

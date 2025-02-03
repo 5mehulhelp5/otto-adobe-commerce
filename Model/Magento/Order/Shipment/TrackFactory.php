@@ -13,11 +13,18 @@ class TrackFactory
         $this->objectManager = $objectManager;
     }
 
-    public function create(\M2E\Otto\Model\Order $order, array $trackingDetails): Track
-    {
-        return $this->objectManager->create(Track::class, [
-            'order' => $order,
-            'trackingDetails' => $trackingDetails
-        ]);
+    public function create(
+        \Magento\Sales\Model\Order $magentoOrder,
+        array $trackingDetails,
+        array $supportedCarriers
+    ): Track {
+        return $this->objectManager->create(
+            Track::class,
+            [
+                'magentoOrder' => $magentoOrder,
+                'trackingDetails' => $trackingDetails,
+                'supportedCarriers' => $supportedCarriers,
+            ]
+        );
     }
 }
