@@ -7,34 +7,31 @@ namespace M2E\Otto\Controller\Adminhtml\Wizard\Registration;
 class CreateLicense extends \M2E\Otto\Controller\Adminhtml\Wizard\AbstractRegistration
 {
     private \M2E\Otto\Model\Otto\Connector\License\Add\Processor $connectionProcessor;
-    private \M2E\Otto\Helper\Client $clientHelper;
-    private \M2E\Otto\Model\Registration\UserInfo\Repository $registrationUserInfo;
-    private \M2E\Otto\Helper\Module\License $licenseHelper;
-    private \M2E\Otto\Helper\Data $dataHelper;
+    private \M2E\Core\Helper\Client $clientHelper;
+    private \M2E\Core\Model\LicenseService $licenseService;
     private \M2E\Otto\Helper\Module\Exception $exceptionHelper;
     private \M2E\Otto\Model\Servicing\Dispatcher $servicing;
+    private \M2E\Core\Model\RegistrationService $registrationService;
 
     public function __construct(
+        \M2E\Core\Model\RegistrationService $registrationService,
         \M2E\Otto\Model\Otto\Connector\License\Add\Processor $connectionProcessor,
-        \M2E\Otto\Helper\Client $clientHelper,
-        \M2E\Otto\Helper\Module\License $licenseHelper,
-        \M2E\Otto\Helper\Data $dataHelper,
-        \M2E\Otto\Model\Registration\UserInfo\Repository $manager,
+        \M2E\Core\Helper\Client $clientHelper,
+        \M2E\Core\Model\LicenseService $licenseService,
         \M2E\Otto\Helper\Module\Exception $exceptionHelper,
         \M2E\Otto\Model\Servicing\Dispatcher $servicing,
         \M2E\Otto\Helper\Magento $magentoHelper,
         \M2E\Otto\Helper\Module\Wizard $wizardHelper,
         \Magento\Framework\Code\NameBuilder $nameBuilder
     ) {
-        parent::__construct($magentoHelper, $wizardHelper, $nameBuilder, $licenseHelper);
+        parent::__construct($magentoHelper, $wizardHelper, $nameBuilder, $licenseService);
 
         $this->connectionProcessor = $connectionProcessor;
-        $this->registrationUserInfo = $manager;
-        $this->licenseHelper = $licenseHelper;
-        $this->dataHelper = $dataHelper;
+        $this->licenseService = $licenseService;
         $this->clientHelper = $clientHelper;
         $this->exceptionHelper = $exceptionHelper;
         $this->servicing = $servicing;
+        $this->registrationService = $registrationService;
     }
 
     public function execute()
@@ -67,7 +64,7 @@ class CreateLicense extends \M2E\Otto\Controller\Adminhtml\Wizard\AbstractRegist
             return $this->getResult();
         }
 
-        $userInfo = new \M2E\Otto\Model\Registration\UserInfo(
+        $userInfo = new \M2E\Core\Model\Registration\User(
             $licenseData['email'],
             $licenseData['firstname'],
             $licenseData['lastname'],
@@ -77,9 +74,9 @@ class CreateLicense extends \M2E\Otto\Controller\Adminhtml\Wizard\AbstractRegist
             $licenseData['postal_code'],
         );
 
-        $this->registrationUserInfo->save($userInfo);
+        $this->registrationService->saveUser($userInfo);
 
-        if ($this->licenseHelper->getKey()) {
+        if ($this->licenseService->has()) {
             $this->setJsonContent(['status' => true]);
 
             return $this->getResult();
@@ -98,7 +95,7 @@ class CreateLicense extends \M2E\Otto\Controller\Adminhtml\Wizard\AbstractRegist
                 $userInfo->getPostalCode()
             );
             $response = $this->connectionProcessor->process($request);
-            $this->licenseHelper->setLicenseKey($response->getKey());
+            $this->licenseService->create($response->getKey());
         } catch (\Throwable $e) {
             $this->exceptionHelper->process($e);
 

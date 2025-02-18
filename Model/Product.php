@@ -241,6 +241,25 @@ class Product extends \M2E\Otto\Model\ActiveRecord\AbstractModel implements
         $this->setData(ListingProductResource::COLUMN_STATUS, $status)
             ->setStatusChanger($changer);
 
+        $this->setStatusChangeDate(\M2E\Otto\Helper\Date::createCurrentGmt());
+
+        return $this;
+    }
+
+    public function getStatusChangeDate(): ?\DateTimeImmutable
+    {
+        $value = $this->getData(ListingProductResource::COLUMN_STATUS_CHANGE_DATE);
+        if (empty($value)) {
+            return null;
+        }
+
+        return \DateTimeImmutable::createFromMutable(\M2E\Otto\Helper\Date::createDateGmt($value));
+    }
+
+    private function setStatusChangeDate(\DateTime $date): self
+    {
+        $this->setData(ListingProductResource::COLUMN_STATUS_CHANGE_DATE, $date->format('Y-m-d H:i:s'));
+
         return $this;
     }
 

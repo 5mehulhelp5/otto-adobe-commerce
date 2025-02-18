@@ -8,7 +8,7 @@ use M2E\Otto\Helper\Module\Database\Tables;
 use M2E\Otto\Model\ResourceModel\Brand as BrandResource;
 use Magento\Framework\DB\Ddl\Table;
 
-class AddBrandTable extends \M2E\Otto\Model\Setup\Upgrade\Entity\AbstractFeature
+class AddBrandTable extends \M2E\Core\Model\Setup\Upgrade\Entity\AbstractFeature
 {
     public function execute(): void
     {

@@ -168,18 +168,24 @@ class DetectSpecialPriceEndDate extends \M2E\Otto\Model\Cron\AbstractTask
         return array_slice($changedProductsPrice, 0, 1000, true);
     }
 
-    private function getLastProcessedProductId()
+    private function getLastProcessedProductId(): ?int
     {
-        return $this->registry->getValue(
+        $value = $this->registry->getValue(
             '/magento/product/detect_special_price_end_date/last_magento_product_id/'
         );
+
+        if ($value === null) {
+            return null;
+        }
+
+        return (int)$value;
     }
 
-    private function setLastProcessedProductId($magentoProductId)
+    private function setLastProcessedProductId(int $magentoProductId)
     {
         $this->registry->setValue(
             '/magento/product/detect_special_price_end_date/last_magento_product_id/',
-            (int)$magentoProductId
+            (string)$magentoProductId
         );
     }
 }

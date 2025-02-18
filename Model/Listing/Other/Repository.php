@@ -6,6 +6,7 @@ namespace M2E\Otto\Model\Listing\Other;
 
 use M2E\Otto\Model\ResourceModel\Listing\Other as ListingOtherResource;
 use Magento\Ui\Component\MassAction\Filter as MassActionFilter;
+use M2E\Otto\Model\ResourceModel\ExternalChange as ExternalChangeResource;
 
 class Repository
 {
@@ -13,17 +14,20 @@ class Repository
     private \M2E\Otto\Model\ResourceModel\Listing\Other $resource;
     private \M2E\Otto\Model\Listing\OtherFactory $objectFactory;
     private \M2E\Otto\Helper\Module\Database\Structure $dbStructureHelper;
+    private \M2E\Otto\Model\ResourceModel\ExternalChange $externalChangeResource;
 
     public function __construct(
         \M2E\Otto\Helper\Module\Database\Structure $dbStructureHelper,
         \M2E\Otto\Model\ResourceModel\Listing\Other\CollectionFactory $collectionFactory,
         \M2E\Otto\Model\ResourceModel\Listing\Other $resource,
+        \M2E\Otto\Model\ResourceModel\ExternalChange $externalChangeResource,
         \M2E\Otto\Model\Listing\OtherFactory $objectFactory
     ) {
         $this->dbStructureHelper = $dbStructureHelper;
         $this->collectionFactory = $collectionFactory;
         $this->resource = $resource;
         $this->objectFactory = $objectFactory;
+        $this->externalChangeResource = $externalChangeResource;
     }
 
     public function createCollection(): \M2E\Otto\Model\ResourceModel\Listing\Other\Collection
@@ -270,5 +274,42 @@ class Repository
             ->columns(['account_id'])
             ->query()
             ->fetch();
+    }
+
+    /**
+     * @param int $accountId
+     *
+     * @return \M2E\Otto\Model\Listing\Other[]
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function findRemovedFromChannel(int $accountId): array
+    {
+        $joinConditions = [
+            sprintf(
+                '`ec`.%s = `main_table`.%s',
+                ExternalChangeResource::COLUMN_SKU,
+                ListingOtherResource::COLUMN_SKU,
+            ),
+            sprintf(
+                '`ec`.%s = `main_table`.%s',
+                ExternalChangeResource::COLUMN_ACCOUNT_ID,
+                ListingOtherResource::COLUMN_ACCOUNT_ID,
+            )
+        ];
+
+        $collection = $this->collectionFactory->create();
+        $collection->joinLeft(
+            [
+                'ec' => $this->externalChangeResource->getMainTable(),
+            ],
+            implode(' AND ', $joinConditions),
+            [],
+        );
+
+        $collection
+            ->addFieldToFilter(sprintf('main_table.%s', ListingOtherResource::COLUMN_ACCOUNT_ID), $accountId)
+            ->addFieldToFilter('ec.id', ['null' => true]);
+
+        return array_values($collection->getItems());
     }
 }

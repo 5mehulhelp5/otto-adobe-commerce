@@ -86,7 +86,7 @@ class StopQueue extends \M2E\Otto\Model\Cron\AbstractTask
                 ]
             );
 
-            /** @var \M2E\Otto\Model\Connector\Response $response */
+            /** @var \M2E\Core\Model\Connector\Response $response */
             $response = $this->serverClient->process($command);
 
             if (

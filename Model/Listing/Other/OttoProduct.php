@@ -183,14 +183,14 @@ class OttoProduct
         return !$this->isMarketplaceStatusOnline() && $this->isStatusActive();
     }
 
+    public function isStatusActive(): bool
+    {
+        return $this->getStatus() === \M2E\Otto\Model\Product::STATUS_LISTED;
+    }
+
     private function isMarketplaceStatusOnline(): bool
     {
         return $this->getMarketplaceStatus() === self::MARKETPLACE_STATUS_ONLINE;
-    }
-
-    private function isStatusActive(): bool
-    {
-        return $this->getStatus() === \M2E\Otto\Model\Product::STATUS_LISTED;
     }
 
     private function getMarketplaceStatus(): ?string

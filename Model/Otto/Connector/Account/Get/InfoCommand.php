@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace M2E\Otto\Model\Otto\Connector\Account\Get;
 
-class InfoCommand implements \M2E\Otto\Model\Connector\CommandInterface
+class InfoCommand implements \M2E\Core\Model\Connector\CommandInterface
 {
     private string $accountHash;
 
@@ -25,7 +25,7 @@ class InfoCommand implements \M2E\Otto\Model\Connector\CommandInterface
         ];
     }
 
-    public function parseResponse(\M2E\Otto\Model\Connector\Response $response): Status
+    public function parseResponse(\M2E\Core\Model\Connector\Response $response): Status
     {
         return new Status(
             (bool)$response->getResponseData()['info']['status'],

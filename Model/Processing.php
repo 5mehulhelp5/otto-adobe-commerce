@@ -155,7 +155,7 @@ class Processing extends \M2E\Otto\Model\ActiveRecord\AbstractModel
     // ----------------------------------------
 
     /**
-     * @param \M2E\Otto\Model\Connector\Response\Message[] $messages
+     * @param \M2E\Core\Model\Connector\Response\Message[] $messages
      *
      * @return void
      */
@@ -166,7 +166,7 @@ class Processing extends \M2E\Otto\Model\ActiveRecord\AbstractModel
              ->setStage(self::STAGE_WAIT_PROCESS);
     }
 
-    public function failDownload(\M2E\Otto\Model\Connector\Response\Message $message): void
+    public function failDownload(\M2E\Core\Model\Connector\Response\Message $message): void
     {
         $this->setResultMessages([$message])
              ->clearDataNextPart()
@@ -191,7 +191,7 @@ class Processing extends \M2E\Otto\Model\ActiveRecord\AbstractModel
     }
 
     /**
-     * @param \M2E\Otto\Model\Connector\Response\Message[] $messages
+     * @param \M2E\Core\Model\Connector\Response\Message[] $messages
      *
      * @return self
      * @throws \JsonException
@@ -199,7 +199,7 @@ class Processing extends \M2E\Otto\Model\ActiveRecord\AbstractModel
     private function setResultMessages(array $messages): self
     {
         $messages = array_map(
-            static function (\M2E\Otto\Model\Connector\Response\Message $message) {
+            static function (\M2E\Core\Model\Connector\Response\Message $message) {
                 return $message->asArray();
             },
             $messages,
@@ -211,7 +211,7 @@ class Processing extends \M2E\Otto\Model\ActiveRecord\AbstractModel
     }
 
     /**
-     * @return \M2E\Otto\Model\Connector\Response\Message[]
+     * @return \M2E\Core\Model\Connector\Response\Message[]
      * @throws \JsonException
      */
     public function getResultMessages(): array
@@ -223,7 +223,7 @@ class Processing extends \M2E\Otto\Model\ActiveRecord\AbstractModel
 
         return array_map(
             static function (array $data) {
-                $message = new \M2E\Otto\Model\Connector\Response\Message();
+                $message = new \M2E\Core\Model\Connector\Response\Message();
                 $message->initFromPreparedData($data['text'], $data['type'], $data['sender'], $data['code']);
 
                 return $message;

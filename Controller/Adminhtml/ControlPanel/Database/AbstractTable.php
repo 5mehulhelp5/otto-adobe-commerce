@@ -8,24 +8,21 @@ use M2E\Otto\Controller\Adminhtml\ControlPanel\AbstractMain;
 
 abstract class AbstractTable extends AbstractMain
 {
-    private \M2E\Otto\Model\ControlPanel\Database\TableModelFactory $databaseTableFactory;
+    private \M2E\Core\Model\ControlPanel\Database\TableModelFactory $databaseTableFactory;
     private \M2E\Otto\Helper\Module $moduleHelper;
 
     public function __construct(
         \M2E\Otto\Helper\Module $moduleHelper,
-        \M2E\Otto\Model\ControlPanel\Database\TableModelFactory $databaseTableFactory,
-        \M2E\Otto\Model\Module $module
+        \M2E\Core\Model\ControlPanel\Database\TableModelFactory $databaseTableFactory
     ) {
-        parent::__construct($module);
+        parent::__construct();
         $this->databaseTableFactory = $databaseTableFactory;
         $this->moduleHelper = $moduleHelper;
     }
 
-    protected function getTableModel(): \M2E\Otto\Model\ControlPanel\Database\TableModel
+    protected function getTableModel(): \M2E\Core\Model\ControlPanel\Database\TableModel
     {
-        $tableName = $this->getRequest()->getParam('table');
-
-        return $this->databaseTableFactory->create($tableName);
+        return $this->databaseTableFactory->createFromRequest();
     }
 
     protected function prepareCellsValuesArray(): array

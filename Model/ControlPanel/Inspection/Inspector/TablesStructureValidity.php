@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace M2E\Otto\Model\ControlPanel\Inspection\Inspector;
 
-use M2E\Otto\Model\ControlPanel\Inspection\FixerInterface;
-use M2E\Otto\Model\ControlPanel\Inspection\InspectorInterface;
-use M2E\Otto\Model\ControlPanel\Inspection\Issue\Factory as IssueFactory;
 use Magento\Backend\Model\UrlInterface;
 use Magento\Framework\App\ResourceConnection;
 use Magento\Framework\Data\Form\FormKey;
 use Magento\Framework\DB\Adapter\AdapterInterface;
 use Magento\Framework\DB\Ddl\Table as DdlTable;
+use M2E\Core\Model\ControlPanel\Inspection\FixerInterface;
+use M2E\Core\Model\ControlPanel\Inspection\InspectorInterface;
 
 class TablesStructureValidity implements InspectorInterface, FixerInterface
 {
@@ -30,7 +29,7 @@ class TablesStructureValidity implements InspectorInterface, FixerInterface
     private UrlInterface $urlBuilder;
     private ResourceConnection $resourceConnection;
     private FormKey $formKey;
-    private IssueFactory $issueFactory;
+    private \M2E\Core\Model\ControlPanel\Inspection\IssueFactory $issueFactory;
     private \M2E\Otto\Helper\Module\Database\Structure $databaseHelper;
     private \M2E\Otto\Model\Connector\Client\Single $serverClient;
     private \M2E\Otto\Helper\Magento $magentoHelper;
@@ -39,7 +38,7 @@ class TablesStructureValidity implements InspectorInterface, FixerInterface
         UrlInterface $urlBuilder,
         ResourceConnection $resourceConnection,
         FormKey $formKey,
-        IssueFactory $issueFactory,
+        \M2E\Core\Model\ControlPanel\Inspection\IssueFactory $issueFactory,
         \M2E\Otto\Helper\Module\Database\Structure $databaseHelper,
         \M2E\Otto\Model\Connector\Client\Single $serverClient,
         \M2E\Otto\Helper\Magento $magentoHelper
@@ -53,7 +52,7 @@ class TablesStructureValidity implements InspectorInterface, FixerInterface
         $this->issueFactory = $issueFactory;
     }
 
-    public function process()
+    public function process(): array
     {
         $issues = [];
 
@@ -83,9 +82,10 @@ class TablesStructureValidity implements InspectorInterface, FixerInterface
 
     private function getDiff()
     {
-        $tablesInfo = \M2E\Otto\Helper\Json::encode($this->databaseHelper->getModuleTablesInfo());
-        $command = new \M2E\Otto\Model\Otto\Connector\System\Tables\GetDiffCommand($tablesInfo);
-        /** @var \M2E\Otto\Model\Connector\Response $response */
+        $command = new \M2E\Core\Model\Server\Connector\System\TablesGetDiffCommand(
+            $this->databaseHelper->getModuleTablesInfo()
+        );
+        /** @var \M2E\Core\Model\Connector\Response $response */
         $response = $this->serverClient->process($command);
 
         return $response->getResponseData();
@@ -163,7 +163,7 @@ HTML;
         return $html;
     }
 
-    public function fix($data)
+    public function fix(array $data): void
     {
         switch ($data['repair_mode']) {
             case self::FIX_COLUMN:

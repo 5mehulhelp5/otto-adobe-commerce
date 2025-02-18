@@ -11,10 +11,13 @@ class CategoryProvider implements DataBuilderInterface
     public const NICK = 'Category';
 
     private \M2E\Otto\Model\Magento\Product\Attribute\RetrieveValueFactory $magentoAttributeRetriever;
+    private \M2E\Otto\Helper\Module\Renderer\Description $descriptionRender;
 
     public function __construct(
-        \M2E\Otto\Model\Magento\Product\Attribute\RetrieveValueFactory $magentoAttributeRetriever
+        \M2E\Otto\Model\Magento\Product\Attribute\RetrieveValueFactory $magentoAttributeRetriever,
+        \M2E\Otto\Helper\Module\Renderer\Description $descriptionRender
     ) {
+        $this->descriptionRender = $descriptionRender;
         $this->magentoAttributeRetriever = $magentoAttributeRetriever;
     }
 
@@ -68,7 +71,7 @@ class CategoryProvider implements DataBuilderInterface
             if ($attribute->isValueModeCustomValue()) {
                 $attributeVal = $attribute->getCustomValue();
                 if (!empty($attributeVal)) {
-                    $result[$attribute->getAttributeName()][] = $attributeVal;
+                    $result[$attribute->getAttributeName()][] = $this->descriptionRender->parseWithoutMagentoTemplate($attributeVal, $product->getMagentoProduct());
                 }
 
                 continue;

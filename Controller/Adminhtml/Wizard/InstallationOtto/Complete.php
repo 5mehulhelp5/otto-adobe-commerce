@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace M2E\Otto\Controller\Adminhtml\Wizard\InstallationOtto;
 
 use M2E\Otto\Helper\Module\Wizard;
@@ -12,13 +14,13 @@ class Complete extends Installation
         \M2E\Otto\Helper\Magento $magentoHelper,
         \M2E\Otto\Helper\Module\Wizard $wizardHelper,
         \Magento\Framework\Code\NameBuilder $nameBuilder,
-        \M2E\Otto\Helper\Module\License $licenseHelper
+        \M2E\Core\Model\LicenseService $licenseService
     ) {
         parent::__construct(
             $magentoHelper,
             $wizardHelper,
             $nameBuilder,
-            $licenseHelper,
+            $licenseService,
         );
 
         $this->magentoHelper = $magentoHelper;

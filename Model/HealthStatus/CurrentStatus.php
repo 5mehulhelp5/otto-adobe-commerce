@@ -25,7 +25,7 @@ class CurrentStatus
     {
         $this->registry->setValue(
             '/health_status/current_status/',
-            (int)$resultSet->getWorstState()
+            (string)$resultSet->getWorstState()
         );
 
         $details = [];

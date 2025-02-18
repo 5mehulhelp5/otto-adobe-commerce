@@ -13,10 +13,9 @@ class ShowOperationHistoryExecutionTreeDown extends AbstractTable
         \M2E\Otto\Model\OperationHistoryFactory $operationHistoryFactory,
         \M2E\Otto\Model\OperationHistory\Repository $repository,
         \M2E\Otto\Helper\Module $moduleHelper,
-        \M2E\Otto\Model\ControlPanel\Database\TableModelFactory $databaseTableFactory,
-        \M2E\Otto\Model\Module $module
+        \M2E\Core\Model\ControlPanel\Database\TableModelFactory $databaseTableFactory
     ) {
-        parent::__construct($moduleHelper, $databaseTableFactory, $module);
+        parent::__construct($moduleHelper, $databaseTableFactory);
         $this->operationHistoryFactory = $operationHistoryFactory;
         $this->repository = $repository;
     }

@@ -6,23 +6,23 @@ namespace M2E\Otto\Model\ControlPanel\Inspection\Inspector;
 
 use M2E\Otto\Helper\Module\Cron;
 
-class ExtensionCron implements \M2E\Otto\Model\ControlPanel\Inspection\InspectorInterface
+class ExtensionCron implements \M2E\Core\Model\ControlPanel\Inspection\InspectorInterface
 {
     private \M2E\Otto\Helper\Module\Cron $moduleCron;
-    private \M2E\Otto\Model\ControlPanel\Inspection\Issue\Factory $issueFactory;
+    private \M2E\Core\Model\ControlPanel\Inspection\IssueFactory $issueFactory;
     private \M2E\Otto\Model\Config\Manager $config;
 
     public function __construct(
         \M2E\Otto\Model\Config\Manager $config,
         \M2E\Otto\Helper\Module\Cron $moduleCron,
-        \M2E\Otto\Model\ControlPanel\Inspection\Issue\Factory $issueFactory
+        \M2E\Core\Model\ControlPanel\Inspection\IssueFactory $issueFactory
     ) {
         $this->config = $config;
         $this->moduleCron = $moduleCron;
         $this->issueFactory = $issueFactory;
     }
 
-    public function process()
+    public function process(): array
     {
         $issues = [];
         $helper = $this->moduleCron;

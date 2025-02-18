@@ -40,7 +40,7 @@ class ProcessStart extends \M2E\Otto\Model\Otto\Listing\Product\Action\Async\Abs
         );
     }
 
-    protected function getCommand(): \M2E\Otto\Model\Connector\CommandProcessingInterface
+    protected function getCommand(): \M2E\Core\Model\Connector\CommandProcessingInterface
     {
         $requestData = $this->getRequest()->build(
             $this->getListingProduct(),

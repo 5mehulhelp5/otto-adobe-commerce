@@ -42,7 +42,7 @@ class Importer extends \M2E\Otto\Model\AbstractModel
             $this->orderItem->getAccount()->getServerHash(),
         );
 
-        /** @var \M2E\Otto\Model\Connector\Response $response */
+        /** @var \M2E\Core\Model\Connector\Response $response */
         $response = $this->singleClient->process($command);
 
         return $response->getResponseData();

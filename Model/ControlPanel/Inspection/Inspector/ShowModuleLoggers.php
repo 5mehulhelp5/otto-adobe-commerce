@@ -4,19 +4,15 @@ declare(strict_types=1);
 
 namespace M2E\Otto\Model\ControlPanel\Inspection\Inspector;
 
-use M2E\Otto\Model\ControlPanel\Inspection\InspectorInterface;
-use M2E\Otto\Helper\Factory as HelperFactory;
-use M2E\Otto\Model\ControlPanel\Inspection\Issue\Factory as IssueFactory;
-
-class ShowModuleLoggers implements InspectorInterface
+class ShowModuleLoggers implements \M2E\Core\Model\ControlPanel\Inspection\InspectorInterface
 {
     private array $loggers = [];
 
-    private IssueFactory $issueFactory;
+    private \M2E\Core\Model\ControlPanel\Inspection\IssueFactory $issueFactory;
     private \M2E\Otto\Helper\Client $clientHelper;
 
     public function __construct(
-        IssueFactory $issueFactory,
+        \M2E\Core\Model\ControlPanel\Inspection\IssueFactory $issueFactory,
         \M2E\Otto\Helper\Client $clientHelper
     ) {
         $this->issueFactory = $issueFactory;

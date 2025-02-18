@@ -33,7 +33,7 @@ class Result
             $messagesRawData = $this->messages;
             $this->messages = [];
             foreach ($messagesRawData as $messageData) {
-                $message = new \M2E\Otto\Model\Connector\Response\Message();
+                $message = new \M2E\Core\Model\Connector\Response\Message();
                 $message->initFromPreparedData(
                     $messageData['text'],
                     $messageData['type'],
@@ -72,7 +72,7 @@ class Result
     }
 
     /**
-     * @return \M2E\Otto\Model\Connector\Response\Message[]|null
+     * @return \M2E\Core\Model\Connector\Response\Message[]|null
      */
     public function getMessages(): ?array
     {

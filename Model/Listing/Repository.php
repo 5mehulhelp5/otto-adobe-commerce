@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace M2E\Otto\Model\Listing;
 
 use M2E\Otto\Model\ResourceModel\Listing as ListingResource;
+use M2E\Otto\Model\ResourceModel\Product as ListingProductResource;
 
 class Repository
 {
@@ -14,17 +15,23 @@ class Repository
     private \M2E\Otto\Model\ResourceModel\Listing $listingResource;
     private \M2E\Otto\Model\ListingFactory $listingFactory;
     private \M2E\Otto\Helper\Data\Cache\Permanent $cache;
+    private \M2E\Otto\Model\ResourceModel\Product\Lock $productLockResource;
+    private ListingProductResource $productResource;
 
     public function __construct(
         \M2E\Otto\Model\ResourceModel\Listing\CollectionFactory $listingCollectionFactory,
         \M2E\Otto\Model\ResourceModel\Listing $listingResource,
         \M2E\Otto\Model\ListingFactory $listingFactory,
-        \M2E\Otto\Helper\Data\Cache\Permanent $cache
+        \M2E\Otto\Helper\Data\Cache\Permanent $cache,
+        \M2E\Otto\Model\ResourceModel\Product\Lock $productLockResource,
+        ListingProductResource $productResource
     ) {
         $this->listingCollectionFactory = $listingCollectionFactory;
         $this->listingResource = $listingResource;
         $this->listingFactory = $listingFactory;
         $this->cache = $cache;
+        $this->productLockResource = $productLockResource;
+        $this->productResource = $productResource;
     }
 
     public function getListingsCount(): int
@@ -110,5 +117,32 @@ class Repository
         $listingCollection->addFieldToFilter($columnName, ['eq' => $policyId]);
 
         return $listingCollection->getSize() !== 0;
+    }
+
+    public function hasProductsInSomeAction(\M2E\Otto\Model\Listing $listing): bool
+    {
+        $connection = $this->productResource->getConnection();
+
+        $productTable = $this->productResource->getMainTable();
+        $lockTable = $this->productLockResource->getMainTable();
+
+        $select = $connection->select()
+                             ->from(['p' => $productTable])
+                             ->join(
+                                 ['pl' => $lockTable],
+                                 sprintf(
+                                     'p.%s = pl.%s',
+                                     \M2E\Otto\Model\ResourceModel\Product::COLUMN_ID,
+                                     \M2E\Otto\Model\ResourceModel\Product\Lock::COLUMN_PRODUCT_ID,
+                                 ),
+                                 []
+                             )
+                             ->where(
+                                 sprintf('p.%s = ?', \M2E\Otto\Model\ResourceModel\Product::COLUMN_LISTING_ID),
+                                 $listing->getId()
+                             )
+                             ->limit(1);
+
+        return (bool) $connection->fetchOne($select);
     }
 }

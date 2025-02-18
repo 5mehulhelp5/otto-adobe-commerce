@@ -6,7 +6,7 @@ namespace M2E\Otto\Model\Otto\Connector\ShippingProfile;
 
 use M2E\Otto\Model\Otto\Connector\Account\Add;
 
-class AddCommand implements \M2E\Otto\Model\Connector\CommandInterface
+class AddCommand implements \M2E\Core\Model\Connector\CommandInterface
 {
     private string $accountHash;
     private \M2E\Otto\Model\Template\Shipping\Channel\ShippingProfile $shippingProfile;
@@ -39,7 +39,7 @@ class AddCommand implements \M2E\Otto\Model\Connector\CommandInterface
         ];
     }
 
-    public function parseResponse(\M2E\Otto\Model\Connector\Response $response): \M2E\Otto\Model\Template\Shipping\Channel\ShippingProfile
+    public function parseResponse(\M2E\Core\Model\Connector\Response $response): \M2E\Otto\Model\Template\Shipping\Channel\ShippingProfile
     {
         $responseData = $response->getResponseData();
 

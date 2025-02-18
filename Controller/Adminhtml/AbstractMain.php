@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace M2E\Otto\Controller\Adminhtml;
 
 use M2E\Otto\Helper\Module;
-use M2E\Otto\Helper\Module\License;
 use M2E\Otto\Model\HealthStatus\Task\Result;
 
 abstract class AbstractMain extends AbstractBase
@@ -213,9 +212,9 @@ abstract class AbstractMain extends AbstractBase
             return;
         }
 
-        /** @var \M2E\Otto\Model\Setup\Repository $setupResource */
-        $setupResource = $this->_objectManager->get(\M2E\Otto\Model\Setup\Repository::class);
-        $lastUpgrade = $setupResource->findLastUpgrade();
+        /** @var \M2E\Core\Model\Setup\Repository $setupResource */
+        $setupResource = $this->_objectManager->get(\M2E\Core\Model\Setup\Repository::class);
+        $lastUpgrade = $setupResource->findLastUpgrade(\M2E\Otto\Helper\Module::IDENTIFIER);
         if (!$lastUpgrade) {
             return;
         }
@@ -292,9 +291,9 @@ abstract class AbstractMain extends AbstractBase
             $added = $this->addLicenseActivationNotifications();
         }
 
-        /** @var \M2E\Otto\Helper\Module\License $moduleLicenseHelper */
-        $moduleLicenseHelper = $this->_objectManager->get(\M2E\Otto\Helper\Module\License::class);
-        if (!$added && !empty($moduleLicenseHelper->getKey())) {
+        /** @var \M2E\Core\Model\LicenseService $licenseService */
+        $licenseService = $this->_objectManager->get(\M2E\Core\Model\LicenseService::class);
+        if (!$added && $licenseService->has()) {
             $this->addLicenseValidationFailNotifications();
         }
     }
@@ -389,13 +388,13 @@ abstract class AbstractMain extends AbstractBase
 
     protected function addLicenseActivationNotifications(): bool
     {
-        /** @var License $licenseHelper */
-        $licenseHelper = $this->_objectManager->get(\M2E\Otto\Helper\Module\License::class);
+        /** @var \M2E\Core\Model\LicenseService $licenseService */
+        $licenseService = $this->_objectManager->get(\M2E\Core\Model\LicenseService::class);
 
         if (
-            !$licenseHelper->getKey()
-            || !$licenseHelper->getDomain()
-            || !$licenseHelper->getIp()
+            !$licenseService->get()->getKey()
+            || !$licenseService->get()->getInfo()->getDomainIdentifier()->getValidValue()
+            || !$licenseService->get()->getInfo()->getIpIdentifier()->getValidValue()
         ) {
             $params = [];
             if ($this->isContentLockedByWizard()) {
@@ -422,14 +421,14 @@ abstract class AbstractMain extends AbstractBase
 
     protected function addLicenseValidationFailNotifications(): void
     {
-        /** @var License $licenseHelper */
-        $licenseHelper = $this->_objectManager->get(\M2E\Otto\Helper\Module\License::class);
+        /** @var \M2E\Core\Model\LicenseService $licenseService */
+        $licenseService = $this->_objectManager->get(\M2E\Core\Model\LicenseService::class);
 
         /** @var \M2E\Otto\Helper\Module\Wizard $wizardHelper */
         $wizardHelper = $this->_objectManager->get(\M2E\Otto\Helper\Module\Wizard::class);
         /** @var \M2E\Otto\Helper\View\Configuration $configurationHelper */
         $configurationHelper = $this->_objectManager->get(\M2E\Otto\Helper\View\Configuration::class);
-        if (!$licenseHelper->isValidDomain()) {
+        if (!$licenseService->get()->getInfo()->getDomainIdentifier()->isValid()) {
             $params = [];
             if ($wizardHelper->getActiveBlockerWizard($this->getCustomViewNick())) {
                 $params['wizard'] = '1';
@@ -448,7 +447,7 @@ abstract class AbstractMain extends AbstractBase
             return;
         }
 
-        if (!$licenseHelper->isValidIp()) {
+        if (!$licenseService->get()->getInfo()->getIpIdentifier()->isValid()) {
             $params = [];
             if ($wizardHelper->getActiveBlockerWizard($this->getCustomViewNick())) {
                 $params['wizard'] = '1';

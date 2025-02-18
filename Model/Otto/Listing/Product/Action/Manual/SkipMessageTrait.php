@@ -13,10 +13,24 @@ trait SkipMessageTrait
         );
     }
 
+    private function createManualSkipListMessage(): string
+    {
+        return (string)__(
+            'Please use the \'Relist\' action instead of \'List\' to update \'Stopped\' products on the channel.'
+        );
+    }
+
     private function createSkipReviseMessage(): string
     {
         return (string)__(
             'Item(s) were not revised. No relevant product changes were detected to be updated on the channel.'
+        );
+    }
+
+    private function createManualSkipReviseMessage(): string
+    {
+        return (string)__(
+            'Please use the \'Relist\' action instead of \'Revise\' to update \'Inactive\' products on the channel.'
         );
     }
 

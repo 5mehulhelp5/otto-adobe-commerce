@@ -18,7 +18,7 @@ class MsiNotificationPopupClose extends \M2E\Otto\Controller\Adminhtml\AbstractB
 
     public function execute()
     {
-        $this->registry->setValue('/view/msi/popup/shown/', 1);
+        $this->registry->setValue('/view/msi/popup/shown/', '1');
         $this->setJsonContent(['status' => true]);
 
         return $this->getResult();

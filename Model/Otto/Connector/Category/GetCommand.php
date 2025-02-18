@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace M2E\Otto\Model\Otto\Connector\Category;
 
-class GetCommand implements \M2E\Otto\Model\Connector\CommandInterface
+class GetCommand implements \M2E\Core\Model\Connector\CommandInterface
 {
     public function getCommand(): array
     {
@@ -16,7 +16,7 @@ class GetCommand implements \M2E\Otto\Model\Connector\CommandInterface
         return [];
     }
 
-    public function parseResponse(\M2E\Otto\Model\Connector\Response $response): Get\Response
+    public function parseResponse(\M2E\Core\Model\Connector\Response $response): Get\Response
     {
         $result = new Get\Response();
         foreach ($response->getResponseData()['category_groups'] as $categoryGroupData) {

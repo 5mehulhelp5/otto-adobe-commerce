@@ -6,7 +6,7 @@ namespace M2E\Otto\Setup\Update\y24_m08;
 
 use M2E\Otto\Helper\Module\Database\Tables as TablesHelper;
 
-class DropImageAndImageRelationTables extends \M2E\Otto\Model\Setup\Upgrade\Entity\AbstractFeature
+class DropImageAndImageRelationTables extends \M2E\Core\Model\Setup\Upgrade\Entity\AbstractFeature
 {
     public function execute(): void
     {

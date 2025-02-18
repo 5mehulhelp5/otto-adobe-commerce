@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace M2E\Otto\Model\Otto\Connector\Account;
 
-class GetInstallUrlCommand implements \M2E\Otto\Model\Connector\CommandInterface
+class GetInstallUrlCommand implements \M2E\Core\Model\Connector\CommandInterface
 {
     private string $backUrl;
     private string $mode;
@@ -28,7 +28,7 @@ class GetInstallUrlCommand implements \M2E\Otto\Model\Connector\CommandInterface
         ];
     }
 
-    public function parseResponse(\M2E\Otto\Model\Connector\Response $response): object
+    public function parseResponse(\M2E\Core\Model\Connector\Response $response): object
     {
         return new GetInstallUrl\Response($response->getResponseData()['url']);
     }

@@ -14,7 +14,7 @@ class InitiatorFactory
     }
 
     public function create(
-        \M2E\Otto\Model\Connector\CommandProcessingInterface $command,
+        \M2E\Core\Model\Connector\CommandProcessingInterface $command,
         Params $params
     ): Initiator {
         return $this->objectManager->create(Initiator::class, ['command' => $command, 'params' => $params]);

@@ -31,13 +31,18 @@ class DeleteService
         $this->wizardDeleteService = $wizardDeleteService;
     }
 
-    public function isExistListedProducts(\M2E\Otto\Model\Listing $listing): bool
+    public function isAllowed(\M2E\Otto\Model\Listing $listing): bool
     {
-        return $this->productRepository->getCountListedProductsForListing($listing) > 0;
+        return $this->productRepository->getCountListedProductsForListing($listing) === 0
+            && !$this->listingRepository->hasProductsInSomeAction($listing);
     }
 
-    public function process(\M2E\Otto\Model\Listing $listing): void
+    public function process(\M2E\Otto\Model\Listing $listing, bool $isForce = false): void
     {
+        if (!$isForce && !$this->isAllowed($listing)) {
+            return;
+        }
+
         $this->processingDeleteService->deleteByObjAndObjId(
             \M2E\Otto\Model\Listing::LOCK_NICK,
             $listing->getId(),

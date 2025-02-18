@@ -10,10 +10,7 @@ class Tables
 {
     public const PREFIX = 'm2e_otto_';
 
-    public const TABLE_NAME_CONFIG = self::PREFIX . 'config';
-    public const TABLE_NAME_SETUP = self::PREFIX . 'setup';
     public const TABLE_NAME_WIZARD = self::PREFIX . 'wizard';
-    public const TABLE_NAME_REGISTRY = self::PREFIX . 'registry';
     public const TABLE_NAME_ACCOUNT = self::PREFIX . 'account';
     public const TABLE_NAME_LISTING = self::PREFIX . 'listing';
     public const TABLE_NAME_LISTING_LOG = self::PREFIX . 'listing_log';
@@ -61,6 +58,7 @@ class Tables
     public const TABLE_NAME_BRAND = self::PREFIX . 'brand';
 
     public const TABLE_NAME_ATTRIBUTE_MAPPING = self::PREFIX . 'attribute_mapping';
+    public const TABLE_NAME_EXTERNAL_CHANGE = self::PREFIX . 'external_change';
 
     private \Magento\Framework\App\ResourceConnection $resourceConnection;
     private Structure $databaseHelper;
@@ -151,53 +149,124 @@ class Tables
         return $columnName;
     }
 
+    // ----------------------------------------
+
     /**
      * @return string[]
      */
-    public function getAllTables(): array
+    public static function getAllTables(): array
+    {
+        return array_keys(self::getTablesResourcesModels());
+    }
+
+    public static function getTableResourceModel(string $tableName): string
+    {
+        $tablesModels = self::getTablesResourcesModels();
+
+        return $tablesModels[$tableName];
+    }
+
+    private static function getTablesResourcesModels(): array
     {
         return [
-            self::TABLE_NAME_SETUP,
-            self::TABLE_NAME_LOCK_ITEM,
-            self::TABLE_NAME_LOCK_TRANSACTIONAL,
-            self::TABLE_NAME_CONFIG,
-            self::TABLE_NAME_ACCOUNT,
-            self::TABLE_NAME_LISTING,
-            self::TABLE_NAME_LISTING_LOG,
-            self::TABLE_NAME_PRODUCT,
-            self::TABLE_NAME_PRODUCT_INSTRUCTION,
-            self::TABLE_NAME_PRODUCT_SCHEDULED_ACTION,
-            self::TABLE_NAME_PROCESSING,
-            self::TABLE_NAME_PROCESSING_LOCK,
-            self::TABLE_NAME_PROCESSING_PARTIAL_DATA,
-            self::TABLE_NAME_STOP_QUEUE,
-            self::TABLE_NAME_SYNCHRONIZATION_LOG,
-            self::TABLE_NAME_SYSTEM_LOG,
-            self::TABLE_NAME_OPERATION_HISTORY,
-            self::TABLE_NAME_TEMPLATE_SELLING_FORMAT,
-            self::TABLE_NAME_TEMPLATE_SYNCHRONIZATION,
-            self::TABLE_NAME_TEMPLATE_DESCRIPTION,
-            self::TABLE_NAME_TEMPLATE_SHIPPING,
-            self::TABLE_NAME_WIZARD,
-            self::TABLE_NAME_REGISTRY,
-            self::TABLE_NAME_TAG,
-            self::TABLE_NAME_PRODUCT_TAG_RELATION,
-            self::TABLE_NAME_ORDER,
-            self::TABLE_NAME_ORDER_ITEM,
-            self::TABLE_NAME_ORDER_LOG,
-            self::TABLE_NAME_ORDER_NOTE,
-            self::TABLE_NAME_ORDER_CHANGE,
-            self::TABLE_NAME_CATEGORY_GROUP_DICTIONARY,
-            self::TABLE_NAME_CATEGORY_DICTIONARY,
-            self::TABLE_NAME_CATEGORY_GROUP_ATTRIBUTE_DICTIONARY,
-            self::TABLE_NAME_CATEGORY,
-            self::TABLE_NAME_CATEGORY_ATTRIBUTES,
-            self::TABLE_NAME_BRAND,
-            self::TABLE_NAME_LISTING_WIZARD,
-            self::TABLE_NAME_LISTING_WIZARD_STEP,
-            self::TABLE_NAME_LISTING_WIZARD_PRODUCT,
-            self::TABLE_NAME_LISTING_OTHER,
-            self::TABLE_NAME_PRODUCT_LOCK
+            self::TABLE_NAME_WIZARD => \M2E\Otto\Model\ResourceModel\Wizard::class,
+            self::TABLE_NAME_ACCOUNT => \M2E\Otto\Model\ResourceModel\Account::class,
+            self::TABLE_NAME_LISTING => \M2E\Otto\Model\ResourceModel\Listing::class,
+            self::TABLE_NAME_LISTING_LOG => \M2E\Otto\Model\ResourceModel\Listing\Log::class,
+            self::TABLE_NAME_PRODUCT => \M2E\Otto\Model\ResourceModel\Product::class,
+            self::TABLE_NAME_PRODUCT_INSTRUCTION => \M2E\Otto\Model\ResourceModel\Instruction::class,
+            self::TABLE_NAME_PRODUCT_SCHEDULED_ACTION => \M2E\Otto\Model\ResourceModel\ScheduledAction::class,
+            self::TABLE_NAME_LISTING_WIZARD => \M2E\Otto\Model\ResourceModel\Listing\Wizard::class,
+            self::TABLE_NAME_LISTING_WIZARD_STEP => \M2E\Otto\Model\ResourceModel\Listing\Wizard\Step::class,
+            self::TABLE_NAME_LISTING_WIZARD_PRODUCT => \M2E\Otto\Model\ResourceModel\Listing\Wizard\Product::class,
+            self::TABLE_NAME_PRODUCT_LOCK => \M2E\Otto\Model\ResourceModel\Product\Lock::class,
+            self::TABLE_NAME_LOCK_ITEM => \M2E\Otto\Model\ResourceModel\Lock\Item::class,
+            self::TABLE_NAME_LOCK_TRANSACTIONAL => \M2E\Otto\Model\ResourceModel\Lock\Transactional::class,
+            self::TABLE_NAME_PROCESSING => \M2E\Otto\Model\ResourceModel\Processing::class,
+            self::TABLE_NAME_PROCESSING_PARTIAL_DATA => \M2E\Otto\Model\ResourceModel\Processing\PartialData::class,
+            self::TABLE_NAME_PROCESSING_LOCK => \M2E\Otto\Model\ResourceModel\Processing\Lock::class,
+            self::TABLE_NAME_STOP_QUEUE => \M2E\Otto\Model\ResourceModel\StopQueue::class,
+            self::TABLE_NAME_SYNCHRONIZATION_LOG => \M2E\Otto\Model\ResourceModel\Synchronization\Log::class,
+            self::TABLE_NAME_SYSTEM_LOG => \M2E\Otto\Model\ResourceModel\Log\System::class,
+            self::TABLE_NAME_OPERATION_HISTORY => \M2E\Otto\Model\ResourceModel\OperationHistory::class,
+            self::TABLE_NAME_TEMPLATE_SELLING_FORMAT => \M2E\Otto\Model\ResourceModel\Template\SellingFormat::class,
+            self::TABLE_NAME_TEMPLATE_SYNCHRONIZATION => \M2E\Otto\Model\ResourceModel\Template\Synchronization::class,
+            self::TABLE_NAME_TEMPLATE_DESCRIPTION => \M2E\Otto\Model\ResourceModel\Template\Description::class,
+            self::TABLE_NAME_TEMPLATE_SHIPPING => \M2E\Otto\Model\ResourceModel\Template\Shipping::class,
+            self::TABLE_NAME_TAG => \M2E\Otto\Model\ResourceModel\Tag::class,
+            self::TABLE_NAME_PRODUCT_TAG_RELATION => \M2E\Otto\Model\ResourceModel\Tag\ListingProduct\Relation::class,
+            self::TABLE_NAME_ORDER => \M2E\Otto\Model\ResourceModel\Order::class,
+            self::TABLE_NAME_ORDER_ITEM => \M2E\Otto\Model\ResourceModel\Order\Item::class,
+            self::TABLE_NAME_ORDER_LOG => \M2E\Otto\Model\ResourceModel\Order\Log::class,
+            self::TABLE_NAME_ORDER_NOTE => \M2E\Otto\Model\ResourceModel\Order\Note::class,
+            self::TABLE_NAME_ORDER_CHANGE => \M2E\Otto\Model\ResourceModel\Order\Change::class,
+            self::TABLE_NAME_LISTING_OTHER => \M2E\Otto\Model\ResourceModel\Listing\Other::class,
+            self::TABLE_NAME_CATEGORY_GROUP_DICTIONARY => \M2E\Otto\Model\ResourceModel\Dictionary\CategoryGroup::class,
+            self::TABLE_NAME_CATEGORY_DICTIONARY => \M2E\Otto\Model\ResourceModel\Dictionary\Category::class,
+            self::TABLE_NAME_CATEGORY_GROUP_ATTRIBUTE_DICTIONARY => \M2E\Otto\Model\ResourceModel\Dictionary\Attribute::class,
+            self::TABLE_NAME_CATEGORY => \M2E\Otto\Model\ResourceModel\Category::class,
+            self::TABLE_NAME_CATEGORY_ATTRIBUTES => \M2E\Otto\Model\ResourceModel\Category\Attribute::class,
+            self::TABLE_NAME_BRAND => \M2E\Otto\Model\ResourceModel\Brand::class,
+            self::TABLE_NAME_ATTRIBUTE_MAPPING => \M2E\Otto\Model\ResourceModel\AttributeMapping\Pair::class,
+            self::TABLE_NAME_EXTERNAL_CHANGE => \M2E\Otto\Model\ResourceModel\ExternalChange::class,
         ];
+    }
+
+    public static function getTableModel(string $tableName): string
+    {
+        $tablesModels = self::getTablesModels();
+
+        return $tablesModels[$tableName];
+    }
+
+    private static function getTablesModels(): array
+    {
+        return [
+            self::TABLE_NAME_WIZARD => \M2E\Otto\Model\Wizard::class,
+            self::TABLE_NAME_ACCOUNT => \M2E\Otto\Model\Account::class,
+            self::TABLE_NAME_LISTING => \M2E\Otto\Model\Listing::class,
+            self::TABLE_NAME_LISTING_LOG => \M2E\Otto\Model\Listing\Log::class,
+            self::TABLE_NAME_PRODUCT => \M2E\Otto\Model\Product::class,
+            self::TABLE_NAME_PRODUCT_INSTRUCTION => \M2E\Otto\Model\Instruction::class,
+            self::TABLE_NAME_PRODUCT_SCHEDULED_ACTION => \M2E\Otto\Model\ScheduledAction::class,
+            self::TABLE_NAME_LISTING_WIZARD => \M2E\Otto\Model\Listing\Wizard::class,
+            self::TABLE_NAME_LISTING_WIZARD_STEP => \M2E\Otto\Model\Listing\Wizard\Step::class,
+            self::TABLE_NAME_LISTING_WIZARD_PRODUCT => \M2E\Otto\Model\Listing\Wizard\Product::class,
+            self::TABLE_NAME_PRODUCT_LOCK => \M2E\Otto\Model\Product\Lock::class,
+            self::TABLE_NAME_LOCK_ITEM => \M2E\Otto\Model\Lock\Item::class,
+            self::TABLE_NAME_LOCK_TRANSACTIONAL => \M2E\Otto\Model\Lock\Transactional::class,
+            self::TABLE_NAME_PROCESSING => \M2E\Otto\Model\Processing::class,
+            self::TABLE_NAME_PROCESSING_PARTIAL_DATA => \M2E\Otto\Model\Processing\PartialData::class,
+            self::TABLE_NAME_PROCESSING_LOCK => \M2E\Otto\Model\Processing\Lock::class,
+            self::TABLE_NAME_STOP_QUEUE => \M2E\Otto\Model\StopQueue::class,
+            self::TABLE_NAME_SYNCHRONIZATION_LOG => \M2E\Otto\Model\Synchronization\Log::class,
+            self::TABLE_NAME_SYSTEM_LOG => \M2E\Otto\Model\Log\System::class,
+            self::TABLE_NAME_OPERATION_HISTORY => \M2E\Otto\Model\OperationHistory::class,
+            self::TABLE_NAME_TEMPLATE_SELLING_FORMAT => \M2E\Otto\Model\Template\SellingFormat::class,
+            self::TABLE_NAME_TEMPLATE_SYNCHRONIZATION => \M2E\Otto\Model\Template\Synchronization::class,
+            self::TABLE_NAME_TEMPLATE_DESCRIPTION => \M2E\Otto\Model\Template\Description::class,
+            self::TABLE_NAME_TEMPLATE_SHIPPING => \M2E\Otto\Model\Template\Shipping::class,
+            self::TABLE_NAME_TAG => \M2E\Otto\Model\Tag\Entity::class,
+            self::TABLE_NAME_PRODUCT_TAG_RELATION => \M2E\Otto\Model\Tag\ListingProduct\Relation::class,
+            self::TABLE_NAME_ORDER => \M2E\Otto\Model\Order::class,
+            self::TABLE_NAME_ORDER_ITEM => \M2E\Otto\Model\Order\Item::class,
+            self::TABLE_NAME_ORDER_LOG => \M2E\Otto\Model\Order\Log::class,
+            self::TABLE_NAME_ORDER_NOTE => \M2E\Otto\Model\Order\Note::class,
+            self::TABLE_NAME_ORDER_CHANGE => \M2E\Otto\Model\Order\Change::class,
+            self::TABLE_NAME_LISTING_OTHER => \M2E\Otto\Model\Listing\Other::class,
+            self::TABLE_NAME_CATEGORY_GROUP_DICTIONARY => \M2E\Otto\Model\Dictionary\CategoryGroup::class,
+            self::TABLE_NAME_CATEGORY_DICTIONARY => \M2E\Otto\Model\Dictionary\Category::class,
+            self::TABLE_NAME_CATEGORY_GROUP_ATTRIBUTE_DICTIONARY => \M2E\Otto\Model\Dictionary\Attribute::class,
+            self::TABLE_NAME_CATEGORY => \M2E\Otto\Model\Category::class,
+            self::TABLE_NAME_CATEGORY_ATTRIBUTES => \M2E\Otto\Model\Category\Attribute::class,
+            self::TABLE_NAME_BRAND => \M2E\Otto\Model\Brand::class,
+            self::TABLE_NAME_ATTRIBUTE_MAPPING => \M2E\Otto\Model\AttributeMapping\Pair::class,
+            self::TABLE_NAME_EXTERNAL_CHANGE => \M2E\Otto\Model\ExternalChange::class,
+        ];
+    }
+
+    public static function isModuleTable(string $tableName): bool
+    {
+        return strpos($tableName, self::PREFIX) !== false;
     }
 }

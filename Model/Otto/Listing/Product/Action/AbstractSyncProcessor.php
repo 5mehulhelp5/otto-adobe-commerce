@@ -97,18 +97,18 @@ abstract class AbstractSyncProcessor
 
     abstract protected function getActionNick(): string;
 
-    abstract protected function makeCall(): \M2E\Otto\Model\Connector\Response;
+    abstract protected function makeCall(): \M2E\Core\Model\Connector\Response;
 
     /**
-     * @param \M2E\Otto\Model\Connector\Response $response
+     * @param \M2E\Core\Model\Connector\Response $response
      *
      * @return string - successful message
      */
-    abstract protected function processSuccess(\M2E\Otto\Model\Connector\Response $response): string;
+    abstract protected function processSuccess(\M2E\Core\Model\Connector\Response $response): string;
 
-    abstract protected function processFail(\M2E\Otto\Model\Connector\Response $response): void;
+    abstract protected function processFail(\M2E\Core\Model\Connector\Response $response): void;
 
-    protected function processComplete(\M2E\Otto\Model\Connector\Response $response): void
+    protected function processComplete(\M2E\Core\Model\Connector\Response $response): void
     {
     }
 

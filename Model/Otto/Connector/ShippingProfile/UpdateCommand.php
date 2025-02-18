@@ -6,7 +6,7 @@ namespace M2E\Otto\Model\Otto\Connector\ShippingProfile;
 
 use M2E\Otto\Model\Otto\Connector\Account\Add;
 
-class UpdateCommand implements \M2E\Otto\Model\Connector\CommandInterface
+class UpdateCommand implements \M2E\Core\Model\Connector\CommandInterface
 {
     private string $accountHash;
     private \M2E\Otto\Model\Template\Shipping\Channel\ShippingProfile $shippingProfile;
@@ -41,8 +41,8 @@ class UpdateCommand implements \M2E\Otto\Model\Connector\CommandInterface
     }
 
     public function parseResponse(
-        \M2E\Otto\Model\Connector\Response $response
-    ): \M2E\Otto\Model\Connector\Response {
+        \M2E\Core\Model\Connector\Response $response
+    ): \M2E\Core\Model\Connector\Response {
         if ($response->getMessageCollection()->hasErrors()) {
             throw new \M2E\Otto\Model\Exception\ShippingProfilesUnableProcess($response->getMessageCollection()->getErrors());
         }

@@ -9,7 +9,7 @@ use M2E\Otto\Helper\Module\Database\Tables;
 use M2E\Otto\Model\ResourceModel\Listing\Other as ListingOtherResource;
 use M2E\Otto\Model\ResourceModel\Product as ListingProductResource;
 
-class AddIsIncompleteColumns extends \M2E\Otto\Model\Setup\Upgrade\Entity\AbstractFeature
+class AddIsIncompleteColumns extends \M2E\Core\Model\Setup\Upgrade\Entity\AbstractFeature
 {
     public function execute(): void
     {

@@ -6,7 +6,7 @@ namespace M2E\Otto\Model\Otto\Connector\Account\Get;
 
 use M2E\Otto\Model\Otto\Connector\Account\Get\Result;
 
-class AuthInfoCommand implements \M2E\Otto\Model\Connector\CommandInterface
+class AuthInfoCommand implements \M2E\Core\Model\Connector\CommandInterface
 {
     /** @var string[] */
     private array $accountsServerHashes;
@@ -27,7 +27,7 @@ class AuthInfoCommand implements \M2E\Otto\Model\Connector\CommandInterface
         return ['account', 'get', 'authInfo'];
     }
 
-    public function parseResponse(\M2E\Otto\Model\Connector\Response $response): object
+    public function parseResponse(\M2E\Core\Model\Connector\Response $response): object
     {
         $accountsInfo = $response->getResponseData()['accounts'];
 

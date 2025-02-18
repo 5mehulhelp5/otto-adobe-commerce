@@ -9,19 +9,19 @@ abstract class AbstractWizard extends AbstractMain
     private \M2E\Otto\Helper\Module\Wizard $wizardHelper;
     private \M2E\Otto\Helper\Magento $magentoHelper;
     private \Magento\Framework\Code\NameBuilder $nameBuilder;
-    private \M2E\Otto\Helper\Module\License $licenseHelper;
+    private \M2E\Core\Model\LicenseService $licenseService;
 
     public function __construct(
         \M2E\Otto\Helper\Magento $magentoHelper,
         \M2E\Otto\Helper\Module\Wizard $wizardHelper,
         \Magento\Framework\Code\NameBuilder $nameBuilder,
-        \M2E\Otto\Helper\Module\License $licenseHelper
+        \M2E\Core\Model\LicenseService $licenseHelper
     ) {
         parent::__construct();
         $this->nameBuilder = $nameBuilder;
         $this->magentoHelper = $magentoHelper;
         $this->wizardHelper = $wizardHelper;
-        $this->licenseHelper = $licenseHelper;
+        $this->licenseService = $licenseHelper;
     }
 
     protected function _isAllowed()
@@ -88,17 +88,12 @@ abstract class AbstractWizard extends AbstractMain
         $this->_forward($this->getCurrentStep());
     }
 
-    /**
-     * @param \M2E\Otto\Model\Registration\UserInfo\Repository $repository
-     *
-     * @return \Magento\Framework\Controller\Result\Raw|\Magento\Framework\View\Result\Page
-     * @throws \M2E\Otto\Model\Exception\Logic
-     */
-    protected function registrationAction(\M2E\Otto\Model\Registration\UserInfo\Repository $repository)
+    protected function registrationAction(\M2E\Core\Model\RegistrationService $registrationService)
     {
-        $key = $this->licenseHelper->getKey();
-
-        if ($repository->get() && !empty($key)) {
+        if (
+            $registrationService->findUser() !== null
+            && $this->licenseService->has()
+        ) {
             $this->setStep($this->getNextStep());
 
             return $this->renderSimpleStep();

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace M2E\Otto\Model\Otto\Connector\Item;
 
-class StopCommand implements \M2E\Otto\Model\Connector\CommandProcessingInterface
+class StopCommand implements \M2E\Core\Model\Connector\CommandProcessingInterface
 {
     private string $accountHash;
     private array $requestData;
@@ -26,8 +26,8 @@ class StopCommand implements \M2E\Otto\Model\Connector\CommandProcessingInterfac
     }
 
     public function parseResponse(
-        \M2E\Otto\Model\Connector\Response $response
-    ): \M2E\Otto\Model\Connector\Response\Processing {
-        return new \M2E\Otto\Model\Connector\Response\Processing($response->getResponseData()['processing_id']);
+        \M2E\Core\Model\Connector\Response $response
+    ): \M2E\Core\Model\Connector\Response\Processing {
+        return new \M2E\Core\Model\Connector\Response\Processing($response->getResponseData()['processing_id']);
     }
 }

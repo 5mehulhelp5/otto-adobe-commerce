@@ -6,18 +6,18 @@ namespace M2E\Otto\Model\Otto\Listing\Product\Action\Async\Processing;
 
 class Initiator implements \M2E\Otto\Model\Processing\SimpleInitiatorInterface
 {
-    private \M2E\Otto\Model\Connector\CommandProcessingInterface $command;
+    private \M2E\Core\Model\Connector\CommandProcessingInterface $command;
     private Params $params;
 
     public function __construct(
-        \M2E\Otto\Model\Connector\CommandProcessingInterface $command,
+        \M2E\Core\Model\Connector\CommandProcessingInterface $command,
         Params $params
     ) {
         $this->command = $command;
         $this->params = $params;
     }
 
-    public function getInitCommand(): \M2E\Otto\Model\Connector\CommandProcessingInterface
+    public function getInitCommand(): \M2E\Core\Model\Connector\CommandProcessingInterface
     {
         return $this->command;
     }

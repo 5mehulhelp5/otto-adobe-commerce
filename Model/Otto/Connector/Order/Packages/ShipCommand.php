@@ -2,7 +2,7 @@
 
 namespace M2E\Otto\Model\Otto\Connector\Order\Packages;
 
-class ShipCommand implements \M2E\Otto\Model\Connector\CommandInterface
+class ShipCommand implements \M2E\Core\Model\Connector\CommandInterface
 {
     private \M2E\Otto\Model\Account $account;
     /** @var \M2E\Otto\Model\Otto\Connector\Order\Packages\Ship\Package[] */
@@ -38,7 +38,7 @@ class ShipCommand implements \M2E\Otto\Model\Connector\CommandInterface
     }
 
     public function parseResponse(
-        \M2E\Otto\Model\Connector\Response $response
+        \M2E\Core\Model\Connector\Response $response
     ): \M2E\Otto\Model\Otto\Connector\Order\Packages\Ship\Response {
         $responseData = $response->getResponseData();
 

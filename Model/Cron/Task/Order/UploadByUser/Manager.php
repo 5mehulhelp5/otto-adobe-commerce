@@ -144,7 +144,10 @@ class Manager
         $settings = $this->registryManager->getValueFromJson($this->getRegistryKey());
         $settings[$key] = $value;
 
-        $this->registryManager->setValue($this->getRegistryKey(), $settings);
+        $this->registryManager->setValue(
+            $this->getRegistryKey(),
+            json_encode($settings, JSON_THROW_ON_ERROR)
+        );
     }
 
     private function deleteSettings(): void

@@ -13,39 +13,43 @@ class AddProductsService
     private \M2E\Otto\Model\ProductFactory $listingProductFactory;
     private \M2E\Otto\Model\Listing\LogService $listingLogService;
     private \M2E\Otto\Model\Listing\Other\Repository $unmanagedProductRepository;
-    private \M2E\Otto\Model\Magento\Product\CacheFactory $magentoProductFactory;
 
     public function __construct(
         Product\Repository $listingProductRepository,
         \M2E\Otto\Model\InstructionService $instructionService,
         \M2E\Otto\Model\ProductFactory $listingProductFactory,
         \M2E\Otto\Model\Listing\LogService $listingLogService,
-        \M2E\Otto\Model\Listing\Other\Repository $unmanagedProductRepository,
-        \M2E\Otto\Model\Magento\Product\CacheFactory $magentoProductFactory
+        \M2E\Otto\Model\Listing\Other\Repository $unmanagedProductRepository
     ) {
         $this->listingProductRepository = $listingProductRepository;
         $this->instructionService = $instructionService;
         $this->listingProductFactory = $listingProductFactory;
         $this->listingLogService = $listingLogService;
         $this->unmanagedProductRepository = $unmanagedProductRepository;
-        $this->magentoProductFactory = $magentoProductFactory;
     }
 
     public function addProduct(
         \M2E\Otto\Model\Listing $listing,
-        int $magentoProductId,
+        \M2E\Otto\Model\Magento\Product $ourMagentoProduct,
         int $categoryId,
         int $initiator = \M2E\Otto\Helper\Data::INITIATOR_UNKNOWN,
         ?\M2E\Otto\Model\Listing\Other $unmanagedProduct = null
     ): ?Product {
-        $this->checkSupportedMagentoType($magentoProductId);
+        if (!$ourMagentoProduct->exists()) {
+            throw new \M2E\Otto\Model\Listing\Exception\MagentoProductNotFoundException(
+                'Magento product not found.',
+                ['magento_product_id' => $ourMagentoProduct->getProductId()]
+            );
+        }
 
-        $listingProduct = $this->findExistProduct($listing, $magentoProductId);
+        $this->checkSupportedMagentoType($ourMagentoProduct);
+
+        $listingProduct = $this->findExistProduct($listing, $ourMagentoProduct->getProductId());
         if ($listingProduct === null) {
             $listingProduct = $this->listingProductFactory->create();
             $listingProduct->init(
                 $listing->getId(),
-                $magentoProductId,
+                $ourMagentoProduct->getProductId(),
                 $categoryId
             );
 
@@ -102,11 +106,11 @@ class AddProductsService
             return null;
         }
 
-        $magentoProductId = $unmanagedProduct->getMagentoProductId();
+        $magentoProduct = $unmanagedProduct->getMagentoProduct();
 
         $listingProduct = $this->addProduct(
             $listing,
-            $magentoProductId,
+            $magentoProduct,
             $categoryId,
             $initiator,
             $unmanagedProduct
@@ -205,14 +209,13 @@ class AddProductsService
         return $this->listingProductRepository->findByListingAndMagentoProductId($listing, $magentoProductId);
     }
 
-    private function isSupportedMagentoProductType(\M2E\Otto\Model\Magento\Product\Cache $ourMagentoProduct): bool
+    private function isSupportedMagentoProductType(\M2E\Otto\Model\Magento\Product $ourMagentoProduct): bool
     {
         return $ourMagentoProduct->isSimpleType();
     }
 
-    private function checkSupportedMagentoType(int $magentoProductId): void
+    private function checkSupportedMagentoType(\M2E\Otto\Model\Magento\Product $ourMagentoProduct): void
     {
-        $ourMagentoProduct = $this->magentoProductFactory->create()->setProductId($magentoProductId);
         if (!$this->isSupportedMagentoProductType($ourMagentoProduct)) {
             throw new \M2E\Otto\Model\Exception\Logic(
                 (string)__(

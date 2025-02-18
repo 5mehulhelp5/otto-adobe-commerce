@@ -11,7 +11,7 @@ use M2E\Otto\Model\ResourceModel\Product as ProductResource;
 use M2E\Otto\Model\ResourceModel\Product\Lock as ProductLockResource;
 use Magento\Framework\DB\Ddl\Table;
 
-class FixTablesStructure extends \M2E\Otto\Model\Setup\Upgrade\Entity\AbstractFeature
+class FixTablesStructure extends \M2E\Core\Model\Setup\Upgrade\Entity\AbstractFeature
 {
     public function execute(): void
     {

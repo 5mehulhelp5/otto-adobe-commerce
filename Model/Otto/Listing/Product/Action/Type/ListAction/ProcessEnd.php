@@ -49,7 +49,7 @@ class ProcessEnd extends \M2E\Otto\Model\Otto\Listing\Product\Action\Async\Abstr
     }
 
     /**
-     * @param \M2E\Otto\Model\Connector\Response\Message[] $messages
+     * @param \M2E\Core\Model\Connector\Response\Message[] $messages
      *
      * @return void
      */

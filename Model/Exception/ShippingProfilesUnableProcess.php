@@ -6,7 +6,7 @@ namespace M2E\Otto\Model\Exception;
 
 class ShippingProfilesUnableProcess extends \M2E\Otto\Model\Exception
 {
-    /** @var \M2E\Otto\Model\Connector\Response\Message[] */
+    /** @var \M2E\Core\Model\Connector\Response\Message[] */
     private $errorMessages;
 
     public function __construct(array $errorMessages)
@@ -17,7 +17,7 @@ class ShippingProfilesUnableProcess extends \M2E\Otto\Model\Exception
     }
 
     /**
-     * @return \M2E\Otto\Model\Connector\Response\Message[]
+     * @return \M2E\Core\Model\Connector\Response\Message[]
      */
     public function getErrorMessages(): array
     {

@@ -33,24 +33,6 @@ class Client
 
     // ----------------------------------------
 
-    /**
-     * @return string
-     * @throws \M2E\Otto\Model\Exception
-     */
-    public function getDomain(): string
-    {
-        $domain = $this->config->getGroupValue('/location/', 'domain');
-        if (empty($domain)) {
-            $domain = $this->getServerDomain();
-        }
-
-        if (empty($domain)) {
-            throw new \M2E\Otto\Model\Exception('Server Domain is not defined');
-        }
-
-        return $domain;
-    }
-
     public function getIp()
     {
         $ip = $this->config->getGroupValue('/location/', 'ip');

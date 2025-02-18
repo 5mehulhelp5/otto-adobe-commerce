@@ -6,7 +6,7 @@ namespace M2E\Otto\Model\Processing;
 
 interface SimpleInitiatorInterface
 {
-    public function getInitCommand(): \M2E\Otto\Model\Connector\CommandProcessingInterface;
+    public function getInitCommand(): \M2E\Core\Model\Connector\CommandProcessingInterface;
 
     public function generateProcessParams(): array;
 

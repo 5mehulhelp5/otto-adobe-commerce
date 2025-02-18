@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace M2E\Otto\Model\Otto\Connector\ShippingProfile;
 
-class GetListCommand implements \M2E\Otto\Model\Connector\CommandInterface
+class GetListCommand implements \M2E\Core\Model\Connector\CommandInterface
 {
     private string $accountHash;
 
@@ -25,7 +25,7 @@ class GetListCommand implements \M2E\Otto\Model\Connector\CommandInterface
         ];
     }
 
-    public function parseResponse(\M2E\Otto\Model\Connector\Response $response): \M2E\Otto\Model\Template\Shipping\Channel\ShippingProfileCollection
+    public function parseResponse(\M2E\Core\Model\Connector\Response $response): \M2E\Otto\Model\Template\Shipping\Channel\ShippingProfileCollection
     {
         $collection = new \M2E\Otto\Model\Template\Shipping\Channel\ShippingProfileCollection();
 

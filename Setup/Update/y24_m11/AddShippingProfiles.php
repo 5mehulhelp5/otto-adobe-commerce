@@ -9,7 +9,7 @@ use M2E\Otto\Model\ResourceModel\Template\Shipping as ShippingResource;
 use M2E\Otto\Model\ResourceModel\Product as ProductResource;
 use M2E\Otto\Model\ResourceModel\Listing\Other as OtherResource;
 
-class AddShippingProfiles extends \M2E\Otto\Model\Setup\Upgrade\Entity\AbstractFeature
+class AddShippingProfiles extends \M2E\Core\Model\Setup\Upgrade\Entity\AbstractFeature
 {
     public function execute(): void
     {
@@ -192,6 +192,7 @@ class AddShippingProfiles extends \M2E\Otto\Model\Setup\Upgrade\Entity\AbstractF
 
     private function duplicateShippingPolicy(int $shippingId, int $accountId): int
     {
+        /** @var \Magento\Framework\DB\Adapter\Pdo\Mysql $connection */
         $connection = $this->getConnection();
 
         $shippingData = $connection->fetchRow(
@@ -212,7 +213,7 @@ class AddShippingProfiles extends \M2E\Otto\Model\Setup\Upgrade\Entity\AbstractF
 
         $connection->insert($this->getFullTableName(Tables::TABLE_NAME_TEMPLATE_SHIPPING), $shippingData);
 
-        return (int) $connection->lastInsertId();
+        return (int)$connection->lastInsertId();
     }
 
     private function assignShippingPolicyToAccount(int $shippingId, int $accountId): void

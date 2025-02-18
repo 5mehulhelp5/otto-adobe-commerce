@@ -7,7 +7,7 @@ namespace M2E\Otto\Model\Otto\Connector\Attribute;
 use M2E\Otto\Model\Otto\Connector\Attribute\Attribute;
 use M2E\Otto\Model\Otto\Connector\Attribute\Get;
 
-class GetCommand implements \M2E\Otto\Model\Connector\CommandInterface
+class GetCommand implements \M2E\Core\Model\Connector\CommandInterface
 {
     private string $categoryGroupId;
 
@@ -28,7 +28,7 @@ class GetCommand implements \M2E\Otto\Model\Connector\CommandInterface
         ];
     }
 
-    public function parseResponse(\M2E\Otto\Model\Connector\Response $response): Get\Response
+    public function parseResponse(\M2E\Core\Model\Connector\Response $response): Get\Response
     {
         $responseData = $response->getResponseData();
 

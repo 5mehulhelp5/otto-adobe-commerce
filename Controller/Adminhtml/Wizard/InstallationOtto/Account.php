@@ -12,13 +12,13 @@ class Account extends Installation
         \M2E\Otto\Helper\Magento $magentoHelper,
         \M2E\Otto\Helper\Module\Wizard $wizardHelper,
         \Magento\Framework\Code\NameBuilder $nameBuilder,
-        \M2E\Otto\Helper\Module\License $licenseHelper
+        \M2E\Core\Model\LicenseService $licenseService
     ) {
         parent::__construct(
             $magentoHelper,
             $wizardHelper,
             $nameBuilder,
-            $licenseHelper,
+            $licenseService,
         );
         $this->accountRepository = $accountRepository;
     }

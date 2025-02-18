@@ -17,7 +17,7 @@ class Initiator implements \M2E\Otto\Model\Processing\PartialInitiatorInterface
         $this->accountLockManager = $accountLockManager;
     }
 
-    public function getInitCommand(): \M2E\Otto\Model\Connector\CommandProcessingInterface
+    public function getInitCommand(): \M2E\Core\Model\Connector\CommandProcessingInterface
     {
         return new Connector\InventoryGetItemsCommand(
             $this->account->getServerHash(),

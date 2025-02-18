@@ -3,7 +3,6 @@ define([
     'Otto/Otto/Listing/View/Grid',
     'Otto/Listing/MovingFromListing',
     'Otto/Listing/Wizard/Category',
-    'Otto/Listing/Mapping',
     'Magento_Ui/js/modal/modal'
 ], function (jQuery) {
 
@@ -25,7 +24,6 @@ define([
             $super();
 
             this.movingHandler = new MovingFromListing(this);
-            this.mappingHandler = new ListingMapping(this);
             this.categoryHandler = new OttoListingCategory(this);
 
             this.actions = Object.extend(this.actions, {

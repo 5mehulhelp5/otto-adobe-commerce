@@ -43,13 +43,16 @@ class SaveService
             } else {
                 $shipping = $this->update($data);
             }
-        } catch (\M2E\Otto\Model\Exception\Connection\SystemError $e) {
-            if ($e->getMessageCollection() !== null && $e->getMessageCollection()->hasErrorWithCode(1403)) {
+        } catch (\M2E\Otto\Model\Exception\Connection\SystemError $exception) {
+            if (
+                $exception->getMessageCollection() !== null
+                && $this->hasErrorAccountMissingPermissions($exception->getMessageCollection())
+            ) {
                 throw new \M2E\Otto\Model\Exception\AccountMissingPermissions(
                     $this->accountRepository->get((int)$data['account_id'])
                 );
             }
-            throw $e;
+            throw $exception;
         }
 
         return $shipping;
@@ -117,5 +120,17 @@ class SaveService
             $this->shippingDiffStub,
             $affectedListingsProducts->getObjectsData(['id', 'status'])
         );
+    }
+
+    private function hasErrorAccountMissingPermissions(
+        \M2E\Core\Model\Connector\Response\MessageCollection $messageCollection
+    ): bool {
+        foreach ($messageCollection->getErrors() as $error) {
+            if ((int)$error->getCode() === 1403) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

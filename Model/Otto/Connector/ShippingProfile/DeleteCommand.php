@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace M2E\Otto\Model\Otto\Connector\ShippingProfile;
 
-class DeleteCommand implements \M2E\Otto\Model\Connector\CommandInterface
+class DeleteCommand implements \M2E\Core\Model\Connector\CommandInterface
 {
     private string $accountHash;
     private string $shippingProfileId;
@@ -29,8 +29,8 @@ class DeleteCommand implements \M2E\Otto\Model\Connector\CommandInterface
     }
 
     public function parseResponse(
-        \M2E\Otto\Model\Connector\Response $response
-    ): \M2E\Otto\Model\Connector\Response {
+        \M2E\Core\Model\Connector\Response $response
+    ): \M2E\Core\Model\Connector\Response {
         return $response;
     }
 }

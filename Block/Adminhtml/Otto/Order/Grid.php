@@ -253,16 +253,6 @@ class Grid extends AbstractGrid
         );
 
         $this->getMassactionBlock()->addItem(
-            'ship',
-            [
-                'label' => __('Mark Order(s) as Shipped'),
-                'url' => $this->getUrl('*/Otto_order/updateShippingStatus'),
-                'confirm' => __('Are you sure?'),
-            ],
-            'general'
-        );
-
-        $this->getMassactionBlock()->addItem(
             'resend_shipping',
             [
                 'label' => __('Resend Shipping Information'),

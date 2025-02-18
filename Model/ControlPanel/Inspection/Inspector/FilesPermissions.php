@@ -5,13 +5,11 @@ declare(strict_types=1);
 namespace M2E\Otto\Model\ControlPanel\Inspection\Inspector;
 
 use M2E\Otto\Helper\Module;
-use M2E\Otto\Model\ControlPanel\Inspection\InspectorInterface;
 use Magento\Framework\Component\ComponentRegistrar;
 use Magento\Framework\Component\ComponentRegistrarInterface;
 use Magento\Framework\Filesystem\Driver\File;
-use M2E\Otto\Model\ControlPanel\Inspection\Issue\Factory as IssueFactory;
 
-class FilesPermissions implements InspectorInterface
+class FilesPermissions implements \M2E\Core\Model\ControlPanel\Inspection\InspectorInterface
 {
     /** @var array */
     private $_unWritable = [];
@@ -25,13 +23,12 @@ class FilesPermissions implements InspectorInterface
     /** @var \Magento\Framework\Filesystem\Driver\File */
     private $fileDriver;
 
-    /** @var IssueFactory */
-    private $issueFactory;
+    private \M2E\Core\Model\ControlPanel\Inspection\IssueFactory $issueFactory;
 
     public function __construct(
         ComponentRegistrarInterface $componentRegistrar,
         File $fileDriver,
-        IssueFactory $issueFactory
+        \M2E\Core\Model\ControlPanel\Inspection\IssueFactory $issueFactory
     ) {
         $this->componentRegistrar = $componentRegistrar;
         $this->fileDriver = $fileDriver;
@@ -40,7 +37,7 @@ class FilesPermissions implements InspectorInterface
 
     //########################################
 
-    public function process()
+    public function process(): array
     {
         $this->processModuleFiles();
 

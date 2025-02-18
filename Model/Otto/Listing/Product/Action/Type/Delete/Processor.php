@@ -44,7 +44,7 @@ class Processor extends \M2E\Otto\Model\Otto\Listing\Product\Action\AbstractSync
      * @throws \M2E\Otto\Model\Exception\Connection
      * @throws \M2E\Otto\Model\Exception
      */
-    protected function makeCall(): \M2E\Otto\Model\Connector\Response
+    protected function makeCall(): \M2E\Core\Model\Connector\Response
     {
         $request = $this->requestFactory->create();
 
@@ -60,11 +60,11 @@ class Processor extends \M2E\Otto\Model\Otto\Listing\Product\Action\AbstractSync
             $requestData->getData(),
         );
 
-        /** @var \M2E\Otto\Model\Connector\Response */
+        /** @var \M2E\Core\Model\Connector\Response */
         return $this->serverClient->process($command);
     }
 
-    protected function processSuccess(\M2E\Otto\Model\Connector\Response $response): string
+    protected function processSuccess(\M2E\Core\Model\Connector\Response $response): string
     {
         /** @var Response $responseObj */
         $responseObj = $this->responseFactory->create(
@@ -83,7 +83,7 @@ class Processor extends \M2E\Otto\Model\Otto\Listing\Product\Action\AbstractSync
     }
 
     protected function processFail(
-        \M2E\Otto\Model\Connector\Response $response
+        \M2E\Core\Model\Connector\Response $response
     ): void {
     }
 

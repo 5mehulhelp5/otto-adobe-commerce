@@ -14,7 +14,7 @@ trait CommandTrait
     }
 
     public function parseResponse(
-        \M2E\Otto\Model\Connector\Response $response
+        \M2E\Core\Model\Connector\Response $response
     ): \M2E\Otto\Model\Otto\Connector\Order\Receive\Response {
         $responseData = $response->getResponseData();
 

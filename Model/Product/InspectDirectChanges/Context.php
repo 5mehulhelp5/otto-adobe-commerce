@@ -18,10 +18,7 @@ class Context
 
     public function getLastProductId(): int
     {
-        $configValue = $this->register->getValue(
-            self::REGISTRY_KEY
-        );
-
+        $configValue = $this->register->getValue(self::REGISTRY_KEY);
         if ($configValue === null) {
             return 0;
         }
@@ -33,7 +30,7 @@ class Context
     {
         $this->register->setValue(
             self::REGISTRY_KEY,
-            $id
+            (string)$id
         );
     }
 }

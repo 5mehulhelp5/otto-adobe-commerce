@@ -10,7 +10,7 @@ use M2E\Otto\Model\ResourceModel\Listing\Wizard\Product as ProductResource;
 use M2E\Otto\Model\ResourceModel\Listing\Wizard\Step as StepResource;
 use Magento\Framework\DB\Ddl\Table;
 
-class ListingWizard extends \M2E\Otto\Model\Setup\Upgrade\Entity\AbstractFeature
+class ListingWizard extends \M2E\Core\Model\Setup\Upgrade\Entity\AbstractFeature
 {
     public function execute(): void
     {
@@ -131,7 +131,7 @@ class ListingWizard extends \M2E\Otto\Model\Setup\Upgrade\Entity\AbstractFeature
             ->addColumn(
                 StepResource::COLUMN_DATA,
                 Table::TYPE_TEXT,
-                \M2E\Otto\Model\Setup\Installer::LONG_COLUMN_SIZE,
+                \M2E\Core\Model\ResourceModel\Setup::LONG_COLUMN_SIZE,
                 ['default' => null],
             )
             ->addColumn(

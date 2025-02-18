@@ -8,7 +8,7 @@ use M2E\Otto\Helper\Module\Database\Tables;
 use M2E\Otto\Model\ResourceModel\Dictionary\Attribute as AttributeDictionaryResource;
 use Magento\Framework\DB\Ddl\Table;
 
-class AddAttributeDictionaryTable extends \M2E\Otto\Model\Setup\Upgrade\Entity\AbstractFeature
+class AddAttributeDictionaryTable extends \M2E\Core\Model\Setup\Upgrade\Entity\AbstractFeature
 {
     public function execute(): void
     {
@@ -67,12 +67,12 @@ class AddAttributeDictionaryTable extends \M2E\Otto\Model\Setup\Upgrade\Entity\A
               ->addColumn(
                   AttributeDictionaryResource::COLUMN_ALLOWED_VALUES,
                   Table::TYPE_TEXT,
-                  \M2E\Otto\Model\Setup\Installer::LONG_COLUMN_SIZE,
+                  \M2E\Core\Model\ResourceModel\Setup::LONG_COLUMN_SIZE,
               )
               ->addColumn(
                   AttributeDictionaryResource::COLUMN_EXAMPLE_VALUES,
                   Table::TYPE_TEXT,
-                  \M2E\Otto\Model\Setup\Installer::LONG_COLUMN_SIZE,
+                  \M2E\Core\Model\ResourceModel\Setup::LONG_COLUMN_SIZE,
               )
               ->addColumn(
                   AttributeDictionaryResource::COLUMN_RELEVANCE,
@@ -82,7 +82,7 @@ class AddAttributeDictionaryTable extends \M2E\Otto\Model\Setup\Upgrade\Entity\A
               ->addColumn(
                   AttributeDictionaryResource::COLUMN_REQUIRED_MEDIA_TYPES,
                   Table::TYPE_TEXT,
-                  \M2E\Otto\Model\Setup\Installer::LONG_COLUMN_SIZE,
+                  \M2E\Core\Model\ResourceModel\Setup::LONG_COLUMN_SIZE,
               )
               ->addColumn(
                   AttributeDictionaryResource::COLUMN_UNIT,

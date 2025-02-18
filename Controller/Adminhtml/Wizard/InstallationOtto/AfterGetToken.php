@@ -13,7 +13,7 @@ class AfterGetToken extends Installation
         \M2E\Otto\Model\Account\Create $accountCreate,
         \M2E\Otto\Helper\Module\Exception $helperException,
         \Magento\Framework\Code\NameBuilder $nameBuilder,
-        \M2E\Otto\Helper\Module\License $licenseHelper,
+        \M2E\Core\Model\LicenseService $licenseService,
         \M2E\Otto\Helper\Module\Wizard $wizardHelper,
         \M2E\Otto\Helper\Magento $magentoHelper
     ) {
@@ -21,7 +21,7 @@ class AfterGetToken extends Installation
             $magentoHelper,
             $wizardHelper,
             $nameBuilder,
-            $licenseHelper,
+            $licenseService,
         );
 
         $this->helperException = $helperException;

@@ -1,159 +1,72 @@
 <?php
 
+declare(strict_types=1);
+
 namespace M2E\Otto\Model;
 
 class VariablesDir
 {
-    public const BASE_NAME = 'Otto';
+    private \M2E\Core\Model\VariablesDir\Adapter $adapter;
+    private \M2E\Core\Model\VariablesDir\AdapterFactory $adapterFactory;
 
-    private $_fileDriver = null;
-    private $_childFolder = null;
-    private $_pathVariablesDirBase = null;
-    private $_pathVariablesDirChildFolder = null;
-
-    public function __construct(
-        \Magento\Framework\Filesystem\DriverPool $driverPool,
-        \Magento\Framework\Filesystem $filesystem,
-        array $data = []
-    ) {
-        $this->_fileDriver = $driverPool->getDriver(\Magento\Framework\Filesystem\DriverPool::FILE);
-
-        !isset($data['child_folder']) && $data['child_folder'] = null;
-        $data['child_folder'] === '' && $data['child_folder'] = null;
-
-        $varDir = $filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem\DirectoryList::VAR_DIR);
-        $this->_pathVariablesDirBase = $varDir->getAbsolutePath() . self::BASE_NAME;
-
-        if ($data['child_folder'] !== null) {
-            if ($data['child_folder'][0] != DIRECTORY_SEPARATOR) {
-                $data['child_folder'] = DIRECTORY_SEPARATOR . $data['child_folder'];
-            }
-            if ($data['child_folder'][strlen($data['child_folder']) - 1] != DIRECTORY_SEPARATOR) {
-                $data['child_folder'] .= DIRECTORY_SEPARATOR;
-            }
-
-            $this->_pathVariablesDirChildFolder = $this->_pathVariablesDirBase . $data['child_folder'];
-            $this->_pathVariablesDirBase .= DIRECTORY_SEPARATOR;
-            $this->_childFolder = $data['child_folder'];
-        } else {
-            $this->_pathVariablesDirBase .= DIRECTORY_SEPARATOR;
-            $this->_pathVariablesDirChildFolder = $this->_pathVariablesDirBase;
-            $this->_childFolder = '';
-        }
-
-        $this->_pathVariablesDirBase = str_replace(
-            ['/', '\\'],
-            DIRECTORY_SEPARATOR,
-            $this->_pathVariablesDirBase
-        );
-        $this->_pathVariablesDirChildFolder = str_replace(
-            ['/', '\\'],
-            DIRECTORY_SEPARATOR,
-            $this->_pathVariablesDirChildFolder
-        );
-        $this->_childFolder = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $this->_childFolder);
+    public function __construct(\M2E\Core\Model\VariablesDir\AdapterFactory $adapterFactory)
+    {
+        $this->adapterFactory = $adapterFactory;
     }
 
-    public function getBasePath()
+    public function getBasePath(): string
     {
-        return $this->_pathVariablesDirBase;
+        return $this->getAdapter()->getBasePath();
     }
 
-    public function getPath()
+    public function getPath(): string
     {
-        return $this->_pathVariablesDirChildFolder;
+        return $this->getAdapter()->getPath();
     }
 
-    // ---------------------------------------
-
-    /**
-     * @return bool
-     */
-    public function isBaseExist()
+    public function isBaseExist(): bool
     {
-        return $this->_fileDriver->isDirectory($this->getBasePath());
+        return $this->getAdapter()->isBaseExist();
     }
 
-    /**
-     * @return bool
-     */
-    public function isExist()
+    public function isExist(): bool
     {
-        return $this->_fileDriver->isDirectory($this->getPath());
+        return $this->getAdapter()->isExist();
     }
 
-    // ---------------------------------------
-
-    public function createBase()
+    public function createBase(): void
     {
-        if ($this->isBaseExist()) {
-            return;
-        }
-
-        $this->_fileDriver->createDirectory($this->getBasePath(), 0777);
+        $this->getAdapter()->createBase();
     }
 
-    public function create()
+    public function create(): void
     {
-        if ($this->isExist()) {
-            return;
-        }
-
-        $this->createBase();
-
-        if ($this->_childFolder != '') {
-            $tempPath = $this->getBasePath();
-            $tempChildFolders = explode(
-                DIRECTORY_SEPARATOR,
-                substr($this->_childFolder, 1, strlen($this->_childFolder) - 2)
-            );
-
-            foreach ($tempChildFolders as $key => $value) {
-                if (!$this->_fileDriver->isDirectory($tempPath . $value . DIRECTORY_SEPARATOR)) {
-                    $this->_fileDriver->createDirectory($tempPath . $value . DIRECTORY_SEPARATOR, 0777);
-                }
-                $tempPath = $tempPath . $value . DIRECTORY_SEPARATOR;
-            }
-        } else {
-            $this->_fileDriver->createDirectory($this->getPath(), 0777);
-        }
+        $this->getAdapter()->create();
     }
 
-    // ---------------------------------------
-
-    public function removeBase()
+    public function removeBase(): void
     {
-        if (!$this->isBaseExist()) {
-            return;
-        }
-
-        $this->_fileDriver->deleteDirectory($this->getBasePath());
+        $this->getAdapter()->removeBase();
     }
 
-    public function removeBaseForce()
+    public function removeBaseForce(): void
     {
-        if (!$this->isBaseExist()) {
-            return;
-        }
-
-        $directoryIterator = new \RecursiveDirectoryIterator($this->getBasePath(), \FilesystemIterator::SKIP_DOTS);
-        $iterator = new \RecursiveIteratorIterator($directoryIterator, \RecursiveIteratorIterator::CHILD_FIRST);
-
-        foreach ($iterator as $path) {
-            $path->isFile()
-                ? $this->_fileDriver->deleteFile($path->getPathname())
-                : $this->_fileDriver->deleteDirectory($path->getPathname());
-        }
-
-        $this->_fileDriver->deleteDirectory($this->getBasePath());
+        $this->getAdapter()->removeBaseForce();
     }
 
     public function remove()
     {
-        if (!$this->isExist()) {
-            return;
+        $this->getAdapter()->remove();
+    }
+
+    public function getAdapter(): \M2E\Core\Model\VariablesDir\Adapter
+    {
+        /** @psalm-suppress RedundantPropertyInitializationCheck */
+        if (!isset($this->adapter)) {
+            $this->adapter = $this->adapterFactory
+                ->create(\M2E\Otto\Helper\Module::IDENTIFIER);
         }
 
-        $this->_fileDriver->deleteDirectory($this->getPath());
+        return $this->adapter;
     }
 }

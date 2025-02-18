@@ -79,7 +79,10 @@ class Config extends \M2E\Otto\Plugin\AbstractPlugin
         $previousMenuState = $this->registry->getValueFromJson(self::MENU_STATE_REGISTRY_KEY);
 
         if ($previousMenuState != $currentMenuState) {
-            $this->registry->setValue(self::MENU_STATE_REGISTRY_KEY, $currentMenuState);
+            $this->registry->setValue(
+                self::MENU_STATE_REGISTRY_KEY,
+                json_encode($currentMenuState, JSON_THROW_ON_ERROR)
+            );
             $this->helperFactory->getObject('Magento')->clearMenuCache();
         }
 

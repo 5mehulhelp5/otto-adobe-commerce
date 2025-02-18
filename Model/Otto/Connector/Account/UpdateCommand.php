@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace M2E\Otto\Model\Otto\Connector\Account;
 
-class UpdateCommand implements \M2E\Otto\Model\Connector\CommandInterface
+class UpdateCommand implements \M2E\Core\Model\Connector\CommandInterface
 {
     private const ERROR_CODE_INSTALL_NOT_FOUND = 4040;
 
@@ -29,21 +29,20 @@ class UpdateCommand implements \M2E\Otto\Model\Connector\CommandInterface
         return [
             'title' => $this->title,
             'account' => $this->accountHash,
-            'auth_code' => $this->authCode
+            'auth_code' => $this->authCode,
         ];
     }
 
     /**
-     * @param \M2E\Otto\Model\Connector\Response $response
+     * @param \M2E\Core\Model\Connector\Response $response
      *
      * @return \M2E\Otto\Model\Otto\Connector\Account\Update\Response
-     *
      * @throws \M2E\Otto\Model\Account\Exception\InstallNotFound
      */
     public function parseResponse(
-        \M2E\Otto\Model\Connector\Response $response
+        \M2E\Core\Model\Connector\Response $response
     ): \M2E\Otto\Model\Otto\Connector\Account\Update\Response {
-        if ($response->getMessageCollection()->hasErrorWithCode(self::ERROR_CODE_INSTALL_NOT_FOUND)) {
+        if ($this->hasErrorInstallNotFound($response->getMessageCollection())) {
             throw new \M2E\Otto\Model\Account\Exception\InstallNotFound('Installation not found.');
         }
 
@@ -54,5 +53,17 @@ class UpdateCommand implements \M2E\Otto\Model\Connector\CommandInterface
         return new \M2E\Otto\Model\Otto\Connector\Account\Update\Response(
             $installationId
         );
+    }
+
+    private function hasErrorInstallNotFound(
+        \M2E\Core\Model\Connector\Response\MessageCollection $messageCollection
+    ): bool {
+        foreach ($messageCollection->getErrors() as $error) {
+            if ((int)$error->getCode() === self::ERROR_CODE_INSTALL_NOT_FOUND) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

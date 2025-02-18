@@ -7,14 +7,14 @@ namespace M2E\Otto\Controller\Adminhtml\Wizard\InstallationOtto;
 class BeforeGetInstallationId extends Installation
 {
     private \M2E\Otto\Helper\Module\Exception $helperException;
-    private \M2E\Otto\Helper\Module\License $licenseHelper;
+    private \M2E\Core\Model\LicenseService $licenseService;
     private \M2E\Otto\Helper\View\Configuration $configurationHelper;
     private \M2E\Otto\Model\Account\AccessUrlGenerator $accessUrlGenerator;
 
     public function __construct(
         \M2E\Otto\Model\Account\AccessUrlGenerator $accessUrlGenerator,
         \M2E\Otto\Helper\Module\Exception $helperException,
-        \M2E\Otto\Helper\Module\License $licenseHelper,
+        \M2E\Core\Model\LicenseService $licenseService,
         \M2E\Otto\Helper\View\Configuration $configurationHelper,
         \M2E\Otto\Helper\Magento $magentoHelper,
         \M2E\Otto\Helper\Module\Wizard $wizardHelper,
@@ -24,11 +24,11 @@ class BeforeGetInstallationId extends Installation
             $magentoHelper,
             $wizardHelper,
             $nameBuilder,
-            $licenseHelper,
+            $licenseService,
         );
 
         $this->configurationHelper = $configurationHelper;
-        $this->licenseHelper = $licenseHelper;
+        $this->licenseService = $licenseService;
         $this->helperException = $helperException;
         $this->accessUrlGenerator = $accessUrlGenerator;
     }
@@ -53,8 +53,8 @@ class BeforeGetInstallationId extends Installation
             $this->helperException->process($exception);
 
             if (
-                !$this->licenseHelper->isValidDomain() ||
-                !$this->licenseHelper->isValidIp()
+                !$this->licenseService->get()->getInfo()->getDomainIdentifier()->isValid()
+                || !$this->licenseService->get()->getInfo()->getIpIdentifier()->isValid()
             ) {
                 $error = __(
                     'The Otto installation is currently unavailable.<br/>Reason: %error_message </br>Go to the <a href="%url" target="_blank">License Page</a>.',

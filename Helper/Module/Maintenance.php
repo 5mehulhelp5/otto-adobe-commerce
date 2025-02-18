@@ -4,100 +4,54 @@ declare(strict_types=1);
 
 namespace M2E\Otto\Helper\Module;
 
-class Maintenance
+class Maintenance implements \M2E\Core\Model\Module\MaintenanceInterface
 {
     public const MENU_ROOT_NODE_NICK = 'M2E_Otto::otto_maintenance';
 
-    public const MAINTENANCE_CONFIG_PATH = 'm2e_otto/maintenance';
+    private const MAINTENANCE_CONFIG_PATH = 'm2e_otto/maintenance';
 
-    private const VALUE_DISABLED = 0;
-    private const VALUE_ENABLED = 1;
-    private const VALUE_ENABLED_DUE_LOW_MAGENTO_VERSION = 2;
-
-    private \Magento\Framework\App\ResourceConnection $resourceConnection;
-    private \M2E\Otto\Helper\Module\Database\Structure $databaseHelper;
-
-    private array $cache = [];
+    private \M2E\Core\Model\Module\Maintenance\AdapterFactory $adapterFactory;
+    private \M2E\Core\Model\Module\Maintenance\Adapter $adapter;
 
     public function __construct(
-        \Magento\Framework\App\ResourceConnection $resourceConnection,
-        \M2E\Otto\Helper\Module\Database\Structure $databaseHelper
+        \M2E\Core\Model\Module\Maintenance\AdapterFactory $adapterFactory
     ) {
-        $this->resourceConnection = $resourceConnection;
-        $this->databaseHelper = $databaseHelper;
+        $this->adapterFactory = $adapterFactory;
     }
 
     public function enable(): void
     {
-        $this->setConfig(self::MAINTENANCE_CONFIG_PATH, self::VALUE_ENABLED);
+        $this->getAdapter()->enable();
     }
 
     public function isEnabled(): bool
     {
-        return (bool)$this->getConfig(self::MAINTENANCE_CONFIG_PATH);
+        return $this->getAdapter()->isEnabled();
     }
 
     public function enableDueLowMagentoVersion(): void
     {
-        $this->setConfig(self::MAINTENANCE_CONFIG_PATH, self::VALUE_ENABLED_DUE_LOW_MAGENTO_VERSION);
+        $this->getAdapter()->enableDueLowMagentoVersion();
     }
 
     public function isEnabledDueLowMagentoVersion(): bool
     {
-        return (int)$this->getConfig(self::MAINTENANCE_CONFIG_PATH) === self::VALUE_ENABLED_DUE_LOW_MAGENTO_VERSION;
+        return $this->getAdapter()->isEnabledDueLowMagentoVersion();
     }
 
     public function disable(): void
     {
-        $this->setConfig(self::MAINTENANCE_CONFIG_PATH, self::VALUE_DISABLED);
+        $this->getAdapter()->disable();
     }
 
-    private function getConfig(string $path)
+    public function getAdapter(): \M2E\Core\Model\Module\Maintenance\Adapter
     {
-        if (isset($this->cache[$path])) {
-            return $this->cache[$path];
+        /** @psalm-suppress RedundantPropertyInitializationCheck */
+        if (!isset($this->adapter)) {
+            $this->adapter = $this->adapterFactory
+                ->create(self::MAINTENANCE_CONFIG_PATH);
         }
 
-        $configDataTableName = $this->databaseHelper
-            ->getTableNameWithPrefix('core_config_data');
-        $select = $this->resourceConnection->getConnection()
-                                           ->select()
-                                           ->from($configDataTableName, 'value')
-                                           ->where('scope = ?', 'default')
-                                           ->where('scope_id = ?', 0)
-                                           ->where('path = ?', $path);
-
-        return $this->cache[$path] = $this->resourceConnection->getConnection()->fetchOne($select);
-    }
-
-    private function setConfig(string $path, $value): void
-    {
-        $connection = $this->resourceConnection->getConnection();
-
-        $configDataTableName = $this->databaseHelper
-            ->getTableNameWithPrefix('core_config_data');
-        if ($this->getConfig($path) === false) {
-            $connection->insert(
-                $configDataTableName,
-                [
-                    'scope' => 'default',
-                    'scope_id' => 0,
-                    'path' => $path,
-                    'value' => $value,
-                ]
-            );
-        } else {
-            $connection->update(
-                $configDataTableName,
-                ['value' => $value],
-                [
-                    'scope = ?' => 'default',
-                    'scope_id = ?' => 0,
-                    'path = ?' => $path,
-                ]
-            );
-        }
-
-        unset($this->cache[$path]);
+        return $this->adapter;
     }
 }

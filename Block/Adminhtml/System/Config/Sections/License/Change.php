@@ -6,22 +6,10 @@ namespace M2E\Otto\Block\Adminhtml\System\Config\Sections\License;
 
 class Change extends \M2E\Otto\Block\Adminhtml\System\Config\Sections
 {
-    /** @var \M2E\Otto\Helper\Module\License */
-    private $licenseHelper;
-    /** @var \M2E\Otto\Helper\Data */
-    private $dataHelper;
+    private \M2E\Core\Model\LicenseService $licenseService;
 
-    /**
-     * @param \M2E\Otto\Helper\Module\License $licenseHelper
-     * @param \M2E\Otto\Helper\Data $dataHelper
-     * @param \M2E\Otto\Block\Adminhtml\Magento\Context\Template $context
-     * @param \Magento\Framework\Registry $registry
-     * @param \Magento\Framework\Data\FormFactory $formFactory
-     * @param array $data
-     */
     public function __construct(
-        \M2E\Otto\Helper\Module\License $licenseHelper,
-        \M2E\Otto\Helper\Data $dataHelper,
+        \M2E\Core\Model\LicenseService $licenseService,
         \M2E\Otto\Block\Adminhtml\Magento\Context\Template $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
@@ -29,8 +17,7 @@ class Change extends \M2E\Otto\Block\Adminhtml\System\Config\Sections
     ) {
         parent::__construct($context, $registry, $formFactory, $data);
 
-        $this->licenseHelper = $licenseHelper;
-        $this->dataHelper = $dataHelper;
+        $this->licenseService = $licenseService;
     }
 
     protected function _prepareForm()
@@ -47,7 +34,7 @@ class Change extends \M2E\Otto\Block\Adminhtml\System\Config\Sections
 
         $fieldSet = $form->addFieldset('change_license', ['legend' => '', 'collapsable' => false]);
 
-        $key = \M2E\Otto\Helper\Data::escapeHtml($this->licenseHelper->getKey());
+        $key = \M2E\Otto\Helper\Data::escapeHtml($this->licenseService->get()->getKey());
         $fieldSet->addField(
             'new_license_key',
             'text',

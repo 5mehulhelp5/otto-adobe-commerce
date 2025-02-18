@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace M2E\Otto\Model\Otto\Connector\Order\Receive;
 
-class ItemsByCreateDateCommand implements \M2E\Otto\Model\Connector\CommandInterface
+class ItemsByCreateDateCommand implements \M2E\Core\Model\Connector\CommandInterface
 {
     use CommandTrait;
 

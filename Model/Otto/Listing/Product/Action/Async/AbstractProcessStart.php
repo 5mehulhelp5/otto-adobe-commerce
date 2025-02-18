@@ -107,7 +107,7 @@ abstract class AbstractProcessStart
 
     abstract protected function getActionValidator(): Type\AbstractValidator;
 
-    abstract protected function getCommand(): \M2E\Otto\Model\Connector\CommandProcessingInterface;
+    abstract protected function getCommand(): \M2E\Core\Model\Connector\CommandProcessingInterface;
 
     private function getProcessingParams(
         array $requestMetadata

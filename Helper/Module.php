@@ -17,32 +17,18 @@ class Module
     public const ENVIRONMENT_DEVELOPMENT = 'development';
 
     protected \M2E\Otto\Model\ActiveRecord\Factory $activeRecordFactory;
-
     protected \M2E\Otto\Model\Config\Manager $config;
-
     protected \M2E\Otto\Model\Registry\Manager $registry;
-
     protected \Magento\Framework\App\ResourceConnection $resourceConnection;
-
     protected \Magento\Framework\Component\ComponentRegistrar $componentRegistrar;
-
     protected \Magento\Backend\Model\UrlInterface $urlBuilder;
-
     protected \M2E\Otto\Helper\View\Otto $viewHelper;
-
-    protected ?bool $areImportantTablesExist = null;
-
-    private \M2E\Otto\Helper\Module\Database\Structure $databaseHelper;
-
     private \M2E\Otto\Helper\Data\Cache\Runtime $runtimeCache;
-
     private \M2E\Otto\Helper\Data\Cache\Permanent $permanentCache;
-
     private \M2E\Otto\Helper\Magento $magentoHelper;
-    /**
-     * @var \M2E\Otto\Helper\Client
-     */
-    private $clientHelper;
+    private \M2E\Otto\Helper\Client $clientHelper;
+    private \M2E\Otto\Model\Module $module;
+    private \M2E\Otto\Model\Module\Environment $moduleEnv;
 
     public function __construct(
         \M2E\Otto\Model\ActiveRecord\Factory $activeRecordFactory,
@@ -52,11 +38,12 @@ class Module
         \Magento\Framework\Component\ComponentRegistrar $componentRegistrar,
         \Magento\Backend\Model\UrlInterface $urlBuilder,
         \M2E\Otto\Helper\View\Otto $viewHelper,
-        \M2E\Otto\Helper\Module\Database\Structure $databaseHelper,
         \M2E\Otto\Helper\Data\Cache\Runtime $runtimeCache,
         \M2E\Otto\Helper\Data\Cache\Permanent $permanentCache,
         \M2E\Otto\Helper\Magento $magentoHelper,
-        \M2E\Otto\Helper\Client $clientHelper
+        \M2E\Otto\Helper\Client $clientHelper,
+        \M2E\Otto\Model\Module $module,
+        \M2E\Otto\Model\Module\Environment $moduleEnv
     ) {
         $this->activeRecordFactory = $activeRecordFactory;
         $this->config = $config;
@@ -65,11 +52,12 @@ class Module
         $this->componentRegistrar = $componentRegistrar;
         $this->urlBuilder = $urlBuilder;
         $this->viewHelper = $viewHelper;
-        $this->databaseHelper = $databaseHelper;
         $this->runtimeCache = $runtimeCache;
         $this->permanentCache = $permanentCache;
         $this->magentoHelper = $magentoHelper;
         $this->clientHelper = $clientHelper;
+        $this->module = $module;
+        $this->moduleEnv = $moduleEnv;
     }
 
     // ----------------------------------------
@@ -88,49 +76,42 @@ class Module
      */
     public function isDisabled(): bool
     {
-        return (bool)$this->config->getGroupValue('/', 'is_disabled');
+        return $this->module->isDisabled();
     }
 
     public function isReadyToWork(): bool
     {
-        return $this->areImportantTablesExist()
-            && $this->viewHelper->isInstallationWizardFinished();
+        return $this->module->isReadyToWork();
     }
 
-    /**
-     * @return bool
-     */
     public function areImportantTablesExist(): bool
     {
-        if ($this->areImportantTablesExist !== null) {
-            return $this->areImportantTablesExist;
-        }
-
-        foreach (['m2e_otto_config', 'm2e_otto_setup'] as $table) {
-            $tableName = $this->databaseHelper->getTableNameWithPrefix($table);
-            if (!$this->resourceConnection->getConnection()->isTableExists($tableName)) {
-                return $this->areImportantTablesExist = false;
-            }
-        }
-
-        return $this->areImportantTablesExist = true;
+        return $this->module->areImportantTablesExist();
     }
 
-    /**
-     * @return mixed|null
-     */
-    public function getEnvironment()
+    public function getEnvironment(): string
     {
-        return $this->config->getGroupValue('/', 'environment');
+        if ($this->moduleEnv->isProductionEnvironment()) {
+            return self::ENVIRONMENT_PRODUCTION;
+        }
+
+        return self::ENVIRONMENT_DEVELOPMENT;
     }
 
-    /**
-     * @return bool
-     */
+    public function setEnvironment(string $env): void
+    {
+        if ($env === self::ENVIRONMENT_PRODUCTION) {
+            $this->moduleEnv->enableProductionEnvironment();
+
+            return;
+        }
+
+        $this->moduleEnv->enableDevelopmentEnvironment();
+    }
+
     public function isProductionEnvironment(): bool
     {
-        return $this->getEnvironment() === null
-            || $this->getEnvironment() === self::ENVIRONMENT_PRODUCTION;
+        return $this->moduleEnv->isProductionEnvironment();
     }
 
     /**
@@ -138,17 +119,7 @@ class Module
      */
     public function isDevelopmentEnvironment(): bool
     {
-        return $this->getEnvironment() === self::ENVIRONMENT_DEVELOPMENT;
-    }
-
-    /**
-     * @param string $env
-     *
-     * @return void
-     */
-    public function setEnvironment(string $env): void
-    {
-        $this->config->setGroupValue('/', 'environment', $env);
+        return $this->moduleEnv->isDevelopmentEnvironment();
     }
 
     /**

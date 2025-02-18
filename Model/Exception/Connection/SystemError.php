@@ -6,11 +6,11 @@ namespace M2E\Otto\Model\Exception\Connection;
 
 class SystemError extends \M2E\Otto\Model\Exception
 {
-    private \M2E\Otto\Model\Connector\Response\MessageCollection $messageCollection;
+    private \M2E\Core\Model\Connector\Response\MessageCollection $messageCollection;
 
     public function __construct(
         string $message = '',
-        \M2E\Otto\Model\Connector\Response\MessageCollection $messageCollection = null,
+        \M2E\Core\Model\Connector\Response\MessageCollection $messageCollection = null,
         array $additionalData = [],
         int $code = 0
     ) {
@@ -19,7 +19,7 @@ class SystemError extends \M2E\Otto\Model\Exception
         $this->messageCollection = $messageCollection;
     }
 
-    public function getMessageCollection(): ?\M2E\Otto\Model\Connector\Response\MessageCollection
+    public function getMessageCollection(): ?\M2E\Core\Model\Connector\Response\MessageCollection
     {
         return $this->messageCollection;
     }

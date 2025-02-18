@@ -2,7 +2,7 @@
 
 namespace M2E\Otto\Model\Otto\Connector\Item;
 
-class GetInfoCommand implements \M2E\Otto\Model\Connector\CommandInterface
+class GetInfoCommand implements \M2E\Core\Model\Connector\CommandInterface
 {
     private string $ottoProductSku;
     private string $accountHash;
@@ -27,8 +27,8 @@ class GetInfoCommand implements \M2E\Otto\Model\Connector\CommandInterface
     }
 
     public function parseResponse(
-        \M2E\Otto\Model\Connector\Response $response
-    ): \M2E\Otto\Model\Connector\Response {
+        \M2E\Core\Model\Connector\Response $response
+    ): \M2E\Core\Model\Connector\Response {
         return $response;
     }
 }

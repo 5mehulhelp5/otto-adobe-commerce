@@ -14,6 +14,8 @@ class ResultHandler implements \M2E\Otto\Model\Processing\PartialResultHandlerIn
     private \M2E\Otto\Model\Listing\Other\UpdaterFactory $listingOtherUpdaterFactory;
     private \M2E\Otto\Model\Listing\InventorySync\AccountLockManager $accountLockManager;
     private \M2E\Otto\Model\Product\UpdateFromChannel $productUpdateFromChannelProcessor;
+    private \M2E\Otto\Model\ExternalChange\Processor $externalChangeProcessor;
+    private \M2E\Otto\Model\Listing\Other\Updater\ServerToOttoProductConverterFactory $otherConverterFactory;
 
     private \DateTime $fromDate;
 
@@ -21,12 +23,16 @@ class ResultHandler implements \M2E\Otto\Model\Processing\PartialResultHandlerIn
         \M2E\Otto\Model\Account\Repository $accountRepository,
         \M2E\Otto\Model\Listing\Other\UpdaterFactory $listingOtherUpdaterFactory,
         \M2E\Otto\Model\Listing\InventorySync\AccountLockManager $accountLockManager,
-        \M2E\Otto\Model\Product\UpdateFromChannel $productUpdateFromChannelProcessor
+        \M2E\Otto\Model\Product\UpdateFromChannel $productUpdateFromChannelProcessor,
+        \M2E\Otto\Model\ExternalChange\Processor $externalChangeProcessor,
+        \M2E\Otto\Model\Listing\Other\Updater\ServerToOttoProductConverterFactory $otherConverterFactory
     ) {
         $this->accountRepository = $accountRepository;
         $this->listingOtherUpdaterFactory = $listingOtherUpdaterFactory;
         $this->accountLockManager = $accountLockManager;
         $this->productUpdateFromChannelProcessor = $productUpdateFromChannelProcessor;
+        $this->externalChangeProcessor = $externalChangeProcessor;
+        $this->otherConverterFactory = $otherConverterFactory;
     }
 
     public function initialize(array $params): void
@@ -49,16 +55,20 @@ class ResultHandler implements \M2E\Otto\Model\Processing\PartialResultHandlerIn
 
     public function processPartialResult(array $partialData): void
     {
+        $converter = $this->otherConverterFactory->create($this->account);
+        $ottoProductsCollection = $converter->convert($partialData);
+
+        $this->externalChangeProcessor->processReceivedProducts($this->account, $ottoProductsCollection);
+
         $existInListingCollection = $this->listingOtherUpdaterFactory
             ->create($this->account)
-            ->process($partialData);
+            ->process($ottoProductsCollection);
 
-        if ($existInListingCollection === null) {
-            return;
+        /** @psalm-suppress RedundantCondition */
+        if ($existInListingCollection !== null) {
+            $this->productUpdateFromChannelProcessor
+                ->process($existInListingCollection, $this->account);
         }
-
-        $this->productUpdateFromChannelProcessor
-            ->process($existInListingCollection, $this->account);
     }
 
     public function processSuccess(array $resultData, array $messages): void
@@ -68,7 +78,13 @@ class ResultHandler implements \M2E\Otto\Model\Processing\PartialResultHandlerIn
             $this->account->setInventoryLastSyncDate(clone $this->fromDate);
 
             $this->accountRepository->save($this->account);
+            $inventorySyncProcessingStartDate = $this->fromDate;
+        } else {
+            $inventorySyncProcessingStartDate = \M2E\Otto\Helper\Date::createCurrentGmt();
         }
+
+        $this->externalChangeProcessor
+            ->processDeletedProducts($this->account, $inventorySyncProcessingStartDate);
     }
 
     public function processExpire(): void

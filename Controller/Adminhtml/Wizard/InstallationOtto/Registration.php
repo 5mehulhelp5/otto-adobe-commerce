@@ -6,28 +6,28 @@ namespace M2E\Otto\Controller\Adminhtml\Wizard\InstallationOtto;
 
 class Registration extends Installation
 {
-    private \M2E\Otto\Model\Registration\UserInfo\Repository $manager;
+    private \M2E\Core\Model\RegistrationService $registrationService;
 
     public function __construct(
-        \M2E\Otto\Model\Registration\UserInfo\Repository $manager,
+        \M2E\Core\Model\RegistrationService $registrationService,
         \M2E\Otto\Helper\Magento $magentoHelper,
         \M2E\Otto\Helper\Module\Wizard $wizardHelper,
         \Magento\Framework\Code\NameBuilder $nameBuilder,
-        \M2E\Otto\Helper\Module\License $licenseHelper
+        \M2E\Core\Model\LicenseService $licenseService
     ) {
         parent::__construct(
             $magentoHelper,
             $wizardHelper,
             $nameBuilder,
-            $licenseHelper,
+            $licenseService,
         );
-        $this->manager = $manager;
+        $this->registrationService = $registrationService;
     }
 
     public function execute()
     {
         $this->init();
 
-        return $this->registrationAction($this->manager);
+        return $this->registrationAction($this->registrationService);
     }
 }

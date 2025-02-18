@@ -13,6 +13,7 @@ class Product extends \M2E\Otto\Model\ResourceModel\ActiveRecord\AbstractModel
     public const COLUMN_OTTO_PRODUCT_SKU = 'otto_product_sku';
     public const COLUMN_ONLINE_SKU = 'online_sku';
     public const COLUMN_STATUS = 'status';
+    public const COLUMN_STATUS_CHANGE_DATE = 'status_change_date';
     public const COLUMN_IS_INCOMPLETE = 'is_incomplete';
     public const COLUMN_STATUS_CHANGER = 'status_changer';
     public const COLUMN_ONLINE_EAN = 'online_ean';

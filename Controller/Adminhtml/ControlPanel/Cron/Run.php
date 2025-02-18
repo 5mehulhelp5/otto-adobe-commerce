@@ -9,10 +9,9 @@ class Run extends \M2E\Otto\Controller\Adminhtml\ControlPanel\AbstractMain
     private \M2E\Otto\Model\Cron\Runner\Developer $cronRunner;
 
     public function __construct(
-        \M2E\Otto\Model\Cron\Runner\Developer $cronRunner,
-        \M2E\Otto\Model\Module $module
+        \M2E\Otto\Model\Cron\Runner\Developer $cronRunner
     ) {
-        parent::__construct($module);
+        parent::__construct();
         $this->cronRunner = $cronRunner;
     }
 

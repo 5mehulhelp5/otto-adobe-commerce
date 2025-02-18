@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace M2E\Otto\Setup\Update;
 
-class Config implements \M2E\Otto\Model\Setup\Upgrade\Entity\ConfigInterface
+class Config implements \M2E\Core\Model\Setup\Upgrade\Entity\ConfigInterface
 {
     public function getFeaturesList(): array
     {
         return [
-            'y25_m05' => [
+            'y24_m05' => [
                 \M2E\Otto\Setup\Update\y24_m05\AddStatusChangerColumnToScheduledAction::class,
             ],
             'y24_m06' => [
@@ -33,27 +33,34 @@ class Config implements \M2E\Otto\Model\Setup\Upgrade\Entity\ConfigInterface
                 \M2E\Otto\Setup\Update\y24_m06\AddOnlineSkuToProductTable::class,
                 \M2E\Otto\Setup\Update\y24_m06\RemoveListingProductConfigurations::class,
             ],
-            'y25_m07' => [
+            'y24_m07' => [
                 \M2E\Otto\Setup\Update\y24_m07\AddMoinColumnsToProductTable::class
             ],
-            'y25_m08' => [
+            'y24_m08' => [
                 \M2E\Otto\Setup\Update\y24_m08\DropImageAndImageRelationTables::class,
                 \M2E\Otto\Setup\Update\y24_m08\RefactorCategoryTable::class,
                 \M2E\Otto\Setup\Update\y24_m08\UpdateProductStatus::class,
             ],
-            'y25_m09' => [
+            'y24_m09' => [
                 \M2E\Otto\Setup\Update\y24_m09\AddColumnsToShippingTemplateTable::class,
                 \M2E\Otto\Setup\Update\y24_m09\RemoveUniqueConstraintFromEanColumn::class,
                 \M2E\Otto\Setup\Update\y24_m09\AddOnlineColumnsToProductTable::class,
                 \M2E\Otto\Setup\Update\y24_m09\FixTablesStructure::class,
                 \M2E\Otto\Setup\Update\y24_m09\AddIsIncompleteColumns::class,
             ],
-            'y25_m11' => [
+            'y24_m11' => [
                 \M2E\Otto\Setup\Update\y24_m11\AddShippingProfiles::class,
                 \M2E\Otto\Setup\Update\y24_m11\AddAttributeMapping::class,
             ],
             'y25_m01' => [
-                \M2E\Otto\Setup\Update\y25_m01\AddTrackDirectDatabaseChanges::class
+                \M2E\Otto\Setup\Update\y25_m01\AddTrackDirectDatabaseChanges::class,
+                \M2E\Otto\Setup\Update\y25_m01\AddExternalChangeTable::class,
+            ],
+            'y25_m02' => [
+                \M2E\Otto\Setup\Update\y25_m02\MigrateLicenseAndRegistrationUserToCore::class,
+                \M2E\Otto\Setup\Update\y25_m02\MigrateConfigToCore::class,
+                \M2E\Otto\Setup\Update\y25_m02\MigrateRegistryToCore::class,
+                \M2E\Otto\Setup\Update\y25_m02\RemoveServerHost::class,
             ],
         ];
     }

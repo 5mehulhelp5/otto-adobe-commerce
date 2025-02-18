@@ -1,80 +1,45 @@
 <?php
 
+declare(strict_types=1);
+
 namespace M2E\Otto\Setup;
 
-use M2E\Otto\Model\VariablesDir;
-use Magento\Framework\App\DeploymentConfig;
-use Magento\Framework\Config\ConfigOptionsListConstants;
 use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\SchemaSetupInterface;
 
 class Uninstall implements \Magento\Framework\Setup\UninstallInterface
 {
-    private VariablesDir $variablesDir;
-    private DeploymentConfig $deploymentConfig;
-
-    private \Magento\Framework\Setup\SchemaSetupInterface $installer;
-    private \Psr\Log\LoggerInterface $logger;
+    private \M2E\Core\Model\Setup\UninstallFactory $uninstallFactory;
+    private \M2E\Otto\Setup\InstallTablesListResolver $installTablesListResolver;
+    private \M2E\Otto\Model\Config\Manager $configManager;
+    private \M2E\Otto\Model\VariablesDir $variablesDir;
+    private \M2E\Otto\Setup\MagentoCoreConfigSettings $magentoCoreConfigSettings;
 
     public function __construct(
-        VariablesDir $variablesDir,
-        DeploymentConfig $deploymentConfig,
-        \M2E\Otto\Setup\LoggerFactory $loggerFactory
+        \M2E\Core\Model\Setup\UninstallFactory $uninstallFactory,
+        \M2E\Otto\Setup\InstallTablesListResolver $installTablesListResolver,
+        \M2E\Otto\Model\Config\Manager $configManager,
+        \M2E\Otto\Model\VariablesDir $variablesDir,
+        \M2E\Otto\Setup\MagentoCoreConfigSettings $magentoCoreConfigSettings
     ) {
+        $this->uninstallFactory = $uninstallFactory;
+        $this->installTablesListResolver = $installTablesListResolver;
+        $this->configManager = $configManager;
         $this->variablesDir = $variablesDir;
-        $this->deploymentConfig = $deploymentConfig;
-
-        $this->logger = $loggerFactory->create();
+        $this->magentoCoreConfigSettings = $magentoCoreConfigSettings;
     }
 
     public function uninstall(SchemaSetupInterface $setup, ModuleContextInterface $context): void
     {
-        $this->installer = $setup;
-
-        try {
-            if (!$this->canRemoveData()) {
-                return;
-            }
-
-            // Filesystem
-            // -----------------------
-            $this->variablesDir->removeBase();
-            // -----------------------
-
-            // Database
-            // -----------------------
-            $tables = $setup->getConnection()->getTables(
-                $this->deploymentConfig->get(ConfigOptionsListConstants::CONFIG_PATH_DB_PREFIX)
-                . \M2E\Otto\Helper\Module\Database\Tables::PREFIX . '%',
-            );
-
-            foreach ($tables as $table) {
-                $setup->getConnection()->dropTable($table);
-            }
-
-            $setup->getConnection()->delete(
-                $setup->getTable('core_config_data'),
-                ['path LIKE ?' => 'm2e_otto/%'],
-            );
-            // -----------------------
-        } catch (\Throwable $exception) {
-            $this->logger->error($exception->getMessage(), ['exception' => $exception, 'source' => 'Uninstall']);
-        }
-    }
-
-    private function canRemoveData(): bool
-    {
-        $select = $this->installer->getConnection()
-                                  ->select()
-                                  ->from(
-                                      $this->installer->getTable(
-                                          \M2E\Otto\Helper\Module\Database\Tables::TABLE_NAME_CONFIG
-                                      ),
-                                      'value'
-                                  )
-                                  ->where('`group` = ?', '/uninstall/')
-                                  ->where('`key` = ?', 'can_remove_data');
-
-        return (bool)$this->installer->getConnection()->fetchOne($select);
+        $this->uninstallFactory
+            ->create(
+                \M2E\Otto\Helper\Module::IDENTIFIER,
+                $this->installTablesListResolver,
+                $this->configManager->getAdapter(),
+                $this->variablesDir->getAdapter(),
+                $this->magentoCoreConfigSettings,
+                $setup,
+            )
+            ->process();
     }
 }

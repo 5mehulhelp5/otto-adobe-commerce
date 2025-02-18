@@ -228,6 +228,10 @@ class Processor
                 );
             }
 
+            if (!$this->channelProduct->isStatusActive()) {
+                $this->product->makeProductComplete();
+            }
+
             $this->product->setStatus($this->channelProduct->getStatus(), \M2E\Otto\Model\Product::STATUS_CHANGER_COMPONENT);
 
             $isChangedProduct = true;

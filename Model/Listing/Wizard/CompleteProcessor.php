@@ -9,18 +9,18 @@ class CompleteProcessor
     private \M2E\Otto\Model\Listing\AddProductsService $addProductsService;
     private \M2E\Otto\Model\Listing\Other\Repository $listingOtherRepository;
     private \M2E\Otto\Model\Listing\Other\DeleteService $unmanagedProductDeleteService;
-    private \M2E\Otto\Model\Product\Repository $listingProductRepository;
+    private \M2E\Otto\Model\Magento\Product\CacheFactory $magentoProductFactory;
 
     public function __construct(
         \M2E\Otto\Model\Listing\AddProductsService $addProductsService,
         \M2E\Otto\Model\Listing\Other\Repository $listingOtherRepository,
         \M2E\Otto\Model\Listing\Other\DeleteService $unmanagedProductDeleteService,
-        \M2E\Otto\Model\Product\Repository $listingProductRepository
+        \M2E\Otto\Model\Magento\Product\CacheFactory $magentoProductFactory
     ) {
-        $this->listingProductRepository = $listingProductRepository;
         $this->addProductsService = $addProductsService;
         $this->listingOtherRepository = $listingOtherRepository;
         $this->unmanagedProductDeleteService = $unmanagedProductDeleteService;
+        $this->magentoProductFactory = $magentoProductFactory;
     }
 
     public function process(Manager $wizardManager): array
@@ -34,11 +34,16 @@ class CompleteProcessor
 
             $processedWizardProductIds[] = $wizardProduct->getId();
 
+            $magentoProduct = $this->magentoProductFactory->create()->setProductId($wizardProduct->getMagentoProductId());
+            if (!$magentoProduct->exists()) {
+                continue;
+            }
+
             if ($wizardManager->isWizardTypeGeneral()) {
                 $listingProduct = $this->addProductsService
                     ->addProduct(
                         $listing,
-                        $wizardProduct->getMagentoProductId(),
+                        $magentoProduct,
                         $wizardProduct->getCategoryId(),
                         \M2E\Otto\Helper\Data::INITIATOR_USER,
                     );

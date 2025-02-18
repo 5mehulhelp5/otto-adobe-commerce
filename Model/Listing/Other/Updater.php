@@ -8,8 +8,6 @@ class Updater
 {
     private Repository $unmanagedRepository;
     private \M2E\Otto\Model\Listing\Other\MappingService $mappingService;
-    /** @var \M2E\Otto\Model\Listing\Other\Updater\ServerToOttoProductConverterFactory */
-    private Updater\ServerToOttoProductConverterFactory $otherConverterFactory;
     private \M2E\Otto\Model\Account $account;
     private \M2E\Otto\Model\Product\Repository $listingProductRepository;
     private \M2E\Otto\Model\Listing\OtherFactory $otherFactory;
@@ -19,26 +17,20 @@ class Updater
         \M2E\Otto\Model\Listing\OtherFactory $otherFactory,
         \M2E\Otto\Model\Listing\Other\Repository $unmanagedRepository,
         \M2E\Otto\Model\Product\Repository $listingProductRepository,
-        \M2E\Otto\Model\Listing\Other\Updater\ServerToOttoProductConverterFactory $otherConverterFactory,
         \M2E\Otto\Model\Listing\Other\MappingService $mappingService
     ) {
         $this->unmanagedRepository = $unmanagedRepository;
         $this->mappingService = $mappingService;
-        $this->otherConverterFactory = $otherConverterFactory;
         $this->listingProductRepository = $listingProductRepository;
         $this->otherFactory = $otherFactory;
         $this->account = $account;
     }
 
-    public function process(array $partialData): ?OttoProductCollection
+    public function process(OttoProductCollection $ottoProductsCollection): ?OttoProductCollection
     {
-        if (empty($partialData)) {
+        if ($ottoProductsCollection->empty()) {
             return null;
         }
-
-        $converter = $this->otherConverterFactory->create($this->account);
-
-        $ottoProductsCollection = $converter->convert($partialData);
 
         $itemsCollection = $this->removeExistInListingProduct($ottoProductsCollection);
 
@@ -115,6 +107,10 @@ class Updater
 
             if ($existProduct->getStatus() !== $new->getStatus()) {
                 $existProduct->setStatus($new->getStatus());
+
+                if (!$new->isStatusActive()) {
+                    $existProduct->makeProductIncomplete(false);
+                }
             }
 
             if ($existProduct->getQtyActualizeDate() !== $new->getQtyActualizeDate()) {

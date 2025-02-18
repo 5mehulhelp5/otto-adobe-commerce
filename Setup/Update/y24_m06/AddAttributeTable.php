@@ -8,7 +8,7 @@ use M2E\Otto\Helper\Module\Database\Tables;
 use M2E\Otto\Model\ResourceModel\Category\Attribute as CategoryAttributeResource;
 use Magento\Framework\DB\Ddl\Table;
 
-class AddAttributeTable extends \M2E\Otto\Model\Setup\Upgrade\Entity\AbstractFeature
+class AddAttributeTable extends \M2E\Core\Model\Setup\Upgrade\Entity\AbstractFeature
 {
     public const LONG_COLUMN_SIZE = 16777217;
 

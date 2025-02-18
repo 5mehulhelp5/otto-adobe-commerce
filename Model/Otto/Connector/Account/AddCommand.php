@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace M2E\Otto\Model\Otto\Connector\Account;
 
-class AddCommand implements \M2E\Otto\Model\Connector\CommandInterface
+class AddCommand implements \M2E\Core\Model\Connector\CommandInterface
 {
     private string $authCode;
     private string $title;
@@ -31,7 +31,7 @@ class AddCommand implements \M2E\Otto\Model\Connector\CommandInterface
         ];
     }
 
-    public function parseResponse(\M2E\Otto\Model\Connector\Response $response): Add\Response
+    public function parseResponse(\M2E\Core\Model\Connector\Response $response): Add\Response
     {
         $responseData = $response->getResponseData();
 

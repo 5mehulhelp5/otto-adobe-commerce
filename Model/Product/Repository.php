@@ -4,6 +4,7 @@ namespace M2E\Otto\Model\Product;
 
 use M2E\Otto\Model\ResourceModel\Listing as ListingResource;
 use M2E\Otto\Model\ResourceModel\Product as ListingProductResource;
+use M2E\Otto\Model\ResourceModel\ExternalChange as ExternalChangeResource;
 
 class Repository
 {
@@ -15,6 +16,7 @@ class Repository
     private \Magento\Framework\App\ResourceConnection $resourceConnection;
     private ListingProductResource $productResource;
     private \M2E\Otto\Model\ResourceModel\Product\Lock $productLockResource;
+    private \M2E\Otto\Model\ResourceModel\ExternalChange $externalChangeResource;
 
     public function __construct(
         \M2E\Otto\Model\ResourceModel\Product\Lock $productLockResource,
@@ -24,7 +26,8 @@ class Repository
         \M2E\Otto\Model\ResourceModel\Product $listingProductResource,
         ListingProductResource\CollectionFactory $listingProductCollectionFactory,
         \M2E\Otto\Model\ProductFactory $listingProductFactory,
-        \Magento\Framework\App\ResourceConnection $resourceConnection
+        \Magento\Framework\App\ResourceConnection $resourceConnection,
+        \M2E\Otto\Model\ResourceModel\ExternalChange $externalChangeResource
     ) {
         $this->productLockResource = $productLockResource;
         $this->productResource = $productResource;
@@ -33,6 +36,7 @@ class Repository
         $this->listingProductCollectionFactory = $listingProductCollectionFactory;
         $this->listingProductFactory = $listingProductFactory;
         $this->runtimeCache = $runtimeCache;
+        $this->externalChangeResource = $externalChangeResource;
         $this->listingResource = $listingResource;
     }
 
@@ -475,5 +479,82 @@ class Repository
         $collection->getSelect()->limit($limit);
 
         return array_map('intval', $collection->getColumnValues('id'));
+    }
+
+    /**
+     * @param int $accountId
+     * @param \DateTime $inventorySyncProcessingStartDate
+     *
+     * @return \M2E\Otto\Model\Product[]
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function findRemovedFromChannel(
+        int $accountId,
+        \DateTime $inventorySyncProcessingStartDate
+    ): array {
+        $joinConditions = [
+            sprintf(
+                '`ec`.%s = `main_table`.%s',
+                ExternalChangeResource::COLUMN_SKU,
+                ListingProductResource::COLUMN_OTTO_PRODUCT_SKU,
+            ),
+            sprintf(
+                '`ec`.%s = `l`.%s',
+                ExternalChangeResource::COLUMN_ACCOUNT_ID,
+                ListingResource::COLUMN_ACCOUNT_ID,
+            )
+        ];
+
+        $collection = $this->listingProductCollectionFactory->create();
+
+        $collection->join(
+            ['l' => $this->listingResource->getMainTable()],
+            sprintf(
+                '`l`.%s = `main_table`.%s',
+                ListingResource::COLUMN_ID,
+                ListingProductResource::COLUMN_LISTING_ID,
+            ),
+            [],
+        );
+        $collection->joinLeft(
+            [
+                'ec' => $this->externalChangeResource->getMainTable(),
+            ],
+            implode(' AND ', $joinConditions),
+            [],
+        );
+
+        $collection
+            ->addFieldToFilter(
+                sprintf('main_table.%s', ListingProductResource::COLUMN_STATUS),
+                ['neq' => \M2E\Otto\Model\Product::STATUS_NOT_LISTED],
+            )
+            ->addFieldToFilter(sprintf('l.%s', ListingResource::COLUMN_ACCOUNT_ID), $accountId)
+            ->addFieldToFilter('ec.id', ['null' => true]);
+        /**
+         * Excluding listing products created after current inventory sync processing start date
+         */
+        $collection->getSelect()->where(
+            sprintf('main_table.%s ', ListingProductResource::COLUMN_ID)
+            . 'NOT IN (?)',
+            $this->getExcludedByDateSubSelect($inventorySyncProcessingStartDate)
+        );
+
+        return array_values($collection->getItems());
+    }
+
+    private function getExcludedByDateSubSelect(\DateTime $inventorySyncProcessingStartDate)
+    {
+        return new \Zend_Db_Expr(
+            sprintf(
+                'SELECT `%s` FROM `%s` WHERE `%s`=%s AND `%s` > "%s"',
+                ListingProductResource::COLUMN_ID,
+                $this->listingProductResource->getMainTable(),
+                ListingProductResource::COLUMN_STATUS,
+                \M2E\Otto\Model\Product::STATUS_LISTED,
+                ListingProductResource::COLUMN_STATUS_CHANGE_DATE,
+                $inventorySyncProcessingStartDate->format('Y-m-d H:i:s'),
+            )
+        );
     }
 }

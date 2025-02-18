@@ -8,7 +8,7 @@ use M2E\Otto\Helper\Module\Database\Tables;
 use Magento\Framework\DB\Ddl\Table;
 use M2E\Otto\Model\ResourceModel\Template\Description as DescriptionResource;
 
-class AddBulletPointsToDescPolicy extends \M2E\Otto\Model\Setup\Upgrade\Entity\AbstractFeature
+class AddBulletPointsToDescPolicy extends \M2E\Core\Model\Setup\Upgrade\Entity\AbstractFeature
 {
     public function execute(): void
     {

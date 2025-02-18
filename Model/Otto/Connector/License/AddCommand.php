@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace M2E\Otto\Model\Otto\Connector\License;
 
-class AddCommand implements \M2E\Otto\Model\Connector\CommandInterface
+class AddCommand implements \M2E\Core\Model\Connector\CommandInterface
 {
     private Add\Request $request;
 
@@ -33,7 +33,7 @@ class AddCommand implements \M2E\Otto\Model\Connector\CommandInterface
         ];
     }
 
-    public function parseResponse(\M2E\Otto\Model\Connector\Response $response): object
+    public function parseResponse(\M2E\Core\Model\Connector\Response $response): object
     {
         return new Add\Response($response->getResponseData()['key']);
     }

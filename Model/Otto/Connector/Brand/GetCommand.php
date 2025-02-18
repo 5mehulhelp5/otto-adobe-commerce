@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace M2E\Otto\Model\Otto\Connector\Brand;
 
-class GetCommand implements \M2E\Otto\Model\Connector\CommandInterface
+class GetCommand implements \M2E\Core\Model\Connector\CommandInterface
 {
     private string $accountHash;
     private array $names;
@@ -28,7 +28,7 @@ class GetCommand implements \M2E\Otto\Model\Connector\CommandInterface
         ];
     }
 
-    public function parseResponse(\M2E\Otto\Model\Connector\Response $response): Get\Response
+    public function parseResponse(\M2E\Core\Model\Connector\Response $response): Get\Response
     {
         $responseData = $response->getResponseData();
 

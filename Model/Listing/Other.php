@@ -9,17 +9,11 @@ use M2E\Otto\Model\ResourceModel\Listing\Other as ListingOtherResource;
 class Other extends \M2E\Otto\Model\ActiveRecord\AbstractModel
 {
     private \M2E\Otto\Model\Account $account;
-
     private ?\M2E\Otto\Model\Magento\Product\Cache $magentoProductModel = null;
     private \M2E\Otto\Model\Account\Repository $accountRepository;
-    private LogService $listingLogService;
-    /** @var \M2E\Otto\Model\Product\Repository */
-    private \M2E\Otto\Model\Product\Repository $listingProductRepository;
     private \M2E\Otto\Model\Magento\Product\CacheFactory $productCacheFactory;
 
     public function __construct(
-        \M2E\Otto\Model\Product\Repository $listingProductRepository,
-        \M2E\Otto\Model\Listing\LogService $listingLogService,
         \M2E\Otto\Model\Account\Repository $accountRepository,
         \M2E\Otto\Model\Magento\Product\CacheFactory $productCacheFactory,
         \Magento\Framework\Model\Context $context,
@@ -36,8 +30,6 @@ class Other extends \M2E\Otto\Model\ActiveRecord\AbstractModel
             $data,
         );
         $this->accountRepository = $accountRepository;
-        $this->listingLogService = $listingLogService;
-        $this->listingProductRepository = $listingProductRepository;
         $this->productCacheFactory = $productCacheFactory;
     }
 

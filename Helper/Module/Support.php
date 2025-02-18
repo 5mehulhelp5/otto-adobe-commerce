@@ -11,15 +11,14 @@ class Support
     public const ACCOUNTS_URL = 'https://accounts.m2e.cloud';
     public const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/c/M2Epro-Magento-Amazon-eBay-Walmart';
     public const SUPPORT_CONTROLLER_NAME = 'support';
-    public const SUPPORT_PAGE_ROUTE = 'Otto/' . self::SUPPORT_CONTROLLER_NAME . '/index';
 
     private \M2E\Otto\Helper\Magento $magentoHelper;
-    private \M2E\Otto\Helper\Client $clientHelper;
+    private \M2E\Core\Helper\Client $clientHelper;
     private \M2E\Otto\Model\Module $module;
 
     public function __construct(
         \M2E\Otto\Helper\Magento $magentoHelper,
-        \M2E\Otto\Helper\Client $clientHelper,
+        \M2E\Core\Helper\Client $clientHelper,
         \M2E\Otto\Model\Module $module
     ) {
         $this->module = $module;

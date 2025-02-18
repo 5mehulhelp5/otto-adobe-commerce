@@ -8,7 +8,7 @@ use M2E\Otto\Helper\Module\Database\Tables;
 use M2E\Otto\Model\ResourceModel\Template\Description as DescriptionResource;
 use Magento\Framework\DB\Ddl\Table;
 
-class AddDescriptionTemplateTable extends \M2E\Otto\Model\Setup\Upgrade\Entity\AbstractFeature
+class AddDescriptionTemplateTable extends \M2E\Core\Model\Setup\Upgrade\Entity\AbstractFeature
 {
     public const LONG_COLUMN_SIZE = 16777217;
 
