@@ -11,17 +11,17 @@ class LogBuffer
 
     public function addSuccess($message): void
     {
-        $this->logs[] = new LogRecord($message, \M2E\Otto\Model\Response\Message::TYPE_SUCCESS);
+        $this->logs[] = new LogRecord($message, \M2E\Core\Model\Response\Message::TYPE_SUCCESS);
     }
 
     public function addWarning($message): void
     {
-        $this->logs[] = new LogRecord($message, \M2E\Otto\Model\Response\Message::TYPE_WARNING);
+        $this->logs[] = new LogRecord($message, \M2E\Core\Model\Response\Message::TYPE_WARNING);
     }
 
     public function addFail($message): void
     {
-        $this->logs[] = new LogRecord($message, \M2E\Otto\Model\Response\Message::TYPE_ERROR);
+        $this->logs[] = new LogRecord($message, \M2E\Core\Model\Response\Message::TYPE_ERROR);
     }
 
     /**
@@ -38,7 +38,7 @@ class LogBuffer
             static fn(LogRecord $log) => $log->getMessage(),
             array_filter(
                 $this->logs,
-                static fn(LogRecord $log) => $log->getSeverity() === \M2E\Otto\Model\Response\Message::TYPE_WARNING
+                static fn(LogRecord $log) => $log->getSeverity() === \M2E\Core\Model\Response\Message::TYPE_WARNING
             )
         );
     }

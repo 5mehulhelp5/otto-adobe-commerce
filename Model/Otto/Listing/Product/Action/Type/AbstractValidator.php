@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace M2E\Otto\Model\Otto\Listing\Product\Action\Type;
 
-use M2E\Otto\Model\Response\Message;
+use M2E\Core\Model\Response\Message;
 use M2E\Otto\Model\Otto\Listing\Product\Action\Configurator;
 
 abstract class AbstractValidator

@@ -50,7 +50,7 @@ abstract class AbstractProcessStart
         if ($this->lockManager->isLocked($this->listingProduct)) {
             $this->actionLogger->logListingProductMessage(
                 $this->listingProduct,
-                \M2E\Otto\Model\Response\Message::createError(
+                \M2E\Core\Model\Response\Message::createError(
                     'Another Action is being processed. Try again when the Action is completed.',
                 ),
             );
@@ -79,7 +79,7 @@ abstract class AbstractProcessStart
         } catch (\Throwable $e) {
             $this->actionLogger->logListingProductMessage(
                 $this->listingProduct,
-                \M2E\Otto\Model\Response\Message::createError($e->getMessage())
+                \M2E\Core\Model\Response\Message::createError($e->getMessage())
             );
             $this->lockManager->unlock($this->listingProduct);
 
@@ -95,7 +95,7 @@ abstract class AbstractProcessStart
 
         foreach ($this->getActionValidator()->getMessages() as $messageData) {
             $this->addActionLogMessage(
-                \M2E\Otto\Model\Response\Message::create(
+                \M2E\Core\Model\Response\Message::create(
                     (string)$messageData['text'],
                     $messageData['type']
                 ),

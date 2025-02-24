@@ -253,9 +253,11 @@ class Grid extends \M2E\Otto\Block\Adminhtml\Listing\View\AbstractGrid
             return (string)$value;
         }
 
+        $style = ((int)$value > 0) ? 'text-decoration: line-through;' : '';
         if ((int)$row['status'] === \M2E\Otto\Model\Product::STATUS_INACTIVE) {
             return sprintf(
-                '<span style="color: gray; text-decoration: line-through;">%s</span>',
+                '<span style="color: gray; %s">%s</span>',
+                $style,
                 $value
             );
         }

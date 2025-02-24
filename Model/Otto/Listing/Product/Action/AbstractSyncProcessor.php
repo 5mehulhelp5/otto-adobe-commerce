@@ -24,7 +24,7 @@ abstract class AbstractSyncProcessor
         if ($this->lockManager->isLocked($this->listingProduct)) {
             $this->actionLogger->logListingProductMessage(
                 $this->listingProduct,
-                \M2E\Otto\Model\Response\Message::createError(
+                \M2E\Core\Model\Response\Message::createError(
                     'Another Action is being processed. Try again when the Action is completed.',
                 ),
             );
@@ -54,7 +54,7 @@ abstract class AbstractSyncProcessor
                 $successfulMessage = $this->processSuccess($apiResponse);
                 if (!empty($successfulMessage)) {
                     $this->addActionLogMessage(
-                        \M2E\Otto\Model\Response\Message::createSuccess($successfulMessage)
+                        \M2E\Core\Model\Response\Message::createSuccess($successfulMessage)
                     );
                 }
             }
@@ -79,7 +79,7 @@ abstract class AbstractSyncProcessor
 
         foreach ($this->getActionValidator()->getMessages() as $messageData) {
             $this->addActionLogMessage(
-                \M2E\Otto\Model\Response\Message::create(
+                \M2E\Core\Model\Response\Message::create(
                     (string)$messageData['text'],
                     $messageData['type']
                 ),

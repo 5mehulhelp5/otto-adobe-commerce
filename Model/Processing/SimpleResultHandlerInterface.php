@@ -10,7 +10,7 @@ interface SimpleResultHandlerInterface
 
     /**
      * @param array $resultData
-     * @param \M2E\Otto\Model\Response\Message[] $messages
+     * @param \M2E\Core\Model\Response\Message[] $messages
      *
      * @return void
      */
