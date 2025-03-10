@@ -36,6 +36,7 @@ class UpgradeCollection extends \M2E\Core\Model\Setup\AbstractUpgradeCollection
             '1.8.0' => ['to' => '1.8.1', 'upgrade' => null],
             '1.8.1' => ['to' => '2.0.0', 'upgrade' => \M2E\Otto\Setup\Upgrade\v2_0_0\Config::class],
             '2.0.0' => ['to' => '2.0.1', 'upgrade' => null],
+            '2.0.1' => ['to' => '2.0.2', 'upgrade' => null],
         ];
     }
 }
