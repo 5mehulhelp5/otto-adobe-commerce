@@ -14,10 +14,8 @@ class SaveAfter extends \M2E\Otto\Observer\AbstractObserver
     public function __construct(
         \M2E\Otto\Model\Order\ShipmentService $orderShipmentService,
         \M2E\Otto\Observer\Shipment\EventRuntimeManager $eventRuntimeManager,
-        \M2E\Otto\Model\Order\Repository $repository,
-        \M2E\Otto\Helper\Factory $helperFactory
+        \M2E\Otto\Model\Order\Repository $repository
     ) {
-        parent::__construct($helperFactory);
         $this->eventRuntimeManager = $eventRuntimeManager;
         $this->repository = $repository;
         $this->orderShipmentService = $orderShipmentService;
@@ -44,6 +42,6 @@ class SaveAfter extends \M2E\Otto\Observer\AbstractObserver
             return;
         }
 
-        $this->orderShipmentService->shipByShipment($order, $shipment, \M2E\Otto\Helper\Data::INITIATOR_EXTENSION);
+        $this->orderShipmentService->shipByShipment($order, $shipment, \M2E\Core\Helper\Data::INITIATOR_EXTENSION);
     }
 }

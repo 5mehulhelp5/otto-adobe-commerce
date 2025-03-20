@@ -24,7 +24,7 @@ class Simple
 
     public function process(): void
     {
-        $borderData = \M2E\Otto\Helper\Date::createCurrentGmt()
+        $borderData = \M2E\Core\Helper\Date::createCurrentGmt()
                                            ->modify('+ 5 minutes');
 
         $readyToDownload = $this->repository->findSimpleForDownloadData($borderData);
@@ -42,7 +42,7 @@ class Simple
      *
      * @return void
      * @throws \M2E\Otto\Model\Exception
-     * @throws \M2E\Otto\Model\Exception\Connection|\JsonException
+     * @throws \M2E\Core\Model\Exception\Connection|\JsonException
      */
     private function processRecords(array $processings): void
     {

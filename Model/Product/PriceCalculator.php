@@ -2,7 +2,7 @@
 
 namespace M2E\Otto\Model\Product;
 
-use M2E\Otto\Helper\Magento\Attribute;
+use M2E\Core\Helper\Magento\Attribute;
 use M2E\Otto\Model\Exception\Logic;
 use M2E\Otto\Model\Listing;
 use M2E\Otto\Model\Magento\Product;
@@ -635,7 +635,7 @@ class PriceCalculator
     {
         foreach ($optionTitles as &$optionTitle) {
             $optionTitle = trim(
-                \M2E\Otto\Helper\Data::reduceWordsInString(
+                \M2E\Core\Helper\Data::reduceWordsInString(
                     $optionTitle,
                     \M2E\Otto\Helper\Component\Otto::MAX_LENGTH_FOR_OPTION_VALUE
                 )

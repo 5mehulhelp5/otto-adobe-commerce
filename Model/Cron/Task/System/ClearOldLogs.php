@@ -30,7 +30,6 @@ class ClearOldLogs extends \M2E\Otto\Model\Cron\AbstractTask
         \M2E\Otto\Helper\Data $helperData,
         \Magento\Framework\Event\Manager $eventManager,
         \M2E\Otto\Model\ActiveRecord\Factory $activeRecordFactory,
-        \M2E\Otto\Helper\Factory $helperFactory,
         \M2E\Otto\Model\Cron\TaskRepository $taskRepo,
         \Magento\Framework\App\ResourceConnection $resource
     ) {
@@ -40,7 +39,6 @@ class ClearOldLogs extends \M2E\Otto\Model\Cron\AbstractTask
             $helperData,
             $eventManager,
             $activeRecordFactory,
-            $helperFactory,
             $taskRepo,
             $resource,
         );
@@ -67,7 +65,7 @@ class ClearOldLogs extends \M2E\Otto\Model\Cron\AbstractTask
         $this->clearing->clearOldRecords(\M2E\Otto\Model\Log\Clearing::LOG_SYNCHRONIZATIONS);
         $this->clearing->clearOldRecords(\M2E\Otto\Model\Log\Clearing::LOG_ORDERS);
 
-        $minDate = \M2E\Otto\Helper\Date::createCurrentGmt()
+        $minDate = \M2E\Core\Helper\Date::createCurrentGmt()
                                               ->modify('-' . self::OPERATION_HISTORY_MAX_DAYS . ' days');
         $this->operationHistoryRepository->clear($minDate);
     }
@@ -76,7 +74,7 @@ class ClearOldLogs extends \M2E\Otto\Model\Cron\AbstractTask
     {
         $this->systemLogRepository->clearByAmount(self::SYSTEM_LOG_MAX_RECORDS);
 
-        $minDate = \M2E\Otto\Helper\Date::createCurrentGmt()
+        $minDate = \M2E\Core\Helper\Date::createCurrentGmt()
                                               ->modify('-' . self::SYSTEM_LOG_MAX_DAYS . ' days');
         $this->systemLogRepository->clearByTime($minDate);
     }

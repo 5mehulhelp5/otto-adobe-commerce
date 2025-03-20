@@ -8,7 +8,7 @@ trait CacheTrait
 {
     private function makeCacheKey(\M2E\Otto\Model\ActiveRecord\AbstractModel $model, int $id): string
     {
-        return \M2E\Otto\Helper\Client::getClassName($model) . '_' . $id;
+        return \M2E\Core\Helper\Client::getClassName($model) . '_' . $id;
     }
 
     private function getCacheDate(\M2E\Otto\Model\ActiveRecord\AbstractModel $model): array

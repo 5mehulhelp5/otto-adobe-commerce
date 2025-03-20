@@ -75,11 +75,11 @@ class ProcessorSyncFactory
     {
         switch ($statusChanger) {
             case \M2E\Otto\Model\Product::STATUS_CHANGER_UNKNOWN:
-                return \M2E\Otto\Helper\Data::INITIATOR_UNKNOWN;
+                return \M2E\Core\Helper\Data::INITIATOR_UNKNOWN;
             case \M2E\Otto\Model\Product::STATUS_CHANGER_USER:
-                return \M2E\Otto\Helper\Data::INITIATOR_USER;
+                return \M2E\Core\Helper\Data::INITIATOR_USER;
             default:
-                return \M2E\Otto\Helper\Data::INITIATOR_EXTENSION;
+                return \M2E\Core\Helper\Data::INITIATOR_EXTENSION;
         }
     }
 }

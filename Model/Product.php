@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace M2E\Otto\Model;
 
+use M2E\Core\Model\Connector\Response\MessageCollection;
 use M2E\Otto\Model\ResourceModel\Product as ListingProductResource;
 
 /**
@@ -241,7 +242,7 @@ class Product extends \M2E\Otto\Model\ActiveRecord\AbstractModel implements
         $this->setData(ListingProductResource::COLUMN_STATUS, $status)
             ->setStatusChanger($changer);
 
-        $this->setStatusChangeDate(\M2E\Otto\Helper\Date::createCurrentGmt());
+        $this->setStatusChangeDate(\M2E\Core\Helper\Date::createCurrentGmt());
 
         return $this;
     }
@@ -253,7 +254,7 @@ class Product extends \M2E\Otto\Model\ActiveRecord\AbstractModel implements
             return null;
         }
 
-        return \DateTimeImmutable::createFromMutable(\M2E\Otto\Helper\Date::createDateGmt($value));
+        return \DateTimeImmutable::createFromMutable(\M2E\Core\Helper\Date::createDateGmt($value));
     }
 
     private function setStatusChangeDate(\DateTime $date): self
@@ -758,6 +759,45 @@ class Product extends \M2E\Otto\Model\ActiveRecord\AbstractModel implements
         return $this;
     }
 
+    public function getMarketplaceErrors(): ?MessageCollection
+    {
+        $marketplaceErrorsJson = $this->getData(ListingProductResource::COLUMN_MARKETPLACE_ERRORS);
+        if (empty($marketplaceErrorsJson)) {
+            return null;
+        }
+        $messageErrors = json_decode($marketplaceErrorsJson, true);
+
+        return self::getMessageCollection($messageErrors);
+    }
+
+    public function setMarketplaceErrors(?MessageCollection $marketplaceErrors): self
+    {
+        if ($marketplaceErrors === null) {
+            $this->resetMarketplaceErrors();
+
+            return $this;
+        }
+
+        $messages = [];
+        foreach ($marketplaceErrors->getMessages() as $message) {
+            $messages[] = [
+                'code' => $message->getCode(),
+                'text' => $message->getText(),
+                'type' => $message->getType(),
+                'sender' => \M2E\Core\Model\Connector\Response\Message::SENDER_COMPONENT //todo method in Core
+            ];
+        }
+
+        $this->setData(ListingProductResource::COLUMN_MARKETPLACE_ERRORS, json_encode($messages));
+
+        return $this;
+    }
+
+    public function resetMarketplaceErrors(): void
+    {
+        $this->setData(ListingProductResource::COLUMN_MARKETPLACE_ERRORS, null);
+    }
+
     public function hasOttoProductUrl(): bool
     {
         return $this->getOttoProductUrl() !== null;
@@ -829,8 +869,8 @@ class Product extends \M2E\Otto\Model\ActiveRecord\AbstractModel implements
             return false;
         }
 
-        $lastBlockingDate = \M2E\Otto\Helper\Date::createDateGmt($rawDate);
-        $twentyFourHoursAgoDate = \M2E\Otto\Helper\Date::createCurrentGmt()->modify('-24 hour');
+        $lastBlockingDate = \M2E\Core\Helper\Date::createDateGmt($rawDate);
+        $twentyFourHoursAgoDate = \M2E\Core\Helper\Date::createCurrentGmt()->modify('-24 hour');
 
         return $lastBlockingDate->getTimestamp() > $twentyFourHoursAgoDate->getTimestamp();
     }
@@ -872,5 +912,22 @@ class Product extends \M2E\Otto\Model\ActiveRecord\AbstractModel implements
         if (!in_array($changer, $allowed)) {
             throw new \M2E\Otto\Model\Exception\Logic(sprintf('Status changer %s not valid.', $changer));
         }
+    }
+
+    public static function getMessageCollection(array $messageErrors): MessageCollection
+    {
+        $messages = [];
+        foreach ($messageErrors as $messageError) {
+            $message = new \M2E\Core\Model\Connector\Response\Message();
+            $message->initFromPreparedData(
+                $messageError['text'],
+                $messageError['type'],
+                $messageError['sender'],
+                $messageError['code']
+            );
+            $messages[] = $message;
+        }
+
+        return new MessageCollection($messages);
     }
 }

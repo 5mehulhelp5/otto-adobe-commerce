@@ -19,7 +19,7 @@ class JsPhpRenderer extends AbstractRenderer
             return '';
         }
 
-        $constants = \M2E\Otto\Helper\Json::encode($this->jsPhp);
+        $constants = \M2E\Core\Helper\Json::encode($this->jsPhp);
 
         return "Otto.php.add({$constants});";
     }

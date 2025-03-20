@@ -17,7 +17,7 @@ class FakeEmailGenerator
             throw new \M2E\Otto\Model\Exception\Logic('Empty email username');
         }
 
-        return $username . \M2E\Otto\Model\Magento\Customer::FAKE_EMAIL_POSTFIX;
+        return $username . \M2E\Core\Model\Magento\Customer::FAKE_EMAIL_POSTFIX;
     }
 
     private function makeUsername(string $firstName, string $lastName): string

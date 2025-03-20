@@ -49,7 +49,7 @@ class ValidTokens implements \M2E\Otto\Model\Issue\LocatorInterface
 
         try {
             $accounts = $this->retrieveNotValidAccounts();
-        } catch (\M2E\Otto\Model\Exception $e) {
+        } catch (\M2E\Core\Model\Exception $e) {
             $accounts = [];
         }
 

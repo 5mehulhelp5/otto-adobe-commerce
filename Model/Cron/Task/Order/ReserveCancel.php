@@ -17,7 +17,6 @@ class ReserveCancel extends \M2E\Otto\Model\Cron\AbstractTask
         \M2E\Otto\Helper\Data $helperData,
         \Magento\Framework\Event\Manager $eventManager,
         \M2E\Otto\Model\ActiveRecord\Factory $activeRecordFactory,
-        \M2E\Otto\Helper\Factory $helperFactory,
         \M2E\Otto\Model\Cron\TaskRepository $taskRepo,
         \Magento\Framework\App\ResourceConnection $resource
     ) {
@@ -27,7 +26,6 @@ class ReserveCancel extends \M2E\Otto\Model\Cron\AbstractTask
             $helperData,
             $eventManager,
             $activeRecordFactory,
-            $helperFactory,
             $taskRepo,
             $resource
         );
@@ -57,7 +55,7 @@ class ReserveCancel extends \M2E\Otto\Model\Cron\AbstractTask
             return;
         }
 
-        $this->getSynchronizationLog()->setInitiator(\M2E\Otto\Helper\Data::INITIATOR_EXTENSION);
+        $this->getSynchronizationLog()->setInitiator(\M2E\Core\Helper\Data::INITIATOR_EXTENSION);
 
         foreach ($permittedAccounts as $account) {
             $this->getOperationHistory()->addText('Starting Account "' . $account->getTitle() . '"');
@@ -95,7 +93,7 @@ class ReserveCancel extends \M2E\Otto\Model\Cron\AbstractTask
 
         $reservationDays = $account->getOrdersSettings()->getQtyReservationDays();
 
-        $minReservationStartDate = \M2E\Otto\Helper\Date::createCurrentGmt();
+        $minReservationStartDate = \M2E\Core\Helper\Date::createCurrentGmt();
         $minReservationStartDate->modify('- ' . $reservationDays . ' days');
         $minReservationStartDate = $minReservationStartDate->format('Y-m-d H:i');
 

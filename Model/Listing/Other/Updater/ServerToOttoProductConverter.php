@@ -39,12 +39,34 @@ class ServerToOttoProductConverter
                 $unmanagedItem['qty_actualize_date'] ?? null,
                 $unmanagedItem['price_actualize_date'],
                 $unmanagedItem['marketplace_status'],
-                $unmanagedItem['shipping_profile_id']
+                $unmanagedItem['shipping_profile_id'],
+                $this->createMarketplaceErrorsCollection($unmanagedItem['marketplace_errors'] ?? [])
             );
 
             $result->add($ottoProduct);
         }
 
         return $result;
+    }
+
+    private function createMarketplaceErrorsCollection(array $marketplaceErrors): ?\M2E\Core\Model\Connector\Response\MessageCollection
+    {
+        if (empty($marketplaceErrors)) {
+            return null;
+        }
+
+        $messages = [];
+        foreach ($marketplaceErrors as $marketplaceError) {
+            $message = new \M2E\Core\Model\Connector\Response\Message();
+            $message->initFromPreparedData(
+                $marketplaceError['text'],
+                $marketplaceError['type'],
+                \M2E\Core\Model\Connector\Response\Message::SENDER_COMPONENT,
+                $marketplaceError['code']
+            );
+            $messages[] = $message;
+        }
+
+        return new \M2E\Core\Model\Connector\Response\MessageCollection($messages);
     }
 }

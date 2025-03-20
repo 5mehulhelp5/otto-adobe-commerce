@@ -48,11 +48,11 @@ class Manager
             return null;
         }
 
-        return \M2E\Otto\Helper\Date::createDateGmt($value);
+        return \M2E\Core\Helper\Date::createDateGmt($value);
     }
 
     private function setValue(string $key): void
     {
-        $this->registryManager->setValue($key, \M2E\Otto\Helper\Date::createCurrentGmt()->format('Y-m-d H:i:s'));
+        $this->registryManager->setValue($key, \M2E\Core\Helper\Date::createCurrentGmt()->format('Y-m-d H:i:s'));
     }
 }

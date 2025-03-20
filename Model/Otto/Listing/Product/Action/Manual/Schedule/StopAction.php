@@ -26,7 +26,7 @@ class StopAction extends AbstractSchedule
     ): void {
         $logService->addProduct(
             $product,
-            \M2E\Otto\Helper\Data::INITIATOR_USER,
+            \M2E\Core\Helper\Data::INITIATOR_USER,
             \M2E\Otto\Model\Listing\Log::ACTION_STOP_PRODUCT,
             $this->getLogActionId(),
             $this->createSkipStopMessage(),

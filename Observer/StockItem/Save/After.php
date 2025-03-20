@@ -18,11 +18,9 @@ class After extends \M2E\Otto\Observer\StockItem\AbstractStockItem
         \M2E\Otto\Model\Listing\LogService $listingLogService,
         \Magento\Framework\Registry $registry,
         \Magento\CatalogInventory\Api\Data\StockItemInterfaceFactory $stockItemFactory,
-        \M2E\Otto\Helper\Factory $helperFactory,
         \M2E\Otto\Model\Magento\Product\ChangeAttributeTrackerFactory $changeProcessorFactory
     ) {
-        parent::__construct($registry, $stockItemFactory, $helperFactory);
-
+        parent::__construct($registry, $stockItemFactory);
         $this->changeAttributeTrackerFactory = $changeProcessorFactory;
         $this->listingLogService = $listingLogService;
         $this->listingProductRepository = $listingProductRepository;
@@ -180,7 +178,7 @@ class After extends \M2E\Otto\Observer\StockItem\AbstractStockItem
     ): void {
         $this->listingLogService->addProduct(
             $listingProduct,
-            \M2E\Otto\Helper\Data::INITIATOR_EXTENSION,
+            \M2E\Core\Helper\Data::INITIATOR_EXTENSION,
             $action,
             null,
             \M2E\Otto\Helper\Module\Log::encodeDescription(

@@ -39,7 +39,7 @@ class Dispatcher
      * @param array $params
      * @param int $statusChanger
      *
-     * @return \M2E\Otto\Helper\Data::STATUS_SUCCESS | \M2E\Otto\Helper\Data::STATUS_ERROR
+     * @return \M2E\Core\Helper\Data::STATUS_SUCCESS | \M2E\Core\Helper\Data::STATUS_ERROR
      */
     public function processRevise(\M2E\Otto\Model\Product $product, array $params, int $statusChanger): int
     {
@@ -60,7 +60,7 @@ class Dispatcher
             );
 
             $result = $processor->process();
-            if ($result === \M2E\Otto\Helper\Data::STATUS_ERROR) {
+            if ($result === \M2E\Core\Helper\Data::STATUS_ERROR) {
                 $this->tagBuffer->addTag($product, $this->tagFactory->createWithHasErrorCode());
                 $this->tagBuffer->flush();
             }
@@ -76,7 +76,7 @@ class Dispatcher
             );
             $this->exceptionHelper->process($exception);
 
-            return \M2E\Otto\Helper\Data::STATUS_ERROR;
+            return \M2E\Core\Helper\Data::STATUS_ERROR;
         }
     }
 
@@ -85,7 +85,7 @@ class Dispatcher
      * @param array $params
      * @param int $statusChanger
      *
-     * @return \M2E\Otto\Helper\Data::STATUS_SUCCESS | \M2E\Otto\Helper\Data::STATUS_ERROR
+     * @return \M2E\Core\Helper\Data::STATUS_SUCCESS | \M2E\Core\Helper\Data::STATUS_ERROR
      */
     public function processStop(\M2E\Otto\Model\Product $product, array $params, int $statusChanger): int
     {
@@ -106,7 +106,7 @@ class Dispatcher
             );
 
             $result = $processor->process();
-            if ($result === \M2E\Otto\Helper\Data::STATUS_ERROR) {
+            if ($result === \M2E\Core\Helper\Data::STATUS_ERROR) {
                 $this->tagBuffer->addTag($product, $this->tagFactory->createWithHasErrorCode());
                 $this->tagBuffer->flush();
             }
@@ -122,7 +122,7 @@ class Dispatcher
             );
             $this->exceptionHelper->process($exception);
 
-            return \M2E\Otto\Helper\Data::STATUS_ERROR;
+            return \M2E\Core\Helper\Data::STATUS_ERROR;
         }
     }
 
@@ -146,7 +146,7 @@ class Dispatcher
 
             $result = $processor->process();
 
-            if ($result === \M2E\Otto\Helper\Data::STATUS_ERROR) {
+            if ($result === \M2E\Core\Helper\Data::STATUS_ERROR) {
                 $this->tagBuffer->addTag($product, $this->tagFactory->createWithHasErrorCode());
                 $this->tagBuffer->flush();
             }
@@ -162,7 +162,7 @@ class Dispatcher
             );
             $this->exceptionHelper->process($exception);
 
-            return \M2E\Otto\Helper\Data::STATUS_ERROR;
+            return \M2E\Core\Helper\Data::STATUS_ERROR;
         }
     }
 
@@ -171,7 +171,7 @@ class Dispatcher
      * @param array $params
      * @param int $statusChanger
      *
-     * @return \M2E\Otto\Helper\Data::STATUS_SUCCESS | \M2E\Otto\Helper\Data::STATUS_ERROR
+     * @return \M2E\Core\Helper\Data::STATUS_SUCCESS | \M2E\Core\Helper\Data::STATUS_ERROR
      */
     public function processDelete(\M2E\Otto\Model\Product $product, array $params, int $statusChanger): int
     {
@@ -191,7 +191,7 @@ class Dispatcher
 
             $result = $processor->process();
 
-            if ($result === \M2E\Otto\Helper\Data::STATUS_ERROR) {
+            if ($result === \M2E\Core\Helper\Data::STATUS_ERROR) {
                 $this->tagBuffer->addTag($product, $this->tagFactory->createWithHasErrorCode());
                 $this->tagBuffer->flush();
             }
@@ -207,7 +207,7 @@ class Dispatcher
             );
             $this->exceptionHelper->process($exception);
 
-            return \M2E\Otto\Helper\Data::STATUS_ERROR;
+            return \M2E\Core\Helper\Data::STATUS_ERROR;
         }
     }
 
@@ -216,7 +216,7 @@ class Dispatcher
      * @param array $params
      * @param int $statusChanger
      *
-     * @return \M2E\Otto\Helper\Data::STATUS_SUCCESS | \M2E\Otto\Helper\Data::STATUS_ERROR
+     * @return \M2E\Core\Helper\Data::STATUS_SUCCESS | \M2E\Core\Helper\Data::STATUS_ERROR
      */
     public function processRelist(\M2E\Otto\Model\Product $product, array $params, int $statusChanger): int
     {
@@ -237,7 +237,7 @@ class Dispatcher
             );
 
             $result = $processor->process();
-            if ($result === \M2E\Otto\Helper\Data::STATUS_ERROR) {
+            if ($result === \M2E\Core\Helper\Data::STATUS_ERROR) {
                 $this->tagBuffer->addTag($product, $this->tagFactory->createWithHasErrorCode());
                 $this->tagBuffer->flush();
             }
@@ -253,7 +253,7 @@ class Dispatcher
             );
             $this->exceptionHelper->process($exception);
 
-            return \M2E\Otto\Helper\Data::STATUS_ERROR;
+            return \M2E\Core\Helper\Data::STATUS_ERROR;
         }
     }
 
@@ -307,13 +307,13 @@ class Dispatcher
     private function recognizeInitiatorForLogging(int $statusChanger): int
     {
         if ($statusChanger === \M2E\Otto\Model\Product::STATUS_CHANGER_UNKNOWN) {
-            return \M2E\Otto\Helper\Data::INITIATOR_UNKNOWN;
+            return \M2E\Core\Helper\Data::INITIATOR_UNKNOWN;
         }
         if ($statusChanger === \M2E\Otto\Model\Product::STATUS_CHANGER_USER) {
-            return \M2E\Otto\Helper\Data::INITIATOR_USER;
+            return \M2E\Core\Helper\Data::INITIATOR_USER;
         }
 
-        return \M2E\Otto\Helper\Data::INITIATOR_EXTENSION;
+        return \M2E\Core\Helper\Data::INITIATOR_EXTENSION;
     }
 
     private function recognizeActionForLogging(int $action): int

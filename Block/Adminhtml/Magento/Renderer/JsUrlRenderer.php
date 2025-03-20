@@ -32,7 +32,7 @@ class JsUrlRenderer extends AbstractRenderer
             return '';
         }
 
-        $urls = \M2E\Otto\Helper\Json::encode($this->jsUrls);
+        $urls = \M2E\Core\Helper\Json::encode($this->jsUrls);
 
         return "Otto.url.add({$urls});";
     }

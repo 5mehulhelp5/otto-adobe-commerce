@@ -14,6 +14,6 @@ class DescriptionProvider implements DataBuilderInterface
     {
         $data = $product->getRenderedDescription();
 
-        return new Description\Value($data, \M2E\Otto\Helper\Data::md5String($data));
+        return new Description\Value($data, \M2E\Core\Helper\Data::md5String($data));
     }
 }

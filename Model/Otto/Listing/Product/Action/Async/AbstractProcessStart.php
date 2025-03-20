@@ -43,7 +43,7 @@ abstract class AbstractProcessStart
     }
 
     /**
-     * @return \M2E\Otto\Helper\Data::STATUS_SUCCESS | \M2E\Otto\Helper\Data::STATUS_ERROR
+     * @return \M2E\Core\Helper\Data::STATUS_SUCCESS | \M2E\Core\Helper\Data::STATUS_ERROR
      */
     public function process(): int
     {
@@ -55,7 +55,7 @@ abstract class AbstractProcessStart
                 ),
             );
 
-            return \M2E\Otto\Helper\Data::STATUS_ERROR;
+            return \M2E\Core\Helper\Data::STATUS_ERROR;
         }
 
         $this->lockManager->lock($this->listingProduct, $this->getActionNick());
@@ -64,7 +64,7 @@ abstract class AbstractProcessStart
             $this->flushActionLogs();
             $this->lockManager->unlock($this->listingProduct);
 
-            return \M2E\Otto\Helper\Data::STATUS_ERROR;
+            return \M2E\Core\Helper\Data::STATUS_ERROR;
         }
 
         try {
@@ -83,10 +83,10 @@ abstract class AbstractProcessStart
             );
             $this->lockManager->unlock($this->listingProduct);
 
-            return \M2E\Otto\Helper\Data::STATUS_ERROR;
+            return \M2E\Core\Helper\Data::STATUS_ERROR;
         }
 
-        return \M2E\Otto\Helper\Data::STATUS_SUCCESS;
+        return \M2E\Core\Helper\Data::STATUS_SUCCESS;
     }
 
     private function validateListingProduct(): bool

@@ -29,7 +29,7 @@ class ProductAssignService
             $orderItem->setMagentoProductId((int)$magentoProduct->getId());
             $this->orderItemRepository->save($orderItem);
 
-            if ($initiator === \M2E\Otto\Helper\Data::INITIATOR_EXTENSION) {
+            if ($initiator === \M2E\Core\Helper\Data::INITIATOR_EXTENSION) {
                 return;
             }
 
@@ -60,7 +60,7 @@ class ProductAssignService
                 $orderItem->getOrder()->getReserve()->cancel();
             }
 
-            $orderItem->getOrder()->getLogService()->setInitiator(\M2E\Otto\Helper\Data::INITIATOR_USER);
+            $orderItem->getOrder()->getLogService()->setInitiator(\M2E\Core\Helper\Data::INITIATOR_USER);
             $orderItem->removeAssociatedWithMagentoProduct();
 
             $this->orderItemRepository->save($orderItem);

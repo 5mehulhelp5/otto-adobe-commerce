@@ -56,7 +56,7 @@ class Repository
 
     public function save(\M2E\Otto\Model\Category $category): void
     {
-        $category->setUpdateDate(\M2E\Otto\Helper\Date::createCurrentGmt());
+        $category->setUpdateDate(\M2E\Core\Helper\Date::createCurrentGmt());
 
         $this->categoryResource->save($category);
     }

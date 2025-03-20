@@ -40,14 +40,14 @@ class Entity extends \M2E\Otto\Model\ActiveRecord\AbstractModel
             );
         }
 
-        return \M2E\Otto\Helper\Date::createDateGmt(
+        return \M2E\Core\Helper\Date::createDateGmt(
             $this->getData(TagResource::COLUMN_CREATE_DATE)
         );
     }
 
     public function setCreateDate(\DateTime $createDate): void
     {
-        $timeZone = new \DateTimeZone(\M2E\Otto\Helper\Date::getTimezone()->getDefaultTimezone());
+        $timeZone = new \DateTimeZone(\M2E\Core\Helper\Date::getTimezone()->getDefaultTimezone());
         $createDate->setTimezone($timeZone);
         $this->setData(TagResource::COLUMN_CREATE_DATE, $createDate->format('Y-m-d H:i:s'));
     }

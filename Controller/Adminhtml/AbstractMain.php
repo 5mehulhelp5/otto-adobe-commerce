@@ -21,7 +21,7 @@ abstract class AbstractMain extends AbstractBase
             /** @var \M2E\Otto\Helper\Module\Exception $exceptionHelper */
             $exceptionHelper = $this->_objectManager->get(\M2E\Otto\Helper\Module\Exception::class);
             try {
-                $this->_objectManager->get(\M2E\Otto\Helper\Client::class)->updateLocationData(false);
+                $this->_objectManager->get(\M2E\Core\Helper\Client::class)->updateLocationData(false);
             } catch (\Throwable $exception) {
                 $exceptionHelper->process($exception);
             }
@@ -97,7 +97,7 @@ abstract class AbstractMain extends AbstractBase
 
     protected function appendMSINotificationPopup()
     {
-        if (!$this->_objectManager->get(\M2E\Otto\Helper\Magento::class)->isMSISupportingVersion()) {
+        if (!$this->_objectManager->get(\M2E\Core\Helper\Magento::class)->isMSISupportingVersion()) {
             return;
         }
 
@@ -163,9 +163,9 @@ abstract class AbstractMain extends AbstractBase
 
     private function addStaticContentNotification(): bool
     {
-        /** @var \M2E\Otto\Helper\Magento $magentoHelper */
-        $magentoHelper = $this->_objectManager->get(\M2E\Otto\Helper\Magento::class);
-        if (!$magentoHelper->isProduction()) {
+        /** @var \M2E\Core\Helper\Magento $magentoHelper */
+        $magentoHelper = $this->_objectManager->get(\M2E\Core\Helper\Magento::class);
+        if (!$magentoHelper->isModeProduction()) {
             return false;
         }
 
@@ -188,9 +188,9 @@ abstract class AbstractMain extends AbstractBase
 
     private function addStaticContentWarningNotification(): void
     {
-        /** @var \M2E\Otto\Helper\Magento $magentoHelper */
-        $magentoHelper = $this->_objectManager->get(\M2E\Otto\Helper\Magento::class);
-        if (!$magentoHelper->isProduction()) {
+        /** @var \M2E\Core\Helper\Magento $magentoHelper */
+        $magentoHelper = $this->_objectManager->get(\M2E\Core\Helper\Magento::class);
+        if (!$magentoHelper->isModeProduction()) {
             return;
         }
 
@@ -220,7 +220,7 @@ abstract class AbstractMain extends AbstractBase
         }
 
         $lastUpgradeDate = $lastUpgrade->getCreateDate();
-        $deployDate = \M2E\Otto\Helper\Date::createDateGmt($deployDate);
+        $deployDate = \M2E\Core\Helper\Date::createDateGmt($deployDate);
 
         if ($deployDate->getTimestamp() > $lastUpgradeDate->modify('- 30 minutes')->getTimestamp()) {
             return;
@@ -466,7 +466,7 @@ abstract class AbstractMain extends AbstractBase
 
     private function isContentLocked(): bool
     {
-        return $this->_objectManager->get(\M2E\Otto\Helper\Magento::class)->isProduction() &&
+        return $this->_objectManager->get(\M2E\Core\Helper\Magento::class)->isModeProduction() &&
             !$this->_objectManager->get(\M2E\Otto\Helper\Module::class)->isStaticContentDeployed();
     }
 

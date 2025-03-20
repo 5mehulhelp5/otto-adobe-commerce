@@ -33,7 +33,7 @@ class MagentoAttribute extends \M2E\Otto\Block\Adminhtml\Magento\Button
         if ($this->getDataAttribute()) {
             foreach ($this->getDataAttribute() as $key => $attr) {
                 $attributes['data-' . $key] = is_scalar($attr)
-                    ? $attr : \M2E\Otto\Helper\Json::encode($attr);
+                    ? $attr : \M2E\Core\Helper\Json::encode($attr);
             }
         }
 

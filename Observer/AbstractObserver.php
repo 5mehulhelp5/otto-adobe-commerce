@@ -4,18 +4,10 @@ namespace M2E\Otto\Observer;
 
 abstract class AbstractObserver implements \Magento\Framework\Event\ObserverInterface
 {
-    private \M2E\Otto\Helper\Factory $helperFactory;
-
     /**
      * @var null|\Magento\Framework\Event\Observer
      */
     private $eventObserver = null;
-
-    public function __construct(
-        \M2E\Otto\Helper\Factory $helperFactory
-    ) {
-        $this->helperFactory = $helperFactory;
-    }
 
     public function execute(\Magento\Framework\Event\Observer $observer): void
     {
@@ -38,11 +30,6 @@ abstract class AbstractObserver implements \Magento\Framework\Event\ObserverInte
         } catch (\Throwable $exception) {
             $this->getObjectManager()->get(\M2E\Otto\Helper\Module\Exception::class)->process($exception);
         }
-    }
-
-    protected function getHelper($helperName)
-    {
-        return $this->helperFactory->getObject($helperName);
     }
 
     protected function canProcess(): bool
@@ -87,7 +74,7 @@ abstract class AbstractObserver implements \Magento\Framework\Event\ObserverInte
     {
         $moduleHelper = $this->getObjectManager()->get(\M2E\Otto\Helper\Module::class);
 
-        return $this->getObjectManager()->get(\M2E\Otto\Helper\Magento::class)->isInstalled()
+        return $this->getObjectManager()->get(\M2E\Core\Helper\Magento::class)->isInstalled()
             && !$this->getObjectManager()->get(\M2E\Otto\Helper\Module\Maintenance::class)->isEnabled()
             && !$moduleHelper->isDisabled()
             && $moduleHelper->isReadyToWork();

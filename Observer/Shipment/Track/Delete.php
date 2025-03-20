@@ -12,13 +12,9 @@ class Delete extends \M2E\Otto\Observer\Shipment\AbstractShipment
         \M2E\Otto\Model\Order\ShipmentService $orderShipmentService,
         \M2E\Otto\Model\Order\Repository $repository,
         \M2E\Otto\Helper\Module\Logger $moduleLogger,
-        \M2E\Otto\Helper\Factory $helperFactory,
         \Magento\Sales\Model\ResourceModel\Order\Shipment\CollectionFactory $shipmentCollectionFactory
     ) {
-        parent::__construct(
-            $helperFactory,
-            $shipmentCollectionFactory
-        );
+        parent::__construct($shipmentCollectionFactory);
         $this->repository = $repository;
         $this->moduleLogger = $moduleLogger;
         $this->orderShipmentService = $orderShipmentService;
@@ -57,6 +53,6 @@ class Delete extends \M2E\Otto\Observer\Shipment\AbstractShipment
             return;
         }
 
-        $this->orderShipmentService->shipByShipment($order, $shipment, \M2E\Otto\Helper\Data::INITIATOR_EXTENSION);
+        $this->orderShipmentService->shipByShipment($order, $shipment, \M2E\Core\Helper\Data::INITIATOR_EXTENSION);
     }
 }

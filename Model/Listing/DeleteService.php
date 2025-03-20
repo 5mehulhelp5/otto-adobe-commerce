@@ -53,7 +53,7 @@ class DeleteService
 
         $this->listingLogService->addListing(
             $listing,
-            \M2E\Otto\Helper\Data::INITIATOR_UNKNOWN,
+            \M2E\Core\Helper\Data::INITIATOR_UNKNOWN,
             \M2E\Otto\Model\Listing\Log::ACTION_DELETE_LISTING,
             null,
             (string)__('Listing was deleted'),

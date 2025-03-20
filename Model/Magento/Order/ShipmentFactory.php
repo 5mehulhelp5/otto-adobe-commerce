@@ -14,11 +14,11 @@ use Magento\InventoryShippingAdminUi\Model\IsWebsiteInMultiSourceMode;
 class ShipmentFactory
 {
     private \Magento\Framework\ObjectManagerInterface $objectManager;
-    private \M2E\Otto\Helper\Magento $magentoHelper;
+    private \M2E\Core\Helper\Magento $magentoHelper;
 
     public function __construct(
         \Magento\Framework\ObjectManagerInterface $objectManager,
-        \M2E\Otto\Helper\Magento $magentoHelper
+        \M2E\Core\Helper\Magento $magentoHelper
     ) {
         $this->objectManager = $objectManager;
         $this->magentoHelper = $magentoHelper;

@@ -119,7 +119,7 @@ class Repository
                        ['account_id'],
                    );
 
-        $currentDate = \M2E\Otto\Helper\Date::createCurrentGmt();
+        $currentDate = \M2E\Core\Helper\Date::createCurrentGmt();
         $currentDate->modify('-3600 seconds');
 
         $collection->getSelect()

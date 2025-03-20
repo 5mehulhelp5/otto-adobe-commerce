@@ -36,7 +36,7 @@ class Repository
         $entity = $this->entityFactory->create(
             $tag->getText(),
             $tag->getErrorCode(),
-            \M2E\Otto\Helper\Date::createCurrentGmt()
+            \M2E\Core\Helper\Date::createCurrentGmt()
         );
         $entity->save();
 

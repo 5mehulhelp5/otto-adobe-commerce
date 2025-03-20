@@ -32,7 +32,7 @@ class AddProductsService
         \M2E\Otto\Model\Listing $listing,
         \M2E\Otto\Model\Magento\Product $ourMagentoProduct,
         int $categoryId,
-        int $initiator = \M2E\Otto\Helper\Data::INITIATOR_UNKNOWN,
+        int $initiator = \M2E\Core\Helper\Data::INITIATOR_UNKNOWN,
         ?\M2E\Otto\Model\Listing\Other $unmanagedProduct = null
     ): ?Product {
         if (!$ourMagentoProduct->exists()) {
@@ -148,7 +148,7 @@ class AddProductsService
         if ($this->findExistProduct($targetListing, $listingProduct->getMagentoProductId()) !== null) {
             $this->listingLogService->addProduct(
                 $listingProduct,
-                \M2E\Otto\Helper\Data::INITIATOR_USER,
+                \M2E\Core\Helper\Data::INITIATOR_USER,
                 \M2E\Otto\Model\Listing\Log::ACTION_MOVE_TO_LISTING,
                 null,
                 (string)__('The Product was not moved because it already exists in the selected Listing'),
@@ -170,7 +170,7 @@ class AddProductsService
 
         $this->listingLogService->addProduct(
             $listingProduct,
-            \M2E\Otto\Helper\Data::INITIATOR_USER,
+            \M2E\Core\Helper\Data::INITIATOR_USER,
             \M2E\Otto\Model\Listing\Log::ACTION_MOVE_TO_LISTING,
             null,
             $logMessage,
@@ -187,7 +187,7 @@ class AddProductsService
 
         $this->listingLogService->addListing(
             $sourceListing,
-            \M2E\Otto\Helper\Data::INITIATOR_USER,
+            \M2E\Core\Helper\Data::INITIATOR_USER,
             \M2E\Otto\Model\Listing\Log::ACTION_MOVE_TO_LISTING,
             null,
             $logMessage,

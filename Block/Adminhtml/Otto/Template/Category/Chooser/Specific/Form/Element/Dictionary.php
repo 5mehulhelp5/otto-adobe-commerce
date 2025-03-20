@@ -12,10 +12,10 @@ class Dictionary extends \Magento\Framework\Data\Form\Element\AbstractElement
     use \M2E\Otto\Block\Adminhtml\Traits\BlockTrait;
 
     public \Magento\Framework\View\LayoutInterface $layout;
-    private \M2E\Otto\Helper\Magento\Attribute $magentoAttributeHelper;
+    private \M2E\Core\Helper\Magento\Attribute $magentoAttributeHelper;
 
     public function __construct(
-        \M2E\Otto\Helper\Magento\Attribute $magentoAttributeHelper,
+        \M2E\Core\Helper\Magento\Attribute $magentoAttributeHelper,
         \M2E\Otto\Block\Adminhtml\Magento\Context\Template $context,
         Factory $factoryElement,
         CollectionFactory $factoryCollection,

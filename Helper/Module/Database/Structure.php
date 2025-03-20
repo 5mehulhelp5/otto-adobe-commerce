@@ -18,7 +18,7 @@ class Structure
     /** @var \Magento\Framework\ObjectManagerInterface */
     private $objectManager;
 
-    /** @var \M2E\Otto\Helper\Magento */
+    /** @var \M2E\Core\Helper\Magento */
     private $magentoHelper;
 
     /** @var \M2E\Otto\Helper\Data\Cache\Runtime */
@@ -29,7 +29,7 @@ class Structure
         \Magento\Framework\Filesystem\Directory\ReadFactory $directoryReaderFactory,
         \Magento\Framework\Component\ComponentRegistrar $componentRegistrar,
         \Magento\Framework\ObjectManagerInterface $objectManager,
-        \M2E\Otto\Helper\Magento $magentoHelper,
+        \M2E\Core\Helper\Magento $magentoHelper,
         \M2E\Otto\Helper\Data\Cache\Runtime $runtimeCacheHelper
     ) {
         $this->resourceConnection = $resourceConnection;

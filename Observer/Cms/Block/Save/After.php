@@ -16,11 +16,8 @@ class After extends \M2E\Otto\Observer\AbstractObserver
     public function __construct(
         \M2E\Otto\Model\Template\Description\AffectedListingsProductsFactory $affectedListingsProductsFactory,
         \M2E\Otto\Model\ResourceModel\Template\Description\CollectionFactory $descriptionCollectionFactory,
-        \M2E\Otto\Model\InstructionService $instructionService,
-        \M2E\Otto\Helper\Factory $helperFactory
+        \M2E\Otto\Model\InstructionService $instructionService
     ) {
-        parent::__construct($helperFactory);
-
         $this->instructionService = $instructionService;
         $this->descriptionCollectionFactory = $descriptionCollectionFactory;
         $this->affectedListingsProductsFactory = $affectedListingsProductsFactory;

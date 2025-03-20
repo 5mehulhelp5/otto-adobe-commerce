@@ -50,7 +50,7 @@ class Builder extends \Magento\Framework\DataObject
             'amount' => $tax,
         ];
 
-        $this->setData('tax_details', \M2E\Otto\Helper\Json::encode($taxDetails));
+        $this->setData('tax_details', \M2E\Core\Helper\Json::encode($taxDetails));
 
         // QTY always one
         $this->setData('qty_purchased', 1);
@@ -63,7 +63,7 @@ class Builder extends \Magento\Framework\DataObject
             'ship_date' => $data['sentDate'] ?? '',
         ];
 
-        $this->setData('tracking_details', \M2E\Otto\Helper\Json::encode($trackingDetails));
+        $this->setData('tracking_details', \M2E\Core\Helper\Json::encode($trackingDetails));
     }
 
     public function process(): \M2E\Otto\Model\Order\Item

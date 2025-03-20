@@ -4,17 +4,12 @@ namespace M2E\Otto\Model\ActiveRecord;
 
 class Factory
 {
-    /** @var \M2E\Otto\Helper\Factory */
-    protected $helperFactory;
-
     /** @var \Magento\Framework\ObjectManagerInterface */
     protected $objectManager;
 
     public function __construct(
-        \M2E\Otto\Helper\Factory $helperFactory,
         \Magento\Framework\ObjectManagerInterface $objectManager
     ) {
-        $this->helperFactory = $helperFactory;
         $this->objectManager = $objectManager;
     }
 

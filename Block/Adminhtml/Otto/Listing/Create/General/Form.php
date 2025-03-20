@@ -9,7 +9,7 @@ use M2E\Otto\Model\Listing;
 
 class Form extends \M2E\Otto\Block\Adminhtml\Magento\Form\AbstractForm
 {
-    private \M2E\Otto\Helper\Magento\Store $storeHelper;
+    private \M2E\Core\Helper\Magento\Store $storeHelper;
     protected Listing $listing;
     private \M2E\Otto\Helper\Data $dataHelper;
     private \M2E\Otto\Helper\Data\Session $sessionDataHelper;
@@ -19,7 +19,7 @@ class Form extends \M2E\Otto\Block\Adminhtml\Magento\Form\AbstractForm
     public function __construct(
         \M2E\Otto\Model\Listing\Repository $listingRepository,
         \M2E\Otto\Model\Account\Repository $accountRepository,
-        \M2E\Otto\Helper\Magento\Store $storeHelper,
+        \M2E\Core\Helper\Magento\Store $storeHelper,
         \M2E\Otto\Block\Adminhtml\Magento\Context\Template $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,

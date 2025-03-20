@@ -9,7 +9,7 @@ use M2E\Otto\Model\Template\SellingFormat;
 
 class Data extends AbstractForm
 {
-    private \M2E\Otto\Helper\Magento\Attribute $magentoAttributeHelper;
+    private \M2E\Core\Helper\Magento\Attribute $magentoAttributeHelper;
     private \M2E\Otto\Helper\Data\GlobalData $globalDataHelper;
     /** @var \M2E\Otto\Model\Template\SellingFormat\BuilderFactory */
     private SellingFormat\BuilderFactory $templateSellingFormatBuilderFactory;
@@ -17,7 +17,7 @@ class Data extends AbstractForm
     public function __construct(
         \M2E\Otto\Model\Template\SellingFormat\BuilderFactory $templateSellingFormatBuilderFactory,
         \M2E\Otto\Helper\Data\GlobalData $globalDataHelper,
-        \M2E\Otto\Helper\Magento\Attribute $magentoAttributeHelper,
+        \M2E\Core\Helper\Magento\Attribute $magentoAttributeHelper,
         \M2E\Otto\Block\Adminhtml\Magento\Context\Template $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
@@ -40,7 +40,7 @@ class Data extends AbstractForm
         $formData = array_merge($default, $formData);
 
         $formData['fixed_price_modifier'] =
-            \M2E\Otto\Helper\Json::decode($formData['fixed_price_modifier']) ?: [];
+            \M2E\Core\Helper\Json::decode($formData['fixed_price_modifier']) ?: [];
 
         $form = $this->_formFactory->create();
 
@@ -288,7 +288,7 @@ class Data extends AbstractForm
 
         $fixedPriceModifierRenderJs = '';
         if (!empty($formData['fixed_price_modifier'])) {
-            $formDataJson = \M2E\Otto\Helper\Json::encode($formData['fixed_price_modifier']);
+            $formDataJson = \M2E\Core\Helper\Json::encode($formData['fixed_price_modifier']);
             $fixedPriceModifierRenderJs = <<<JS
     OttoTemplateSellingFormatObj.renderFixedPriceChangeRows({$formDataJson});
 JS;

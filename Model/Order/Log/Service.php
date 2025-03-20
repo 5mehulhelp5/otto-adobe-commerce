@@ -6,7 +6,7 @@ namespace M2E\Otto\Model\Order\Log;
 
 class Service
 {
-    private int $initiator = \M2E\Otto\Helper\Data::INITIATOR_EXTENSION;
+    private int $initiator = \M2E\Core\Helper\Data::INITIATOR_EXTENSION;
 
     private \M2E\Otto\Model\Order\LogFactory $orderLogFactory;
     private \M2E\Otto\Model\ResourceModel\Order\Log $orderLogResource;
@@ -79,8 +79,8 @@ class Service
         $orderLog->setDescription($description);
         $orderLog->setType($type);
         $orderLog->setInitiator($this->getInitiator());
-        $orderLog->setAdditionalData(\M2E\Otto\Helper\Json::encode($additionalData));
-        $orderLog->setCreateDate(\M2E\Otto\Helper\Date::createCurrentGmt()->format('Y-m-d H:i:s'));
+        $orderLog->setAdditionalData(\M2E\Core\Helper\Json::encode($additionalData));
+        $orderLog->setCreateDate(\M2E\Core\Helper\Date::createCurrentGmt()->format('Y-m-d H:i:s'));
 
         $this->orderLogResource->save($orderLog);
 

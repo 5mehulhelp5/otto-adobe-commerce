@@ -31,7 +31,7 @@ class ReviseAction extends AbstractSchedule
     ): void {
         $logService->addProduct(
             $product,
-            \M2E\Otto\Helper\Data::INITIATOR_USER,
+            \M2E\Core\Helper\Data::INITIATOR_USER,
             \M2E\Otto\Model\Listing\Log::ACTION_REVISE_PRODUCT,
             $this->getLogActionId(),
             $this->createSkipReviseMessage(),

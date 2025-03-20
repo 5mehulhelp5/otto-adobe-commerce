@@ -9,7 +9,7 @@ use M2E\Otto\Controller\Adminhtml\Otto\AbstractAccount;
 class Save extends AbstractAccount
 {
     private \M2E\Otto\Helper\Module\Exception $helperException;
-    private \M2E\Otto\Helper\Url $urlHelper;
+    private \M2E\Core\Helper\Url $urlHelper;
     private \M2E\Otto\Model\Account\Update $accountUpdate;
     private \M2E\Otto\Model\Account\Repository $accountRepository;
 
@@ -17,7 +17,7 @@ class Save extends AbstractAccount
         \M2E\Otto\Model\Account\Update $accountUpdate,
         \M2E\Otto\Model\Account\Repository $accountRepository,
         \M2E\Otto\Helper\Module\Exception $helperException,
-        \M2E\Otto\Helper\Url $urlHelper
+        \M2E\Core\Helper\Url $urlHelper
     ) {
         parent::__construct();
 

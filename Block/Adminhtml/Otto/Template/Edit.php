@@ -7,11 +7,11 @@ namespace M2E\Otto\Block\Adminhtml\Otto\Template;
 class Edit extends \M2E\Otto\Block\Adminhtml\Magento\Form\AbstractContainer
 {
     private \M2E\Otto\Helper\Data\GlobalData $globalDataHelper;
-    private \M2E\Otto\Helper\Url $urlHelper;
+    private \M2E\Core\Helper\Url $urlHelper;
 
     public function __construct(
         \M2E\Otto\Block\Adminhtml\Magento\Context\Widget $context,
-        \M2E\Otto\Helper\Url $urlHelper,
+        \M2E\Core\Helper\Url $urlHelper,
         \M2E\Otto\Helper\Data\GlobalData $globalDataHelper,
         array $data = []
     ) {
@@ -36,7 +36,7 @@ class Edit extends \M2E\Otto\Block\Adminhtml\Magento\Form\AbstractContainer
         $isSaveAndClose = (bool)$this->getRequest()->getParam('close_on_save', false);
 
         if ($template->getId() && !$isSaveAndClose) {
-            $duplicateHeaderText = \M2E\Otto\Helper\Data::escapeJs(
+            $duplicateHeaderText = \M2E\Core\Helper\Data::escapeJs(
                 (string)__('Add %template_name Policy', ['template_name' => $this->getTemplateName()]),
             );
 
@@ -60,7 +60,7 @@ class Edit extends \M2E\Otto\Block\Adminhtml\Magento\Form\AbstractContainer
 
         $saveConfirmation = '';
         if ($template->getId()) {
-            $saveConfirmation = \M2E\Otto\Helper\Data::escapeJs(
+            $saveConfirmation = \M2E\Core\Helper\Data::escapeJs(
                 (string)__(
                     '<br/><b>Note:</b> All changes you have made will be automatically
                     applied to all M2E Otto Listings where this Policy is used.'

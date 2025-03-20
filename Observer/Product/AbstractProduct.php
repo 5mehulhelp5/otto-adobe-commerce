@@ -13,12 +13,10 @@ abstract class AbstractProduct extends \M2E\Otto\Observer\AbstractObserver
 
     public function __construct(
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \M2E\Otto\Model\Magento\ProductFactory $ourMagentoProductFactory,
-        \M2E\Otto\Helper\Factory $helperFactory
+        \M2E\Otto\Model\Magento\ProductFactory $ourMagentoProductFactory
     ) {
         $this->productFactory = $productFactory;
         $this->ourMagentoProductFactory = $ourMagentoProductFactory;
-        parent::__construct($helperFactory);
     }
 
     //########################################

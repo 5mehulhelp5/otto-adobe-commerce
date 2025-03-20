@@ -91,7 +91,7 @@ class Repository
         array $listingProductFilters = []
     ): array {
         $filters = [$listingFilters, $listingProductFilters];
-        $cacheKey = __METHOD__ . $magentoProductId . sha1(\M2E\Otto\Helper\Json::encode($filters));
+        $cacheKey = __METHOD__ . $magentoProductId . sha1(\M2E\Core\Helper\Json::encode($filters));
         $cacheValue = $this->runtimeCache->getValue($cacheKey);
 
         if ($cacheValue !== null) {

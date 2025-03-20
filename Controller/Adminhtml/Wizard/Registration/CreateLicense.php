@@ -20,7 +20,7 @@ class CreateLicense extends \M2E\Otto\Controller\Adminhtml\Wizard\AbstractRegist
         \M2E\Core\Model\LicenseService $licenseService,
         \M2E\Otto\Helper\Module\Exception $exceptionHelper,
         \M2E\Otto\Model\Servicing\Dispatcher $servicing,
-        \M2E\Otto\Helper\Magento $magentoHelper,
+        \M2E\Core\Helper\Magento $magentoHelper,
         \M2E\Otto\Helper\Module\Wizard $wizardHelper,
         \Magento\Framework\Code\NameBuilder $nameBuilder
     ) {
@@ -49,8 +49,8 @@ class CreateLicense extends \M2E\Otto\Controller\Adminhtml\Wizard\AbstractRegist
         $licenseData = [];
         foreach ($requiredKeys as $key) {
             if ($tempValue = $this->getRequest()->getParam($key)) {
-                $licenseData[$key] = \M2E\Otto\Helper\Data::escapeJs(
-                    \M2E\Otto\Helper\Data::escapeHtml($tempValue)
+                $licenseData[$key] = \M2E\Core\Helper\Data::escapeJs(
+                    \M2E\Core\Helper\Data::escapeHtml($tempValue)
                 );
                 continue;
             }

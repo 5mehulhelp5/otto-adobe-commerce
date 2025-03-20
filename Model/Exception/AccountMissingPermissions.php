@@ -8,9 +8,13 @@ class AccountMissingPermissions extends \M2E\Otto\Model\Exception
 {
     private \M2E\Otto\Model\Account $account;
 
-    public function __construct(\M2E\Otto\Model\Account $account)
-    {
-        parent::__construct();
+    public function __construct(
+        \M2E\Otto\Model\Account $account,
+        string $message = '',
+        array $additionalData = [],
+        int $code = 0
+    ) {
+        parent::__construct($message, $additionalData, $code);
 
         $this->account = $account;
     }

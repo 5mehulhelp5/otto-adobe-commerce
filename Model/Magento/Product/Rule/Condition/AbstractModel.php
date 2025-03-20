@@ -592,7 +592,7 @@ abstract class AbstractModel extends \M2E\Otto\Model\AbstractModel implements Co
             && !empty($validatedValue)
             && !is_numeric($validatedValue)
         ) {
-            $validatedValue = (int)\M2E\Otto\Helper\Date::createDateGmt($validatedValue)->format('U');
+            $validatedValue = (int)\M2E\Core\Helper\Date::createDateGmt($validatedValue)->format('U');
         }
 
         /**
@@ -605,7 +605,7 @@ abstract class AbstractModel extends \M2E\Otto\Model\AbstractModel implements Co
             && !empty($value)
             && !is_numeric($value)
         ) {
-            $value = (int)\M2E\Otto\Helper\Date::createDateGmt($value)->format('U');
+            $value = (int)\M2E\Core\Helper\Date::createDateGmt($value)->format('U');
         }
 
         /**

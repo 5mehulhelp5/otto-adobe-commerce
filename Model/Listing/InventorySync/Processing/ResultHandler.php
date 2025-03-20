@@ -49,7 +49,7 @@ class ResultHandler implements \M2E\Otto\Model\Processing\PartialResultHandlerIn
         $this->account = $account;
 
         if (isset($params['current_date'])) {
-            $this->fromDate = \M2E\Otto\Helper\Date::createDateGmt($params['current_date']);
+            $this->fromDate = \M2E\Core\Helper\Date::createDateGmt($params['current_date']);
         }
     }
 
@@ -80,7 +80,7 @@ class ResultHandler implements \M2E\Otto\Model\Processing\PartialResultHandlerIn
             $this->accountRepository->save($this->account);
             $inventorySyncProcessingStartDate = $this->fromDate;
         } else {
-            $inventorySyncProcessingStartDate = \M2E\Otto\Helper\Date::createCurrentGmt();
+            $inventorySyncProcessingStartDate = \M2E\Core\Helper\Date::createCurrentGmt();
         }
 
         $this->externalChangeProcessor

@@ -8,14 +8,6 @@ use M2E\Otto\Model\Exception;
 
 abstract class AbstractPlugin
 {
-    protected \M2E\Otto\Helper\Factory $helperFactory;
-
-    public function __construct(
-        \M2E\Otto\Helper\Factory $helperFactory
-    ) {
-        $this->helperFactory = $helperFactory;
-    }
-
     /**
      * @throws \M2E\Otto\Model\Exception
      */
@@ -37,20 +29,27 @@ abstract class AbstractPlugin
 
     protected function canExecute(): bool
     {
-        /** @var \M2E\Otto\Helper\Magento $magentoHelper */
-        $magentoHelper = $this->helperFactory->getObject('Magento');
+        /** @var \M2E\Core\Helper\Magento $helper */
+        $magentoHelper = \Magento\Framework\App\ObjectManager::getInstance()->get(
+            \M2E\Core\Helper\Magento::class
+        );
         if ($magentoHelper->isInstalled() === false) {
             return false;
         }
 
         /** @var \M2E\Otto\Helper\Module\Maintenance $maintenanceHelper */
-        $maintenanceHelper = $this->helperFactory->getObject('Module\Maintenance');
+        $maintenanceHelper = \Magento\Framework\App\ObjectManager::getInstance()->get(
+            \M2E\Otto\Helper\Module\Maintenance::class
+        );
         if ($maintenanceHelper->isEnabled()) {
             return false;
         }
 
         /** @var \M2E\Otto\Helper\Module $moduleHelper */
-        $moduleHelper = $this->helperFactory->getObject('Module');
+        $moduleHelper = \Magento\Framework\App\ObjectManager::getInstance()->get(
+            \M2E\Otto\Helper\Module::class
+        );
+
         if (!$moduleHelper->isReadyToWork()) {
             return false;
         }
@@ -60,15 +59,5 @@ abstract class AbstractPlugin
         }
 
         return true;
-    }
-
-    /**
-     * @param $helperName
-     *
-     * @return object
-     */
-    protected function getHelper($helperName): object
-    {
-        return $this->helperFactory->getObject($helperName);
     }
 }

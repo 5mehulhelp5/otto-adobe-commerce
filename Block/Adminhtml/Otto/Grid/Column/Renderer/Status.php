@@ -42,7 +42,7 @@ class Status extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Options
             );
             $html = $viewLogIcon->render($row);
 
-            $additionalData = (array)\M2E\Otto\Helper\Json::decode($row->getData('additional_data'));
+            $additionalData = (array)\M2E\Core\Helper\Json::decode($row->getData('additional_data'));
             $synchNote = $additionalData['synch_template_list_rules_note'] ?? [];
             if (!empty($synchNote)) {
                 $synchNote = $this->viewHelper->getModifiedLogMessage($synchNote);
@@ -60,7 +60,13 @@ HTML;
                 }
             }
         }
-        $html .= $this->getCurrentStatus($row);
+
+        if ($this->isNeedShowMarketplaceErrorsTooltip($row)) {
+            $tooltipText = $this->getTooltip($row);
+            $html .= '<div class="otto-status-wrapper">' . $this->getCurrentStatus($row) . $this->getTooltipHtml($tooltipText) . '</<div>';
+        } else {
+            $html .= $this->getCurrentStatus($row);
+        }
 
         $html .= $this->getScheduledTag($row);
         $html .= $this->getProgressTag($row);
@@ -177,5 +183,40 @@ HTML;
     public function renderExport(\Magento\Framework\DataObject $row): string
     {
         return strip_tags($this->getCurrentStatus($row));
+    }
+
+    public function isNeedShowMarketplaceErrorsTooltip(\Magento\Framework\DataObject $row): bool
+    {
+        if (
+            $row->getData(ProductResource::COLUMN_IS_INCOMPLETE)
+            || empty($row->getData('marketplace_errors'))
+        ) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private function getTooltip(\Magento\Framework\DataObject $row): string
+    {
+        $marketplaceErrors = json_decode($row->getData('marketplace_errors'), true);
+
+        if (empty($marketplaceErrors)) {
+            return '';
+        }
+
+        $messageCollection = \M2E\Otto\Model\Product::getMessageCollection($marketplaceErrors);
+        $tooltipItems = [];
+        foreach ($messageCollection->getMessages() as $message) {
+            if (!$message->isWarning()) {
+                continue;
+            }
+
+            $codeParts = explode(' - ', $message->getCode(), 2);
+            $shortCode = $codeParts[1] ?? $codeParts[0];
+            $tooltipItems[] = sprintf('<li><b>%s</b> - %s</li>', $shortCode, $message->getText());
+        }
+
+        return '<ul>' . implode('', $tooltipItems) . '</ul>';
     }
 }

@@ -76,7 +76,7 @@ class Clearing
 
     private function getMinTimeByDays(int $days): \DateTime
     {
-        $date = \M2E\Otto\Helper\Date::createCurrentGmt();
+        $date = \M2E\Core\Helper\Date::createCurrentGmt();
         $date->modify('- ' . $days . ' days');
 
         return $date;

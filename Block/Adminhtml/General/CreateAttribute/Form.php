@@ -3,7 +3,7 @@
 namespace M2E\Otto\Block\Adminhtml\General\CreateAttribute;
 
 use M2E\Otto\Block\Adminhtml\Magento\Form\AbstractForm;
-use M2E\Otto\Model\Magento\Attribute\Builder as AttributeBuilder;
+use M2E\Core\Model\Magento\Attribute\Builder as AttributeBuilder;
 
 class Form extends AbstractForm
 {
@@ -12,14 +12,14 @@ class Form extends AbstractForm
     protected $allowedTypes = [];
     protected $applyToAllAttributeSets = true;
 
-    /** @var \M2E\Otto\Helper\Magento\AttributeSet */
+    /** @var \M2E\Core\Helper\Magento\AttributeSet */
     protected $magentoAttributeSetHelper;
 
     /** @var \M2E\Otto\Helper\Data */
     private $dataHelper;
 
     public function __construct(
-        \M2E\Otto\Helper\Magento\AttributeSet $magentoAttributeSetHelper,
+        \M2E\Core\Helper\Magento\AttributeSet $magentoAttributeSetHelper,
         \M2E\Otto\Block\Adminhtml\Magento\Context\Template $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
@@ -211,10 +211,6 @@ class Form extends AbstractForm
             'Attribute has been created.' => __('Attribute has been created.'),
             'Please enter a valid date.' => __('Please enter a valid date.'),
         ]);
-
-        $this->jsPhp->addConstants(
-            \M2E\Otto\Helper\Data::getClassConstants(\M2E\Otto\Model\Magento\Attribute\Builder::class)
-        );
 
         $this->jsUrl->addUrls([
             'general/generateAttributeCodeByLabel' => $this->getUrl('general/generateAttributeCodeByLabel'),

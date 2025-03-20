@@ -30,7 +30,7 @@ class OrdersProcessor
 
     public function process(): void
     {
-        $toTime = \M2E\Otto\Helper\Date::createCurrentGmt();
+        $toTime = \M2E\Core\Helper\Date::createCurrentGmt();
         $fromTime = $this->prepareFromTime($toTime);
 
         $response = $this->receiveOrdersProcessor->process(
@@ -74,10 +74,10 @@ class OrdersProcessor
     ): \DateTime {
         $lastSynchronizationDate = $this->account->getOrdersLastSyncDate();
 
-        $minDate = \M2E\Otto\Helper\Date::createCurrentGmt();
+        $minDate = \M2E\Core\Helper\Date::createCurrentGmt();
         $minDate->modify('-90 days');
 
-        $sinceTime = \M2E\Otto\Helper\Date::createCurrentGmt();
+        $sinceTime = \M2E\Core\Helper\Date::createCurrentGmt();
         if ($lastSynchronizationDate !== null) {
             $sinceTime = $lastSynchronizationDate;
 

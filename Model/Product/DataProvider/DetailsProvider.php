@@ -48,8 +48,11 @@ class DetailsProvider implements DataBuilderInterface
         }
 
         if ($attribute->isValueModeCustomAttribute()) {
-            $attributeRetriever = $this->magentoAttributeRetriever->create($product->getMagentoProduct());
-            $attributeVal = $attributeRetriever->tryRetrieve($attribute->getCustomAttributeValue(), 'Manufacturer');
+            $attributeRetriever = $this->magentoAttributeRetriever->create(
+                (string)__('Manufacturer'),
+                $product->getMagentoProduct()
+            );
+            $attributeVal = $attributeRetriever->tryRetrieve($attribute->getCustomAttributeValue(),);
 
             if ($attributeVal !== null) {
                 return $attributeVal;
@@ -83,8 +86,8 @@ class DetailsProvider implements DataBuilderInterface
         }
 
         if ($attribute->isValueModeCustomAttribute()) {
-            $attributeRetriever = $this->magentoAttributeRetriever->create($product->getMagentoProduct());
-            $attributeVal = $attributeRetriever->tryRetrieve($attribute->getCustomAttributeValue(), 'MPN');
+            $attributeRetriever = $this->magentoAttributeRetriever->create((string)__('MPN'), $product->getMagentoProduct());
+            $attributeVal = $attributeRetriever->tryRetrieve($attribute->getCustomAttributeValue());
 
             if ($attributeVal !== null) {
                 return $attributeVal;

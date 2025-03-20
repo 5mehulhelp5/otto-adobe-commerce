@@ -62,7 +62,7 @@ class RemoveDeletedProduct
 
             $this->listingLogService->addProduct(
                 $listingProduct,
-                \M2E\Otto\Helper\Data::INITIATOR_EXTENSION,
+                \M2E\Core\Helper\Data::INITIATOR_EXTENSION,
                 \M2E\Otto\Model\Listing\Log::ACTION_DELETE_PRODUCT_FROM_MAGENTO,
                 null,
                 $message,

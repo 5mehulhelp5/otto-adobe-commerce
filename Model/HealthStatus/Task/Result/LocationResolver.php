@@ -47,7 +47,7 @@ class LocationResolver extends \M2E\Otto\Model\AbstractModel
 
     private function usingMap(Task\AbstractModel $task): ?array
     {
-        $key = \M2E\Otto\Helper\Client::getClassName($task);
+        $key = \M2E\Core\Helper\Client::getClassName($task);
 
         return $this->getMap()[$key] ?? null;
     }

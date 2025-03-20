@@ -7,11 +7,11 @@ use M2E\Otto\Block\Adminhtml\Magento\Form\AbstractContainer;
 class View extends AbstractContainer
 {
     private \M2E\Otto\Helper\Data\GlobalData $globalDataHelper;
-    private \M2E\Otto\Helper\Url $urlHelper;
+    private \M2E\Core\Helper\Url $urlHelper;
 
     public function __construct(
         \M2E\Otto\Block\Adminhtml\Magento\Context\Widget $context,
-        \M2E\Otto\Helper\Url $urlHelper,
+        \M2E\Core\Helper\Url $urlHelper,
         \M2E\Otto\Helper\Data\GlobalData $globalDataHelper,
         array $data = []
     ) {
@@ -71,7 +71,7 @@ class View extends AbstractContainer
         } elseif ($order->getMagentoOrder() === null || $order->getMagentoOrder()->isCanceled()) {
             // ---------------------------------------
             $url = $this->getUrl('*/*/createMagentoOrder', ['id' => $order->getId(), 'force' => 'yes']);
-            $confirm = \M2E\Otto\Helper\Data::escapeJs(
+            $confirm = \M2E\Core\Helper\Data::escapeJs(
                 (string)__('Are you sure that you want to create new Magento Order?')
             );
 

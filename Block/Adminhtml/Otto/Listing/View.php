@@ -10,7 +10,7 @@ use M2E\Otto\Block\Adminhtml\Otto\Listing\View\Switcher;
 class View extends \M2E\Otto\Block\Adminhtml\Magento\Grid\AbstractContainer
 {
     private \M2E\Otto\Helper\Data $dataHelper;
-    private \M2E\Otto\Helper\Url $urlHelper;
+    private \M2E\Core\Helper\Url $urlHelper;
     private string $viewMode;
     private \M2E\Otto\Model\Listing\Ui\RuntimeStorage $uiListingRuntimeStorage;
 
@@ -18,7 +18,7 @@ class View extends \M2E\Otto\Block\Adminhtml\Magento\Grid\AbstractContainer
         \M2E\Otto\Model\Listing\Ui\RuntimeStorage $uiListingRuntimeStorage,
         \M2E\Otto\Block\Adminhtml\Magento\Context\Widget $context,
         \M2E\Otto\Helper\Data $dataHelper,
-        \M2E\Otto\Helper\Url $urlHelper,
+        \M2E\Core\Helper\Url $urlHelper,
         array $data = []
     ) {
         $this->uiListingRuntimeStorage = $uiListingRuntimeStorage;

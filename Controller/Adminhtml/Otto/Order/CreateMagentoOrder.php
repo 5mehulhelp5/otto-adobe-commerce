@@ -42,7 +42,7 @@ class CreateMagentoOrder extends AbstractOrder
             // Create magento order
             // ---------------------------------------
             try {
-                $this->magentoCreate->process($order, $isForce, \M2E\Otto\Helper\Data::INITIATOR_USER, false, false);
+                $this->magentoCreate->process($order, $isForce, \M2E\Core\Helper\Data::INITIATOR_USER, false, false);
             } catch (\Throwable $e) {
                 $errors++;
             }

@@ -41,7 +41,7 @@ class Processor extends \M2E\Otto\Model\Otto\Listing\Product\Action\AbstractSync
     }
 
     /**
-     * @throws \M2E\Otto\Model\Exception\Connection
+     * @throws \M2E\Core\Model\Exception\Connection
      * @throws \M2E\Otto\Model\Exception
      */
     protected function makeCall(): \M2E\Core\Model\Connector\Response

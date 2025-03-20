@@ -6,11 +6,11 @@ namespace M2E\Otto\Block\Adminhtml\Otto\Settings\Tabs\AttributeMapping;
 
 class GpsrAttributesFieldsetFill
 {
-    private \M2E\Otto\Helper\Magento\Attribute $attributeHelper;
+    private \M2E\Core\Helper\Magento\Attribute $attributeHelper;
     private \M2E\Otto\Model\AttributeMapping\GpsrService $gpsrService;
 
     public function __construct(
-        \M2E\Otto\Helper\Magento\Attribute $attributeHelper,
+        \M2E\Core\Helper\Magento\Attribute $attributeHelper,
         \M2E\Otto\Model\AttributeMapping\GpsrService $gpsrService
     ) {
         $this->attributeHelper = $attributeHelper;

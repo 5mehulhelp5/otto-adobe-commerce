@@ -7,7 +7,7 @@ use M2E\Otto\Block\Adminhtml\Magento\Form\AbstractForm;
 class Form extends AbstractForm
 {
     private \M2E\Otto\Helper\Data $dataHelper;
-    private \M2E\Otto\Helper\Magento $magentoHelper;
+    private \M2E\Core\Helper\Magento $magentoHelper;
     private \M2E\Otto\Model\Order $order;
 
     public function __construct(
@@ -15,7 +15,7 @@ class Form extends AbstractForm
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \M2E\Otto\Helper\Data $dataHelper,
-        \M2E\Otto\Helper\Magento $magentoHelper,
+        \M2E\Core\Helper\Magento $magentoHelper,
         \M2E\Otto\Model\Order $order,
         array $data = []
     ) {
@@ -92,7 +92,7 @@ class Form extends AbstractForm
                 'name' => 'recipient_name',
                 'label' => __('Recipient Name'),
                 'value' => isset($address['recipient_name'])
-                    ? \M2E\Otto\Helper\Data::escapeHtml($address['recipient_name']) : '',
+                    ? \M2E\Core\Helper\Data::escapeHtml($address['recipient_name']) : '',
                 'required' => true,
             ]
         );
@@ -104,7 +104,7 @@ class Form extends AbstractForm
                 'name' => 'street[0]',
                 'label' => __('Street Address'),
                 'value' => isset($address['street'])
-                    ? \M2E\Otto\Helper\Data::escapeHtml($address['street']) : '',
+                    ? \M2E\Core\Helper\Data::escapeHtml($address['street']) : '',
                 'required' => true,
             ]
         );

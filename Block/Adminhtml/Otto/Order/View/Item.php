@@ -197,12 +197,12 @@ class Item extends AbstractGrid
 
         $titleLine = sprintf(
             '<p><strong>%s</strong></p>',
-            \M2E\Otto\Helper\Data::escapeHtml($row->getTitle())
+            \M2E\Core\Helper\Data::escapeHtml($row->getTitle())
         );
         $skuLine = sprintf(
             '<p><strong>%s:</strong> %s</p>',
             __('SKU'),
-            \M2E\Otto\Helper\Data::escapeHtml($row->getSku())
+            \M2E\Core\Helper\Data::escapeHtml($row->getSku())
         );
         $actionLine = sprintf(
             '<div style="float: left;">%s</div><div style="float: right;">%s%s</div>',

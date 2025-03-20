@@ -20,7 +20,7 @@ class Processor
      * @return \M2E\Otto\Model\Otto\Connector\Account\Update\Response
      *
      * @throws \M2E\Otto\Model\Exception
-     * @throws \M2E\Otto\Model\Exception\Connection
+     * @throws \M2E\Core\Model\Exception\Connection
      * @throws \M2E\Otto\Model\Account\Exception\InstallNotFound
      */
     public function process(

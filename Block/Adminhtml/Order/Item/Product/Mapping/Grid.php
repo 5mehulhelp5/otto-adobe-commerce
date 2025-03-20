@@ -135,7 +135,7 @@ class Grid extends \M2E\Otto\Block\Adminhtml\Magento\Grid\AbstractGrid
 
     public function callbackColumnTitle($value, $row, $column, $isExport)
     {
-        $value = '<div style="margin-left: 3px">' . \M2E\Otto\Helper\Data::escapeHtml($value);
+        $value = '<div style="margin-left: 3px">' . \M2E\Core\Helper\Data::escapeHtml($value);
 
         $sku = $row->getData('sku');
         if ($sku === null) {
@@ -145,14 +145,14 @@ class Grid extends \M2E\Otto\Block\Adminhtml\Magento\Grid\AbstractGrid
         }
 
         $value .= '<br/><strong>' . __('SKU') . ':</strong> ';
-        $value .= \M2E\Otto\Helper\Data::escapeHtml($sku) . '</div>';
+        $value .= \M2E\Core\Helper\Data::escapeHtml($sku) . '</div>';
 
         return $value;
     }
 
     public function callbackColumnType($value, $row, $column, $isExport)
     {
-        return '<div style="margin-left: 3px">' . \M2E\Otto\Helper\Data::escapeHtml($value) . '</div>';
+        return '<div style="margin-left: 3px">' . \M2E\Core\Helper\Data::escapeHtml($value) . '</div>';
     }
 
     public function callbackColumnIsInStock($value, $row, $column, $isExport)

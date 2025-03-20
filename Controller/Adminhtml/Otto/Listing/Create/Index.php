@@ -181,7 +181,7 @@ class Index extends \M2E\Otto\Controller\Adminhtml\Otto\AbstractListing
 
         $this->listingLogService->addListing(
             $model,
-            \M2E\Otto\Helper\Data::INITIATOR_USER,
+            \M2E\Core\Helper\Data::INITIATOR_USER,
             \M2E\Otto\Model\Listing\Log::ACTION_ADD_LISTING,
             null,
             (string)__('Listing was Added'),

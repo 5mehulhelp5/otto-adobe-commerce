@@ -7,11 +7,9 @@ class ToOrderItem extends \M2E\Otto\Plugin\AbstractPlugin
     protected \Magento\Framework\Event\ManagerInterface $eventManager;
 
     public function __construct(
-        \Magento\Framework\Event\ManagerInterface $eventManager,
-        \M2E\Otto\Helper\Factory $helperFactory
+        \Magento\Framework\Event\ManagerInterface $eventManager
     ) {
         $this->eventManager = $eventManager;
-        parent::__construct($helperFactory);
     }
 
     public function aroundConvert($interceptor, \Closure $callback, ...$arguments)

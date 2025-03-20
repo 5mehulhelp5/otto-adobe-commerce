@@ -17,7 +17,7 @@ class Builder extends \M2E\Otto\Model\Otto\Template\AbstractBuilder
 
         $defaultData = $this->getDefaultData();
 
-        $data = \M2E\Otto\Helper\Data::arrayReplaceRecursive($defaultData, $data);
+        $data = \M2E\Core\Helper\Data::arrayReplaceRecursive($defaultData, $data);
 
         if (isset($this->rawData['title_mode'])) {
             $data['title_mode'] = (int)$this->rawData['title_mode'];
@@ -97,7 +97,7 @@ class Builder extends \M2E\Otto\Model\Otto\Template\AbstractBuilder
             'variation_images_limit' => 1,
             'variation_images_attribute' => '',
             'default_image_url' => '',
-            'variation_configurable_images' => \M2E\Otto\Helper\Json::encode([]),
+            'variation_configurable_images' => \M2E\Core\Helper\Json::encode([]),
             'bullet_points' => '[]',
         ];
     }

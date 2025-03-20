@@ -113,7 +113,7 @@ class Builder extends \M2E\Otto\Model\Otto\Template\AbstractBuilder
 
         $fixedPriceModifierData = $this->getFixedPriceModifierData();
         if ($fixedPriceModifierData !== null) {
-            $data['fixed_price_modifier'] = \M2E\Otto\Helper\Json::encode($fixedPriceModifierData);
+            $data['fixed_price_modifier'] = \M2E\Core\Helper\Json::encode($fixedPriceModifierData);
         }
 
         if (isset($this->rawData['fixed_price_custom_attribute'])) {

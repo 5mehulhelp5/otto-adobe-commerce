@@ -15,13 +15,10 @@ class PlaceReservationsForSalesEvent extends \M2E\Otto\Plugin\AbstractPlugin
 
     public function __construct(
         \M2E\Otto\Model\Listing\LogService $listingLogService,
-        \M2E\Otto\Helper\Factory $helperFactory,
         \M2E\Otto\Model\MSI\AffectedProducts $msiAffectedProducts,
         \Magento\Framework\ObjectManagerInterface $objectManager,
         \M2E\Otto\Model\Magento\Product\ChangeAttributeTrackerFactory $attributeTrackerFactory
     ) {
-        parent::__construct($helperFactory);
-
         $this->msiAffectedProducts = $msiAffectedProducts;
         $this->getStockByChannel = $objectManager->get(GetStockBySalesChannelInterface::class);
         $this->changeAttributeTrackerFactory = $attributeTrackerFactory;
@@ -131,7 +128,7 @@ class PlaceReservationsForSalesEvent extends \M2E\Otto\Plugin\AbstractPlugin
 
         $this->listingLogService->addProduct(
             $listingProduct,
-            \M2E\Otto\Helper\Data::INITIATOR_EXTENSION,
+            \M2E\Core\Helper\Data::INITIATOR_EXTENSION,
             \M2E\Otto\Model\Listing\Log::ACTION_CHANGE_PRODUCT_QTY,
             null,
             \M2E\Otto\Helper\Module\Log::encodeDescription($resultMessage),

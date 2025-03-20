@@ -14,11 +14,12 @@ class RetrieveValueFactory
     }
 
     public function create(
+        string $attributeTitle,
         \M2E\Otto\Model\Magento\Product $magentoProduct
     ): RetrieveValue {
         return $this->objectManager->create(
             RetrieveValue::class,
-            ['magentoProduct' => $magentoProduct]
+            ['attributeTitle' => $attributeTitle, 'magentoProduct' => $magentoProduct]
         );
     }
 }

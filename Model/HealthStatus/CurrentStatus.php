@@ -38,7 +38,7 @@ class CurrentStatus
 
         $this->registry->setValue(
             '/health_status/details/',
-            \M2E\Otto\Helper\Json::encode($details)
+            \M2E\Core\Helper\Json::encode($details)
         );
     }
 }

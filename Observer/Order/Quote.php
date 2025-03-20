@@ -18,11 +18,8 @@ class Quote extends \M2E\Otto\Observer\AbstractObserver
         \M2E\Otto\Model\Listing\LogService $listingLogService,
         \M2E\Otto\Model\Magento\Product\ChangeAttributeTrackerFactory $changeAttributeTrackerFactory,
         \Magento\CatalogInventory\Api\Data\StockItemInterfaceFactory $stockItemFactory,
-        \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
-        \M2E\Otto\Helper\Factory $helperFactory
+        \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry
     ) {
-        parent::__construct($helperFactory);
-
         $this->changeAttributeTrackerFactory = $changeAttributeTrackerFactory;
         $this->stockItemFactory = $stockItemFactory;
         $this->stockRegistry = $stockRegistry;
@@ -191,7 +188,7 @@ class Quote extends \M2E\Otto\Observer\AbstractObserver
     ): void {
         $this->listingLogService->addProduct(
             $listingProduct,
-            \M2E\Otto\Helper\Data::INITIATOR_EXTENSION,
+            \M2E\Core\Helper\Data::INITIATOR_EXTENSION,
             $action,
             null,
             \M2E\Otto\Helper\Module\Log::encodeDescription(

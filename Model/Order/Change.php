@@ -104,7 +104,7 @@ class Change extends \M2E\Otto\Model\ActiveRecord\AbstractModel
             )
             ->setData(
                 ChangeResource::COLUMN_PROCESSING_ATTEMPT_DATE,
-                \M2E\Otto\Helper\Date::createCurrentGmt()->format('Y-m-d H:i:s'),
+                \M2E\Core\Helper\Date::createCurrentGmt()->format('Y-m-d H:i:s'),
             );
 
         return $this;

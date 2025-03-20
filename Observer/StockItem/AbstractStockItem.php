@@ -12,12 +12,10 @@ abstract class AbstractStockItem extends \M2E\Otto\Observer\AbstractObserver
 
     public function __construct(
         \Magento\Framework\Registry $registry,
-        \Magento\CatalogInventory\Api\Data\StockItemInterfaceFactory $stockItemFactory,
-        \M2E\Otto\Helper\Factory $helperFactory
+        \Magento\CatalogInventory\Api\Data\StockItemInterfaceFactory $stockItemFactory
     ) {
         $this->registry = $registry;
         $this->stockItemFactory = $stockItemFactory;
-        parent::__construct($helperFactory);
     }
 
     public function beforeProcess(): void

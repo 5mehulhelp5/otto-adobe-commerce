@@ -15,7 +15,7 @@ class AfterGetToken extends Installation
         \Magento\Framework\Code\NameBuilder $nameBuilder,
         \M2E\Core\Model\LicenseService $licenseService,
         \M2E\Otto\Helper\Module\Wizard $wizardHelper,
-        \M2E\Otto\Helper\Magento $magentoHelper
+        \M2E\Core\Helper\Magento $magentoHelper
     ) {
         parent::__construct(
             $magentoHelper,

@@ -25,8 +25,8 @@ class Module
     protected \M2E\Otto\Helper\View\Otto $viewHelper;
     private \M2E\Otto\Helper\Data\Cache\Runtime $runtimeCache;
     private \M2E\Otto\Helper\Data\Cache\Permanent $permanentCache;
-    private \M2E\Otto\Helper\Magento $magentoHelper;
-    private \M2E\Otto\Helper\Client $clientHelper;
+    private \M2E\Core\Helper\Magento $magentoHelper;
+    private \M2E\Core\Helper\Client $clientHelper;
     private \M2E\Otto\Model\Module $module;
     private \M2E\Otto\Model\Module\Environment $moduleEnv;
 
@@ -40,8 +40,8 @@ class Module
         \M2E\Otto\Helper\View\Otto $viewHelper,
         \M2E\Otto\Helper\Data\Cache\Runtime $runtimeCache,
         \M2E\Otto\Helper\Data\Cache\Permanent $permanentCache,
-        \M2E\Otto\Helper\Magento $magentoHelper,
-        \M2E\Otto\Helper\Client $clientHelper,
+        \M2E\Core\Helper\Magento $magentoHelper,
+        \M2E\Core\Helper\Client $clientHelper,
         \M2E\Otto\Model\Module $module,
         \M2E\Otto\Model\Module\Environment $moduleEnv
     ) {

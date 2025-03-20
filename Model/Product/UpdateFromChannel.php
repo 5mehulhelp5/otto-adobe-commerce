@@ -80,7 +80,7 @@ class UpdateFromChannel
             $this->logService->addRecordToProduct(
                 $record,
                 $product,
-                \M2E\Otto\Helper\Data::INITIATOR_EXTENSION,
+                \M2E\Core\Helper\Data::INITIATOR_EXTENSION,
                 \M2E\Otto\Model\Listing\Log::ACTION_CHANNEL_CHANGE,
                 $this->getLogActionId(),
             );

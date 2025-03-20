@@ -62,7 +62,7 @@ class Order extends \M2E\Otto\Model\ActiveRecord\AbstractModel
     private ResourceModel\Order\Item\CollectionFactory $orderItemCollectionFactory;
     private \M2E\Otto\Helper\Module\Logger $loggerHelper;
     private \M2E\Otto\Helper\Data\GlobalData $globalDataHelper;
-    private \M2E\Otto\Helper\Magento\Store $magentoStoreHelper;
+    private \M2E\Core\Helper\Magento\Store $magentoStoreHelper;
     private \M2E\Otto\Model\Account\Repository $accountRepository;
     private Order\Repository $orderRepository;
     /** @var \M2E\Otto\Model\Order\Item[] */
@@ -86,7 +86,7 @@ class Order extends \M2E\Otto\Model\ActiveRecord\AbstractModel
         \M2E\Otto\Model\ResourceModel\Order\Item\CollectionFactory $orderItemCollectionFactory,
         \M2E\Otto\Model\ResourceModel\Order\Note\CollectionFactory $orderNoteCollectionFactory,
         \M2E\Otto\Model\ResourceModel\Order\Change\CollectionFactory $orderChangeCollectionFactory,
-        \M2E\Otto\Helper\Magento\Store $magentoStoreHelper,
+        \M2E\Core\Helper\Magento\Store $magentoStoreHelper,
         \M2E\Otto\Helper\Data\GlobalData $globalDataHelper,
         \M2E\Otto\Helper\Module\Logger $loggerHelper,
         \M2E\Otto\Helper\Module\Exception $exceptionHelper,
@@ -462,7 +462,7 @@ class Order extends \M2E\Otto\Model\ActiveRecord\AbstractModel
             $magentoOrderId = $this->getMagentoOrderId();
 
             if (empty($magentoOrderId)) {
-                $now = \M2E\Otto\Helper\Date::createCurrentGmt()->format('Y-m-d H:i:s');
+                $now = \M2E\Core\Helper\Date::createCurrentGmt()->format('Y-m-d H:i:s');
                 $this->addData([
                     'magento_order_id' => $this->magentoOrder->getId(),
                     'magento_order_creation_failure' => self::MAGENTO_ORDER_CREATION_FAILED_NO,
@@ -502,7 +502,7 @@ class Order extends \M2E\Otto\Model\ActiveRecord\AbstractModel
 
             $this->_eventManager->dispatch('m2e_otto_order_place_failure', ['order' => $this]);
 
-            $now = \M2E\Otto\Helper\Date::createCurrentGmt()->format('Y-m-d H:i:s');
+            $now = \M2E\Core\Helper\Date::createCurrentGmt()->format('Y-m-d H:i:s');
             $this->addData([
                 'magento_order_creation_failure' => self::MAGENTO_ORDER_CREATION_FAILED_YES,
                 'magento_order_creation_fails_count' => $this->getMagentoOrderCreationFailsCount() + 1,
@@ -598,7 +598,7 @@ class Order extends \M2E\Otto\Model\ActiveRecord\AbstractModel
         }
 
         if ($storeId === 0) {
-            $storeId = (int)$this->magentoStoreHelper->getDefaultStoreId();
+            $storeId = $this->magentoStoreHelper->getDefaultStoreId();
         }
 
         return $storeId;
@@ -1177,18 +1177,33 @@ class Order extends \M2E\Otto\Model\ActiveRecord\AbstractModel
 
         $existedTrackingNumbers = [];
         foreach ($this->getItems() as $item) {
-            $itemDetails = $item->getTrackingDetails();
-            if (empty($itemDetails['tracking_number'])) {
+            $itemTrackingDetails = $item->getTrackingDetails();
+            if (empty($itemTrackingDetails)) {
                 continue;
             }
 
-            if (isset($existedTrackingNumbers[$itemDetails['tracking_number']])) {
+            $trackNumber = $itemTrackingDetails['tracking_number'] ?? null;
+            if (empty($trackNumber)) {
                 continue;
             }
 
-            $trackingDetails[] = $itemDetails;
+            if (isset($trackingDetails[$trackNumber])) {
+                $trackingDetails[$trackNumber]['order_items'][] = $item;
+                continue;
+            }
 
-            $existedTrackingNumbers[$itemDetails['tracking_number']] = true;
+            if (isset($existedTrackingNumbers[$trackNumber])) {
+                continue;
+            }
+
+            $trackingDetails[$trackNumber] = [
+                'tracking_number' => $itemTrackingDetails['tracking_number'],
+                'shipping_carrier' => $itemTrackingDetails['shipping_carrier'],
+                'shipping_carrier_service_code' => $itemTrackingDetails['shipping_carrier_service_code'],
+                'order_items' => [$item],
+            ];
+
+            $existedTrackingNumbers[$trackNumber] = true;
         }
 
         return $trackingDetails;

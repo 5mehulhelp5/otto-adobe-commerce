@@ -61,11 +61,21 @@
                          provider="${ $.parentName }"
                          template="ui/grid/filters/field">
                 <settings>
-                    <label>Product Title</label>
+                    <label translate="true">Product Title</label>
                     <dataScope>title</dataScope>
                     <dataType>textRange</dataType>
                 </settings>
             </filterInput>
+
+            <filterSelect name="linked"
+                          provider="${ $.parentName }"
+                          component="Magento_Ui/js/form/element/select">
+                <settings>
+                    <label translate="true">Linked</label>
+                    <dataScope>linked</dataScope>
+                    <options class="M2E\Otto\Ui\Select\YesNoAnyOption"/>
+                </settings>
+            </filterSelect>
 
         </filters>
 

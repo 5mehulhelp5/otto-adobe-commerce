@@ -65,7 +65,7 @@ abstract class AbstractGrid extends \M2E\Otto\Block\Adminhtml\Log\Listing\Abstra
         }
         // ---------------------------------------
 
-        if ($accountId = $this->getRequest()->getParam('Account')) {
+        if ($accountId = $this->getRequest()->getParam('account')) {
             $collection->addFieldToFilter('main_table.account_id', $accountId);
         } else {
             $collection->getSelect()->joinLeft(
@@ -164,7 +164,7 @@ abstract class AbstractGrid extends \M2E\Otto\Block\Adminhtml\Log\Listing\Abstra
             $value = $this->filterManager->truncate($value, ['length' => 50]);
         }
 
-        $value = \M2E\Otto\Helper\Data::escapeHtml($value);
+        $value = \M2E\Core\Helper\Data::escapeHtml($value);
         $productId = (int)$row->getData('product_id');
 
         $urlData = [
@@ -200,7 +200,7 @@ abstract class AbstractGrid extends \M2E\Otto\Block\Adminhtml\Log\Listing\Abstra
 
         $url = $this->getUrl('catalog/product/edit', ['id' => $row->getData('product_id')]);
         $value = '<a target="_blank" href="' . $url . '" target="_blank">' .
-            \M2E\Otto\Helper\Data::escapeHtml($value) .
+            \M2E\Core\Helper\Data::escapeHtml($value) .
             '</a><br/>ID: ' . $row->getData('product_id');
 
         return $value;

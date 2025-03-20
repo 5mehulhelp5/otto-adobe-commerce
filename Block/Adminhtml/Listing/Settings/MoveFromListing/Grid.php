@@ -122,7 +122,7 @@ class Grid extends \M2E\Otto\Block\Adminhtml\Magento\Grid\AbstractGrid
 
     public function callbackColumnTitle($value, $row, $column, $isExport)
     {
-        $title = \M2E\Otto\Helper\Data::escapeHtml($value);
+        $title = \M2E\Core\Helper\Data::escapeHtml($value);
         $url = $this->urlBuilder->getUrl("*/otto_listing/view", ['id' => $row->getData('id')]);
 
         return sprintf('<a href="%s" target="_blank">%s</a>', $url, $title);

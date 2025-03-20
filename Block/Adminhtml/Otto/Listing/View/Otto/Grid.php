@@ -14,7 +14,7 @@ class Grid extends \M2E\Otto\Block\Adminhtml\Listing\View\AbstractGrid
     private \M2E\Otto\Helper\Data\Session $sessionDataHelper;
     private \M2E\Otto\Model\Currency $currency;
     private ListingProductResource $listingProductResource;
-    private \M2E\Otto\Helper\Url $urlHelper;
+    private \M2E\Core\Helper\Url $urlHelper;
     private \M2E\Otto\Model\Magento\ProductFactory $ourMagentoProductFactory;
 
     public function __construct(
@@ -25,7 +25,7 @@ class Grid extends \M2E\Otto\Block\Adminhtml\Listing\View\AbstractGrid
         \M2E\Otto\Block\Adminhtml\Magento\Context\Template $context,
         \Magento\Backend\Helper\Data $backendHelper,
         \M2E\Otto\Helper\Data $dataHelper,
-        \M2E\Otto\Helper\Url $urlHelper,
+        \M2E\Core\Helper\Url $urlHelper,
         \M2E\Otto\Helper\Data\GlobalData $globalDataHelper,
         \M2E\Otto\Model\Currency $currency,
         array $data = []
@@ -95,6 +95,7 @@ class Grid extends \M2E\Otto\Block\Adminhtml\Listing\View\AbstractGrid
                 'otto_product_url' => ListingProductResource::COLUMN_OTTO_PRODUCT_URL,
                 'product_moin' => ListingProductResource::COLUMN_PRODUCT_MOIN,
                 'is_incomplete' => ListingProductResource::COLUMN_IS_INCOMPLETE,
+                'marketplace_errors' => ListingProductResource::COLUMN_MARKETPLACE_ERRORS
             ],
             '{{table}}.listing_id=' . $this->listing->getId()
         );
@@ -285,7 +286,7 @@ class Grid extends \M2E\Otto\Block\Adminhtml\Listing\View\AbstractGrid
             $title = $onlineTitle;
         }
 
-        $title = \M2E\Otto\Helper\Data::escapeHtml($title);
+        $title = \M2E\Core\Helper\Data::escapeHtml($title);
 
         $valueHtml = '<span class="product-title-value">' . $title . '</span>';
 
@@ -298,19 +299,19 @@ class Grid extends \M2E\Otto\Block\Adminhtml\Listing\View\AbstractGrid
         }
 
         if ($isExport) {
-            return \M2E\Otto\Helper\Data::escapeHtml($sku);
+            return \M2E\Core\Helper\Data::escapeHtml($sku);
         }
 
         $valueHtml .= '<br/>' .
             '<strong>' . __('SKU') . ':</strong>&nbsp;' .
-            \M2E\Otto\Helper\Data::escapeHtml($sku);
+            \M2E\Core\Helper\Data::escapeHtml($sku);
 
         if ($categoryId = $row->getData('online_category')) {
             $categoryPath = $row->getData('category_path');
             $categoryInfo = sprintf('%s %s', $categoryPath, $categoryId);
             $valueHtml .= '<br/><br/>' .
                 '<strong>' . __('Category') . ':</strong>&nbsp;' .
-                \M2E\Otto\Helper\Data::escapeHtml($categoryInfo);
+                \M2E\Core\Helper\Data::escapeHtml($categoryInfo);
         }
 
         return $valueHtml;
@@ -416,7 +417,7 @@ JS
         $productsIdsForList = empty($temp) ? '' : $temp;
 
         $gridId = 'OttoListingViewGrid' . $this->listing['id'];
-        $ignoreListings = \M2E\Otto\Helper\Json::encode([$this->listing['id']]);
+        $ignoreListings = \M2E\Core\Helper\Json::encode([$this->listing['id']]);
 
         $this->jsUrl->addUrls([
             'runListProducts' => $this->getUrl('*/otto_listing/runListProducts'),

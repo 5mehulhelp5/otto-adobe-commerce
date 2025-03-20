@@ -39,7 +39,7 @@ class Log extends \M2E\Otto\Model\Log\AbstractModel
         int $type,
         ?string $detailedDescription = null
     ): self {
-        \M2E\Otto\Helper\Data::validateInitiator($initiator);
+        \M2E\Core\Helper\Data::validateInitiator($initiator);
 
         $this
             ->setData(SyncLogResource::COLUMN_INITIATOR, $initiator)

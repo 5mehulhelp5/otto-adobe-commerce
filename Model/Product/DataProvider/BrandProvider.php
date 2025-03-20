@@ -60,8 +60,11 @@ class BrandProvider implements DataBuilderInterface
         }
 
         if ($attribute->isValueModeCustomAttribute()) {
-            $attributeRetriever = $this->magentoAttributeRetriever->create($product->getMagentoProduct());
-            $attributeVal = $attributeRetriever->tryRetrieve($attribute->getCustomAttributeValue(), 'Brand');
+            $attributeRetriever = $this->magentoAttributeRetriever->create(
+                (string)__('Brand'),
+                $product->getMagentoProduct()
+            );
+            $attributeVal = $attributeRetriever->tryRetrieve($attribute->getCustomAttributeValue());
 
             if ($attributeVal === null) {
                 $this->addNotFoundAttributesToWarning($attributeRetriever);

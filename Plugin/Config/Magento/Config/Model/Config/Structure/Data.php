@@ -15,11 +15,8 @@ class Data extends \M2E\Otto\Plugin\AbstractPlugin
 
     public function __construct(
         \M2E\Otto\Helper\Module $moduleHelper,
-        \M2E\Otto\Helper\Module\Maintenance $moduleMaintenanceHelper,
-        \M2E\Otto\Helper\Factory $helperFactory
+        \M2E\Otto\Helper\Module\Maintenance $moduleMaintenanceHelper
     ) {
-        parent::__construct($helperFactory);
-
         $this->moduleHelper = $moduleHelper;
         $this->moduleMaintenanceHelper = $moduleMaintenanceHelper;
     }

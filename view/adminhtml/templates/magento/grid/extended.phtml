@@ -484,7 +484,7 @@ if ($block->canDisplayContainer()): ?>
                 <?php endif; ?>
 
                 <?php /* @escapeNotVerified */ echo $block->getJsObjectName(
-            ) ?> = new varienGrid(<?php /* @noEscape */ echo \M2E\Otto\Helper\Json::encode(
+            ) ?> = new varienGrid(<?php /* @noEscape */ echo \M2E\Core\Helper\Json::encode(
                     $block->getId()
                 ) ?>, '<?php /* @escapeNotVerified */ echo $block->getGridUrl(
                 ) ?>', '<?php /* @escapeNotVerified */ echo $block->getVarNamePage(

@@ -15,13 +15,13 @@ class Grid extends AbstractGrid
     private \M2E\Otto\Model\ResourceModel\Order\Item\CollectionFactory $orderItemCollectionFactory;
     private \M2E\Otto\Model\ResourceModel\Order\Note\CollectionFactory $orderNoteCollectionFactory;
     private \M2E\Otto\Block\Adminhtml\Otto\Order\StatusHelper $orderStatusHelper;
-    private \M2E\Otto\Helper\Url $urlHelper;
+    private \M2E\Core\Helper\Url $urlHelper;
     private \M2E\Otto\Model\Currency $currency;
     private \M2E\Otto\Model\Order\LogicItemCollectionFactory $orderLogicItemCollectionFactory;
 
     public function __construct(
         \M2E\Otto\Model\Order\LogicItemCollectionFactory $orderLogicItemCollectionFactory,
-        \M2E\Otto\Helper\Url $urlHelper,
+        \M2E\Core\Helper\Url $urlHelper,
         \M2E\Otto\Block\Adminhtml\Otto\Order\StatusHelper $orderStatusHelper,
         \M2E\Otto\Model\ResourceModel\Order\CollectionFactory $orderCollectionFactory,
         \Magento\Sales\Model\ResourceModel\Order $magentoOrderResource,
@@ -282,7 +282,7 @@ class Grid extends AbstractGrid
 
         if ($magentoOrderId !== null) {
             if (!empty($value)) {
-                $magentoOrderNumber = \M2E\Otto\Helper\Data::escapeHtml($value);
+                $magentoOrderNumber = \M2E\Core\Helper\Data::escapeHtml($value);
                 $orderUrl = $this->getUrl('sales/order/view', ['order_id' => $magentoOrderId]);
                 $returnString = '<a href="' . $orderUrl . '" target="_blank">' . $magentoOrderNumber . '</a>';
             } else {
@@ -411,7 +411,7 @@ HTML;
 
         $html = '';
         foreach ($logicItemCollection->getAll() as $logicItem) {
-            $sku = \M2E\Otto\Helper\Data::escapeHtml($logicItem->getSku());
+            $sku = \M2E\Core\Helper\Data::escapeHtml($logicItem->getSku());
             if ($logicItem->isMappedForMagentoProduct()) {
                 $sku = sprintf(
                     '<a href="%s" target="_blank">%s</a>',
@@ -451,7 +451,7 @@ HTML;
             $html .= sprintf(
                 '<div class="%s">%s<small>%s%s</small></div>',
                 $wrapperClass,
-                \M2E\Otto\Helper\Data::escapeHtml($logicItem->getTitle()),
+                \M2E\Core\Helper\Data::escapeHtml($logicItem->getTitle()),
                 $skuHtml,
                 $qtyPurchasedHtml
             );
@@ -462,7 +462,7 @@ HTML;
 
     public function callbackColumnBuyer($value, \M2E\Otto\Model\Order $row, $column, $isExport)
     {
-        $returnString = \M2E\Otto\Helper\Data::escapeHtml($row->getBuyerName()) . '<br/>';
+        $returnString = \M2E\Core\Helper\Data::escapeHtml($row->getBuyerName()) . '<br/>';
 
         return $returnString;
     }
@@ -564,7 +564,7 @@ JS
 
         $tempGridIds = [];
         $tempGridIds[] = $this->getId();
-        $tempGridIds = \M2E\Otto\Helper\Json::encode($tempGridIds);
+        $tempGridIds = \M2E\Core\Helper\Json::encode($tempGridIds);
 
         $this->jsPhp->addConstants(
             \M2E\Otto\Helper\Data::getClassConstants(\M2E\Otto\Model\Log\AbstractModel::class)

@@ -19,7 +19,7 @@ abstract class AbstractSyncProcessor
     {
         $this->init();
 
-        $this->actionLogger->setStatus(\M2E\Otto\Helper\Data::STATUS_SUCCESS);
+        $this->actionLogger->setStatus(\M2E\Core\Helper\Data::STATUS_SUCCESS);
 
         if ($this->lockManager->isLocked($this->listingProduct)) {
             $this->actionLogger->logListingProductMessage(
@@ -29,7 +29,7 @@ abstract class AbstractSyncProcessor
                 ),
             );
 
-            return \M2E\Otto\Helper\Data::STATUS_ERROR;
+            return \M2E\Core\Helper\Data::STATUS_ERROR;
         }
 
         $this->lockManager->lock($this->listingProduct, $this->getActionNick());
@@ -39,7 +39,7 @@ abstract class AbstractSyncProcessor
                 $this->flushActionLogs();
                 $this->lockManager->unlock($this->listingProduct);
 
-                return \M2E\Otto\Helper\Data::STATUS_ERROR;
+                return \M2E\Core\Helper\Data::STATUS_ERROR;
             }
 
             $apiResponse = $this->makeCall();

@@ -4,7 +4,7 @@ namespace M2E\Otto\Model\Cron;
 
 abstract class AbstractTask extends \M2E\Otto\Model\AbstractModel
 {
-    protected int $initiator = \M2E\Otto\Helper\Data::INITIATOR_UNKNOWN;
+    protected int $initiator = \M2E\Core\Helper\Data::INITIATOR_UNKNOWN;
     protected int $intervalInSeconds = 60;
 
     private \M2E\Otto\Model\Synchronization\LogService $syncLogger;
@@ -17,7 +17,6 @@ abstract class AbstractTask extends \M2E\Otto\Model\AbstractModel
     protected \M2E\Otto\Model\Cron\OperationHistory $parentOperationHistory;
     protected \M2E\Otto\Model\Cron\TaskRepository $taskRepo;
     protected \M2E\Otto\Helper\Data $helperData;
-    protected \M2E\Otto\Helper\Factory $helperFactory;
 
     public function __construct(
         \M2E\Otto\Model\Cron\Manager $cronManager,
@@ -25,7 +24,6 @@ abstract class AbstractTask extends \M2E\Otto\Model\AbstractModel
         \M2E\Otto\Helper\Data $helperData,
         \Magento\Framework\Event\Manager $eventManager,
         \M2E\Otto\Model\ActiveRecord\Factory $activeRecordFactory,
-        \M2E\Otto\Helper\Factory $helperFactory,
         \M2E\Otto\Model\Cron\TaskRepository $taskRepo,
         \Magento\Framework\App\ResourceConnection $resource
     ) {
@@ -38,7 +36,6 @@ abstract class AbstractTask extends \M2E\Otto\Model\AbstractModel
         $this->helperData = $helperData;
         $this->taskRepo = $taskRepo;
         $this->syncLogger = $syncLogger;
-        $this->helperFactory = $helperFactory;
     }
 
     public function process(): void
@@ -148,7 +145,7 @@ abstract class AbstractTask extends \M2E\Otto\Model\AbstractModel
      */
     public function isPossibleToRun()
     {
-        if ($this->getInitiator() === \M2E\Otto\Helper\Data::INITIATOR_DEVELOPER) {
+        if ($this->getInitiator() === \M2E\Core\Helper\Data::INITIATOR_DEVELOPER) {
             return true;
         }
 
@@ -156,18 +153,23 @@ abstract class AbstractTask extends \M2E\Otto\Model\AbstractModel
             return false;
         }
 
-        $currentTimeStamp = \M2E\Otto\Helper\Date::createCurrentGmt()->getTimestamp();
+        $currentTimeStamp = \M2E\Core\Helper\Date::createCurrentGmt()->getTimestamp();
 
         $startFrom = $this->getConfigValue('start_from');
         $startFrom = !empty($startFrom) ?
-            (int)\M2E\Otto\Helper\Date::createDateGmt($startFrom)->format('U') : $currentTimeStamp;
+            (int)\M2E\Core\Helper\Date::createDateGmt($startFrom)->format('U') : $currentTimeStamp;
 
         return $startFrom <= $currentTimeStamp && $this->isIntervalExceeded();
     }
 
     private function initialize(): void
     {
-        $this->getHelper('Module_Exception')->setFatalErrorHandler();
+        /** @var \M2E\Otto\Helper\Module\Exception $exceptionHelper */
+        $exceptionHelper = \Magento\Framework\App\ObjectManager::getInstance()->get(
+            \M2E\Otto\Helper\Module\Exception::class
+        );
+
+        $exceptionHelper->setFatalErrorHandler();
         $this->getSynchronizationLog()->registerFatalErrorHandler();
     }
 
@@ -220,7 +222,7 @@ abstract class AbstractTask extends \M2E\Otto\Model\AbstractModel
             return true;
         }
 
-        $currentTimeStamp = \M2E\Otto\Helper\Date::createCurrentGmt()->getTimestamp();
+        $currentTimeStamp = \M2E\Core\Helper\Date::createCurrentGmt()->getTimestamp();
         $lastRunTimestamp = (int)$lastRun->format('U');
 
         return $currentTimeStamp > $lastRunTimestamp + $this->getIntervalInSeconds();
@@ -247,7 +249,12 @@ abstract class AbstractTask extends \M2E\Otto\Model\AbstractModel
 
         $this->getSynchronizationLog()->addFromException($exception);
 
-        $this->getHelper('Module_Exception')->process($exception);
+        /** @var \M2E\Otto\Helper\Module\Exception $exceptionHelper */
+        $exceptionHelper = \Magento\Framework\App\ObjectManager::getInstance()->get(
+            \M2E\Otto\Helper\Module\Exception::class
+        );
+
+        $exceptionHelper->process($exception);
     }
 
     protected function processTaskAccountException($message, $file, $line, $trace = null)
@@ -270,7 +277,11 @@ abstract class AbstractTask extends \M2E\Otto\Model\AbstractModel
 
     protected function getConfig()
     {
-        return $this->getHelper('Module')->getConfig();
+        /** @var \M2E\Otto\Helper\Module $moduleHelper */
+        $moduleHelper = \Magento\Framework\App\ObjectManager::getInstance()->get(
+            \M2E\Otto\Helper\Module::class
+        );
+        return $moduleHelper->getConfig();
     }
 
     protected function getConfigGroup(): string
@@ -288,10 +299,5 @@ abstract class AbstractTask extends \M2E\Otto\Model\AbstractModel
     protected function getConfigValue($key)
     {
         return $this->getConfig()->getGroupValue($this->getConfigGroup(), $key);
-    }
-
-    protected function getHelper(string $name)
-    {
-        return $this->helperFactory->getObject($name);
     }
 }

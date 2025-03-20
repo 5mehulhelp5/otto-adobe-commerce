@@ -272,6 +272,12 @@ class ProductHandler implements \M2E\Core\Model\Setup\InstallHandlerInterface
                 ['default' => null]
             )
             ->addColumn(
+                ListingProductResource::COLUMN_MARKETPLACE_ERRORS,
+                Table::TYPE_TEXT,
+                \M2E\Core\Model\ResourceModel\Setup::LONG_COLUMN_SIZE,
+                ['default' => null]
+            )
+            ->addColumn(
                 ListingProductResource::COLUMN_ADDITIONAL_DATA,
                 Table::TYPE_TEXT,
                 \M2E\Core\Model\ResourceModel\Setup::LONG_COLUMN_SIZE,

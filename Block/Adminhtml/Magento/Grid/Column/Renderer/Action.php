@@ -12,10 +12,7 @@ class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Action
 {
     use Traits\RendererTrait;
 
-    protected \M2E\Otto\Helper\Factory $helperFactory;
-
     public function __construct(
-        \M2E\Otto\Helper\Factory $helperFactory,
         Renderer\CssRenderer $css,
         Renderer\JsPhpRenderer $jsPhp,
         Renderer\JsRenderer $js,
@@ -30,7 +27,6 @@ class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Action
         $this->js = $js;
         $this->jsTranslator = $jsTranslatorRenderer;
         $this->jsUrl = $jsUrlRenderer;
-        $this->helperFactory = $helperFactory;
         parent::__construct($context, $jsonEncoder, $data);
     }
 
@@ -89,7 +85,7 @@ JS
         $style = '';
         foreach ($actions as $columnName => $value) {
             if (array_key_exists('only_remap_product', $value) && $value['only_remap_product']) {
-                $additionalData = (array)\M2E\Otto\Helper\Json::decode($row->getData('additional_data'));
+                $additionalData = (array)\M2E\Core\Helper\Json::decode($row->getData('additional_data'));
                 $style = isset($value['style']) ? $value['style'] : '';
                 if (!isset($additionalData[ListingProduct::MOVING_LISTING_OTHER_SOURCE_KEY])) {
                     unset($actions[$columnName]);
@@ -250,10 +246,5 @@ HTML;
         }
 
         return parent::_transformActionData($action, $actionCaption, $row);
-    }
-
-    protected function getHelper($helper)
-    {
-        return $this->helperFactory->getObject($helper);
     }
 }

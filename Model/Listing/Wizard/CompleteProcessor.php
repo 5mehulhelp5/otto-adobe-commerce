@@ -45,7 +45,7 @@ class CompleteProcessor
                         $listing,
                         $magentoProduct,
                         $wizardProduct->getCategoryId(),
-                        \M2E\Otto\Helper\Data::INITIATOR_USER,
+                        \M2E\Core\Helper\Data::INITIATOR_USER,
                     );
             } elseif ($wizardManager->isWizardTypeUnmanaged()) {
                 $unmanagedProduct = $this->listingOtherRepository->findById($wizardProduct->getUnmanagedProductId());
@@ -62,7 +62,7 @@ class CompleteProcessor
                         $listing,
                         $unmanagedProduct,
                         $wizardProduct->getCategoryId(),
-                        \M2E\Otto\Helper\Data::INITIATOR_USER,
+                        \M2E\Core\Helper\Data::INITIATOR_USER,
                     );
 
                 $this->unmanagedProductDeleteService->process($unmanagedProduct);

@@ -7,11 +7,8 @@ abstract class AbstractShipment extends \M2E\Otto\Observer\AbstractObserver
     private \Magento\Sales\Model\ResourceModel\Order\Shipment\CollectionFactory $shipmentCollectionFactory;
 
     public function __construct(
-        \M2E\Otto\Helper\Factory $helperFactory,
         \Magento\Sales\Model\ResourceModel\Order\Shipment\CollectionFactory $shipmentCollectionFactory
     ) {
-        parent::__construct($helperFactory);
-
         $this->shipmentCollectionFactory = $shipmentCollectionFactory;
     }
 

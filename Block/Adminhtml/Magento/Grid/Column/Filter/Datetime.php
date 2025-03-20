@@ -31,7 +31,7 @@ class Datetime extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Datetime
                 ? $this->_localeDate->getConfigTimezone()
                 : 'UTC';
 
-            $timeStamp = \M2E\Otto\Helper\Date::parseDateFromLocalFormat(
+            $timeStamp = \M2E\Core\Helper\Date::parseDateFromLocalFormat(
                 $date,
                 $format,
                 $format,

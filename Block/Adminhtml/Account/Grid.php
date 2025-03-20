@@ -53,7 +53,7 @@ class Grid extends AbstractGrid
                     <p>Please confirm if you would like to delete the account.</p>
                     <p>Note: once the account is no longer connected to your M2E Otto, please remember to delete it from
                     <a href="%1">M2E Accounts</a></p>',
-                \M2E\Otto\Helper\Module\Support::ACCOUNTS_URL
+                \M2E\Core\Helper\Module\Support::ACCOUNTS_URL
             )
         );
     }

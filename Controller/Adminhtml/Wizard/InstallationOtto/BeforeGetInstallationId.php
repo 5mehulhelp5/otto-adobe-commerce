@@ -16,7 +16,7 @@ class BeforeGetInstallationId extends Installation
         \M2E\Otto\Helper\Module\Exception $helperException,
         \M2E\Core\Model\LicenseService $licenseService,
         \M2E\Otto\Helper\View\Configuration $configurationHelper,
-        \M2E\Otto\Helper\Magento $magentoHelper,
+        \M2E\Core\Helper\Magento $magentoHelper,
         \M2E\Otto\Helper\Module\Wizard $wizardHelper,
         \Magento\Framework\Code\NameBuilder $nameBuilder
     ) {

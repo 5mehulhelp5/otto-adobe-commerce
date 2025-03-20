@@ -46,7 +46,7 @@ class ObjectChange
 
     /** @var \M2E\Otto\PublicServices\Product\SqlChange */
     protected $sqlChange;
-    private \M2E\Otto\Helper\Magento $magentoHelper;
+    private \M2E\Core\Helper\Magento $magentoHelper;
 
     public function __construct(
         \Magento\Catalog\Model\ProductFactory $productFactory,
@@ -56,7 +56,7 @@ class ObjectChange
         \M2E\Otto\Observer\StockItem\Save\BeforeFactory $observerStockItemSaveBeforeFactory,
         \M2E\Otto\Observer\StockItem\Save\AfterFactory $observerStockItemSaveAfterFactory,
         SqlChange $sqlChange,
-        \M2E\Otto\Helper\Magento $magentoHelper
+        \M2E\Core\Helper\Magento $magentoHelper
     ) {
         $this->productFactory = $productFactory;
         $this->stockRegistry = $stockRegistry;

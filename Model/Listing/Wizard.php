@@ -60,7 +60,7 @@ class Wizard extends \M2E\Otto\Model\ActiveRecord\AbstractModel
             ->setData(\M2E\Otto\Model\ResourceModel\Listing\Wizard::COLUMN_CURRENT_STEP_NICK, $firstStepNick)
             ->setData(
                 \M2E\Otto\Model\ResourceModel\Listing\Wizard::COLUMN_PROCESS_START_DATE,
-                \M2E\Otto\Helper\Date::createCurrentGmt(),
+                \M2E\Core\Helper\Date::createCurrentGmt(),
             );
 
         return $this;
@@ -128,7 +128,7 @@ class Wizard extends \M2E\Otto\Model\ActiveRecord\AbstractModel
              ->setData(\M2E\Otto\Model\ResourceModel\Listing\Wizard::COLUMN_IS_COMPLETED, 1)
              ->setData(
                  \M2E\Otto\Model\ResourceModel\Listing\Wizard::COLUMN_PROCESS_END_DATE,
-                 \M2E\Otto\Helper\Date::createCurrentGmt()->format('Y-m-d H:i:s'),
+                 \M2E\Core\Helper\Date::createCurrentGmt()->format('Y-m-d H:i:s'),
              );
 
         return $this;

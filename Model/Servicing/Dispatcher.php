@@ -41,7 +41,7 @@ class Dispatcher
         }
 
         $lastUpdate = $this->getLastUpdateDate();
-        $currentDate = \M2E\Otto\Helper\Date::createCurrentGmt();
+        $currentDate = \M2E\Core\Helper\Date::createCurrentGmt();
 
         if (
             $lastUpdate !== null
@@ -67,7 +67,7 @@ class Dispatcher
     /**
      * @throws \Magento\Framework\Exception\LocalizedException
      * @throws \M2E\Otto\Model\Exception
-     * @throws \M2E\Otto\Model\Exception\Connection
+     * @throws \M2E\Core\Model\Exception\Connection
      */
     public function processTask(string $taskCode): void
     {
@@ -77,7 +77,7 @@ class Dispatcher
     /**
      * @throws \Magento\Framework\Exception\LocalizedException
      * @throws \M2E\Otto\Model\Exception
-     * @throws \M2E\Otto\Model\Exception\Connection
+     * @throws \M2E\Core\Model\Exception\Connection
      */
     private function processTasks(array $taskCodes): void
     {
@@ -170,7 +170,7 @@ class Dispatcher
         $lastUpdateDate = $this->registryManager->getValue('/servicing/last_update_time/');
 
         if ($lastUpdateDate !== null) {
-            $lastUpdateDate = \M2E\Otto\Helper\Date::createDateGmt($lastUpdateDate);
+            $lastUpdateDate = \M2E\Core\Helper\Date::createDateGmt($lastUpdateDate);
         }
 
         return $lastUpdateDate;
@@ -184,7 +184,7 @@ class Dispatcher
     {
         $this->registryManager->setValue(
             '/servicing/last_update_time/',
-            \M2E\Otto\Helper\Date::createCurrentGmt()->format('Y-m-d H:i:s'),
+            \M2E\Core\Helper\Date::createCurrentGmt()->format('Y-m-d H:i:s'),
         );
     }
 }

@@ -32,7 +32,7 @@ class Importer extends \M2E\Otto\Model\AbstractModel
     }
 
     /**
-     * @throws \M2E\Otto\Model\Exception\Connection
+     * @throws \M2E\Core\Model\Exception\Connection
      * @throws \M2E\Otto\Model\Exception
      */
     public function getDataFromChannel(): array
@@ -53,21 +53,21 @@ class Importer extends \M2E\Otto\Model\AbstractModel
         $preparedData = [];
 
         $preparedData['title'] = trim(strip_tags($rawData['title']));
-        $preparedData['short_description'] = trim(\M2E\Otto\Helper\Data::stripInvisibleTags($rawData['title']));
+        $preparedData['short_description'] = trim(\M2E\Core\Helper\Data::StripInvisibleTags($rawData['title']));
 
         $description = $rawData['description'] ?? $preparedData['title'];
-        $preparedData['description'] = \M2E\Otto\Helper\Data::stripInvisibleTags($description);
+        $preparedData['description'] = \M2E\Core\Helper\Data::StripInvisibleTags($description);
 
         if (!empty($rawData['sku'])) {
             $sku = $rawData['sku'];
         } else {
-            $sku = \M2E\Otto\Helper\Data::convertStringToSku($rawData['title']);
+            $sku = \M2E\Core\Helper\Data::convertStringToSku($rawData['title']);
         }
 
         if (strlen($sku) > \M2E\Otto\Helper\Magento\Product::SKU_MAX_LENGTH) {
             $hashLength = 10;
             $savedSkuLength = \M2E\Otto\Helper\Magento\Product::SKU_MAX_LENGTH - $hashLength - 1;
-            $hash = \M2E\Otto\Helper\Data::generateUniqueHash($sku, $hashLength);
+            $hash = \M2E\Core\Helper\Data::generateUniqueHash($sku, $hashLength);
 
             $isSaveStart = (bool)$this->configManager->getGroupValue(
                 '/order/magento/settings/',
@@ -150,7 +150,7 @@ class Importer extends \M2E\Otto\Model\AbstractModel
             $extension = $matches[0] ?? '.jpg';
             $imagePath = $destinationFolder
                 . DIRECTORY_SEPARATOR
-                . \M2E\Otto\Helper\Data::convertStringToSku($itemData['title']);
+                . \M2E\Core\Helper\Data::convertStringToSku($itemData['title']);
             $imagePath .= '-' . $imageCounter . $extension;
 
             try {
@@ -172,7 +172,7 @@ class Importer extends \M2E\Otto\Model\AbstractModel
      */
     protected function createDestinationFolder($itemTitle): string
     {
-        $baseTmpImageName = \M2E\Otto\Helper\Data::convertStringToSku($itemTitle);
+        $baseTmpImageName = \M2E\Core\Helper\Data::convertStringToSku($itemTitle);
 
         $destinationFolder = $this->filesystem->getDirectoryRead(
             \Magento\Framework\App\Filesystem\DirectoryList::MEDIA

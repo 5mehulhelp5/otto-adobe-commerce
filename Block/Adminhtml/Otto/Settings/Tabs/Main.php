@@ -8,11 +8,11 @@ use M2E\Otto\Helper\Component\Otto\Configuration as ConfigurationHelper;
 
 class Main extends \M2E\Otto\Block\Adminhtml\Magento\Form\AbstractForm
 {
-    protected \M2E\Otto\Helper\Magento\Attribute $magentoAttributeHelper;
+    protected \M2E\Core\Helper\Magento\Attribute $magentoAttributeHelper;
     private \M2E\Otto\Helper\Component\Otto\Configuration $configuration;
 
     public function __construct(
-        \M2E\Otto\Helper\Magento\Attribute $magentoAttributeHelper,
+        \M2E\Core\Helper\Magento\Attribute $magentoAttributeHelper,
         \M2E\Otto\Block\Adminhtml\Magento\Context\Template $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,

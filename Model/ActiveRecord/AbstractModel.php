@@ -84,7 +84,7 @@ abstract class AbstractModel extends \Magento\Framework\Model\AbstractModel
             return [];
         }
 
-        $settings = \M2E\Otto\Helper\Json::decode($settings);
+        $settings = \M2E\Core\Helper\Json::decode($settings);
 
         return !empty($settings) ? $settings : [];
     }
@@ -135,7 +135,7 @@ abstract class AbstractModel extends \Magento\Framework\Model\AbstractModel
      */
     public function setSettings($fieldName, array $settings = [])
     {
-        $this->setData((string)$fieldName, \M2E\Otto\Helper\Json::encode($settings));
+        $this->setData((string)$fieldName, \M2E\Core\Helper\Json::encode($settings));
 
         return $this;
     }

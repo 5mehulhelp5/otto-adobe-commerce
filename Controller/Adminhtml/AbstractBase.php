@@ -145,7 +145,7 @@ abstract class AbstractBase extends Action
         try {
             $result = parent::dispatch($request);
         } catch (\Throwable $exception) {
-            if ($request->getControllerName() === \M2E\Otto\Helper\Module\Support::SUPPORT_CONTROLLER_NAME) {
+            if ($request->getControllerName() === 'support') {
                 $this->getRawResult()->setContents($exception->getMessage());
 
                 return $this->getRawResult();
@@ -207,7 +207,7 @@ abstract class AbstractBase extends Action
 
         if ($this->isAjax($request) && !$this->_auth->isLoggedIn()) {
             $this->getRawResult()->setContents(
-                \M2E\Otto\Helper\Json::encode([
+                \M2E\Core\Helper\Json::encode([
                     'ajaxExpired' => 1,
                     'ajaxRedirect' => $this->redirect->getRefererUrl(),
                 ])
@@ -370,7 +370,7 @@ abstract class AbstractBase extends Action
             $this->generalBlockWasAppended = true;
         }
 
-        $this->setAjaxContent(\M2E\Otto\Helper\Json::encode($data), false);
+        $this->setAjaxContent(\M2E\Core\Helper\Json::encode($data), false);
     }
 
     // ---------------------------------------

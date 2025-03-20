@@ -19,17 +19,20 @@ class Config extends \M2E\Otto\Plugin\AbstractPlugin
 
     public function __construct(
         \M2E\Otto\Model\Registry\Manager $registry,
-        \Magento\Backend\Model\Menu\Item\Factory $itemFactory,
-        \M2E\Otto\Helper\Factory $helperFactory
+        \Magento\Backend\Model\Menu\Item\Factory $itemFactory
     ) {
         $this->itemFactory = $itemFactory;
-        parent::__construct($helperFactory);
         $this->registry = $registry;
     }
 
     protected function canExecute(): bool
     {
-        return $this->helperFactory->getObject('Module')->areImportantTablesExist();
+        /** @var \M2E\Otto\Helper\Module $helper */
+        $helper = \Magento\Framework\App\ObjectManager::getInstance()->get(
+            \M2E\Otto\Helper\Module::class
+        );
+
+        return $helper->areImportantTablesExist();
     }
 
     public function aroundGetMenu(\Magento\Backend\Model\Menu\Config $interceptor, \Closure $callback, ...$arguments)
@@ -51,17 +54,32 @@ class Config extends \M2E\Otto\Plugin\AbstractPlugin
 
         $this->isProcessed = true;
 
-        $maintenanceMenuState = $this->helperFactory->getObject('Data_Cache_Permanent')->getValue(
+        /** @var \M2E\Otto\Helper\Data\Cache\Permanent $cachePermanentHelper */
+        $cachePermanentHelper = \Magento\Framework\App\ObjectManager::getInstance()->get(
+            \M2E\Otto\Helper\Data\Cache\Permanent::class
+        );
+
+        $maintenanceMenuState = $cachePermanentHelper->getValue(
             self::MAINTENANCE_MENU_STATE_CACHE_KEY
         );
 
-        if ($this->helperFactory->getObject('Module\Maintenance')->isEnabled()) {
+        /** @var \M2E\Core\Helper\Magento $helper */
+        $magentoHelper = \Magento\Framework\App\ObjectManager::getInstance()->get(
+            \M2E\Core\Helper\Magento::class
+        );
+
+        /** @var \M2E\Otto\Helper\Module\Maintenance $maintenanceHelper */
+        $maintenanceHelper = \Magento\Framework\App\ObjectManager::getInstance()->get(
+            \M2E\Otto\Helper\Module\Maintenance::class
+        );
+
+        if ($maintenanceHelper->isEnabled()) {
             if ($maintenanceMenuState === null) {
-                $this->helperFactory->getObject('Data_Cache_Permanent')->setValue(
+                $cachePermanentHelper->setValue(
                     self::MAINTENANCE_MENU_STATE_CACHE_KEY,
                     true
                 );
-                $this->helperFactory->getObject('Magento')->clearMenuCache();
+                $magentoHelper->clearMenuCache();
             }
             $this->processMaintenance($menuModel);
 
@@ -69,10 +87,10 @@ class Config extends \M2E\Otto\Plugin\AbstractPlugin
         }
 
         if ($maintenanceMenuState !== null) {
-            $this->helperFactory->getObject('Data_Cache_Permanent')->removeValue(
+            $cachePermanentHelper->removeValue(
                 self::MAINTENANCE_MENU_STATE_CACHE_KEY
             );
-            $this->helperFactory->getObject('Magento')->clearMenuCache();
+            $magentoHelper->clearMenuCache();
         }
 
         $currentMenuState = $this->buildMenuStateData();
@@ -83,10 +101,15 @@ class Config extends \M2E\Otto\Plugin\AbstractPlugin
                 self::MENU_STATE_REGISTRY_KEY,
                 json_encode($currentMenuState, JSON_THROW_ON_ERROR)
             );
-            $this->helperFactory->getObject('Magento')->clearMenuCache();
+            $magentoHelper->clearMenuCache();
         }
 
-        if ($this->helperFactory->getObject('Module')->isDisabled()) {
+        /** @var \M2E\Otto\Helper\Module $moduleHelper */
+        $moduleHelper = \Magento\Framework\App\ObjectManager::getInstance()->get(
+            \M2E\Otto\Helper\Module::class
+        );
+
+        if ($moduleHelper->isDisabled()) {
             $this->processModuleDisable($menuModel);
 
             return $menuModel;
@@ -136,7 +159,9 @@ class Config extends \M2E\Otto\Plugin\AbstractPlugin
         }
 
         /** @var \M2E\Otto\Helper\Module\Wizard $wizard */
-        $wizard = $this->helperFactory->getObject('Module\Wizard');
+        $wizard = \Magento\Framework\App\ObjectManager::getInstance()->get(
+            \M2E\Otto\Helper\Module\Wizard::class
+        );
         $activeBlocker = $wizard->getActiveBlockerWizard($viewNick);
 
         if ($activeBlocker === null) {
@@ -151,12 +176,22 @@ class Config extends \M2E\Otto\Plugin\AbstractPlugin
 
     private function buildMenuStateData(): array
     {
+        /** @var \M2E\Otto\Helper\Module $moduleHelper */
+        $moduleHelper = \Magento\Framework\App\ObjectManager::getInstance()->get(
+            \M2E\Otto\Helper\Module::class
+        );
+
+        /** @var \M2E\Otto\Helper\Module\Wizard $wizardHelper */
+        $wizardHelper = \Magento\Framework\App\ObjectManager::getInstance()->get(
+            \M2E\Otto\Helper\Module\Wizard::class
+        );
+
         return [
             Module::IDENTIFIER => [
-                $this->helperFactory->getObject('Module')->isDisabled(),
+                $moduleHelper->isDisabled(),
             ],
             Otto::MENU_ROOT_NODE_NICK => [
-                $this->helperFactory->getObject('Module\Wizard')->getActiveBlockerWizard(Otto::NICK) === null,
+                $wizardHelper->getActiveBlockerWizard(Otto::NICK) === null,
             ],
         ];
     }

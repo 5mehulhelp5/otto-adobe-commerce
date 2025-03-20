@@ -24,13 +24,13 @@ class ProxyObject
 
     private UserInfoFactory $userInfoFactory;
     private \Magento\Tax\Model\Calculation $taxCalculation;
-    private \M2E\Otto\Model\Magento\CustomerFactory $magentoCustomerFactory;
+    private \M2E\Core\Model\Magento\CustomerFactory $magentoCustomerFactory;
     private \M2E\Otto\Model\Config\Manager $config;
 
     public function __construct(
         \M2E\Otto\Model\Order $order,
         \M2E\Otto\Model\Config\Manager $config,
-        \M2E\Otto\Model\Magento\CustomerFactory $magentoCustomerFactory,
+        \M2E\Core\Model\Magento\CustomerFactory $magentoCustomerFactory,
         \Magento\Tax\Model\Calculation $taxCalculation,
         \M2E\Otto\Model\Currency $currency,
         \M2E\Otto\Model\Magento\Payment $payment,
@@ -402,8 +402,8 @@ class ProxyObject
             ->isImportShipByDate();
 
         if (!empty($shippingDateTo) && $isImportShipByDate) {
-            $shippingDate = \M2E\Otto\Helper\Date::createDateGmt($shippingDateTo);
-            \M2E\Otto\Helper\Date::convertToLocalFormat($shippingDate);
+            $shippingDate = \M2E\Core\Helper\Date::createDateGmt($shippingDateTo);
+            \M2E\Core\Helper\Date::convertToLocalFormat($shippingDate);
             $additionalData .= sprintf('Ship By Date: %s | ', $shippingDate->format('M d, Y, H:i:s'));
         }
 

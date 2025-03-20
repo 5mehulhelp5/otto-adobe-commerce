@@ -31,8 +31,6 @@ trait DataBuilderHelpTrait
             return;
         }
 
-        foreach ($attributeRetriever->getErrorMessages() as $message) {
-            $this->addWarningMessage($message);
-        }
+        $this->addWarningMessage($attributeRetriever->getErrorMessage());
     }
 }

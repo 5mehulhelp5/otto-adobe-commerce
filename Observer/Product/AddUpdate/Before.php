@@ -16,14 +16,12 @@ class Before extends AbstractAddUpdate
         \M2E\Otto\Model\Magento\Product\ChangeAttributeTrackerFactory $changeAttributeTrackerFactory,
         \M2E\Otto\Observer\Product\AddUpdate\Before\ProxyFactory $proxyFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \M2E\Otto\Model\Magento\ProductFactory $ourMagentoProductFactory,
-        \M2E\Otto\Helper\Factory $helperFactory
+        \M2E\Otto\Model\Magento\ProductFactory $ourMagentoProductFactory
     ) {
         parent::__construct(
             $listingProductRepository,
             $productFactory,
-            $ourMagentoProductFactory,
-            $helperFactory
+            $ourMagentoProductFactory
         );
 
         $this->proxyFactory = $proxyFactory;
@@ -67,8 +65,6 @@ class Before extends AbstractAddUpdate
         $this->getProxy()->setData('special_price', (float)$this->getProduct()->getSpecialPrice());
         $this->getProxy()->setData('special_price_from_date', $this->getProduct()->getSpecialFromDate());
         $this->getProxy()->setData('special_price_to_date', $this->getProduct()->getSpecialToDate());
-        $this->getProxy()->setData('tier_price', $this->getProduct()->getTierPrice());
-        $this->getProxy()->setData('default_qty', $this->getDefaultQty());
 
         $this->getProxy()->setAttributes($this->getTrackingAttributesWithValues());
     }
@@ -106,25 +102,11 @@ class Before extends AbstractAddUpdate
     {
         $key = $this->getProductId() . '_' . $this->getStoreId();
         if ($this->isAddingProductProcess()) {
-            $key = \M2E\Otto\Helper\Data::generateUniqueHash();
+            $key = \M2E\Core\Helper\Data::generateUniqueHash();
             $this->getEvent()->getProduct()->setData(self::BEFORE_EVENT_KEY, $key);
         }
 
         self::$proxyStorage[$key] = $this->getProxy();
-    }
-
-    protected function getDefaultQty()
-    {
-        if (!$this->getHelper('Magento_Product')->isGroupedType($this->getProduct()->getTypeId())) {
-            return [];
-        }
-
-        $values = [];
-        foreach ($this->getProduct()->getTypeInstance()->getAssociatedProducts($this->getProduct()) as $childProduct) {
-            $values[$childProduct->getSku()] = $childProduct->getQty();
-        }
-
-        return $values;
     }
 
     private function getTrackingAttributes(): array

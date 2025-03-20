@@ -8,10 +8,10 @@ use M2E\Otto\Helper\Module\Wizard;
 
 class Complete extends Installation
 {
-    private \M2E\Otto\Helper\Magento $magentoHelper;
+    private \M2E\Core\Helper\Magento $magentoHelper;
 
     public function __construct(
-        \M2E\Otto\Helper\Magento $magentoHelper,
+        \M2E\Core\Helper\Magento $magentoHelper,
         \M2E\Otto\Helper\Module\Wizard $wizardHelper,
         \Magento\Framework\Code\NameBuilder $nameBuilder,
         \M2E\Core\Model\LicenseService $licenseService

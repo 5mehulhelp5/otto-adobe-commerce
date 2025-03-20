@@ -32,7 +32,7 @@ class Factory
         return $this->_objectManager->create(
             TaskResult::class,
             [
-                'taskHash' => \M2E\Otto\Helper\Client::getClassName($task),
+                'taskHash' => \M2E\Core\Helper\Client::getClassName($task),
                 'taskType' => $task->getType(),
                 'taskMustBeShownIfSuccess' => $task->mustBeShownIfSuccess(),
                 'tabName' => $this->locationResolver->resolveTabName($task),

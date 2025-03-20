@@ -75,7 +75,7 @@ class DataProvider
         /** @var \M2E\Otto\Model\Product\DataProvider\BrandProvider $builder */
         $builder = $this->getBuilder(\M2E\Otto\Model\Product\DataProvider\BrandProvider::NICK);
 
-        $value =  $builder->getBrand($this->product);
+        $value = $builder->getBrand($this->product);
         if ($value === null) {
             $result = DataProvider\Brand\Result::error($builder->getWarningMessages());
         } else {

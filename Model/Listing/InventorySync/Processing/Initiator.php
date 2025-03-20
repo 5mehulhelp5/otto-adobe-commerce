@@ -28,7 +28,7 @@ class Initiator implements \M2E\Otto\Model\Processing\PartialInitiatorInterface
     {
         return [
             'account_id' => $this->account->getId(),
-            'current_date' => \M2E\Otto\Helper\Date::createCurrentGmt()->format('Y-m-d H:i:s'),
+            'current_date' => \M2E\Core\Helper\Date::createCurrentGmt()->format('Y-m-d H:i:s'),
         ];
     }
 

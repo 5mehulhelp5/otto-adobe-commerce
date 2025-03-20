@@ -12,11 +12,11 @@ class Create extends \M2E\Otto\Block\Adminhtml\System\Config\Sections
     private $authSession;
     /** @var \Magento\User\Model\User */
     private $user;
-    /** @var \M2E\Otto\Helper\Magento\Store */
+    /** @var \M2E\Core\Helper\Magento\Store */
     private $magentoStoreHelper;
 
     /**
-     * @param \M2E\Otto\Helper\Magento\Store $magentoStoreHelper
+     * @param \M2E\Core\Helper\Magento\Store $magentoStoreHelper
      * @param \M2E\Otto\Block\Adminhtml\Magento\Context\Template $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
@@ -26,7 +26,7 @@ class Create extends \M2E\Otto\Block\Adminhtml\System\Config\Sections
      * @param array $data
      */
     public function __construct(
-        \M2E\Otto\Helper\Magento\Store $magentoStoreHelper,
+        \M2E\Core\Helper\Magento\Store $magentoStoreHelper,
         \M2E\Otto\Block\Adminhtml\Magento\Context\Template $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,

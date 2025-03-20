@@ -92,6 +92,6 @@ class Instruction extends \M2E\Otto\Model\ActiveRecord\AbstractModel
             return null;
         }
 
-        return \M2E\Otto\Helper\Date::createDateGmt($value);
+        return \M2E\Core\Helper\Date::createDateGmt($value);
     }
 }

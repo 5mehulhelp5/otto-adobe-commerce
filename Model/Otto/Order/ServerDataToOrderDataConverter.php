@@ -95,7 +95,7 @@ class ServerDataToOrderDataConverter
             $deliveryDate = $item['expected_delivery_date'];
 
             if ($deliveryDate !== null) {
-                $deliveryDateTime = \M2E\Otto\Helper\Date::createDateGmt($deliveryDate);
+                $deliveryDateTime = \M2E\Core\Helper\Date::createDateGmt($deliveryDate);
 
                 if ($closestDeliveryDate === null || $deliveryDateTime < $closestDeliveryDate) {
                     $closestDeliveryDate = $deliveryDateTime;

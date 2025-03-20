@@ -13,13 +13,11 @@ class Delete extends AbstractProduct
         \M2E\Otto\Model\Listing\Other\UnmapDeletedProduct $unmanagedUnmapDeletedProduct,
         \M2E\Otto\Model\Listing\RemoveDeletedProduct $listingRemoveDeletedProduct,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \M2E\Otto\Model\Magento\ProductFactory $ourMagentoProductFactory,
-        \M2E\Otto\Helper\Factory $helperFactory
+        \M2E\Otto\Model\Magento\ProductFactory $ourMagentoProductFactory
     ) {
         parent::__construct(
             $productFactory,
-            $ourMagentoProductFactory,
-            $helperFactory
+            $ourMagentoProductFactory
         );
         $this->unmanagedUnmapDeletedProduct = $unmanagedUnmapDeletedProduct;
         $this->listingRemoveDeletedProduct = $listingRemoveDeletedProduct;

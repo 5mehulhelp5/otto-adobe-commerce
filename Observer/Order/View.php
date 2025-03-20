@@ -13,10 +13,8 @@ class View extends \M2E\Otto\Observer\AbstractObserver
         \M2E\Otto\Model\Order\Repository $repository,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Customer\Model\ResourceModel\Customer $customerResource,
-        \Magento\Framework\Registry $registry,
-        \M2E\Otto\Helper\Factory $helperFactory
+        \Magento\Framework\Registry $registry
     ) {
-        parent::__construct($helperFactory);
         $this->repository = $repository;
         $this->customerFactory = $customerFactory;
         $this->registry = $registry;

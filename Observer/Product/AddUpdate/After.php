@@ -23,15 +23,13 @@ class After extends AbstractAddUpdate
         \Magento\Store\Model\StoreManager $storeManager,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \M2E\Otto\Model\Magento\ProductFactory $ourMagentoProductFactory,
-        \M2E\Otto\Helper\Factory $helperFactory,
         \Magento\Framework\ObjectManagerInterface $objectManager,
         \M2E\Otto\Model\Magento\Product\ChangeAttributeTrackerFactory $changeAttributeTrackerFactory
     ) {
         parent::__construct(
             $listingProductRepository,
             $productFactory,
-            $ourMagentoProductFactory,
-            $helperFactory
+            $ourMagentoProductFactory
         );
 
         $this->eavConfig = $eavConfig;
@@ -75,9 +73,7 @@ class After extends AbstractAddUpdate
             $this->performSpecialPriceChanges();
             $this->performSpecialPriceFromDateChanges();
             $this->performSpecialPriceToDateChanges();
-            $this->performTierPriceChanges();
             $this->performTrackingAttributesChanges();
-            $this->performDefaultQtyChanges();
 
             $this->addListingProductInstructions();
         }
@@ -220,30 +216,6 @@ class After extends AbstractAddUpdate
         }
     }
 
-    private function performTierPriceChanges()
-    {
-        $oldValue = $this->getProxy()->getData('tier_price');
-        $newValue = $this->getProduct()->getTierPrice();
-
-        if ($oldValue == $newValue) {
-            return;
-        }
-
-        $oldValue = $this->convertTierPriceForLog($oldValue);
-        $newValue = $this->convertTierPriceForLog($newValue);
-
-        foreach ($this->getAffectedListingsProducts() as $listingProduct) {
-            $this->listingsProductsChangedAttributes[$listingProduct->getId()][] = 'tier_price';
-
-            $this->logListingProductMessage(
-                $listingProduct,
-                \M2E\Otto\Model\Listing\Log::ACTION_CHANGE_PRODUCT_TIER_PRICE,
-                $oldValue,
-                $newValue
-            );
-        }
-    }
-
     // ---------------------------------------
 
     private function performTrackingAttributesChanges()
@@ -269,55 +241,6 @@ class After extends AbstractAddUpdate
                     $oldValue,
                     $newValue,
                     'of attribute "' . $attributeCode . '"'
-                );
-            }
-        }
-    }
-
-    // ---------------------------------------
-
-    private function performDefaultQtyChanges()
-    {
-        if (!$this->getHelper('Magento_Product')->isGroupedType($this->getProduct()->getTypeId())) {
-            return;
-        }
-
-        $values = $this->getProxy()->getData('default_qty');
-        foreach ($this->getProduct()->getTypeInstance()->getAssociatedProducts($this->getProduct()) as $childProduct) {
-            $sku = $childProduct->getSku();
-            $newValue = (int)$childProduct->getQty();
-            $oldValue = isset($values[$sku]) ? (int)$values[$sku] : 0;
-
-            unset($values[$sku]);
-            if ($oldValue == $newValue) {
-                continue;
-            }
-
-            foreach ($this->getAffectedListingsProducts() as $listingProduct) {
-                $this->listingsProductsChangedAttributes[$listingProduct->getId()][] = 'qty';
-
-                $this->logListingProductMessage(
-                    $listingProduct,
-                    \M2E\Otto\Model\Listing\Log::ACTION_CHANGE_PRODUCT_QTY,
-                    $oldValue,
-                    $newValue,
-                    "SKU {$sku}: Default QTY was changed."
-                );
-            }
-        }
-
-        //----------------------------------------
-
-        foreach ($values as $sku => $defaultQty) {
-            foreach ($this->getAffectedListingsProducts() as $listingProduct) {
-                $this->listingsProductsChangedAttributes[$listingProduct->getId()][] = 'qty';
-
-                $this->logListingProductMessage(
-                    $listingProduct,
-                    \M2E\Otto\Model\Listing\Log::ACTION_CHANGE_PRODUCT_QTY,
-                    $defaultQty,
-                    0,
-                    "SKU {$sku} was removed from the Product Set."
                 );
             }
         }
@@ -461,24 +384,6 @@ class After extends AbstractAddUpdate
         return $result;
     }
 
-    private function convertTierPriceForLog($tierPrice)
-    {
-        if (empty($tierPrice) || !is_array($tierPrice)) {
-            return 'None';
-        }
-
-        $result = [];
-        foreach ($tierPrice as $tierPriceData) {
-            $result[] = sprintf(
-                "[price = %s, qty = %s]",
-                $tierPriceData["website_price"],
-                $tierPriceData["price_qty"]
-            );
-        }
-
-        return implode(",", $result);
-    }
-
     private function logListingProductMessage(
         \M2E\Otto\Model\Product $listingProduct,
         int $action,
@@ -496,7 +401,7 @@ class After extends AbstractAddUpdate
 
         $this->listingLogService->addProduct(
             $listingProduct,
-            \M2E\Otto\Helper\Data::INITIATOR_EXTENSION,
+            \M2E\Core\Helper\Data::INITIATOR_EXTENSION,
             $action,
             null,
             \M2E\Otto\Helper\Module\Log::encodeDescription(

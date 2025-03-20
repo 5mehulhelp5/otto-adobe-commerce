@@ -11,18 +11,15 @@ use Magento\Backend\Block\Widget;
  */
 class Rewrite extends \Magento\Backend\Block\Widget\Grid\Column\Extended
 {
-    protected \M2E\Otto\Helper\Factory $helperFactory;
-
-    //########################################
+    private \M2E\Otto\Helper\Module\Exception $moduleException;
 
     public function __construct(
+        \M2E\Otto\Helper\Module\Exception $moduleException,
         \Magento\Backend\Block\Template\Context $context,
-        \M2E\Otto\Helper\Factory $helperFactory,
         array $data = []
     ) {
         parent::__construct($context, $data);
-
-        $this->helperFactory = $helperFactory;
+        $this->moduleException = $moduleException;
     }
 
     //########################################
@@ -47,7 +44,7 @@ class Rewrite extends \Magento\Backend\Block\Widget\Grid\Column\Extended
                 $this->validateFrameCallback($frameCallback);
                 $renderedValue = call_user_func($frameCallback, $renderedValue, $row, $this, false);
             } catch (\Exception $e) {
-                $this->helperFactory->getObject('Module\Exception')->process($e);
+                $this->moduleException->process($e);
                 $msg = sprintf(
                     'An error occurred on calling %s callback. Message: %s',
                     isset($frameCallback[1]) ? $frameCallback[1] : '',

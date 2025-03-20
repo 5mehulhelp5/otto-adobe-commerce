@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace M2E\Otto\Block\Adminhtml\Otto\Account\Edit\Tabs;
 
+use M2E\Otto\Model\Account\Settings\Order as OrderSettings;
 use M2E\Otto\Block\Adminhtml\Magento\Form\AbstractForm;
 use M2E\Otto\Model\Account;
 use Magento\Framework\Message\MessageInterface;
@@ -13,19 +14,19 @@ class Order extends AbstractForm
     private \Magento\Sales\Model\Order\Config $orderConfig;
     private \Magento\Customer\Model\ResourceModel\Group\CollectionFactory $customerGroupCollectionFactory;
     private \Magento\Tax\Model\ResourceModel\TaxClass\CollectionFactory $taxClassCollectionFactory;
-    private \M2E\Otto\Helper\Magento\Store\Website $storeWebsite;
-    private \M2E\Otto\Helper\Magento\Store $storeHelper;
+    private \M2E\Core\Helper\Magento\Store\Website $storeWebsite;
+    private \M2E\Core\Helper\Magento\Store $storeHelper;
     private ?Account $account;
 
     public function __construct(
         \Magento\Sales\Model\Order\Config $orderConfig,
-        \M2E\Otto\Helper\Magento\Store $storeHelper,
+        \M2E\Core\Helper\Magento\Store $storeHelper,
         \Magento\Tax\Model\ResourceModel\TaxClass\CollectionFactory $taxClassCollectionFactory,
         \Magento\Customer\Model\ResourceModel\Group\CollectionFactory $customerGroupCollectionFactory,
         \M2E\Otto\Block\Adminhtml\Magento\Context\Template $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
-        \M2E\Otto\Helper\Magento\Store\Website $storeWebsite,
+        \M2E\Core\Helper\Magento\Store\Website $storeWebsite,
         \M2E\Otto\Model\Account $account = null,
         array $data = []
     ) {
@@ -64,6 +65,7 @@ class Order extends AbstractForm
             ]
         );
 
+        //region Product Is Listed By M2E Otto
         $fieldset = $form->addFieldset(
             'listed_by_m2e',
             [
@@ -123,7 +125,9 @@ class Order extends AbstractForm
                 'tooltip' => __('The Magento Store View that Orders will be placed in.'),
             ]
         );
+        //endregion
 
+        //region Product Is Listed By Any Other Software
         $fieldset = $form->addFieldset(
             'listed_by_other',
             [
@@ -164,9 +168,9 @@ for an item that does <b>not</b> belong to the M2E Otto Listing.'
                 'tooltip' => __('The Magento Store View that Orders will be placed in.'),
             ]
         );
+        //endregion
 
-        // ----------------------------------------
-
+        //region Magento Order Number
         $fieldset = $form->addFieldset(
             'magento_block_otto_accounts_magento_orders_number',
             [
@@ -213,7 +217,9 @@ for an item that does <b>not</b> belong to the M2E Otto Listing.'
                 'note' => __('e.g.') . ' <span id="order_number_example_container"></span>',
             ]
         );
+        //endregion
 
+        //region Shipping information
         $shipByDateFieldset = $form->addFieldset(
             'magento_block_otto_accounts_magento_orders_shipping_information',
             [
@@ -253,7 +259,9 @@ for an item that does <b>not</b> belong to the M2E Otto Listing.'
                 ),
             ]
         );
+        //endregion
 
+        //region Customer Settings
         $fieldset = $form->addFieldset(
             'magento_block_otto_accounts_magento_orders_customer',
             [
@@ -386,7 +394,9 @@ for an item that does <b>not</b> belong to the M2E Otto Listing.'
                 ),
             ]
         );
+        //endregion
 
+        //region Order Creation Rules
         $fieldset = $form->addFieldset(
             'magento_block_otto_accounts_magento_orders_rules',
             [
@@ -437,7 +447,33 @@ for an item that does <b>not</b> belong to the M2E Otto Listing.'
                 ),
             ]
         );
+        //endregion
 
+        //region Refund & Cancellation
+        $fieldset = $form->addFieldset(
+            'magento_block_otto_accounts_magento_orders_cancellation',
+            [
+                'legend' => $this->__('Refund & Cancellation'),
+                'collapsable' => true,
+            ]
+        );
+
+        $fieldset->addField(
+            'magento_orders_create_creditmemo_if_order_cancelled',
+            'select',
+            [
+                'name' => 'magento_orders_settings[create_creditmemo_if_order_cancelled][mode]',
+                'label' => __('Automatically create Credit Memo when Order is cancelled'),
+                'values' => [
+                    OrderSettings::CREATE_CREDIT_MEMO_IF_ORDER_CANCELLED_YES => __('Yes'),
+                    OrderSettings::CREATE_CREDIT_MEMO_IF_ORDER_CANCELLED_NO => __('No'),
+                ],
+                'value' => $orderSettings->getCreateCreditMemoIfOrderCancelledMode(),
+            ]
+        );
+        //endregion
+
+        //region Order Tax Settings
         $fieldset = $form->addFieldset(
             'magento_block_otto_accounts_magento_orders_tax',
             [
@@ -459,7 +495,9 @@ for an item that does <b>not</b> belong to the M2E Otto Listing.'
                 'value' => $orderSettings->getTaxMode(),
             ]
         );
+        //endregion
 
+        //region Status Mapping Settings
         $fieldset = $form->addFieldset(
             'magento_block_otto_accounts_magento_orders_status_mapping',
             [
@@ -513,6 +551,7 @@ for an item that does <b>not</b> belong to the M2E Otto Listing.'
                 'disabled' => $orderSettings->isOrderStatusMappingModeDefault(),
             ]
         );
+        //endregion
 
         $this->setForm($form);
 

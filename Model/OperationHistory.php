@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace M2E\Otto\Model;
 
-use M2E\Otto\Helper\Data as Helper;
+use M2E\Core\Helper\Data as Helper;
 
 class OperationHistory extends \M2E\Otto\Model\ActiveRecord\AbstractModel
 {
@@ -100,9 +100,9 @@ class OperationHistory extends \M2E\Otto\Model\ActiveRecord\AbstractModel
         $data = [
             'nick' => $nick,
             'parent_id' => $parentId,
-            'data' => \M2E\Otto\Helper\Json::encode($data),
+            'data' => \M2E\Core\Helper\Json::encode($data),
             'initiator' => $initiator,
-            'start_date' => \M2E\Otto\Helper\Date::createCurrentGmt()->format('Y-m-d H:i:s'),
+            'start_date' => \M2E\Core\Helper\Date::createCurrentGmt()->format('Y-m-d H:i:s'),
         ];
 
         $this->object = $this->operationHistoryFactory->create()
@@ -123,7 +123,7 @@ class OperationHistory extends \M2E\Otto\Model\ActiveRecord\AbstractModel
 
         $this->object->setData(
             'end_date',
-            \M2E\Otto\Helper\Date::createCurrentGmt()->format('Y-m-d H:i:s')
+            \M2E\Core\Helper\Date::createCurrentGmt()->format('Y-m-d H:i:s')
         )->save();
 
         return true;
@@ -144,13 +144,13 @@ class OperationHistory extends \M2E\Otto\Model\ActiveRecord\AbstractModel
 
         $data = [];
         if ($this->object->getData('data') != '') {
-            $data = \M2E\Otto\Helper\Json::decode($this->object->getData('data'));
+            $data = \M2E\Core\Helper\Json::decode($this->object->getData('data'));
         }
 
         $data[$key] = $value;
         $this->object->setData(
             'data',
-            \M2E\Otto\Helper\Json::encode($data)
+            \M2E\Core\Helper\Json::encode($data)
         )->save();
 
         return true;
@@ -194,7 +194,7 @@ class OperationHistory extends \M2E\Otto\Model\ActiveRecord\AbstractModel
             return null;
         }
 
-        $data = \M2E\Otto\Helper\Json::decode($this->object->getData('data'));
+        $data = \M2E\Core\Helper\Json::decode($this->object->getData('data'));
 
         if (isset($data[$key])) {
             return $data[$key];
@@ -253,7 +253,7 @@ class OperationHistory extends \M2E\Otto\Model\ActiveRecord\AbstractModel
 
         $nick = strtoupper($this->getObject()->getData('nick'));
 
-        $contentData = (array)\M2E\Otto\Helper\Json::decode(
+        $contentData = (array)\M2E\Core\Helper\Json::decode(
             $this->getObject()->getData('data')
         );
         $contentData = preg_replace(
@@ -375,11 +375,11 @@ INFO;
 
     protected function getTotalTime(): string
     {
-        $endDateTimestamp = \M2E\Otto\Helper\Date::createDateGmt(
+        $endDateTimestamp = \M2E\Core\Helper\Date::createDateGmt(
             $this->getObject()->getData('end_date')
         )->getTimestamp();
 
-        $startDateTimestamp = \M2E\Otto\Helper\Date::createDateGmt(
+        $startDateTimestamp = \M2E\Core\Helper\Date::createDateGmt(
             $this->getObject()->getData('start_date')
         )->getTimestamp();
 

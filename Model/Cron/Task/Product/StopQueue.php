@@ -23,7 +23,6 @@ class StopQueue extends \M2E\Otto\Model\Cron\AbstractTask
         \M2E\Otto\Helper\Data $helperData,
         \Magento\Framework\Event\Manager $eventManager,
         \M2E\Otto\Model\ActiveRecord\Factory $activeRecordFactory,
-        \M2E\Otto\Helper\Factory $helperFactory,
         \M2E\Otto\Model\Cron\TaskRepository $taskRepo,
         \Magento\Framework\App\ResourceConnection $resource,
         \M2E\Otto\Model\StopQueue\Repository $repository,
@@ -35,7 +34,6 @@ class StopQueue extends \M2E\Otto\Model\Cron\AbstractTask
             $helperData,
             $eventManager,
             $activeRecordFactory,
-            $helperFactory,
             $taskRepo,
             $resource,
         );
@@ -58,7 +56,7 @@ class StopQueue extends \M2E\Otto\Model\Cron\AbstractTask
 
     private function deleteOldProcessedItems(): void
     {
-        $borderDate = \M2E\Otto\Helper\Date::createCurrentGmt();
+        $borderDate = \M2E\Core\Helper\Date::createCurrentGmt();
         $borderDate->modify('- ' . self::MAX_PROCESSED_LIFETIME_HOURS_INTERVAL . ' hours');
 
         $this->repository->deleteCompletedAfterBorderDate($borderDate);

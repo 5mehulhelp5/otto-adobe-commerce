@@ -26,13 +26,11 @@ class Save extends \M2E\Otto\Plugin\AbstractPlugin
     public function __construct(
         \M2E\Otto\Model\Product\Repository $productRepository,
         \M2E\Otto\Model\Listing\LogService $listingLogService,
-        \M2E\Otto\Helper\Factory $helperFactory,
         \M2E\Otto\Model\MSI\AffectedProducts $msiAffectedProducts,
         \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder,
         \M2E\Otto\PublicServices\Product\SqlChange $publicService,
         \Magento\Framework\ObjectManagerInterface $objectManager
     ) {
-        parent::__construct($helperFactory);
         $this->msiAffectedProducts = $msiAffectedProducts;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->publicService = $publicService;
@@ -109,7 +107,7 @@ class Save extends \M2E\Otto\Plugin\AbstractPlugin
     ): void {
         $this->listingLogService->addListing(
             $listing,
-            \M2E\Otto\Helper\Data::INITIATOR_EXTENSION,
+            \M2E\Core\Helper\Data::INITIATOR_EXTENSION,
             \M2E\Otto\Model\Listing\Log::ACTION_UNKNOWN,
             null,
             \M2E\Otto\Helper\Module\Log::encodeDescription(

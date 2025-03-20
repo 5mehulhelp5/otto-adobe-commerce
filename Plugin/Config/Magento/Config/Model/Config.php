@@ -23,11 +23,8 @@ class Config extends \M2E\Otto\Plugin\AbstractPlugin
         \Magento\Framework\App\RequestInterface $request,
         \M2E\Otto\Helper\Module\Maintenance $moduleMaintenanceHelper,
         \M2E\Otto\Helper\Module\Configuration $moduleConfigurationHelper,
-        \M2E\Otto\Model\Log\Clearing $logClearing,
-        \M2E\Otto\Helper\Factory $helperFactory
+        \M2E\Otto\Model\Log\Clearing $logClearing
     ) {
-        parent::__construct($helperFactory);
-
         $this->request = $request;
         $this->moduleMaintenanceHelper = $moduleMaintenanceHelper;
         $this->moduleConfigurationHelper = $moduleConfigurationHelper;

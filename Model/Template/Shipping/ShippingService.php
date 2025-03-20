@@ -36,7 +36,7 @@ class ShippingService
     {
         try {
             $this->sync();
-        } catch (\M2E\Otto\Model\Exception $e) {
+        } catch (\M2E\Core\Model\Exception $e) {
         }
     }
 

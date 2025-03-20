@@ -12,18 +12,21 @@ class Processor extends \M2E\Otto\Plugin\AbstractPlugin
     protected $indexerRegistry;
 
     public function __construct(
-        \M2E\Otto\Helper\Factory $helperFactory,
         \M2E\Otto\Helper\Data\GlobalData $globalData,
         \Magento\Framework\Indexer\IndexerRegistry $indexerRegistry
     ) {
-        parent::__construct($helperFactory);
         $this->globalData = $globalData;
         $this->indexerRegistry = $indexerRegistry;
     }
 
     protected function canExecute(): bool
     {
-        if (!$this->getHelper('Magento')->isMSISupportingVersion()) {
+        /** @var \M2E\Core\Helper\Magento $helper */
+        $magentoHelper = \Magento\Framework\App\ObjectManager::getInstance()->get(
+            \M2E\Core\Helper\Magento::class
+        );
+
+        if (!$magentoHelper->isMSISupportingVersion()) {
             return false;
         }
 

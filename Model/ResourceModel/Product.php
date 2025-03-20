@@ -47,6 +47,7 @@ class Product extends \M2E\Otto\Model\ResourceModel\ActiveRecord\AbstractModel
     public const COLUMN_TEMPLATE_SHIPPING_ID = 'template_shipping_id';
     public const COLUMN_LAST_BLOCKING_ERROR_DATE = 'last_blocking_error_date';
     public const COLUMN_ADDITIONAL_DATA = 'additional_data';
+    public const COLUMN_MARKETPLACE_ERRORS = 'marketplace_errors';
     public const COLUMN_UPDATE_DATE = 'update_date';
     public const COLUMN_CREATE_DATE = 'create_date';
 

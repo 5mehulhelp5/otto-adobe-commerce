@@ -8,7 +8,7 @@ use M2E\Otto\Model\Otto\Template\Description;
 
 class Data extends AbstractForm
 {
-    protected \M2E\Otto\Helper\Magento\Attribute $magentoAttributeHelper;
+    protected \M2E\Core\Helper\Magento\Attribute $magentoAttributeHelper;
 
     private \M2E\Otto\Helper\Data $dataHelper;
 
@@ -19,7 +19,7 @@ class Data extends AbstractForm
 
     public function __construct(
         \M2E\Otto\Model\Template\Description\BuilderFactory $templateDescriptionBuilderFactory,
-        \M2E\Otto\Helper\Magento\Attribute $magentoAttributeHelper,
+        \M2E\Core\Helper\Magento\Attribute $magentoAttributeHelper,
         \M2E\Otto\Block\Adminhtml\Magento\Context\Template $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
@@ -53,7 +53,7 @@ class Data extends AbstractForm
         $default = $this->getDefault();
         $formData = array_replace_recursive($default, $formData);
         $formData['bullet_points'] =
-            \M2E\Otto\Helper\Json::decode($formData['bullet_points']) ?: [];
+            \M2E\Core\Helper\Json::decode($formData['bullet_points']) ?: [];
 
         $isCustomDescription = ($formData['description_mode'] == DescriptionAlias::DESCRIPTION_MODE_CUSTOM);
 
@@ -580,7 +580,7 @@ JS
     {
         $default = $this->templateDescriptionBuilderFactory->create()->getDefaultData();
 
-        $default['variation_configurable_images'] = \M2E\Otto\Helper\Json::decode(
+        $default['variation_configurable_images'] = \M2E\Core\Helper\Json::decode(
             $default['variation_configurable_images']
         );
 

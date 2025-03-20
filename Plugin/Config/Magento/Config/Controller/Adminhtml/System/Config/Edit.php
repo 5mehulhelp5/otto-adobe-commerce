@@ -8,7 +8,12 @@ class Edit extends \M2E\Otto\Plugin\AbstractPlugin
 {
     protected function canExecute(): bool
     {
-        if ($this->helperFactory->getObject('Module\Maintenance')->isEnabled()) {
+        /** @var \M2E\Otto\Helper\Module\Maintenance $maintenanceHelper */
+        $maintenanceHelper = \Magento\Framework\App\ObjectManager::getInstance()->get(
+            \M2E\Otto\Helper\Module\Maintenance::class
+        );
+
+        if ($maintenanceHelper->isEnabled()) {
             return false;
         }
 

@@ -62,7 +62,7 @@ abstract class AbstractGrid extends \M2E\Otto\Block\Adminhtml\Magento\Product\Gr
 
         // ---------------------------------------
         $this->jsTranslator->addTranslations([
-            'Are you sure you want to create empty Listing?' => \M2E\Otto\Helper\Data::escapeJs(
+            'Are you sure you want to create empty Listing?' => \M2E\Core\Helper\Data::escapeJs(
                 (string)__('Are you sure you want to create empty Listing?')
             ),
         ]);

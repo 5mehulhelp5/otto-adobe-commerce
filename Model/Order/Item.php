@@ -18,7 +18,7 @@ class Item extends \M2E\Otto\Model\ActiveRecord\AbstractModel
 
     private \M2E\Otto\Model\Order\Item\ProxyObjectFactory $proxyObjectFactory;
     private ?\M2E\Otto\Model\Product $listingProduct = null;
-    private \M2E\Otto\Helper\Magento\Store $magentoStoreHelper;
+    private \M2E\Core\Helper\Magento\Store $magentoStoreHelper;
     private \M2E\Otto\Model\Magento\Product\BuilderFactory $productBuilderFactory;
     private \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $magentoProductCollectionFactory;
     private \M2E\Otto\Model\ResourceModel\Product\CollectionFactory $listingProductCollectionFactory;
@@ -39,7 +39,7 @@ class Item extends \M2E\Otto\Model\ActiveRecord\AbstractModel
         \M2E\Otto\Model\ResourceModel\Product\CollectionFactory $listingProductCollectionFactory,
         \M2E\Otto\Model\Magento\Product\BuilderFactory $productBuilderFactory,
         \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $magentoProductCollectionFactory,
-        \M2E\Otto\Helper\Magento\Store $magentoStoreHelper,
+        \M2E\Core\Helper\Magento\Store $magentoStoreHelper,
         \M2E\Otto\Model\Order\Item\ProxyObjectFactory $proxyObjectFactory,
         \M2E\Otto\Model\Magento\ProductFactory $magentoProductFactory,
         \Magento\Framework\Model\Context $context,
@@ -295,7 +295,7 @@ class Item extends \M2E\Otto\Model\ActiveRecord\AbstractModel
             $this->productAssignService->assign(
                 [$this],
                 $this->getAssociatedProduct(),
-                \M2E\Otto\Helper\Data::INITIATOR_EXTENSION
+                \M2E\Core\Helper\Data::INITIATOR_EXTENSION
             );
         }
 
@@ -504,7 +504,7 @@ class Item extends \M2E\Otto\Model\ActiveRecord\AbstractModel
             return [];
         }
 
-        return \M2E\Otto\Helper\Json::decode($taxDetails) ?? [];
+        return \M2E\Core\Helper\Json::decode($taxDetails) ?? [];
     }
 
     /**

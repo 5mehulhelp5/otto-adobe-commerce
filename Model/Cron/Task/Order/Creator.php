@@ -46,12 +46,12 @@ class Creator extends \Magento\Framework\DataObject
     ): array {
 
         $accountCreateDate = clone $account->getCreateData();
-        $boundaryCreationDate = \M2E\Otto\Helper\Date::createCurrentGmt()->modify('-90 days');
+        $boundaryCreationDate = \M2E\Core\Helper\Date::createCurrentGmt()->modify('-90 days');
 
         $orders = [];
         foreach ($ordersData as $ottoOrderData) {
             try {
-                $orderCreateDate = \M2E\Otto\Helper\Date::createDateGmt($ottoOrderData['create_date']);
+                $orderCreateDate = \M2E\Core\Helper\Date::createDateGmt($ottoOrderData['create_date']);
 
                 if (
                     !$this->isValidOrderByAccountCreateData($accountCreateDate, $boundaryCreationDate, $orderCreateDate)
@@ -102,7 +102,7 @@ class Creator extends \Magento\Framework\DataObject
     public function createMagentoOrder(\M2E\Otto\Model\Order $order): void
     {
         try {
-            $this->magentoCreate->process($order, false, \M2E\Otto\Helper\Data::INITIATOR_EXTENSION, true, true);
+            $this->magentoCreate->process($order, false, \M2E\Core\Helper\Data::INITIATOR_EXTENSION, true, true);
         } catch (\M2E\Otto\Model\Order\Exception\UnableCreateMagentoOrder $e) {
             return;
         }

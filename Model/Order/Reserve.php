@@ -36,7 +36,7 @@ class Reserve
 
     private $qtyChangeInfo = [];
     private \M2E\Otto\Helper\Data\GlobalData $globalDataHelper;
-    private \M2E\Otto\Helper\Magento $magentoHelper;
+    private \M2E\Core\Helper\Magento $magentoHelper;
     private \M2E\Otto\Model\Magento\ProductFactory $magentoProductFactory;
     private \M2E\Otto\Model\Magento\Product\StockItemFactory $magentoProductStockItemFactory;
 
@@ -45,7 +45,7 @@ class Reserve
         \M2E\Otto\Model\Magento\Product\StockItemFactory $magentoProductStockItemFactory,
         \M2E\Otto\Model\Order $order,
         \M2E\Otto\Helper\Data\GlobalData $globalDataHelper,
-        \M2E\Otto\Helper\Magento $magentoHelper,
+        \M2E\Core\Helper\Magento $magentoHelper,
         \Magento\Framework\DB\TransactionFactory $transactionFactory,
         \Magento\Framework\ObjectManagerInterface $objectManager
     ) {
@@ -253,7 +253,7 @@ class Reserve
 
                 if (
                     !$magentoStockItem->canChangeQty() &&
-                    $this->order->getLogService()->getInitiator() == \M2E\Otto\Helper\Data::INITIATOR_USER
+                    $this->order->getLogService()->getInitiator() == \M2E\Core\Helper\Data::INITIATOR_USER
                 ) {
                     $this->order->addWarningLog(
                         'The QTY Reservation action (reserve/release/cancel) has not been performed for "%name%"
@@ -366,7 +366,7 @@ class Reserve
         if ($newState === self::STATE_PLACED && !$this->getFlag('order_reservation')) {
             $this->order->setData(
                 'reservation_start_date',
-                \M2E\Otto\Helper\Date::createCurrentGmt()->format('Y-m-d H:i:s'),
+                \M2E\Core\Helper\Date::createCurrentGmt()->format('Y-m-d H:i:s'),
             );
         }
 

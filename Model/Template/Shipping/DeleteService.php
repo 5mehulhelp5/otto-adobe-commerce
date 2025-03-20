@@ -41,7 +41,7 @@ class DeleteService extends \M2E\Otto\Model\Template\AbstractDeleteService
 
         try {
             $this->shippingService->deleteOnChannel($policy);
-        } catch (\M2E\Otto\Model\Exception $e) {
+        } catch (\M2E\Core\Model\Exception $e) {
         }
     }
 }

@@ -21,7 +21,7 @@ class CategoryProvider implements DataBuilderInterface
         $this->magentoAttributeRetriever = $magentoAttributeRetriever;
     }
 
-    public function getCategory(\M2E\Otto\Model\Product $product): ?\M2E\Otto\Model\Product\DataProvider\Category\Value
+    public function getCategory(\M2E\Otto\Model\Product $product): ?Category\Value
     {
         if (!$product->hasCategoryTemplate()) {
             $this->addWarningMessage((string)__('Product details were not updated because the category is not set for the product.'));
@@ -53,7 +53,10 @@ class CategoryProvider implements DataBuilderInterface
     ): array {
         $result = [];
 
-        $magentoAttributeRetriever = $this->magentoAttributeRetriever->create($product->getMagentoProduct());
+        $magentoAttributeRetriever = $this->magentoAttributeRetriever->create(
+            (string)__('Category Attribute'),
+            $product->getMagentoProduct()
+        );
         foreach ($category->getProductAttributes() as $attribute) {
             if ($attribute->isValueModeNone()) {
                 $result[$attribute->getAttributeName()] = [];
@@ -78,17 +81,13 @@ class CategoryProvider implements DataBuilderInterface
             }
 
             if ($attribute->isValueModeCustomAttribute()) {
-                $attributeVal = $magentoAttributeRetriever->tryRetrieve(
-                    $attribute->getCustomAttributeValue(),
-                    'Category Attribute'
-                );
+                $attributeVal = $magentoAttributeRetriever->tryRetrieve($attribute->getCustomAttributeValue());
                 if ($attributeVal !== null) {
                     $result[$attribute->getAttributeName()][] = $attributeVal;
                 }
-
-                $this->addNotFoundAttributesToWarning($magentoAttributeRetriever);
             }
         }
+        $this->addNotFoundAttributesToWarning($magentoAttributeRetriever);
 
         return $result;
     }

@@ -82,6 +82,14 @@ class CreditMemoCreate
             return false;
         }
 
+        if (!$order->getAccount()->getOrdersSettings()->isCreateCreditMemoIfOrderCancelledEnabled()) {
+            return false;
+        }
+
+        if (!$order->isStatusCanceled()) {
+            return false;
+        }
+
         return true;
     }
 

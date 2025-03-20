@@ -17,6 +17,14 @@
     content: '\e61a';
 }
 
+.otto-status-wrapper .admin__field-tooltip .admin__field-tooltip-action:before {
+    margin-top: -10px;
+}
+
+.otto-status-wrapper .Otto-field-tooltip li {
+    list-style-type: disc;
+}
+
 /* ================================================ */
 
 .specific-table {

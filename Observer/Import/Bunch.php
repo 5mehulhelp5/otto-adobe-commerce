@@ -10,11 +10,9 @@ class Bunch extends \M2E\Otto\Observer\AbstractObserver
     private $magentoProduct;
 
     public function __construct(
-        \M2E\Otto\Helper\Factory $helperFactory,
         \M2E\Otto\PublicServices\Product\SqlChange $publicService,
         \Magento\Catalog\Model\Product $magentoProduct
     ) {
-        parent::__construct($helperFactory);
         $this->publicService = $publicService;
         $this->magentoProduct = $magentoProduct;
     }

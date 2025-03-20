@@ -26,7 +26,7 @@ class Collection extends \M2E\Otto\Model\ResourceModel\ActiveRecord\Collection\A
         ProductResource $productResource,
         \M2E\Otto\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory,
         ListingResource $listingResource,
-        \M2E\Otto\Helper\Magento\Staging $magentoStagingHelper,
+        \M2E\Core\Helper\Magento\Staging $magentoStagingHelper,
         \Magento\Framework\Data\Collection\EntityFactoryInterface $entityFactory,
         \Psr\Log\LoggerInterface $logger,
         \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,

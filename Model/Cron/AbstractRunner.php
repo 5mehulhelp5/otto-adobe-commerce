@@ -13,26 +13,26 @@ abstract class AbstractRunner
     private \M2E\Otto\Model\Cron\OperationHistory $operationHistory;
     private \M2E\Otto\Model\Lock\Transactional\ManagerFactory $lockTransactionManagerFactory;
     private \M2E\Otto\Helper\Module\Exception $exceptionHelper;
-    private \M2E\Otto\Helper\Magento $magentoHelper;
+    private \M2E\Core\Helper\Magento $magentoHelper;
     private \M2E\Otto\Model\Config\Manager $config;
     private \M2E\Otto\Helper\Module $moduleHelper;
     private \M2E\Otto\Helper\Module\Maintenance $maintenanceHelper;
     private \M2E\Otto\Helper\Module\Cron $cronHelper;
     private \M2E\Otto\Model\Cron\OperationHistoryFactory $operationHistoryFactory;
     private \M2E\Otto\Model\Cron\Strategy $strategy;
-    private \M2E\Otto\Helper\Client\MemoryLimit $memoryLimit;
+    private \M2E\Core\Helper\Client\MemoryLimit $memoryLimit;
 
     public function __construct(
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \M2E\Otto\Model\Lock\Transactional\ManagerFactory $lockTransactionManagerFactory,
         \M2E\Otto\Helper\Module\Exception $exceptionHelper,
-        \M2E\Otto\Helper\Magento $magentoHelper,
+        \M2E\Core\Helper\Magento $magentoHelper,
         \M2E\Otto\Model\Config\Manager $config,
         \M2E\Otto\Helper\Module $moduleHelper,
         \M2E\Otto\Helper\Module\Maintenance $maintenanceHelper,
         \M2E\Otto\Helper\Module\Cron $cronHelper,
         \M2E\Otto\Model\Cron\OperationHistoryFactory $operationHistoryFactory,
-        \M2E\Otto\Helper\Client\MemoryLimit $memoryLimit,
+        \M2E\Core\Helper\Client\MemoryLimit $memoryLimit,
         \M2E\Otto\Model\Cron\Strategy $strategy
     ) {
         $this->storeManager = $storeManager;

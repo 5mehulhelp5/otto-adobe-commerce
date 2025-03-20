@@ -30,8 +30,8 @@ Fill out the form below with the required information. This information will be 
 you on <a href="%2" target="_blank">M2E Accounts</a> and auto-generate a new License Key.<br/><br/>
 Access to <a href="%2" target="_blank">M2E Accounts</a> will allow you to manage your Subscription, keep track
 of your Trial and Paid terms, control your License Key details, and more.',
-                \M2E\Otto\Helper\Module\Support::WEBSITE_PRIVACY_URL,
-                \M2E\Otto\Helper\Module\Support::ACCOUNTS_URL
+                \M2E\Core\Helper\Module\Support::WEBSITE_PRIVACY_URL,
+                \M2E\Core\Helper\Module\Support::ACCOUNTS_URL
             )
         );
 

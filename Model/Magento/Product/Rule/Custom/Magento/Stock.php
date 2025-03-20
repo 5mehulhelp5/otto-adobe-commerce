@@ -9,11 +9,11 @@ class Stock extends \M2E\Otto\Model\Magento\Product\Rule\Custom\AbstractCustomFi
     public const NICK = 'magento_stock';
 
     private \M2E\Otto\Model\Magento\ProductFactory $magentoProductFactory;
-    private \M2E\Otto\Helper\Magento $magentoHelper;
+    private \M2E\Core\Helper\Magento $magentoHelper;
 
     public function __construct(
         \M2E\Otto\Model\Magento\ProductFactory $magentoProductFactory,
-        \M2E\Otto\Helper\Magento $magentoHelper
+        \M2E\Core\Helper\Magento $magentoHelper
     ) {
         $this->magentoProductFactory = $magentoProductFactory;
         $this->magentoHelper = $magentoHelper;

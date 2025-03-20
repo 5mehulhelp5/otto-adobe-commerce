@@ -9,13 +9,13 @@ class Create
     private \M2E\Otto\Model\Otto\Connector\Account\Add\Processor $addProcessor;
     private Repository $accountRepository;
     private \M2E\Otto\Model\AccountFactory $accountFactory;
-    private \M2E\Otto\Helper\Magento\Store $storeHelper;
+    private \M2E\Core\Helper\Magento\Store $storeHelper;
 
     public function __construct(
         \M2E\Otto\Model\AccountFactory $accountFactory,
         \M2E\Otto\Model\Otto\Connector\Account\Add\Processor $addProcessor,
         \M2E\Otto\Model\Account\Repository $accountRepository,
-        \M2E\Otto\Helper\Magento\Store $storeHelper
+        \M2E\Core\Helper\Magento\Store $storeHelper
     ) {
         $this->addProcessor = $addProcessor;
         $this->accountRepository = $accountRepository;

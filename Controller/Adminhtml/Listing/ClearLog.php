@@ -7,11 +7,11 @@ namespace M2E\Otto\Controller\Adminhtml\Listing;
 class ClearLog extends \M2E\Otto\Controller\Adminhtml\AbstractListing
 {
     private \M2E\Otto\Model\Listing\Log\Repository $repository;
-    private \M2E\Otto\Helper\Url $urlHelper;
+    private \M2E\Core\Helper\Url $urlHelper;
 
     public function __construct(
         \M2E\Otto\Model\Listing\Log\Repository $repository,
-        \M2E\Otto\Helper\Url $urlHelper
+        \M2E\Core\Helper\Url $urlHelper
     ) {
         parent::__construct();
 

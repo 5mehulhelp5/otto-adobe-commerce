@@ -38,7 +38,7 @@ class LockManager
 
     public function isInactiveMoreThanSeconds(Lock $lockItem, $maxInactiveInterval): bool
     {
-        $currentDate = \M2E\Otto\Helper\Date::createCurrentGmt();
+        $currentDate = \M2E\Core\Helper\Date::createCurrentGmt();
         $createDate = $lockItem->getCreateDate();
 
         return $createDate->getTimestamp() < ($currentDate->getTimestamp() - $maxInactiveInterval);
@@ -50,7 +50,7 @@ class LockManager
             throw new \LogicException('Current product has already been locked.');
         }
 
-        $lock = $this->lockFactory->create($product->getId(), $initiator, \M2E\Otto\Helper\Date::createCurrentGmt());
+        $lock = $this->lockFactory->create($product->getId(), $initiator, \M2E\Core\Helper\Date::createCurrentGmt());
         $this->lockRepository->create($lock);
     }
 

@@ -12,13 +12,10 @@ class Config extends \M2E\Otto\Plugin\AbstractPlugin
 
     public function __construct(
         \M2E\Otto\Model\Magento\Config\Mutable $mutableConfig,
-        \M2E\Otto\Helper\Factory $helperFactory,
         \M2E\Otto\Helper\Data\GlobalData $globalDataHelper
     ) {
         $this->mutableConfig = $mutableConfig;
         $this->globalDataHelper = $globalDataHelper;
-
-        parent::__construct($helperFactory);
     }
 
     /**

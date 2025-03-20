@@ -54,6 +54,7 @@ class Config implements \M2E\Core\Model\Setup\Upgrade\Entity\ConfigInterface
             ],
             'y25_m01' => [
                 \M2E\Otto\Setup\Update\y25_m01\AddTrackDirectDatabaseChanges::class,
+                \M2E\Otto\Setup\Update\y25_m01\AddMarketplaceErrorsToProduct::class,
                 \M2E\Otto\Setup\Update\y25_m01\AddExternalChangeTable::class,
             ],
             'y25_m02' => [

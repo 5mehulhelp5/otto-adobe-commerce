@@ -38,10 +38,12 @@ class DeliveryProvider implements DataBuilderInterface
         \M2E\Otto\Model\Product $product
     ): ?int {
         if ($shippingPolicyProvider->isHandlingTimeModeAttribute()) {
-            $attributeRetriever = $this->magentoAttributeRetriever->create($product->getMagentoProduct());
+            $attributeRetriever = $this->magentoAttributeRetriever->create(
+                (string)__('Handling Time'),
+                $product->getMagentoProduct()
+            );
             $value = $attributeRetriever->tryRetrieve(
                 $shippingPolicyProvider->getHandlingTimeAttribute(),
-                'Handling Time'
             );
 
             if ($value === null) {

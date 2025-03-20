@@ -40,7 +40,7 @@ class ResubmitShippingInfo extends \M2E\Otto\Controller\Adminhtml\AbstractOrder
                     continue;
                 }
 
-                $this->orderShipmentService->shipByShipment($order, $shipment, \M2E\Otto\Helper\Data::INITIATOR_USER);
+                $this->orderShipmentService->shipByShipment($order, $shipment, \M2E\Core\Helper\Data::INITIATOR_USER);
             }
         }
 

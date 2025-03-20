@@ -28,8 +28,11 @@ class EanProvider implements DataBuilderInterface
 
         $eanAttributeCode = $this->configuration->getIdentifierCodeCustomAttribute();
 
-        $attributeRetriever = $this->magentoAttributeRetriever->create($product->getMagentoProduct());
-        $ean = $attributeRetriever->tryRetrieve($eanAttributeCode, 'Product Ean');
+        $attributeRetriever = $this->magentoAttributeRetriever->create(
+            (string)__('Product Ean'),
+            $product->getMagentoProduct()
+        );
+        $ean = $attributeRetriever->tryRetrieve($eanAttributeCode);
         if ($ean === null) {
             $this->addNotFoundAttributesToWarning($attributeRetriever);
 

@@ -226,7 +226,7 @@ class Account extends \M2E\Otto\Model\ActiveRecord\AbstractModel
             return null;
         }
 
-        return \M2E\Otto\Helper\Date::createDateGmt($value);
+        return \M2E\Core\Helper\Date::createDateGmt($value);
     }
     //endregion
 
@@ -245,7 +245,7 @@ class Account extends \M2E\Otto\Model\ActiveRecord\AbstractModel
             return null;
         }
 
-        return \M2E\Otto\Helper\Date::createDateGmt($value);
+        return \M2E\Core\Helper\Date::createDateGmt($value);
     }
 
     public function resetInventoryLastSyncData(): void
@@ -258,7 +258,7 @@ class Account extends \M2E\Otto\Model\ActiveRecord\AbstractModel
     {
         $value = $this->getData(AccountResource::COLUMN_CREATE_DATE);
 
-        return \M2E\Otto\Helper\Date::createDateGmt($value);
+        return \M2E\Core\Helper\Date::createDateGmt($value);
     }
 
     /**

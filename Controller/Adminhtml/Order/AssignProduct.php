@@ -85,7 +85,7 @@ class AssignProduct extends \M2E\Otto\Controller\Adminhtml\AbstractOrder
         $this->productAssignService->assign(
             $orderItems,
             $magentoProduct->getProduct(),
-            \M2E\Otto\Helper\Data::INITIATOR_USER
+            \M2E\Core\Helper\Data::INITIATOR_USER
         );
 
         $this->setJsonContent([

@@ -68,7 +68,7 @@ class Cron
 
         $lastRunTimestamp = (int)$lastRun->format('U');
 
-        return \M2E\Otto\Helper\Date::createCurrentGmt()->getTimestamp() > $lastRunTimestamp + $interval;
+        return \M2E\Core\Helper\Date::createCurrentGmt()->getTimestamp() > $lastRunTimestamp + $interval;
     }
 
     //----------------------------------------

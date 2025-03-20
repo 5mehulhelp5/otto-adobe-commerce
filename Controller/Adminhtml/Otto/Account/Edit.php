@@ -43,7 +43,7 @@ class Edit extends AbstractAccount
         }
 
         $headerText = __('Edit Account');
-        $headerText .= ' "' . \M2E\Otto\Helper\Data::escapeHtml($account->getTitle()) . '"';
+        $headerText .= ' "' . \M2E\Core\Helper\Data::escapeHtml($account->getTitle()) . '"';
 
         $this->getResultPage()
              ->getConfig()

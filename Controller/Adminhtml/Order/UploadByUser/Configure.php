@@ -44,11 +44,11 @@ class Configure extends \M2E\Otto\Controller\Adminhtml\AbstractOrder
         }
 
         $manager = $this->getManager($account);
-        $fromDate = \M2E\Otto\Helper\Date::timezoneDateToGmt($from);
-        $toDate = \M2E\Otto\Helper\Date::timezoneDateToGmt($to);
+        $fromDate = \M2E\Core\Helper\Date::timezoneDateToGmt($from);
+        $toDate = \M2E\Core\Helper\Date::timezoneDateToGmt($to);
 
         if ($this->isMoreThanCurrentDate($toDate)) {
-            $toDate = \M2E\Otto\Helper\Date::createCurrentGmt();
+            $toDate = \M2E\Core\Helper\Date::createCurrentGmt();
         }
 
         try {
@@ -67,7 +67,7 @@ class Configure extends \M2E\Otto\Controller\Adminhtml\AbstractOrder
      */
     protected function isMoreThanCurrentDate(\DateTime $toDate): bool
     {
-        $nowTimestamp = \M2E\Otto\Helper\Date::createCurrentGmt()->getTimestamp();
+        $nowTimestamp = \M2E\Core\Helper\Date::createCurrentGmt()->getTimestamp();
 
         if ($toDate->getTimestamp() > $nowTimestamp) {
             return true;

@@ -23,7 +23,6 @@ class UploadByUser extends \M2E\Otto\Model\Cron\AbstractTask
         \M2E\Otto\Helper\Data $helperData,
         \Magento\Framework\Event\Manager $eventManager,
         \M2E\Otto\Model\ActiveRecord\Factory $activeRecordFactory,
-        \M2E\Otto\Helper\Factory $helperFactory,
         \M2E\Otto\Model\Cron\TaskRepository $taskRepo,
         \Magento\Framework\App\ResourceConnection $resource
     ) {
@@ -33,7 +32,6 @@ class UploadByUser extends \M2E\Otto\Model\Cron\AbstractTask
             $helperData,
             $eventManager,
             $activeRecordFactory,
-            $helperFactory,
             $taskRepo,
             $resource,
         );
@@ -68,7 +66,7 @@ class UploadByUser extends \M2E\Otto\Model\Cron\AbstractTask
             }
 
             try {
-                $toTime = $manager->getToDate() ?? \M2E\Otto\Helper\Date::createCurrentGmt();
+                $toTime = $manager->getToDate() ?? \M2E\Core\Helper\Date::createCurrentGmt();
                 $fromTime = $manager->getCurrentFromDate() ?? $manager->getFromDate();
 
                 $response = $this->receiveOrderProcessor->process(

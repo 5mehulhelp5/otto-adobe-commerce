@@ -13,7 +13,7 @@ class Request extends \M2E\Otto\Model\Otto\Listing\Product\Action\AbstractReques
     ): array {
         return [
             'sku' => $product->getOttoProductSku(),
-            'action_date' => \M2E\Otto\Helper\Date::createCurrentGmt()->format('Y-m-d H:i:s'),
+            'action_date' => \M2E\Core\Helper\Date::createCurrentGmt()->format('Y-m-d H:i:s'),
         ];
     }
 

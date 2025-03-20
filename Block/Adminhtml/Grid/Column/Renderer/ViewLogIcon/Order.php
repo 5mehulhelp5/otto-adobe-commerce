@@ -13,8 +13,6 @@ class Order extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Text
 {
     use Traits\BlockTrait;
 
-    protected \M2E\Otto\Helper\Factory $helperFactory;
-
     protected \M2E\Otto\Model\ActiveRecord\Factory $activeRecordFactory;
 
     //########################################
@@ -22,14 +20,12 @@ class Order extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Text
 
     public function __construct(
         \M2E\Otto\Model\ResourceModel\Order\Log\CollectionFactory $orderLogCollectionFactory,
-        \M2E\Otto\Helper\Factory $helperFactory,
         \M2E\Otto\Model\ActiveRecord\Factory $activeRecordFactory,
         \Magento\Backend\Block\Context $context,
         array $data = []
     ) {
         parent::__construct($context, $data);
 
-        $this->helperFactory = $helperFactory;
         $this->activeRecordFactory = $activeRecordFactory;
         $this->orderLogCollectionFactory = $orderLogCollectionFactory;
     }

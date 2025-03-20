@@ -6,12 +6,12 @@ class Header extends \M2E\Otto\Block\Adminhtml\Magento\AbstractBlock
 {
     protected $_template = 'listing/view/header.phtml';
     private bool $isListingViewMode = false;
-    private \M2E\Otto\Helper\Magento\Store $magentoStoreHelper;
+    private \M2E\Core\Helper\Magento\Store $magentoStoreHelper;
     private \M2E\Otto\Model\Listing $listing;
 
     public function __construct(
         \M2E\Otto\Model\Listing $listing,
-        \M2E\Otto\Helper\Magento\Store $magentoStoreHelper,
+        \M2E\Core\Helper\Magento\Store $magentoStoreHelper,
         \M2E\Otto\Block\Adminhtml\Magento\Context\Template $context,
         array $data = []
     ) {

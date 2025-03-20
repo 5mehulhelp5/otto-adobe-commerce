@@ -11,15 +11,13 @@ class Shipping extends \Magento\Shipping\Model\Carrier\AbstractCarrier implement
 {
     protected $_code = 'ottoshipping';
 
-    protected $helperFactory;
     protected $resultFactory;
     protected $rateRequestFactory;
     protected $rateResultMethodFactory;
-
-    //########################################
+    private \M2E\Otto\Helper\Data\GlobalData $globalData;
 
     public function __construct(
-        \M2E\Otto\Helper\Factory $helperFactory,
+        \M2E\Otto\Helper\Data\GlobalData $globalData,
         \Magento\Quote\Model\Quote\Address\RateRequestFactory $rateRequestFactory,
         \Magento\Quote\Model\Quote\Address\RateResult\MethodFactory $rateResultMethodFactory,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
@@ -28,7 +26,7 @@ class Shipping extends \Magento\Shipping\Model\Carrier\AbstractCarrier implement
         \Magento\Shipping\Model\Rate\ResultFactory $resultFactory,
         array $data = []
     ) {
-        $this->helperFactory = $helperFactory;
+        $this->globalData = $globalData;
         $this->resultFactory = $resultFactory;
         $this->rateRequestFactory = $rateRequestFactory;
         $this->rateResultMethodFactory = $rateResultMethodFactory;
@@ -44,8 +42,7 @@ class Shipping extends \Magento\Shipping\Model\Carrier\AbstractCarrier implement
      */
     public function collectRates(\Magento\Quote\Model\Quote\Address\RateRequest $request)
     {
-        $shippingData = $this->helperFactory->getObject('Data\GlobalData')
-                                            ->getValue('shipping_data');
+        $shippingData = $this->globalData->getValue('shipping_data');
 
         if (!$shippingData) {
             return false;
@@ -75,7 +72,7 @@ class Shipping extends \Magento\Shipping\Model\Carrier\AbstractCarrier implement
      */
     public function checkAvailableShipCountries(\Magento\Framework\DataObject $request)
     {
-        if (!$this->helperFactory->getObject('Data\GlobalData')->getValue('shipping_data')) {
+        if (!$this->globalData->getValue('shipping_data')) {
             return false;
         }
 

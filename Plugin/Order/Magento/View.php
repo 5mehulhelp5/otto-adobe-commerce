@@ -7,10 +7,8 @@ class View extends \M2E\Otto\Plugin\AbstractPlugin
     private \M2E\Otto\Model\Order\Repository $orderRepository;
 
     public function __construct(
-        \M2E\Otto\Model\Order\Repository $orderRepository,
-        \M2E\Otto\Helper\Factory $helperFactory
+        \M2E\Otto\Model\Order\Repository $orderRepository
     ) {
-        parent::__construct($helperFactory);
         $this->orderRepository = $orderRepository;
     }
 

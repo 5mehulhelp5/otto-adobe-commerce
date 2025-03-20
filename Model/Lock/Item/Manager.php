@@ -87,8 +87,8 @@ class Manager
             return true;
         }
 
-        $currentDate = \M2E\Otto\Helper\Date::createCurrentGmt();
-        $updateDate = \M2E\Otto\Helper\Date::createDateGmt($lockItem->getUpdateDate());
+        $currentDate = \M2E\Core\Helper\Date::createCurrentGmt();
+        $updateDate = \M2E\Core\Helper\Date::createDateGmt($lockItem->getUpdateDate());
 
         return $updateDate->getTimestamp() < ($currentDate->getTimestamp() - $maxInactiveInterval);
     }
@@ -130,14 +130,14 @@ class Manager
 
         $data = $lockItem->getContentData();
         if (!empty($data)) {
-            $data = \M2E\Otto\Helper\Json::decode($data);
+            $data = \M2E\Core\Helper\Json::decode($data);
         } else {
             $data = [];
         }
 
         $data[$key] = $value;
 
-        $lockItem->setData('data', \M2E\Otto\Helper\Json::encode($data));
+        $lockItem->setData('data', \M2E\Core\Helper\Json::encode($data));
         $lockItem->save();
 
         return true;
@@ -152,7 +152,7 @@ class Manager
             );
         }
 
-        $lockItem->setData('data', \M2E\Otto\Helper\Json::encode($data));
+        $lockItem->setData('data', \M2E\Core\Helper\Json::encode($data));
         $lockItem->save();
 
         return true;
@@ -173,7 +173,7 @@ class Manager
             return null;
         }
 
-        $data = \M2E\Otto\Helper\Json::decode($lockItem->getContentData());
+        $data = \M2E\Core\Helper\Json::decode($lockItem->getContentData());
         if ($key === null) {
             return $data;
         }

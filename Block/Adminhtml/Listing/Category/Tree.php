@@ -76,7 +76,7 @@ class Tree extends \M2E\Otto\Block\Adminhtml\Magento\Category\AbstractCategory
     {
         $rootArray = $this->_getNodeJson($this->getRoot($parentNodeCategory, 0));
 
-        return \M2E\Otto\Helper\Json::encode($rootArray['children'] ?? []);
+        return \M2E\Core\Helper\Json::encode($rootArray['children'] ?? []);
     }
 
     public function _getNodeJson($node, $level = 0)

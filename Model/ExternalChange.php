@@ -37,7 +37,7 @@ class ExternalChange extends \M2E\Otto\Model\ActiveRecord\AbstractModel
 
     public function getCreateDate(): \DateTime
     {
-        return \M2E\Otto\Helper\Date::createDateGmt(
+        return \M2E\Core\Helper\Date::createDateGmt(
             $this->getData(ExternalChangeResource::COLUMN_CREATE_DATE),
         );
     }

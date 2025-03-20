@@ -32,7 +32,7 @@ class TablesStructureValidity implements InspectorInterface, FixerInterface
     private \M2E\Core\Model\ControlPanel\Inspection\IssueFactory $issueFactory;
     private \M2E\Otto\Helper\Module\Database\Structure $databaseHelper;
     private \M2E\Otto\Model\Connector\Client\Single $serverClient;
-    private \M2E\Otto\Helper\Magento $magentoHelper;
+    private \M2E\Core\Helper\Magento $magentoHelper;
 
     public function __construct(
         UrlInterface $urlBuilder,
@@ -41,7 +41,7 @@ class TablesStructureValidity implements InspectorInterface, FixerInterface
         \M2E\Core\Model\ControlPanel\Inspection\IssueFactory $issueFactory,
         \M2E\Otto\Helper\Module\Database\Structure $databaseHelper,
         \M2E\Otto\Model\Connector\Client\Single $serverClient,
-        \M2E\Otto\Helper\Magento $magentoHelper
+        \M2E\Core\Helper\Magento $magentoHelper
     ) {
         $this->magentoHelper = $magentoHelper;
         $this->serverClient = $serverClient;
@@ -145,7 +145,7 @@ HTML;
                     $columnInfo['repair_mode'] = self::FIX_COLUMN;
                 }
 
-                $repairInfo = \M2E\Otto\Helper\Json::encode($columnInfo);
+                $repairInfo = \M2E\Core\Helper\Json::encode($columnInfo);
                 $input = "<input type='checkbox' name='repair_info[]' value='" . $repairInfo . "'>";
                 $html .= <<<HTML
 <tr>

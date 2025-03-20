@@ -74,7 +74,7 @@ class Cache extends \M2E\Otto\Model\Magento\Product
             . '_'
             . $this->getStoreId()
             . '_'
-            . \M2E\Otto\Helper\Json::encode($key),
+            . \M2E\Core\Helper\Json::encode($key),
         );
 
         return $this->runtimeCache->getValue($key);
@@ -88,7 +88,7 @@ class Cache extends \M2E\Otto\Model\Magento\Product
             . '_'
             . $this->getStoreId()
             . '_'
-            . \M2E\Otto\Helper\Json::encode($key),
+            . \M2E\Core\Helper\Json::encode($key),
         );
 
         $tags = [

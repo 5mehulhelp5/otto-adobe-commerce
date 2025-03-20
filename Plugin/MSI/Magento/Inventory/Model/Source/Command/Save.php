@@ -28,10 +28,8 @@ class Save extends \M2E\Otto\Plugin\AbstractPlugin
         \M2E\Otto\Model\Listing\LogService $listingLogService,
         \M2E\Otto\Model\MSI\AffectedProducts $msiAffectedProducts,
         \M2E\Otto\PublicServices\Product\SqlChange $publicService,
-        \Magento\Framework\ObjectManagerInterface $objectManager,
-        \M2E\Otto\Helper\Factory $helperFactory
+        \Magento\Framework\ObjectManagerInterface $objectManager
     ) {
-        parent::__construct($helperFactory);
         $this->sourceRepo = $objectManager->get(\Magento\Inventory\Model\SourceRepository::class);
         $this->msiAffectedProducts = $msiAffectedProducts;
         $this->publicService = $publicService;
@@ -101,7 +99,7 @@ class Save extends \M2E\Otto\Plugin\AbstractPlugin
     ) {
         $this->listingLogService->addListing(
             $listing,
-            \M2E\Otto\Helper\Data::INITIATOR_EXTENSION,
+            \M2E\Core\Helper\Data::INITIATOR_EXTENSION,
             \M2E\Otto\Model\Listing\Log::ACTION_UNKNOWN,
             null,
             \M2E\Otto\Helper\Module\Log::encodeDescription(

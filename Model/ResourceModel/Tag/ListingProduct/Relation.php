@@ -31,7 +31,7 @@ class Relation extends \M2E\Otto\Model\ResourceModel\ActiveRecord\AbstractModel
     public function insertTags(array $dataPackage): void
     {
         $queryData = [];
-        $createDate = \M2E\Otto\Helper\Date::createCurrentGmt()->format('Y-m-d H:i:s');
+        $createDate = \M2E\Core\Helper\Date::createCurrentGmt()->format('Y-m-d H:i:s');
         foreach ($dataPackage as $listingProductId => $tagIds) {
             foreach ($tagIds as $tagId) {
                 $queryData[] = [

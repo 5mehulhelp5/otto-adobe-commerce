@@ -11,10 +11,10 @@ class Grid extends \M2E\Otto\Block\Adminhtml\Magento\Grid\AbstractGrid
 
     protected \M2E\Otto\Helper\View $viewHelper;
     protected \M2E\Otto\Helper\Data $dataHelper;
-    private \M2E\Otto\Helper\Url $urlHelper;
+    private \M2E\Core\Helper\Url $urlHelper;
 
     public function __construct(
-        \M2E\Otto\Helper\Url $urlHelper,
+        \M2E\Core\Helper\Url $urlHelper,
         \M2E\Otto\Helper\View $viewHelper,
         \M2E\Otto\Block\Adminhtml\Magento\Context\Template $context,
         \Magento\Backend\Helper\Data $backendHelper,

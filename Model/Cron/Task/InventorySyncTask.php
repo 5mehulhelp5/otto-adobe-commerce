@@ -25,7 +25,6 @@ class InventorySyncTask extends \M2E\Otto\Model\Cron\AbstractTask
         \M2E\Otto\Helper\Data $helperData,
         \Magento\Framework\Event\Manager $eventManager,
         \M2E\Otto\Model\ActiveRecord\Factory $activeRecordFactory,
-        \M2E\Otto\Helper\Factory $helperFactory,
         \M2E\Otto\Model\Cron\TaskRepository $taskRepo,
         \Magento\Framework\App\ResourceConnection $resource
     ) {
@@ -35,7 +34,6 @@ class InventorySyncTask extends \M2E\Otto\Model\Cron\AbstractTask
             $helperData,
             $eventManager,
             $activeRecordFactory,
-            $helperFactory,
             $taskRepo,
             $resource,
         );
@@ -55,14 +53,14 @@ class InventorySyncTask extends \M2E\Otto\Model\Cron\AbstractTask
         $synchronizationLog = parent::getSynchronizationLog();
 
         $synchronizationLog->setTask(\M2E\Otto\Model\Synchronization\Log::TASK_OTHER_LISTINGS);
-        $synchronizationLog->setInitiator(\M2E\Otto\Helper\Data::INITIATOR_EXTENSION);
+        $synchronizationLog->setInitiator(\M2E\Core\Helper\Data::INITIATOR_EXTENSION);
 
         return $synchronizationLog;
     }
 
     protected function performActions(): void
     {
-        $currentDate = \M2E\Otto\Helper\Date::createCurrentGmt();
+        $currentDate = \M2E\Core\Helper\Date::createCurrentGmt();
         foreach ($this->accountRepository->findActiveWithEnabledInventorySync() as $account) {
             if (
                 $account->getInventoryLastSyncDate() !== null

@@ -28,6 +28,7 @@ class OttoProduct
     private ?string $productUrl;
     private ?string $marketplaceStatus;
     private ?string $shippingProfileId;
+    private ?\M2E\Core\Model\Connector\Response\MessageCollection $marketplaceErrorsCollection;
 
     public function __construct(
         int $accountId,
@@ -49,7 +50,8 @@ class OttoProduct
         ?string $qtyActualizeDate,
         string $priceActualizeDate,
         ?string $marketplaceStatus,
-        ?string $shippingProfileId
+        ?string $shippingProfileId,
+        ?\M2E\Core\Model\Connector\Response\MessageCollection $marketplaceErrorsCollection
     ) {
         $this->accountId = $accountId;
         $this->status = $status;
@@ -71,6 +73,7 @@ class OttoProduct
         $this->productUrl = $productUrl;
         $this->marketplaceStatus = $marketplaceStatus;
         $this->shippingProfileId = $shippingProfileId;
+        $this->marketplaceErrorsCollection = $marketplaceErrorsCollection;
     }
 
     public function getAccountId(): int
@@ -196,5 +199,10 @@ class OttoProduct
     private function getMarketplaceStatus(): ?string
     {
         return $this->marketplaceStatus;
+    }
+
+    public function getMarketplaceErrors(): ?\M2E\Core\Model\Connector\Response\MessageCollection
+    {
+        return $this->marketplaceErrorsCollection;
     }
 }

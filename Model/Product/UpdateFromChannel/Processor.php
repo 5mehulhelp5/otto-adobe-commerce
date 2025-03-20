@@ -112,6 +112,33 @@ class Processor
             && $this->product->getOnlineDeliveryType() !== $this->channelProduct->getDeliveryType();
     }
 
+    private function isNeedUpdateMarketplaceErrors(): bool
+    {
+        $productMarketplaceErrors = $this->product->getMarketplaceErrors();
+        $channelMarketplaceErrors = $this->channelProduct->getMarketplaceErrors();
+
+        if (!$this->channelProduct->isStatusActive()) {
+            if ($productMarketplaceErrors !== null) {
+                return true;
+            }
+            return false;
+        }
+
+        if ($productMarketplaceErrors !== null && $channelMarketplaceErrors !== null) {
+            return true;
+        }
+
+        if ($channelMarketplaceErrors !== null && $productMarketplaceErrors === null) {
+            return true;
+        }
+
+        if ($productMarketplaceErrors !== null && $channelMarketplaceErrors === null) {
+            return true;
+        }
+
+        return false;
+    }
+
     private function processProduct(): bool
     {
         $isChangedProduct = false;
@@ -286,6 +313,16 @@ class Processor
 
         if ($this->isNeedUpdateDeliveryType()) {
             $this->product->setOnlineDeliveryType($this->channelProduct->getDeliveryType());
+
+            $isChangedProduct = true;
+        }
+
+        if ($this->isNeedUpdateMarketplaceErrors()) {
+            if (!$this->channelProduct->isStatusActive()) {
+                $this->product->resetMarketplaceErrors();
+            }
+
+            $this->product->setMarketplaceErrors($this->channelProduct->getMarketplaceErrors());
 
             $isChangedProduct = true;
         }

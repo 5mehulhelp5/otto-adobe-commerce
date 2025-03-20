@@ -14,13 +14,13 @@ class Developer extends AbstractRunner
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \M2E\Otto\Model\Lock\Transactional\ManagerFactory $lockTransactionManagerFactory,
         \M2E\Otto\Helper\Module\Exception $exceptionHelper,
-        \M2E\Otto\Helper\Magento $magentoHelper,
+        \M2E\Core\Helper\Magento $magentoHelper,
         \M2E\Otto\Model\Config\Manager $config,
         \M2E\Otto\Helper\Module $moduleHelper,
         \M2E\Otto\Helper\Module\Maintenance $maintenanceHelper,
         \M2E\Otto\Helper\Module\Cron $cronHelper,
         \M2E\Otto\Model\Cron\OperationHistoryFactory $operationHistoryFactory,
-        \M2E\Otto\Helper\Client\MemoryLimit $memoryLimit,
+        \M2E\Core\Helper\Client\MemoryLimit $memoryLimit,
         \M2E\Otto\Model\Cron\Strategy $strategy
     ) {
         parent::__construct(
@@ -47,7 +47,7 @@ class Developer extends AbstractRunner
 
     public function getInitiator(): int
     {
-        return \M2E\Otto\Helper\Data::INITIATOR_DEVELOPER;
+        return \M2E\Core\Helper\Data::INITIATOR_DEVELOPER;
     }
 
     public function process(): void

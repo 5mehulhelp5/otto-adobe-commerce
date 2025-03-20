@@ -60,7 +60,7 @@ class ShipmentService
             'tracking_number' => $primaryDetails->getTrackingNumber(),
             'shipping_carrier' => $primaryDetails->getCarrierTitle(),
             'shipping_carrier_service_code' => $primaryDetails->getCarrierCode(),
-            'ship_date' => \M2E\Otto\Helper\Date::createCurrentGmt()->format('Y-m-d H:i:s'),
+            'ship_date' => \M2E\Core\Helper\Date::createCurrentGmt()->format('Y-m-d H:i:s'),
             'items' => [],
         ];
 

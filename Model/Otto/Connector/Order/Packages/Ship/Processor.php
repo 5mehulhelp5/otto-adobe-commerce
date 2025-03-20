@@ -17,7 +17,7 @@ class Processor
      * @param \M2E\Otto\Model\Otto\Connector\Order\Packages\Ship\Package[] $packages
      *
      * @throws \M2E\Otto\Model\Exception
-     * @throws \M2E\Otto\Model\Exception\Connection
+     * @throws \M2E\Core\Model\Exception\Connection
      */
     public function process(
         \M2E\Otto\Model\Account $account,

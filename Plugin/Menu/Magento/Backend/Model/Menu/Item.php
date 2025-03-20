@@ -13,12 +13,9 @@ class Item extends \M2E\Otto\Plugin\AbstractPlugin
     private \M2E\Otto\Helper\Module\Wizard $wizardHelper;
 
     public function __construct(
-        \M2E\Otto\Helper\Module\Wizard $wizardHelper,
-        \M2E\Otto\Helper\Factory $helperFactory
+        \M2E\Otto\Helper\Module\Wizard $wizardHelper
     ) {
         $this->wizardHelper = $wizardHelper;
-
-        parent::__construct($helperFactory);
     }
 
     /**

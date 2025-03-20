@@ -124,9 +124,9 @@ abstract class AbstractGrid extends \M2E\Otto\Block\Adminhtml\Magento\Grid\Abstr
     protected function _getLogInitiatorList()
     {
         return [
-            \M2E\Otto\Helper\Data::INITIATOR_UNKNOWN => (string)__('Unknown'),
-            \M2E\Otto\Helper\Data::INITIATOR_USER => (string)__('Manual'),
-            \M2E\Otto\Helper\Data::INITIATOR_EXTENSION => (string)__('Automatic'),
+            \M2E\Core\Helper\Data::INITIATOR_UNKNOWN => (string)__('Unknown'),
+            \M2E\Core\Helper\Data::INITIATOR_USER => (string)__('Manual'),
+            \M2E\Core\Helper\Data::INITIATOR_EXTENSION => (string)__('Automatic'),
         ];
     }
 
@@ -158,13 +158,13 @@ abstract class AbstractGrid extends \M2E\Otto\Block\Adminhtml\Magento\Grid\Abstr
         $initiator = $row->getData('initiator');
 
         switch ($initiator) {
-            case \M2E\Otto\Helper\Data::INITIATOR_EXTENSION:
+            case \M2E\Core\Helper\Data::INITIATOR_EXTENSION:
                 $message = "<span style=\"text-decoration: underline;\">{$value}</span>";
                 break;
-            case \M2E\Otto\Helper\Data::INITIATOR_UNKNOWN:
+            case \M2E\Core\Helper\Data::INITIATOR_UNKNOWN:
                 $message = "<span style=\"font-style: italic; color: gray;\">{$value}</span>";
                 break;
-            case \M2E\Otto\Helper\Data::INITIATOR_USER:
+            case \M2E\Core\Helper\Data::INITIATOR_USER:
             default:
                 $message = "<span>{$value}</span>";
                 break;

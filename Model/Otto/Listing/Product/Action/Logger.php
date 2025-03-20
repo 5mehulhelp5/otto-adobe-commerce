@@ -10,7 +10,7 @@ class Logger
     private int $actionId;
     private int $initiator;
 
-    private int $status = \M2E\Otto\Helper\Data::STATUS_SUCCESS;
+    private int $status = \M2E\Core\Helper\Data::STATUS_SUCCESS;
 
     private \M2E\Otto\Model\Listing\LogService $listingLogService;
 
@@ -45,19 +45,19 @@ class Logger
 
     public function setStatus(int $status): void
     {
-        if ($status === \M2E\Otto\Helper\Data::STATUS_ERROR) {
-            $this->status = \M2E\Otto\Helper\Data::STATUS_ERROR;
+        if ($status === \M2E\Core\Helper\Data::STATUS_ERROR) {
+            $this->status = \M2E\Core\Helper\Data::STATUS_ERROR;
 
             return;
         }
 
-        if ($status === \M2E\Otto\Helper\Data::STATUS_WARNING) {
-            $this->status = \M2E\Otto\Helper\Data::STATUS_WARNING;
+        if ($status === \M2E\Core\Helper\Data::STATUS_WARNING) {
+            $this->status = \M2E\Core\Helper\Data::STATUS_WARNING;
 
             return;
         }
 
-        $this->status = \M2E\Otto\Helper\Data::STATUS_SUCCESS;
+        $this->status = \M2E\Core\Helper\Data::STATUS_SUCCESS;
     }
 
     public function getStatus(): int
@@ -84,30 +84,30 @@ class Logger
     protected function initLogType(\M2E\Core\Model\Response\Message $message): int
     {
         if ($message->isError()) {
-            $this->setStatus(\M2E\Otto\Helper\Data::STATUS_ERROR);
+            $this->setStatus(\M2E\Core\Helper\Data::STATUS_ERROR);
 
             return \M2E\Otto\Model\Log\AbstractModel::TYPE_ERROR;
         }
 
         if ($message->isWarning()) {
-            $this->setStatus(\M2E\Otto\Helper\Data::STATUS_WARNING);
+            $this->setStatus(\M2E\Core\Helper\Data::STATUS_WARNING);
 
             return \M2E\Otto\Model\Log\AbstractModel::TYPE_WARNING;
         }
 
         if ($message->isSuccess()) {
-            $this->setStatus(\M2E\Otto\Helper\Data::STATUS_SUCCESS);
+            $this->setStatus(\M2E\Core\Helper\Data::STATUS_SUCCESS);
 
             return \M2E\Otto\Model\Log\AbstractModel::TYPE_SUCCESS;
         }
 
         if ($message->isNotice()) {
-            $this->setStatus(\M2E\Otto\Helper\Data::STATUS_SUCCESS);
+            $this->setStatus(\M2E\Core\Helper\Data::STATUS_SUCCESS);
 
             return \M2E\Otto\Model\Log\AbstractModel::TYPE_INFO;
         }
 
-        $this->setStatus(\M2E\Otto\Helper\Data::STATUS_ERROR);
+        $this->setStatus(\M2E\Core\Helper\Data::STATUS_ERROR);
 
         return \M2E\Otto\Model\Log\AbstractModel::TYPE_ERROR;
     }

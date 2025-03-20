@@ -34,7 +34,7 @@ class Change extends \M2E\Otto\Block\Adminhtml\System\Config\Sections
 
         $fieldSet = $form->addFieldset('change_license', ['legend' => '', 'collapsable' => false]);
 
-        $key = \M2E\Otto\Helper\Data::escapeHtml($this->licenseService->get()->getKey());
+        $key = \M2E\Core\Helper\Data::escapeHtml($this->licenseService->get()->getKey());
         $fieldSet->addField(
             'new_license_key',
             'text',

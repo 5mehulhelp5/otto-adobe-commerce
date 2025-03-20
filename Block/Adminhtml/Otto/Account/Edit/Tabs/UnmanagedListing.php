@@ -10,10 +10,10 @@ use M2E\Otto\Model\Account\Settings\UnmanagedListings as UnmanagedListingsSettin
 class UnmanagedListing extends AbstractForm
 {
     private ?\M2E\Otto\Model\Account $account;
-    private \M2E\Otto\Helper\Magento\Attribute $magentoAttributeHelper;
+    private \M2E\Core\Helper\Magento\Attribute $magentoAttributeHelper;
 
     public function __construct(
-        \M2E\Otto\Helper\Magento\Attribute $magentoAttributeHelper,
+        \M2E\Core\Helper\Magento\Attribute $magentoAttributeHelper,
         \M2E\Otto\Block\Adminhtml\Magento\Context\Template $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
@@ -114,9 +114,9 @@ automatically link them to Magento Product, etc.</p>'
         $attributes = $this->magentoAttributeHelper->filterByInputTypes(
             $allAttributes,
             [
-                \M2E\Otto\Helper\Magento\Attribute::ATTRIBUTE_FRONTEND_INPUT_TEXT,
-                \M2E\Otto\Helper\Magento\Attribute::ATTRIBUTE_FRONTEND_INPUT_TEXTAREA,
-                \M2E\Otto\Helper\Magento\Attribute::ATTRIBUTE_FRONTEND_INPUT_SELECT,
+                \M2E\Core\Helper\Magento\Attribute::ATTRIBUTE_FRONTEND_INPUT_TEXT,
+                \M2E\Core\Helper\Magento\Attribute::ATTRIBUTE_FRONTEND_INPUT_TEXTAREA,
+                \M2E\Core\Helper\Magento\Attribute::ATTRIBUTE_FRONTEND_INPUT_SELECT,
             ]
         );
 

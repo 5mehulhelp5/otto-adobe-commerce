@@ -171,10 +171,10 @@ class Log
     public function getStatusByResultType($resultType)
     {
         $typesStatusesMap = [
-            \M2E\Otto\Model\Log\AbstractModel::TYPE_INFO => \M2E\Otto\Helper\Data::STATUS_SUCCESS,
-            \M2E\Otto\Model\Log\AbstractModel::TYPE_SUCCESS => \M2E\Otto\Helper\Data::STATUS_SUCCESS,
-            \M2E\Otto\Model\Log\AbstractModel::TYPE_WARNING => \M2E\Otto\Helper\Data::STATUS_WARNING,
-            \M2E\Otto\Model\Log\AbstractModel::TYPE_ERROR => \M2E\Otto\Helper\Data::STATUS_ERROR,
+            \M2E\Otto\Model\Log\AbstractModel::TYPE_INFO => \M2E\Core\Helper\Data::STATUS_SUCCESS,
+            \M2E\Otto\Model\Log\AbstractModel::TYPE_SUCCESS => \M2E\Core\Helper\Data::STATUS_SUCCESS,
+            \M2E\Otto\Model\Log\AbstractModel::TYPE_WARNING => \M2E\Core\Helper\Data::STATUS_WARNING,
+            \M2E\Otto\Model\Log\AbstractModel::TYPE_ERROR => \M2E\Core\Helper\Data::STATUS_ERROR,
         ];
 
         return $typesStatusesMap[$resultType];
@@ -183,8 +183,8 @@ class Log
     public function platformInfo(): string
     {
         $platformInfo = [];
-        $platformInfo['edition'] = $this->objectManager->get(\M2E\Otto\Helper\Magento::class)->getEditionName();
-        $platformInfo['version'] = $this->objectManager->get(\M2E\Otto\Helper\Magento::class)->getVersion();
+        $platformInfo['edition'] = $this->objectManager->get(\M2E\Core\Helper\Magento::class)->getEditionName();
+        $platformInfo['version'] = $this->objectManager->get(\M2E\Core\Helper\Magento::class)->getVersion();
 
         return <<<DATA
 -------------------------------- PLATFORM INFO -----------------------------------

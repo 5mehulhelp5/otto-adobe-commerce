@@ -41,7 +41,7 @@ abstract class Grid extends \M2E\Otto\Block\Adminhtml\Magento\Grid\AbstractGrid
         $this->setUseAjax(true);
         // ---------------------------------------
 
-        //$this->isAjax = \M2E\Otto\Helper\Json::encode($this->getRequest()->isXmlHttpRequest());
+        //$this->isAjax = \M2E\Core\Helper\Json::encode($this->getRequest()->isXmlHttpRequest());
     }
 
     //########################################
@@ -145,7 +145,7 @@ CSS
 
     public function callbackColumnProductTitle($value, $row, $column, $isExport)
     {
-        return \M2E\Otto\Helper\Data::escapeHtml($value);
+        return \M2E\Core\Helper\Data::escapeHtml($value);
     }
 
     public function callbackColumnIsInStock($value, $row, $column, $isExport)
@@ -272,7 +272,7 @@ CSS
         // ---------------------------------------
 
         // ---------------------------------------
-        $isShowRuleBlock = \M2E\Otto\Helper\Json::encode($this->isShowRuleBlock());
+        $isShowRuleBlock = \M2E\Core\Helper\Json::encode($this->isShowRuleBlock());
 
         $this->js->add(
             <<<JS
@@ -314,7 +314,7 @@ JS
 
         // ---------------------------------------
         $this->jsTranslator->addTranslations([
-            'Please select the Products you want to perform the Action on.' => \M2E\Otto\Helper\Data::escapeJs(
+            'Please select the Products you want to perform the Action on.' => \M2E\Core\Helper\Data::escapeJs(
                 (string)__('Please select the Products you want to perform the Action on.')
             ),
             'Show Advanced Filter' => __('Show Advanced Filter'),

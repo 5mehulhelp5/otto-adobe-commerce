@@ -185,7 +185,7 @@ class Category extends \M2E\Otto\Model\ActiveRecord\AbstractModel
 
     public function getCreateDate(): \DateTime
     {
-        return \M2E\Otto\Helper\Date::createDateGmt(
+        return \M2E\Core\Helper\Date::createDateGmt(
             $this->getData(CategoryResource::COLUMN_CREATE_DATE)
         );
     }
@@ -210,7 +210,7 @@ class Category extends \M2E\Otto\Model\ActiveRecord\AbstractModel
 
     public function getUpdateDate(): \DateTime
     {
-        return \M2E\Otto\Helper\Date::createDateGmt(
+        return \M2E\Core\Helper\Date::createDateGmt(
             $this->getData(CategoryResource::COLUMN_UPDATE_DATE)
         );
     }

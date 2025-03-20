@@ -36,7 +36,7 @@ abstract class AbstractGrid extends \M2E\Otto\Block\Adminhtml\Log\AbstractGrid
 
     protected function addMaxAllowedLogsCountExceededNotification($date)
     {
-        $notification = \M2E\Otto\Helper\Data::escapeJs(
+        $notification = \M2E\Core\Helper\Data::escapeJs(
             (string)__(
                 'Using a Grouped View Mode, the logs records which are not older than %date are
             displayed here in order to prevent any possible Performance-related issues.',

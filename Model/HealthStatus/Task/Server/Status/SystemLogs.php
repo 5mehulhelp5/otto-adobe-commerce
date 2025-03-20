@@ -72,7 +72,7 @@ messages to the System Log during the last hour. <a target="_blank" href="%2">Cl
         $date->modify("- {$inSeconds} seconds");
 
         $collection = $this->activeRecordFactory->getObject('Log\System')->getCollection();
-        $collection->addFieldToFilter('type', ['neq' => '\\' . \M2E\Otto\Model\Exception\Connection::class]);
+        $collection->addFieldToFilter('type', ['neq' => '\\' . \M2E\Core\Model\Exception\Connection::class]);
         $collection->addFieldToFilter('type', ['nlike' => '%Logging%']);
         $collection->addFieldToFilter('create_date', ['gt' => $date->format('Y-m-d H:i:s')]);
 

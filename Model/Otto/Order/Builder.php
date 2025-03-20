@@ -200,10 +200,10 @@ class Builder extends \Magento\Framework\DataObject
     private function canCreateOrUpdateOrder(): bool
     {
         if ($this->order->getId()) {
-            $newPurchaseUpdateDate = \M2E\Otto\Helper\Date::createDateGmt(
+            $newPurchaseUpdateDate = \M2E\Core\Helper\Date::createDateGmt(
                 $this->getData('purchase_update_date')
             );
-            $oldPurchaseUpdateDate = \M2E\Otto\Helper\Date::createDateGmt(
+            $oldPurchaseUpdateDate = \M2E\Core\Helper\Date::createDateGmt(
                 $this->order->getPurchaseUpdateDate()
             );
 

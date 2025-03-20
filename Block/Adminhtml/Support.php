@@ -36,7 +36,7 @@ class Support extends \M2E\Otto\Block\Adminhtml\Magento\AbstractBlock
                 in response to your request.</p>',
                 'https://docs-m2.m2epro.com/m2e-otto-user-guide',
                 'https://help.m2epro.com/en/support/solutions/9000117126',
-                \M2E\Otto\Helper\Module\Support::YOUTUBE_CHANNEL_URL
+                'https://www.youtube.com/c/M2Epro-Magento-Amazon-eBay-Walmart'
             ),
         ]);
 
@@ -45,7 +45,7 @@ class Support extends \M2E\Otto\Block\Adminhtml\Magento\AbstractBlock
 
     public function toHtml()
     {
-        $summaryInfo = \M2E\Otto\Helper\Json::encode(
+        $summaryInfo = \M2E\Core\Helper\Json::encode(
             $this->moduleSupportHelper->getSummaryInfo()
         );
 

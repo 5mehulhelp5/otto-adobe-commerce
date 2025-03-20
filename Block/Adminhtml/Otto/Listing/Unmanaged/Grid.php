@@ -221,8 +221,8 @@ class Grid extends \M2E\Otto\Block\Adminhtml\Magento\Grid\AbstractGrid
             if (strlen($productTitle) > 60) {
                 $productTitle = substr($productTitle, 0, 60) . '...';
             }
-            $productTitle = \M2E\Otto\Helper\Data::escapeHtml($productTitle);
-            $productTitle = \M2E\Otto\Helper\Data::escapeJs($productTitle);
+            $productTitle = \M2E\Core\Helper\Data::escapeHtml($productTitle);
+            $productTitle = \M2E\Core\Helper\Data::escapeJs($productTitle);
 
             return sprintf(
                 '<a onclick="ListingOtherMappingObj.openPopUp(%s, \'%s\')">%s</a>',
@@ -249,7 +249,7 @@ class Grid extends \M2E\Otto\Block\Adminhtml\Magento\Grid\AbstractGrid
 
         $moveLink = sprintf(
             '<a onclick="OttoListingOtherGridObj.movingHandler.getGridHtml(%s)">%s</a>',
-            \M2E\Otto\Helper\Json::encode([(int)$row->getId()]),
+            \M2E\Core\Helper\Json::encode([(int)$row->getId()]),
             __('Move')
         );
 
@@ -271,7 +271,7 @@ class Grid extends \M2E\Otto\Block\Adminhtml\Magento\Grid\AbstractGrid
         $titleSku = __('SKU');
 
         $tempSku = $row->getSku();
-        $tempSku = \M2E\Otto\Helper\Data::escapeHtml($tempSku);
+        $tempSku = \M2E\Core\Helper\Data::escapeHtml($tempSku);
 
         if ($isExport) {
             return strip_tags($tempSku);
@@ -280,12 +280,12 @@ class Grid extends \M2E\Otto\Block\Adminhtml\Magento\Grid\AbstractGrid
         $categoryHtml = sprintf(
             '<strong>%s:</strong>&nbsp;%s',
             __('Category'),
-            \M2E\Otto\Helper\Data::escapeHtml($row->getCategory())
+            \M2E\Core\Helper\Data::escapeHtml($row->getCategory())
         );
 
         return sprintf(
             '<span>%s</span><br/><strong>%s:&nbsp;</strong>%s<br/>%s',
-            \M2E\Otto\Helper\Data::escapeHtml($title),
+            \M2E\Core\Helper\Data::escapeHtml($title),
             $titleSku,
             $tempSku,
             $categoryHtml

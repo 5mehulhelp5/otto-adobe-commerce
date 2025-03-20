@@ -26,7 +26,7 @@ class JsTranslatorRenderer extends AbstractRenderer
             return '';
         }
 
-        $translations = \M2E\Otto\Helper\Json::encode($this->jsTranslations);
+        $translations = \M2E\Core\Helper\Json::encode($this->jsTranslations);
 
         return "Otto.translator.add({$translations});";
     }

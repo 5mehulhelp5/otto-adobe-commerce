@@ -62,12 +62,12 @@ class Tables
 
     private \Magento\Framework\App\ResourceConnection $resourceConnection;
     private Structure $databaseHelper;
-    private \M2E\Otto\Helper\Magento\Staging $stagingHelper;
+    private \M2E\Core\Helper\Magento\Staging $stagingHelper;
 
     public function __construct(
         \Magento\Framework\App\ResourceConnection $resourceConnection,
         \M2E\Otto\Helper\Module\Database\Structure $databaseHelper,
-        \M2E\Otto\Helper\Magento\Staging $stagingHelper
+        \M2E\Core\Helper\Magento\Staging $stagingHelper
     ) {
         $this->resourceConnection = $resourceConnection;
         $this->databaseHelper = $databaseHelper;

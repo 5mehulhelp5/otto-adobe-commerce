@@ -16,7 +16,6 @@ class FrontController extends \M2E\Otto\Plugin\AbstractPlugin
     private \M2E\Otto\Model\HealthStatus\Notification\Settings $notificationSettings;
 
     public function __construct(
-        \M2E\Otto\Helper\Factory $helperFactory,
         \Magento\Framework\Message\ManagerInterface $messageManager,
         \M2E\Otto\Model\HealthStatus\CurrentStatus $healthStatusCurrentStatus,
         \M2E\Otto\Model\HealthStatus\Notification\MessageBuilder $notificationMessageBuilder,
@@ -26,7 +25,6 @@ class FrontController extends \M2E\Otto\Plugin\AbstractPlugin
         $this->healthStatusCurrentStatus = $healthStatusCurrentStatus;
         $this->notificationMessageBuilder = $notificationMessageBuilder;
         $this->notificationSettings = $notificationSettings;
-        parent::__construct($helperFactory);
     }
 
     //########################################

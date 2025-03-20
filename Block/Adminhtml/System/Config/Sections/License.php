@@ -89,7 +89,7 @@ License Key.</p><br>
                         'This email address is associated with your License.
                         You can also use it to access
                         <a href="%url" target="_blank" class="external-link">M2E Accounts</a>.',
-                        ['url' => \M2E\Otto\Helper\Module\Support::ACCOUNTS_URL],
+                        ['url' => \M2E\Core\Helper\Module\Support::ACCOUNTS_URL],
                     ),
                 ]
             );
@@ -102,7 +102,7 @@ License Key.</p><br>
                 [
                     'label' => '',
                     'value' => __('Manage License'),
-                    'href' => \M2E\Otto\Helper\Module\Support::ACCOUNTS_URL,
+                    'href' => \M2E\Core\Helper\Module\Support::ACCOUNTS_URL,
                     'class' => 'external-link',
                     'target' => '_blank',
                 ]
@@ -129,7 +129,7 @@ License Key.</p><br>
                     $text .= sprintf(
                         '<span>(%s: %s)</span>',
                         __('Your Domain'),
-                        \M2E\Otto\Helper\Data::escapeHtml($this->licenseData['connection']['domain'])
+                        \M2E\Core\Helper\Data::escapeHtml($this->licenseData['connection']['domain'])
                     );
                 }
 
@@ -152,7 +152,7 @@ License Key.</p><br>
                     && $this->licenseData['connection']['ip'] !== null
                 ) {
                     $text .= '<span> (' . __('Your IP') . ': '
-                        . \M2E\Otto\Helper\Data::escapeHtml($this->licenseData['connection']['ip']) . ')</span>';
+                        . \M2E\Core\Helper\Data::escapeHtml($this->licenseData['connection']['ip']) . ')</span>';
                 }
 
                 $fieldSet->addField(
@@ -196,13 +196,13 @@ License Key.</p><br>
         $domainIdentifier = $license->getInfo()->getDomainIdentifier();
         $ipIdentifier = $license->getInfo()->getIpIdentifier();
 
-        $this->key = \M2E\Otto\Helper\Data::escapeHtml($license->getKey());
+        $this->key = \M2E\Core\Helper\Data::escapeHtml($license->getKey());
 
         $this->licenseData = [
-            'domain' => \M2E\Otto\Helper\Data::escapeHtml($domainIdentifier->getValidValue()),
-            'ip' => \M2E\Otto\Helper\Data::escapeHtml($ipIdentifier->getValidValue()),
+            'domain' => \M2E\Core\Helper\Data::escapeHtml($domainIdentifier->getValidValue()),
+            'ip' => \M2E\Core\Helper\Data::escapeHtml($ipIdentifier->getValidValue()),
             'info' => [
-                'email' => \M2E\Otto\Helper\Data::escapeHtml($license->getInfo()->getEmail()),
+                'email' => \M2E\Core\Helper\Data::escapeHtml($license->getInfo()->getEmail()),
             ],
             'valid' => [
                 'domain' => $domainIdentifier->isValid(),

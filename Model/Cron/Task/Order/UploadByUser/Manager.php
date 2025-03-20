@@ -41,7 +41,7 @@ class Manager
             return null;
         }
 
-        return \M2E\Otto\Helper\Date::createDateGmt($date);
+        return \M2E\Core\Helper\Date::createDateGmt($date);
     }
 
     /**
@@ -54,7 +54,7 @@ class Manager
             return null;
         }
 
-        return \M2E\Otto\Helper\Date::createDateGmt($date);
+        return \M2E\Core\Helper\Date::createDateGmt($date);
     }
 
     /**
@@ -67,7 +67,7 @@ class Manager
             return null;
         }
 
-        return \M2E\Otto\Helper\Date::createDateGmt($date);
+        return \M2E\Core\Helper\Date::createDateGmt($date);
     }
 
     //----------------------------------------
@@ -92,7 +92,7 @@ class Manager
             throw new \M2E\Otto\Model\Exception\Logic('From date is bigger than To date.');
         }
 
-        $nowTimestamp = \M2E\Otto\Helper\Date::createCurrentGmt()->getTimestamp();
+        $nowTimestamp = \M2E\Core\Helper\Date::createCurrentGmt()->getTimestamp();
         if (
             $from->getTimestamp() > $nowTimestamp
             || $to->getTimestamp() > $nowTimestamp
@@ -104,7 +104,7 @@ class Manager
             throw new \M2E\Otto\Model\Exception\Logic('From - to interval provided is too big. (Max: 30 days)');
         }
 
-        $minDate = \M2E\Otto\Helper\Date::createCurrentGmt();
+        $minDate = \M2E\Core\Helper\Date::createCurrentGmt();
         $minDate->modify('-90 days');
 
         if ($from->getTimestamp() < $minDate->getTimestamp()) {

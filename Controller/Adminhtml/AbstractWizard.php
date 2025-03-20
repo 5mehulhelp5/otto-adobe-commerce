@@ -7,12 +7,12 @@ namespace M2E\Otto\Controller\Adminhtml;
 abstract class AbstractWizard extends AbstractMain
 {
     private \M2E\Otto\Helper\Module\Wizard $wizardHelper;
-    private \M2E\Otto\Helper\Magento $magentoHelper;
+    private \M2E\Core\Helper\Magento $magentoHelper;
     private \Magento\Framework\Code\NameBuilder $nameBuilder;
     private \M2E\Core\Model\LicenseService $licenseService;
 
     public function __construct(
-        \M2E\Otto\Helper\Magento $magentoHelper,
+        \M2E\Core\Helper\Magento $magentoHelper,
         \M2E\Otto\Helper\Module\Wizard $wizardHelper,
         \Magento\Framework\Code\NameBuilder $nameBuilder,
         \M2E\Core\Model\LicenseService $licenseHelper

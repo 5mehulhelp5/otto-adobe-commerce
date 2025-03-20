@@ -17,7 +17,7 @@ class Grid extends \M2E\Otto\Block\Adminhtml\Listing\View\AbstractGrid
     private \M2E\Otto\Model\ResourceModel\Magento\Product\CollectionFactory $magentoProductCollectionFactory;
     private \M2E\Otto\Helper\Data\Session $sessionDataHelper;
     private ListingProductResource $listingProductResource;
-    private \M2E\Otto\Helper\Url $urlHelper;
+    private \M2E\Core\Helper\Url $urlHelper;
     private \M2E\Otto\Model\Magento\ProductFactory $magentoProductFactory;
     private DescriptionResource $descriptionResource;
     private SellingFormatResource $sellingFormatResource;
@@ -41,7 +41,7 @@ class Grid extends \M2E\Otto\Block\Adminhtml\Listing\View\AbstractGrid
         \Magento\Backend\Helper\Data $backendHelper,
         \M2E\Otto\Helper\Data\Session $sessionDataHelper,
         \M2E\Otto\Helper\Data $dataHelper,
-        \M2E\Otto\Helper\Url $urlHelper,
+        \M2E\Core\Helper\Url $urlHelper,
         \M2E\Otto\Helper\Data\GlobalData $globalDataHelper,
         array $data = []
     ) {
@@ -267,7 +267,7 @@ class Grid extends \M2E\Otto\Block\Adminhtml\Listing\View\AbstractGrid
 
     public function callbackColumnTitle($value, $row, $column, $isExport): string
     {
-        $value = '<span>' . \M2E\Otto\Helper\Data::escapeHtml($value) . '</span>';
+        $value = '<span>' . \M2E\Core\Helper\Data::escapeHtml($value) . '</span>';
 
         $sku = $row->getData('sku');
         if ($sku === null) {
@@ -278,7 +278,7 @@ class Grid extends \M2E\Otto\Block\Adminhtml\Listing\View\AbstractGrid
         }
 
         $value .= '<br/><strong>' . __('SKU') . ':</strong>&nbsp;';
-        $value .= \M2E\Otto\Helper\Data::escapeHtml($sku);
+        $value .= \M2E\Core\Helper\Data::escapeHtml($sku);
 
         return $value;
     }
@@ -562,7 +562,7 @@ JS
         $temp = $this->sessionDataHelper->getValue('products_ids_for_list', true);
         $productsIdsForList = empty($temp) ? '' : $temp;
 
-        $ignoreListings = \M2E\Otto\Helper\Json::encode([$this->listing->getId()]);
+        $ignoreListings = \M2E\Core\Helper\Json::encode([$this->listing->getId()]);
 
         $this->js->add(
             <<<JS

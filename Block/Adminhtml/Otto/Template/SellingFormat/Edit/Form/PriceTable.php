@@ -13,13 +13,13 @@ class PriceTable extends AbstractBlock
 
     protected \Magento\Framework\Locale\CurrencyInterface $currency;
 
-    public \M2E\Otto\Helper\Magento\Attribute $magentoAttributeHelper;
+    public \M2E\Core\Helper\Magento\Attribute $magentoAttributeHelper;
     private \M2E\Otto\Helper\Data\GlobalData $globalDataHelper;
 
     public function __construct(
         \M2E\Otto\Helper\Data\GlobalData $globalDataHelper,
         \Magento\Framework\Locale\CurrencyInterface $currency,
-        \M2E\Otto\Helper\Magento\Attribute $magentoAttributeHelper,
+        \M2E\Core\Helper\Magento\Attribute $magentoAttributeHelper,
         \M2E\Otto\Block\Adminhtml\Magento\Context\Template $context,
         array $data = []
     ) {
@@ -50,7 +50,7 @@ class PriceTable extends AbstractBlock
      */
     public function getFixedPriceModifierAttributes($fixedPriceModifierString)
     {
-        $fixedPriceModifier = \M2E\Otto\Helper\Json::decode($fixedPriceModifierString);
+        $fixedPriceModifier = \M2E\Core\Helper\Json::decode($fixedPriceModifierString);
         if (!is_array($fixedPriceModifier) || empty($fixedPriceModifier)) {
             return [];
         }

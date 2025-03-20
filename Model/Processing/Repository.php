@@ -138,7 +138,7 @@ class Repository
             ->addFieldToFilter('type', \M2E\Otto\Model\Processing::TYPE_PARTIAL)
             ->addFieldToFilter(
                 'expiration_date',
-                ['lt' => \M2E\Otto\Helper\Date::createCurrentGmt()->format('Y-m-d H:i:s')],
+                ['lt' => \M2E\Core\Helper\Date::createCurrentGmt()->format('Y-m-d H:i:s')],
             )
             ->addFieldToFilter(
                 'stage',
@@ -206,7 +206,7 @@ class Repository
             ->addFieldToFilter('type', \M2E\Otto\Model\Processing::TYPE_SIMPLE)
             ->addFieldToFilter(
                 'expiration_date',
-                ['lt' => \M2E\Otto\Helper\Date::createCurrentGmt()->format('Y-m-d H:i:s')],
+                ['lt' => \M2E\Core\Helper\Date::createCurrentGmt()->format('Y-m-d H:i:s')],
             )
             ->addFieldToFilter(
                 'stage',

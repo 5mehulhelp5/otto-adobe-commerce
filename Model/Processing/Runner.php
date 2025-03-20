@@ -66,7 +66,7 @@ class Runner
         string $hash,
         SimpleInitiatorInterface $initiator
     ): \M2E\Otto\Model\Processing {
-        $expireDate = \M2E\Otto\Helper\Date::createCurrentGmt()
+        $expireDate = \M2E\Core\Helper\Date::createCurrentGmt()
                                                  ->modify('+ ' . self::MAX_LIFETIME . ' seconds');
 
         if ($initiator instanceof PartialInitiatorInterface) {

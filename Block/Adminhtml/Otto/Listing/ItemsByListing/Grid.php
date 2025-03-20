@@ -10,7 +10,7 @@ class Grid extends \M2E\Otto\Block\Adminhtml\Listing\Grid
 {
     private \M2E\Otto\Model\ResourceModel\Product $listingProductResource;
     private \M2E\Otto\Model\ResourceModel\Account $accountResource;
-    private \M2E\Otto\Helper\Url $urlHelper;
+    private \M2E\Core\Helper\Url $urlHelper;
     private \M2E\Otto\Model\ResourceModel\Listing\CollectionFactory $listingCollectionFactory;
 
     public function __construct(
@@ -20,7 +20,7 @@ class Grid extends \M2E\Otto\Block\Adminhtml\Listing\Grid
         \M2E\Otto\Block\Adminhtml\Magento\Context\Template $context,
         \Magento\Backend\Helper\Data $backendHelper,
         \M2E\Otto\Helper\Data $dataHelper,
-        \M2E\Otto\Helper\Url $urlHelper,
+        \M2E\Core\Helper\Url $urlHelper,
         \M2E\Otto\Model\ResourceModel\Listing\CollectionFactory $listingCollectionFactory,
         array $data = []
     ) {
@@ -218,7 +218,7 @@ class Grid extends \M2E\Otto\Block\Adminhtml\Listing\Grid
      */
     public function callbackColumnTitle($value, $row, $column, $isExport)
     {
-        $title = \M2E\Otto\Helper\Data::escapeHtml($value);
+        $title = \M2E\Core\Helper\Data::escapeHtml($value);
 
         $value = <<<HTML
 <span id="listing_title_{$row->getId()}">

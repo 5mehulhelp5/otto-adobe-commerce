@@ -10,13 +10,11 @@ abstract class AbstractAddUpdate extends \M2E\Otto\Observer\Product\AbstractProd
     public function __construct(
         \M2E\Otto\Model\Product\Repository $listingProductRepository,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \M2E\Otto\Model\Magento\ProductFactory $ourMagentoProductFactory,
-        \M2E\Otto\Helper\Factory $helperFactory
+        \M2E\Otto\Model\Magento\ProductFactory $ourMagentoProductFactory
     ) {
         parent::__construct(
             $productFactory,
-            $ourMagentoProductFactory,
-            $helperFactory
+            $ourMagentoProductFactory
         );
         $this->listingProductRepository = $listingProductRepository;
     }

@@ -18,7 +18,7 @@ trait CommandTrait
     ): \M2E\Otto\Model\Otto\Connector\Order\Receive\Response {
         $responseData = $response->getResponseData();
 
-        $toDate = \M2E\Otto\Helper\Date::createDateGmt(
+        $toDate = \M2E\Core\Helper\Date::createDateGmt(
             $responseData['to_update_date'] ?? $responseData['to_create_date'],
         );
 

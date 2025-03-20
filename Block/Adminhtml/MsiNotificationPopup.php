@@ -8,7 +8,7 @@ class MsiNotificationPopup extends \M2E\Otto\Block\Adminhtml\Magento\AbstractBlo
 {
     protected function _toHtml()
     {
-        $jsMessage = \M2E\Otto\Helper\Data::escapeJs(
+        $jsMessage = \M2E\Core\Helper\Data::escapeJs(
             (string)__(
                 "Magento Inventory (MSI) is enabled.
                 M2E Otto will update your product quantity based on Product Salable QTY. Read more

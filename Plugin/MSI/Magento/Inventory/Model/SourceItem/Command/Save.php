@@ -14,14 +14,11 @@ class Save extends \M2E\Otto\Plugin\AbstractPlugin
 
     public function __construct(
         \M2E\Otto\Model\Listing\LogService $listingLogService,
-        \M2E\Otto\Helper\Factory $helperFactory,
         \M2E\Otto\Model\MSI\AffectedProducts $msiAffectedProducts,
         \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder,
         \Magento\Inventory\Model\SourceItemRepository $sourceItemRepository,
         \M2E\Otto\Model\Magento\Product\ChangeAttributeTrackerFactory $changeAttributeTrackerFactory
     ) {
-        parent::__construct($helperFactory);
-
         $this->msiAffectedProducts = $msiAffectedProducts;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->sourceItemRepo = $sourceItemRepository;
@@ -139,7 +136,7 @@ class Save extends \M2E\Otto\Plugin\AbstractPlugin
     ): void {
         $this->listingLogService->addProduct(
             $listingProduct,
-            \M2E\Otto\Helper\Data::INITIATOR_EXTENSION,
+            \M2E\Core\Helper\Data::INITIATOR_EXTENSION,
             $action,
             null,
             \M2E\Otto\Helper\Module\Log::encodeDescription(

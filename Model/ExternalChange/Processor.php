@@ -79,7 +79,7 @@ class Processor
                     (string)__('Product was deleted and is no longer available on the channel'),
                 ),
                 $product,
-                \M2E\Otto\Helper\Data::INITIATOR_EXTENSION,
+                \M2E\Core\Helper\Data::INITIATOR_EXTENSION,
                 \M2E\Otto\Model\Listing\Log::ACTION_CHANNEL_CHANGE,
                 $this->getLogActionId(),
             );

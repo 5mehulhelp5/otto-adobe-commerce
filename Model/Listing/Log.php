@@ -121,7 +121,7 @@ class Log extends \M2E\Otto\Model\Log\AbstractModel
         string $description,
         int $type
     ): self {
-        \M2E\Otto\Helper\Data::validateInitiator($initiator);
+        \M2E\Core\Helper\Data::validateInitiator($initiator);
         $this->validateType($type);
 
         $this
@@ -152,7 +152,7 @@ class Log extends \M2E\Otto\Model\Log\AbstractModel
         string $description,
         int $type
     ): self {
-        \M2E\Otto\Helper\Data::validateInitiator($initiator);
+        \M2E\Core\Helper\Data::validateInitiator($initiator);
         $this->validateType($type);
 
         $this
@@ -199,7 +199,7 @@ class Log extends \M2E\Otto\Model\Log\AbstractModel
 
     public function getCreateDate(): \DateTime
     {
-        return \M2E\Otto\Helper\Date::createDateGmt(
+        return \M2E\Core\Helper\Date::createDateGmt(
             $this->getData(\M2E\Otto\Model\ResourceModel\Listing\Log::COLUMN_CREATE_DATE)
         );
     }
