@@ -6,20 +6,18 @@ namespace M2E\Otto\Block\Adminhtml\System\Config\Sections;
 
 class ModuleAndChannels extends \M2E\Otto\Block\Adminhtml\System\Config\Sections
 {
-    /** @var \M2E\Otto\Helper\Module\Cron */
-    private $cronHelper;
-    /** @var \M2E\Otto\Helper\Module */
-    private $moduleHelper;
+    private \M2E\Otto\Helper\Module $moduleHelper;
+    private \M2E\Otto\Model\Cron\Config $cronConfig;
 
     public function __construct(
         \M2E\Otto\Block\Adminhtml\Magento\Context\Template $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
-        \M2E\Otto\Helper\Module\Cron $cronHelper,
+        \M2E\Otto\Model\Cron\Config $cronConfig,
         \M2E\Otto\Helper\Module $moduleHelper,
         array $data = []
     ) {
-        $this->cronHelper = $cronHelper;
+        $this->cronConfig = $cronConfig;
         $this->moduleHelper = $moduleHelper;
         parent::__construct($context, $registry, $formFactory, $data);
     }
@@ -50,7 +48,7 @@ Read the <a href="%url" target="_blank">article</a> for more details.</p>',
             ]
         );
 
-        $isCronEnabled = (int)$this->cronHelper->isModeEnabled();
+        $isCronEnabled = (int)$this->cronConfig->isEnabled();
         $isModuleEnabled = (int)!$this->moduleHelper->isDisabled();
 
         if ($isModuleEnabled) {

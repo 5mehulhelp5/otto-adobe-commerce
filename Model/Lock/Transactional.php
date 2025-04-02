@@ -1,27 +1,31 @@
 <?php
 
+declare(strict_types=1);
+
 namespace M2E\Otto\Model\Lock;
 
-/**
- * Class \M2E\Otto\Model\Lock\Transactional
- */
 class Transactional extends \M2E\Otto\Model\ActiveRecord\AbstractModel
 {
-    //########################################
-
-    public function _construct()
+    public function _construct(): void
     {
         parent::_construct();
         $this->_init(\M2E\Otto\Model\ResourceModel\Lock\Transactional::class);
     }
 
-    public function getNick()
+    public function create(string $nick): self
     {
-        return $this->getData('nick');
+        $this->setData(\M2E\Otto\Model\ResourceModel\Lock\Transactional::COLUMN_NICK, $nick);
+
+        return $this;
     }
 
-    public function getCreateDate()
+    public function getNick(): string
     {
-        return $this->getData('create_date');
+        return (string)$this->getData(\M2E\Otto\Model\ResourceModel\Lock\Transactional::COLUMN_NICK);
+    }
+
+    public function getCreateDate(): ?string
+    {
+        return $this->getData(\M2E\Otto\Model\ResourceModel\Lock\Transactional::COLUMN_CREATE_DATE);
     }
 }

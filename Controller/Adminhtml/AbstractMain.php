@@ -352,10 +352,10 @@ abstract class AbstractMain extends AbstractBase
     {
         /** @var \M2E\Otto\Helper\Module $moduleHelper */
         $moduleHelper = $this->_objectManager->get(\M2E\Otto\Helper\Module::class);
-        /** @var \M2E\Otto\Helper\Module\Cron $moduleCronHelper */
-        $moduleCronHelper = $this->_objectManager->get(\M2E\Otto\Helper\Module\Cron::class);
+        /** @var \M2E\Otto\Model\Cron\Config $cronConfig */
+        $cronConfig = $this->_objectManager->get(\M2E\Otto\Model\Cron\Config::class);
 
-        if (!$moduleCronHelper->isModeEnabled()) {
+        if (!$cronConfig->isEnabled()) {
             $this->getMessageManager()->addWarning(
                 __(
                     'Automatic Synchronization is disabled. You can enable it under <i>Stores > Settings >
@@ -367,9 +367,12 @@ abstract class AbstractMain extends AbstractBase
             return;
         }
 
+        /** @var \M2E\Otto\Model\Cron\Manager $cronManager */
+        $cronManager = $this->_objectManager->get(\M2E\Otto\Model\Cron\Manager::class);
+
         if (
             $moduleHelper->isReadyToWork()
-            && $moduleCronHelper->isLastRunMoreThan(1, true)
+            && $cronManager->isCronLastRunMoreThan(3600)
         ) {
             $message = __(
                 'Attention! AUTOMATIC Synchronization is not running at the moment.

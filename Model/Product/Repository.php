@@ -17,6 +17,7 @@ class Repository
     private ListingProductResource $productResource;
     private \M2E\Otto\Model\ResourceModel\Product\Lock $productLockResource;
     private \M2E\Otto\Model\ResourceModel\ExternalChange $externalChangeResource;
+    private \M2E\Otto\Helper\Module\Database\Structure $dbStructureHelper;
 
     public function __construct(
         \M2E\Otto\Model\ResourceModel\Product\Lock $productLockResource,
@@ -27,7 +28,8 @@ class Repository
         ListingProductResource\CollectionFactory $listingProductCollectionFactory,
         \M2E\Otto\Model\ProductFactory $listingProductFactory,
         \Magento\Framework\App\ResourceConnection $resourceConnection,
-        \M2E\Otto\Model\ResourceModel\ExternalChange $externalChangeResource
+        \M2E\Otto\Model\ResourceModel\ExternalChange $externalChangeResource,
+        \M2E\Otto\Helper\Module\Database\Structure $dbStructureHelper
     ) {
         $this->productLockResource = $productLockResource;
         $this->productResource = $productResource;
@@ -38,6 +40,7 @@ class Repository
         $this->runtimeCache = $runtimeCache;
         $this->externalChangeResource = $externalChangeResource;
         $this->listingResource = $listingResource;
+        $this->dbStructureHelper = $dbStructureHelper;
     }
 
     public function create(\M2E\Otto\Model\Product $product): void
@@ -257,6 +260,34 @@ class Repository
         }
 
         return $product;
+    }
+
+    /**
+     * @param string $sku
+     *
+     * @return \M2E\Otto\Model\Product[]
+     */
+    public function findProductsByMagentoSku(
+        string $sku
+    ): array {
+        $collection = $this->listingProductCollectionFactory->create();
+        $entityTableName = $this->dbStructureHelper->getTableNameWithPrefix('catalog_product_entity');
+
+        $collection->getSelect()
+                   ->join(
+                       ['cpe' => $entityTableName],
+                       sprintf(
+                           'cpe.entity_id = `main_table`.%s',
+                           ListingProductResource::COLUMN_MAGENTO_PRODUCT_ID,
+                       ),
+                       [],
+                   );
+        $collection->addFieldToFilter(
+            'cpe.sku',
+            ['like' => '%' . $sku . '%'],
+        );
+
+        return $collection->getItems();
     }
 
     /**

@@ -6,35 +6,35 @@ namespace M2E\Otto\Model\ControlPanel\Widget;
 
 class CronInfo implements \M2E\Core\Model\ControlPanel\Widget\CronInfoInterface
 {
-    private \M2E\Otto\Helper\Module\Cron $cronHelper;
-    private \M2E\Otto\Model\Config\Manager $config;
+    private \M2E\Otto\Model\Cron\Config $cronConfig;
+    private \M2E\Otto\Model\Cron\Manager $cronManager;
 
     public function __construct(
-        \M2E\Otto\Helper\Module\Cron $cronHelper,
-        \M2E\Otto\Model\Config\Manager $config
+        \M2E\Otto\Model\Cron\Config $cronConfig,
+        \M2E\Otto\Model\Cron\Manager $cronManager
     ) {
-        $this->cronHelper = $cronHelper;
-        $this->config = $config;
+        $this->cronConfig = $cronConfig;
+        $this->cronManager = $cronManager;
     }
 
     public function isMagentoCronDisabled(): bool
     {
-        return (bool)(int)$this->config->getGroupValue('/cron/magento/', 'disabled');
+        return $this->cronConfig->isRunnerDisabled(\M2E\Otto\Model\Cron\Config::RUNNER_MAGENTO);
     }
 
     public function isCronWorking(): bool
     {
-        return !$this->cronHelper->isLastRunMoreThan(1, true);
+        return !$this->cronManager->isCronLastRunMoreThan(3600);
     }
 
     public function getCronLastRunTime(): ?\DateTimeInterface
     {
-        return $this->cronHelper->getLastRun();
+        return $this->cronManager->getCronLastRun();
     }
 
     public function isRunnerTypeMagento(): bool
     {
-        return true;
+        return $this->cronConfig->getActiveRunner() === \M2E\Otto\Model\Cron\Config::RUNNER_MAGENTO;
     }
 
     public function isRunnerTypeDeveloper(): bool

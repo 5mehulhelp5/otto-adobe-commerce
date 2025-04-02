@@ -261,7 +261,6 @@ define([
                 $('magento_block_otto_accounts_magento_orders_rules-wrapper').hide();
                 $('magento_orders_qty_reservation_days').value = 1;
                 $('magento_block_otto_accounts_magento_orders_tax-wrapper').hide();
-                $('magento_orders_customer_billing_address_mode').value = Otto.php.constant('Account\\Settings\\Order::USE_SHIPPING_ADDRESS_AS_BILLING_IF_SAME_CUSTOMER_AND_RECIPIENT');
             } else {
                 $('magento_block_otto_accounts_magento_orders_number-wrapper').show();
                 $('magento_block_otto_accounts_magento_orders_customer-wrapper').show();

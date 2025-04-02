@@ -9,6 +9,8 @@ use M2E\Otto\Model\ResourceModel\Lock\Transactional as LockTransactionalResource
 use M2E\Otto\Model\ResourceModel\Lock\Item as LockItemResource;
 use M2E\Otto\Helper\Module\Database\Tables as TablesHelper;
 use Magento\Framework\DB\Ddl\Table;
+use M2E\Otto\Model\Cron\Config as CronConfig;
+use M2E\Otto\Model\Cron\Task\System\Servicing\SynchronizeTask as CronTaskServicing;
 
 class CoreHandler implements \M2E\Core\Model\Setup\InstallHandlerInterface
 {
@@ -259,8 +261,6 @@ class CoreHandler implements \M2E\Core\Model\Setup\InstallHandlerInterface
 
     private function installConfigData(\Magento\Framework\Setup\SetupInterface $setup): void
     {
-        $servicingInterval = random_int(43200, 86400);
-
         $config = $this->modifierConfigFactory->create(
             \M2E\Otto\Helper\Module::IDENTIFIER,
             $setup
@@ -269,10 +269,10 @@ class CoreHandler implements \M2E\Core\Model\Setup\InstallHandlerInterface
         $config->insert('/', 'is_disabled', '0');
         $config->insert('/', 'environment', 'production');
         $config->insert('/server/', 'application_key', '3e026d03fd42c954fc97c1ec81c492dea5cfa197');
-        $config->insert('/cron/', 'mode', '1');
-        $config->insert('/cron/', 'runner', 'magento');
-        $config->insert('/cron/magento/', 'disabled', '0');
-        $config->insert('/cron/task/system/servicing/synchronize/', 'interval', $servicingInterval);
+        $config->insert(CronConfig::CONFIG_GROUP, CronConfig::CONFIG_KEY_MODE, '1');
+        $config->insert(CronConfig::CONFIG_GROUP, CronConfig::CONFIG_KEY_RUNNER, CronConfig::RUNNER_MAGENTO);
+        $config->insert(CronConfig::getRunnerConfigGroup(CronConfig::RUNNER_MAGENTO), CronConfig::CONFIG_KEY_RUNNER_DISABLED, '0');
+        $config->insert(CronConfig::getTaskConfigGroup(CronTaskServicing::NICK), CronConfig::CONFIG_KEY_TASK_INTERVAL, random_int(43200, 86400));
         $config->insert('/logs/clearing/listings/', 'mode', '1');
         $config->insert('/logs/clearing/listings/', 'days', '30');
         $config->insert('/logs/clearing/synchronizations/', 'mode', '1');

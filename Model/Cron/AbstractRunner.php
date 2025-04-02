@@ -14,23 +14,25 @@ abstract class AbstractRunner
     private \M2E\Otto\Model\Lock\Transactional\ManagerFactory $lockTransactionManagerFactory;
     private \M2E\Otto\Helper\Module\Exception $exceptionHelper;
     private \M2E\Core\Helper\Magento $magentoHelper;
-    private \M2E\Otto\Model\Config\Manager $config;
     private \M2E\Otto\Helper\Module $moduleHelper;
     private \M2E\Otto\Helper\Module\Maintenance $maintenanceHelper;
-    private \M2E\Otto\Helper\Module\Cron $cronHelper;
     private \M2E\Otto\Model\Cron\OperationHistoryFactory $operationHistoryFactory;
     private \M2E\Otto\Model\Cron\Strategy $strategy;
     private \M2E\Core\Helper\Client\MemoryLimit $memoryLimit;
+    /** @var \M2E\Otto\Model\Cron\Config */
+    private Config $cronConfig;
+    /** @var \M2E\Otto\Model\Cron\Manager */
+    private Manager $cronManager;
 
     public function __construct(
+        \M2E\Otto\Model\Cron\Config $cronConfig,
+        \M2E\Otto\Model\Cron\Manager $cronManager,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \M2E\Otto\Model\Lock\Transactional\ManagerFactory $lockTransactionManagerFactory,
         \M2E\Otto\Helper\Module\Exception $exceptionHelper,
         \M2E\Core\Helper\Magento $magentoHelper,
-        \M2E\Otto\Model\Config\Manager $config,
         \M2E\Otto\Helper\Module $moduleHelper,
         \M2E\Otto\Helper\Module\Maintenance $maintenanceHelper,
-        \M2E\Otto\Helper\Module\Cron $cronHelper,
         \M2E\Otto\Model\Cron\OperationHistoryFactory $operationHistoryFactory,
         \M2E\Core\Helper\Client\MemoryLimit $memoryLimit,
         \M2E\Otto\Model\Cron\Strategy $strategy
@@ -39,16 +41,16 @@ abstract class AbstractRunner
         $this->lockTransactionManagerFactory = $lockTransactionManagerFactory;
         $this->exceptionHelper = $exceptionHelper;
         $this->magentoHelper = $magentoHelper;
-        $this->config = $config;
         $this->moduleHelper = $moduleHelper;
         $this->maintenanceHelper = $maintenanceHelper;
-        $this->cronHelper = $cronHelper;
         $this->operationHistoryFactory = $operationHistoryFactory;
         $this->strategy = $strategy;
         $this->memoryLimit = $memoryLimit;
+        $this->cronConfig = $cronConfig;
+        $this->cronManager = $cronManager;
     }
 
-    abstract public function getNick(): ?string;
+    abstract public function getNick(): string;
 
     abstract public function getInitiator(): int;
 
@@ -84,8 +86,7 @@ abstract class AbstractRunner
         try {
             $strategy = $this->getStrategy();
 
-            $strategy->setInitiator($this->getInitiator());
-            $strategy->setParentOperationHistory($this->getOperationHistory());
+            $strategy->initialize($this->getInitiator(), $this->getOperationHistory());
 
             $strategy->process();
         } catch (\Throwable $exception) {
@@ -125,7 +126,7 @@ abstract class AbstractRunner
             return false;
         }
 
-        if ($this->config->getGroupValue('/cron/' . $this->getNick() . '/', 'disabled')) {
+        if ($this->cronConfig->isRunnerDisabled($this->getNick())) {
             return false;
         }
 
@@ -134,7 +135,7 @@ abstract class AbstractRunner
 
     protected function canProcessRunner(): bool
     {
-        return $this->getNick() === $this->cronHelper->getRunner();
+        return $this->getNick() === $this->cronConfig->getActiveRunner();
     }
 
     private function initialize(): void
@@ -157,7 +158,7 @@ abstract class AbstractRunner
 
     protected function setLastAccess(): void
     {
-        $this->cronHelper->setLastAccess();
+        $this->cronManager->setCronLastAccess();
     }
 
     protected function isPossibleToRun(): bool
@@ -166,7 +167,7 @@ abstract class AbstractRunner
             return false;
         }
 
-        if (!$this->cronHelper->isModeEnabled()) {
+        if (!$this->cronConfig->isEnabled()) {
             return false;
         }
 
@@ -175,7 +176,7 @@ abstract class AbstractRunner
 
     protected function setLastRun(): void
     {
-        $this->cronHelper->setLastRun();
+        $this->cronManager->setCronLastRun();
     }
 
     // ---------------------------------------

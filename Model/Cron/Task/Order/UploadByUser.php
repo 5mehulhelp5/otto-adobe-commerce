@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace M2E\Otto\Model\Cron\Task\Order;
 
-class UploadByUser extends \M2E\Otto\Model\Cron\AbstractTask
+class UploadByUser implements \M2E\Core\Model\Cron\TaskHandlerInterface
 {
     public const NICK = 'order/upload_by_user';
 
@@ -12,51 +12,31 @@ class UploadByUser extends \M2E\Otto\Model\Cron\AbstractTask
     private \M2E\Otto\Model\Cron\Task\Order\UploadByUser\ManagerFactory $uploadByUserManagerFactory;
     private \M2E\Otto\Model\Account\Repository $accountRepository;
     private \M2E\Otto\Model\Otto\Connector\Order\Receive\ItemsByCreateDate\Processor $receiveOrderProcessor;
+    private \M2E\Otto\Model\Synchronization\LogService $syncLog;
 
     public function __construct(
         \M2E\Otto\Model\Account\Repository $accountRepository,
         \M2E\Otto\Model\Otto\Connector\Order\Receive\ItemsByCreateDate\Processor $receiveOrderProcessor,
         \M2E\Otto\Model\Cron\Task\Order\UploadByUser\ManagerFactory $uploadByUserManagerFactory,
-        \M2E\Otto\Model\Cron\Task\Order\CreatorFactory $orderCreatorFactory,
-        \M2E\Otto\Model\Cron\Manager $cronManager,
-        \M2E\Otto\Model\Synchronization\LogService $syncLogger,
-        \M2E\Otto\Helper\Data $helperData,
-        \Magento\Framework\Event\Manager $eventManager,
-        \M2E\Otto\Model\ActiveRecord\Factory $activeRecordFactory,
-        \M2E\Otto\Model\Cron\TaskRepository $taskRepo,
-        \Magento\Framework\App\ResourceConnection $resource
+        \M2E\Otto\Model\Cron\Task\Order\CreatorFactory $orderCreatorFactory
     ) {
-        parent::__construct(
-            $cronManager,
-            $syncLogger,
-            $helperData,
-            $eventManager,
-            $activeRecordFactory,
-            $taskRepo,
-            $resource,
-        );
         $this->orderCreatorFactory = $orderCreatorFactory;
         $this->uploadByUserManagerFactory = $uploadByUserManagerFactory;
         $this->accountRepository = $accountRepository;
         $this->receiveOrderProcessor = $receiveOrderProcessor;
     }
 
-    protected function getNick(): string
+    /**
+     * @param \M2E\Otto\Model\Cron\TaskContext $context
+     *
+     * @return void
+     */
+    public function process($context): void
     {
-        return self::NICK;
-    }
+        $this->syncLog = $context->getSynchronizationLog();
+        $this->syncLog->setTask(\M2E\Otto\Model\Synchronization\Log::TASK_ORDERS);
 
-    protected function getSynchronizationLog(): \M2E\Otto\Model\Synchronization\LogService
-    {
-        $synchronizationLog = parent::getSynchronizationLog();
-        $synchronizationLog->setTask(\M2E\Otto\Model\Synchronization\Log::TASK_ORDERS);
-
-        return $synchronizationLog;
-    }
-
-    protected function performActions(): void
-    {
-        $ordersCreator = $this->orderCreatorFactory->create($this->getSynchronizationLog());
+        $ordersCreator = $this->orderCreatorFactory->create($context->getSynchronizationLog());
         $ordersCreator->setValidateAccountCreateDate(false);
 
         foreach ($this->accountRepository->getAll() as $account) {
@@ -95,8 +75,8 @@ class UploadByUser extends \M2E\Otto\Model\Cron\AbstractTask
                     ['account' => $account->getTitle()],
                 );
 
-                $this->processTaskAccountException($message, __FILE__, __LINE__);
-                $this->processTaskException($exception);
+                $context->getExceptionHandler()->processTaskAccountException($message, __FILE__, __LINE__);
+                $context->getExceptionHandler()->processTaskException($exception);
             }
         }
     }
@@ -113,8 +93,7 @@ class UploadByUser extends \M2E\Otto\Model\Cron\AbstractTask
                 ? \M2E\Otto\Model\Log\AbstractModel::TYPE_ERROR
                 : \M2E\Otto\Model\Log\AbstractModel::TYPE_WARNING;
 
-            $this
-                ->getSynchronizationLog()
+            $this->syncLog
                 ->add((string)\__($message->getText()), $logType);
         }
     }

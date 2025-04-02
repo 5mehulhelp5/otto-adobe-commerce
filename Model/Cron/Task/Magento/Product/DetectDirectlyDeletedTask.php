@@ -5,7 +5,7 @@ namespace M2E\Otto\Model\Cron\Task\Magento\Product;
 use M2E\Otto\Model\ResourceModel\Listing\Other as OtherResource;
 use M2E\Otto\Model\ResourceModel\Product as ListingProductResource;
 
-class DetectDirectlyDeleted extends \M2E\Otto\Model\Cron\AbstractTask
+class DetectDirectlyDeletedTask implements \M2E\Core\Model\Cron\TaskHandlerInterface
 {
     public const NICK = 'magento/product/detect_directly_deleted';
 
@@ -20,24 +20,8 @@ class DetectDirectlyDeleted extends \M2E\Otto\Model\Cron\AbstractTask
         \M2E\Otto\Model\Listing\Other\UnmapDeletedProduct $unmanagedUnmapDeletedProduct,
         \M2E\Otto\Model\Listing\RemoveDeletedProduct $listingRemoveDeletedProduct,
         \M2E\Otto\Helper\Module\Database\Structure $dbStructureHelper,
-        ListingProductResource\CollectionFactory $listingProductCollectionFactory,
-        \M2E\Otto\Model\Cron\Manager $cronManager,
-        \M2E\Otto\Model\Synchronization\LogService $syncLogger,
-        \M2E\Otto\Helper\Data $helperData,
-        \Magento\Framework\Event\Manager $eventManager,
-        \M2E\Otto\Model\ActiveRecord\Factory $activeRecordFactory,
-        \M2E\Otto\Model\Cron\TaskRepository $taskRepo,
-        \Magento\Framework\App\ResourceConnection $resource
+        ListingProductResource\CollectionFactory $listingProductCollectionFactory
     ) {
-        parent::__construct(
-            $cronManager,
-            $syncLogger,
-            $helperData,
-            $eventManager,
-            $activeRecordFactory,
-            $taskRepo,
-            $resource
-        );
         $this->unmanagedCollectionFactory = $unmanagedCollectionFactory;
         $this->unmanagedUnmapDeletedProduct = $unmanagedUnmapDeletedProduct;
         $this->listingProductCollectionFactory = $listingProductCollectionFactory;
@@ -45,12 +29,7 @@ class DetectDirectlyDeleted extends \M2E\Otto\Model\Cron\AbstractTask
         $this->listingRemoveDeletedProduct = $listingRemoveDeletedProduct;
     }
 
-    protected function getNick(): string
-    {
-        return self::NICK;
-    }
-
-    protected function performActions()
+    public function process($context): void
     {
         $this->deleteListingsProducts();
         $this->unmapUnmanagedProducts();

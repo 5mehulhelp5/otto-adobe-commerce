@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace M2E\Otto\Model\Cron\Task;
 
-class InventorySyncTask extends \M2E\Otto\Model\Cron\AbstractTask
+class InventorySyncTask implements \M2E\Core\Model\Cron\TaskHandlerInterface
 {
     public const NICK = 'inventory/sync';
 
@@ -19,47 +19,24 @@ class InventorySyncTask extends \M2E\Otto\Model\Cron\AbstractTask
         \M2E\Otto\Model\Account\Repository $accountRepository,
         \M2E\Otto\Model\Processing\Runner $processingRunner,
         \M2E\Otto\Model\Processing\Lock\Repository $lockRepository,
-        \M2E\Otto\Model\Listing\InventorySync\Processing\InitiatorFactory $processingInitiatorFactory,
-        \M2E\Otto\Model\Cron\Manager $cronManager,
-        \M2E\Otto\Model\Synchronization\LogService $syncLogger,
-        \M2E\Otto\Helper\Data $helperData,
-        \Magento\Framework\Event\Manager $eventManager,
-        \M2E\Otto\Model\ActiveRecord\Factory $activeRecordFactory,
-        \M2E\Otto\Model\Cron\TaskRepository $taskRepo,
-        \Magento\Framework\App\ResourceConnection $resource
+        \M2E\Otto\Model\Listing\InventorySync\Processing\InitiatorFactory $processingInitiatorFactory
     ) {
-        parent::__construct(
-            $cronManager,
-            $syncLogger,
-            $helperData,
-            $eventManager,
-            $activeRecordFactory,
-            $taskRepo,
-            $resource,
-        );
         $this->accountRepository = $accountRepository;
         $this->processingRunner = $processingRunner;
         $this->lockRepository = $lockRepository;
         $this->processingInitiatorFactory = $processingInitiatorFactory;
     }
 
-    protected function getNick(): string
+    /**
+     * @param \M2E\Otto\Model\Cron\TaskContext $context
+     *
+     * @return void
+     */
+    public function process($context): void
     {
-        return self::NICK;
-    }
+        $context->getSynchronizationLog()->setTask(\M2E\Otto\Model\Synchronization\Log::TASK_OTHER_LISTINGS);
+        $context->getSynchronizationLog()->setInitiator(\M2E\Core\Helper\Data::INITIATOR_EXTENSION);
 
-    protected function getSynchronizationLog(): \M2E\Otto\Model\Synchronization\LogService
-    {
-        $synchronizationLog = parent::getSynchronizationLog();
-
-        $synchronizationLog->setTask(\M2E\Otto\Model\Synchronization\Log::TASK_OTHER_LISTINGS);
-        $synchronizationLog->setInitiator(\M2E\Core\Helper\Data::INITIATOR_EXTENSION);
-
-        return $synchronizationLog;
-    }
-
-    protected function performActions(): void
-    {
         $currentDate = \M2E\Core\Helper\Date::createCurrentGmt();
         foreach ($this->accountRepository->findActiveWithEnabledInventorySync() as $account) {
             if (
@@ -75,10 +52,10 @@ class InventorySyncTask extends \M2E\Otto\Model\Cron\AbstractTask
                 continue;
             }
 
-            $this->getOperationHistory()->addText(
+            $context->getOperationHistory()->addText(
                 "Starting Account '{$account->getTitle()} ({$account->getId()})'",
             );
-            $this->getOperationHistory()->addTimePoint(
+            $context->getOperationHistory()->addTimePoint(
                 $timePointId = __METHOD__ . 'process' . $account->getId(),
                 "Process Account '{$account->getTitle()}'",
             );
@@ -89,7 +66,7 @@ class InventorySyncTask extends \M2E\Otto\Model\Cron\AbstractTask
                 $initiator = $this->processingInitiatorFactory->create($account);
                 $this->processingRunner->run($initiator);
             } catch (\Throwable $e) {
-                $this->getOperationHistory()
+                $context->getOperationHistory()
                      ->addText(
                          sprintf(
                              "Error '%s'. Message: %s",
@@ -101,7 +78,7 @@ class InventorySyncTask extends \M2E\Otto\Model\Cron\AbstractTask
 
             // ----------------------------------------
 
-            $this->getOperationHistory()->saveTimePoint($timePointId);
+            $context->getOperationHistory()->saveTimePoint($timePointId);
         }
     }
 }

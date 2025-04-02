@@ -74,6 +74,7 @@ class Collection extends \Magento\Framework\Data\Collection implements SearchRes
                 'product_' . ProductResource::COLUMN_LISTING_ID => ProductResource::COLUMN_LISTING_ID,
                 'product_' . ProductResource::COLUMN_ONLINE_QTY => ProductResource::COLUMN_ONLINE_QTY,
                 'product_' . ProductResource::COLUMN_ONLINE_PRICE => ProductResource::COLUMN_ONLINE_PRICE,
+                'product_' . ProductResource::COLUMN_ONLINE_SKU => ProductResource::COLUMN_ONLINE_SKU,
                 'product_' . ProductResource::COLUMN_OTTO_PRODUCT_SKU => ProductResource::COLUMN_OTTO_PRODUCT_SKU,
                 ProductResource::COLUMN_PRODUCT_MOIN => ProductResource::COLUMN_PRODUCT_MOIN,
                 'product_' . ProductResource::COLUMN_ONLINE_TITLE => ProductResource::COLUMN_ONLINE_TITLE,

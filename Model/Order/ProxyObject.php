@@ -302,35 +302,28 @@ class ProxyObject
      */
     public function getBillingAddressData(): array
     {
-        $addressData = $this->getAddressData();
-
-        if ($this->order->getAccount()->useMagentoOrdersShippingAddressAsBillingAlways()) {
-            return $addressData;
-        }
-
-        if (
-            $this->order->getAccount()->useMagentoOrdersShippingAddressAsBillingIfSameCustomerAndRecipient()
-            && $this->order->getShippingAddress()->hasSameBuyerAndRecipient()
-        ) {
-            return $addressData;
-        }
-
         $rawAddressData = $this->order->getShippingAddress()->getRawData();
-        $billingUserInfo = $this->createUserInfoFromRawName($rawAddressData['billing_name']);
+        $billingName = trim($rawAddressData['billing_name']);
 
-        return [
-            'prefix' => $billingUserInfo->getPrefix(),
-            'firstname' => $billingUserInfo->getFirstName(),
-            'middlename' => $billingUserInfo->getMiddleName(),
-            'lastname' => $billingUserInfo->getLastName(),
-            'suffix' => $billingUserInfo->getSuffix(),
-            'postcode' => $rawAddressData['billing_postal_code'],
-            'country_id' => $rawAddressData['billing_country_id'],
-            'city' => $rawAddressData['billing_city'],
-            'street' => $rawAddressData['billing_street'],
-            'telephone' => $rawAddressData['billing_telephone'],
-            'company' => $rawAddressData['billing_company'],
-        ];
+        if (!empty($billingName)) {
+            $billingUserInfo = $this->createUserInfoFromRawName($rawAddressData['billing_name']);
+
+            return [
+                'prefix' => $billingUserInfo->getPrefix(),
+                'firstname' => $billingUserInfo->getFirstName(),
+                'middlename' => $billingUserInfo->getMiddleName(),
+                'lastname' => $billingUserInfo->getLastName(),
+                'suffix' => $billingUserInfo->getSuffix(),
+                'postcode' => $rawAddressData['billing_postal_code'],
+                'country_id' => $rawAddressData['billing_country_id'],
+                'city' => $rawAddressData['billing_city'],
+                'street' => $rawAddressData['billing_street'],
+                'telephone' => $rawAddressData['billing_telephone'],
+                'company' => $rawAddressData['billing_company'],
+            ];
+        }
+
+        return $this->getAddressData();
     }
 
     /**
@@ -343,18 +336,9 @@ class ProxyObject
 
     public function shouldIgnoreBillingAddressValidation(): bool
     {
-        if ($this->order->getAccount()->useMagentoOrdersShippingAddressAsBillingAlways()) {
-            return false;
-        }
+        $billingName = trim($this->order->getShippingAddress()->getRawData()['billing_name']);
 
-        if (
-            $this->order->getAccount()->useMagentoOrdersShippingAddressAsBillingIfSameCustomerAndRecipient()
-            && $this->order->getShippingAddress()->hasSameBuyerAndRecipient()
-        ) {
-            return false;
-        }
-
-        return true;
+        return empty($billingName);
     }
 
     /**
@@ -627,7 +611,7 @@ class ProxyObject
      */
     public function getChannelComments(): array
     {
-        return [$this->getShippingAdditionalInfoComment()];
+        return [];
     }
 
     /**
@@ -669,20 +653,5 @@ COMMENT;
         }
 
         return $comments;
-    }
-
-    private function getShippingAdditionalInfoComment(): ?string
-    {
-        $addition = trim($this->order->getShippingAdditionalInfo());
-        if (empty($addition)) {
-            return null;
-        }
-
-        return (string)__(
-            "<b>Additional Address Details:</b><br> %additional_info",
-            [
-                'additional_info' => $addition,
-            ]
-        );
     }
 }

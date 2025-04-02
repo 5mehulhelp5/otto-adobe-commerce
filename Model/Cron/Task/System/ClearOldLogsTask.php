@@ -4,18 +4,13 @@ declare(strict_types=1);
 
 namespace M2E\Otto\Model\Cron\Task\System;
 
-class ClearOldLogs extends \M2E\Otto\Model\Cron\AbstractTask
+class ClearOldLogsTask implements \M2E\Core\Model\Cron\TaskHandlerInterface
 {
     public const NICK = 'system/clear_old_logs';
 
     private const SYSTEM_LOG_MAX_DAYS = 30;
     private const SYSTEM_LOG_MAX_RECORDS = 100000;
     private const OPERATION_HISTORY_MAX_DAYS = 5;
-
-    /**
-     * @var int (in seconds)
-     */
-    protected $interval = 86400;
 
     private \M2E\Otto\Model\Log\Clearing $clearing;
     private \M2E\Otto\Model\OperationHistory\Repository $operationHistoryRepository;
@@ -24,35 +19,14 @@ class ClearOldLogs extends \M2E\Otto\Model\Cron\AbstractTask
     public function __construct(
         \M2E\Otto\Model\Log\Clearing $clearing,
         \M2E\Otto\Model\Log\System\Repository $systemLogRepository,
-        \M2E\Otto\Model\OperationHistory\Repository $operationHistoryRepository,
-        \M2E\Otto\Model\Cron\Manager $cronManager,
-        \M2E\Otto\Model\Synchronization\LogService $syncLogger,
-        \M2E\Otto\Helper\Data $helperData,
-        \Magento\Framework\Event\Manager $eventManager,
-        \M2E\Otto\Model\ActiveRecord\Factory $activeRecordFactory,
-        \M2E\Otto\Model\Cron\TaskRepository $taskRepo,
-        \Magento\Framework\App\ResourceConnection $resource
+        \M2E\Otto\Model\OperationHistory\Repository $operationHistoryRepository
     ) {
-        parent::__construct(
-            $cronManager,
-            $syncLogger,
-            $helperData,
-            $eventManager,
-            $activeRecordFactory,
-            $taskRepo,
-            $resource,
-        );
         $this->clearing = $clearing;
         $this->operationHistoryRepository = $operationHistoryRepository;
         $this->systemLogRepository = $systemLogRepository;
     }
 
-    protected function getNick(): string
-    {
-        return self::NICK;
-    }
-
-    protected function performActions(): void
+    public function process($context): void
     {
         $this->clearDomainLogs();
 

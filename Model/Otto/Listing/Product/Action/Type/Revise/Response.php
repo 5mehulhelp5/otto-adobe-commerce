@@ -11,17 +11,20 @@ class Response extends \M2E\Otto\Model\Otto\Listing\Product\Action\Type\Abstract
 {
     private \M2E\Otto\Model\Product\Repository $productRepository;
     protected \Magento\Framework\Locale\CurrencyInterface $localeCurrency;
+    private \M2E\Otto\Model\Otto\Listing\Product\Action\Type\Revise\LoggerFactory $loggerFactory;
 
     public function __construct(
         \M2E\Otto\Model\Product\Repository $productRepository,
         \Magento\Framework\Locale\CurrencyInterface $localeCurrency,
         \M2E\Otto\Model\Tag\ListingProduct\Buffer $tagBuffer,
-        \M2E\Otto\Model\Otto\TagFactory $tagFactory
+        \M2E\Otto\Model\Otto\TagFactory $tagFactory,
+        \M2E\Otto\Model\Otto\Listing\Product\Action\Type\Revise\LoggerFactory $loggerFactory
     ) {
         parent::__construct($tagBuffer, $tagFactory);
 
-        $this->productRepository = $productRepository;
         $this->localeCurrency = $localeCurrency;
+        $this->loggerFactory = $loggerFactory;
+        $this->productRepository = $productRepository;
     }
 
     public function process(): void
@@ -49,26 +52,23 @@ class Response extends \M2E\Otto\Model\Otto\Listing\Product\Action\Type\Abstract
         $responseData = $this->getResponseData();
 
         $product = $this->getProduct();
-        $configurator = $this->getConfigurator();
 
         $productResponseData = $responseData['products'][0];
+
+        $logger = $this->loggerFactory->create();
+        $logger->saveProductDataBeforeUpdate($product);
 
         if (
             $this->isTriedUpdatePrice(
                 isset($productResponseData['price']),
-                isset($requestMetadata['price']) || isset($requestMetadata[PriceProvider::NICK]['price'])
+                isset($requestMetadata['price'])
             )
         ) {
             $priceUpdateStatus = $productResponseData['price'];
-            $requestMetadataPrice = $requestMetadata['price'] ?? $requestMetadata[PriceProvider::NICK]['price'];
+            $requestMetadataPrice = $requestMetadata['price'];
             if (!$priceUpdateStatus) {
                 $this->getLogBuffer()->addFail('Price failed to be revised.');
             } else {
-                $message = $this->generateMessageAboutChangePrice($product, $requestMetadataPrice);
-                if ($message !== null) {
-                    $this->getLogBuffer()->addSuccess($message);
-                }
-
                 $product->setOnlinePrice($requestMetadataPrice);
             }
         }
@@ -76,19 +76,14 @@ class Response extends \M2E\Otto\Model\Otto\Listing\Product\Action\Type\Abstract
         if (
             $this->isTriedUpdateQty(
                 isset($productResponseData['qty']),
-                isset($requestMetadata['qty']) || isset($requestMetadata[QtyProvider::NICK]['qty'])
+                isset($requestMetadata['qty'])
             )
         ) {
             $qtyUpdateStatus = $productResponseData['qty'];
-            $requestMetadataQty = $requestMetadata['qty'] ?? $requestMetadata[QtyProvider::NICK]['qty'];
+            $requestMetadataQty = $requestMetadata['qty'];
             if (!$qtyUpdateStatus) {
                 $this->getLogBuffer()->addFail('Qty failed to be revised.');
             } else {
-                $message = $this->generateMessageAboutChangeQty($product, $requestMetadataQty);
-                if ($message !== null) {
-                    $this->getLogBuffer()->addSuccess($message);
-                }
-
                 $product->setOnlineQty($requestMetadataQty);
             }
         }
@@ -98,8 +93,6 @@ class Response extends \M2E\Otto\Model\Otto\Listing\Product\Action\Type\Abstract
             if (!$detailUpdateStatus) {
                 $this->getLogBuffer()->addFail('Details failed to be revised.');
             } else {
-                $this->generateMessageAboutUpdatedDetails($configurator);
-
                 $product
                     ->setOnlineBrandId($requestMetadata['details']['brand_id'])
                     ->setOnlineBrandName($requestMetadata['details']['brand_name'])
@@ -126,6 +119,15 @@ class Response extends \M2E\Otto\Model\Otto\Listing\Product\Action\Type\Abstract
         $product->removeBlockingByError();
 
         $this->productRepository->save($product);
+
+        $messages = $logger->collectSuccessMessages($product);
+        if (empty($messages)) {
+            $this->getLogBuffer()->addSuccess('Item was revised');
+        }
+
+        foreach ($messages as $message) {
+            $this->getLogBuffer()->addSuccess($message);
+        }
     }
 
     private function isTriedUpdatePrice(bool $isPricePresentInResponse, bool $isSendPrice): bool
@@ -141,52 +143,6 @@ class Response extends \M2E\Otto\Model\Otto\Listing\Product\Action\Type\Abstract
     private function isTriedUpdateDetails(bool $isDetailsPresentInResponse, bool $isSendDetails): bool
     {
         return $isDetailsPresentInResponse && $isSendDetails;
-    }
-
-    private function generateMessageAboutChangePrice(\M2E\Otto\Model\Product $product, float $to): ?string
-    {
-        $from = $product->getOnlineCurrentPrice();
-        if ($from === $to) {
-            return null;
-        }
-
-        $currencyCode = $product->getCurrencyCode();
-        $currency = $this->localeCurrency->getCurrency($currencyCode);
-
-        return sprintf(
-            'Price was revised from %s to %s',
-            $currency->toCurrency($from),
-            $currency->toCurrency($to)
-        );
-    }
-
-    private function generateMessageAboutChangeQty(\M2E\Otto\Model\Product $product, int $to): ?string
-    {
-        $from = $product->getOnlineQty();
-        if ($from === $to) {
-            return null;
-        }
-
-        return sprintf('QTY was revised from %s to %s', $from, $to);
-    }
-
-    private function generateMessageAboutUpdatedDetails($configurator): void
-    {
-        if ($configurator->isTitleAllowed()) {
-            $this->getLogBuffer()->addSuccess('Title was revised.');
-        }
-
-        if ($configurator->isDescriptionAllowed()) {
-            $this->getLogBuffer()->addSuccess('Description was revised.');
-        }
-
-        if ($configurator->isImagesAllowed()) {
-            $this->getLogBuffer()->addSuccess('Images were revised.');
-        }
-
-        if ($configurator->isCategoriesAllowed()) {
-            $this->getLogBuffer()->addSuccess('Categories were revised.');
-        }
     }
 
     public function generateResultMessage(): void

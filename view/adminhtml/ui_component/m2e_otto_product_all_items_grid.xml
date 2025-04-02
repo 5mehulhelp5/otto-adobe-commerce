@@ -232,6 +232,18 @@
             </action>
         </massaction>
 
+        <exportButton name="export_button" class="M2E\Core\Ui\Component\ExportButton">
+            <settings>
+                <options>
+                    <option name="csv" xsi:type="array">
+                        <item name="value" xsi:type="string">csv</item>
+                        <item name="label" xsi:type="string" translate="true">CSV</item>
+                        <item name="url" xsi:type="string">m2e_otto/ui_export/gridToCsv</item>
+                    </option>
+                </options>
+            </settings>
+        </exportButton>
+
         <bookmark name="bookmarks"/>
 
         <paging name="listing_paging"/>
@@ -260,6 +272,7 @@
                 <item name="config" xsi:type="array">
                     <item name="label" translate="true" xsi:type="string">ID</item>
                     <item name="visible" xsi:type="boolean">false</item>
+                    <item name="exportable" xsi:type="boolean">false</item>
                 </item>
             </argument>
         </column>
@@ -274,7 +287,6 @@
                 </item>
             </argument>
         </column>
-
         <!--        -->
 
         <column name="column_title" class="M2E\Otto\Ui\Product\Component\Listing\Column\Title">
@@ -283,6 +295,17 @@
                     <item name="label" translate="true" xsi:type="string">Product Title / Listing / Product SKU</item>
                     <item name="bodyTmpl" xsi:type="string">ui/grid/cells/html</item>
                     <item name="sortOrder" xsi:type="number">20</item>
+                    <item name="exportable" xsi:type="boolean">false</item>
+                </item>
+            </argument>
+        </column>
+
+        <column name="name">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" translate="true" xsi:type="string">Product Title</item>
+                    <item name="sortOrder" xsi:type="number">25</item>
+                    <item name="visible" xsi:type="boolean">false</item>
                 </item>
             </argument>
         </column>
@@ -294,7 +317,17 @@
                     <item name="bodyTmpl" xsi:type="string">ui/grid/cells/html</item>
                     <item name="dataType" xsi:type="string">text</item>
                     <item name="filter" xsi:type="string">text</item>
-                    <item name="sortOrder" xsi:type="number">50</item>
+                    <item name="sortOrder" xsi:type="number">30</item>
+                </item>
+            </argument>
+        </column>
+
+        <column name="product_online_sku">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" translate="true" xsi:type="string">Otto Channel Sku</item>
+                    <item name="sortOrder" xsi:type="number">40</item>
+                    <item name="visible" xsi:type="boolean">false</item>
                 </item>
             </argument>
         </column>
@@ -306,7 +339,7 @@
                     <item name="bodyTmpl" xsi:type="string">ui/grid/cells/html</item>
                     <item name="dataType" xsi:type="string">text</item>
                     <item name="filter" xsi:type="string">text</item>
-                    <item name="sortOrder" xsi:type="number">55</item>
+                    <item name="sortOrder" xsi:type="number">50</item>
                 </item>
             </argument>
         </column>
@@ -353,9 +386,9 @@
                 <item name="config" xsi:type="array">
                     <item name="label" translate="true" xsi:type="string">Manage</item>
                     <item name="bodyTmpl" xsi:type="string">ui/grid/cells/html</item>
+                    <item name="exportable" xsi:type="boolean">false</item>
                 </item>
             </argument>
         </column>
-
     </columns>
 </listing>

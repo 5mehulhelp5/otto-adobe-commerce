@@ -56,6 +56,12 @@
                     endif; ?>
 
                     <?php
+                    if (!empty($block->getOrder()->getShippingAdditionalInfo())) : ?>
+                        <br/><?= \M2E\Core\Helper\Data::escapeHtml($block->getOrder()->getShippingAdditionalInfo()); ?>
+                    <?php
+                    endif; ?>
+
+                    <?php
                     if (!empty($block->getShippingAddress()['city'])) : ?>
                         <?php
                         $addressData = array_filter([

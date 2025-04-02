@@ -371,29 +371,6 @@ for an item that does <b>not</b> belong to the M2E Otto Listing.'
                 ),
             ]
         );
-
-        $fieldset->addField(
-            'magento_orders_customer_billing_address_mode',
-            'select',
-            [
-                'name' => 'magento_orders_settings[customer][billing_address_mode]',
-                'label' => __('Billing Address Usage'),
-                'values' => [
-                    \M2E\Otto\Model\Account\Settings\Order::USE_SHIPPING_ADDRESS_AS_BILLING_ALWAYS => __(
-                        'Always'
-                    ),
-                    \M2E\Otto\Model\Account\Settings\Order::USE_SHIPPING_ADDRESS_AS_BILLING_IF_SAME_CUSTOMER_AND_RECIPIENT => __(
-                        'Buyer & Recipient have the same name'
-                    ),
-                ],
-                'value' => $orderSettings->getCustomerBillingAddressMode(),
-                'note' => __('When to use shipping address as billing.'),
-                'tooltip' => __(
-                    'Choose if you want to use your customer’s shipping address as the billing one regularly
-                    or only if the buyer and recipient have the same names.'
-                ),
-            ]
-        );
         //endregion
 
         //region Order Creation Rules

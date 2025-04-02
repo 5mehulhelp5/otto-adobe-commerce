@@ -20,7 +20,7 @@ class ShippingAddress extends \M2E\Otto\Model\Order\ShippingAddress
             'postcode' => $this->getPostalCode(),
             'country_id' => $this->getData('country_code'),
             'city' => $this->getData('city') ? $this->getData('city') : $this->getCountryName(),
-            'street' => $this->getStreet(),
+            'street' => [$this->getStreet(), $this->order->getShippingAdditionalInfo()],
             'telephone' => $this->getPhone(),
             'company' => $this->getData('company'),
 

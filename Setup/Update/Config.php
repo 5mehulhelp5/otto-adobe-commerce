@@ -62,6 +62,7 @@ class Config implements \M2E\Core\Model\Setup\Upgrade\Entity\ConfigInterface
                 \M2E\Otto\Setup\Update\y25_m02\MigrateConfigToCore::class,
                 \M2E\Otto\Setup\Update\y25_m02\MigrateRegistryToCore::class,
                 \M2E\Otto\Setup\Update\y25_m02\RemoveServerHost::class,
+                \M2E\Otto\Setup\Update\y25_m02\RemoveOldCronValues::class
             ],
             'y25_m03' => [
                 \M2E\Otto\Setup\Update\y25_m03\CheckConfigs::class,

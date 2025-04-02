@@ -51,7 +51,7 @@ class Save extends AbstractOrder
         $order->setData('buyer_name', $data['buyer_name']);
         $order->setData('buyer_email', $data['buyer_email']);
 
-        $data = [];
+        $data = $order->getShippingDetails()['address'];
         $keys = [
             'recipient_name',
             'street',
@@ -74,6 +74,11 @@ class Save extends AbstractOrder
 
         $shippingDetails = $order->getShippingDetails();
         $shippingDetails['address'] = $data;
+
+        $additionalInfo = $post['additional_info'] ?? '';
+        if (!empty($additionalInfo)) {
+            $shippingDetails['additional_info'] = $additionalInfo;
+        }
 
         $order->setData('shipping_details', \M2E\Core\Helper\Json::encode($shippingDetails));
         $order->save();

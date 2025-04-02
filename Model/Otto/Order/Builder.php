@@ -22,7 +22,6 @@ class Builder extends \Magento\Framework\DataObject
     private \M2E\Otto\Model\Account $account;
     private \M2E\Otto\Model\Otto\Order\ServerDataToOrderDataConverter $orderDataConverter;
     private \M2E\Otto\Block\Adminhtml\Otto\Order\StatusHelper $orderStatusHelper;
-    private \M2E\Otto\Model\Order\Note\Create $noteCreateService;
 
     public function __construct(
         \M2E\Otto\Block\Adminhtml\Otto\Order\StatusHelper $orderStatusHelper,
@@ -30,11 +29,9 @@ class Builder extends \Magento\Framework\DataObject
         \M2E\Otto\Model\Otto\Order\Item\BuilderFactory $orderItemBuilderFactory,
         \M2E\Otto\Model\Magento\Order\Updater $magentoOrderUpdater,
         \M2E\Otto\Model\ResourceModel\Order\CollectionFactory $orderCollectionFactory,
-        \M2E\Otto\Model\OrderFactory $orderFactory,
-        \M2E\Otto\Model\Order\Note\Create $noteCreateService
+        \M2E\Otto\Model\OrderFactory $orderFactory
     ) {
         parent::__construct();
-        $this->noteCreateService = $noteCreateService;
         $this->orderCollectionFactory = $orderCollectionFactory;
         $this->orderFactory = $orderFactory;
         $this->magentoOrderUpdater = $magentoOrderUpdater;
@@ -228,19 +225,6 @@ class Builder extends \Magento\Framework\DataObject
 
                 break;
             }
-        }
-
-        if ($this->isNew()) {
-            $addition = trim($this->order->getShippingAdditionalInfo());
-            if (empty($addition)) {
-                return;
-            }
-
-            $note = (string)__(
-                "<b>Additional Address Details:</b><br> %additional_info",
-                ['additional_info' => $addition]
-            );
-            $this->noteCreateService->create($this->order, $note);
         }
 
         $this->order->setAccount($this->account);

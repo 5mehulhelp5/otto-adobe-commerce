@@ -61,9 +61,6 @@ class OperationHistory extends \M2E\Otto\Model\ActiveRecord\AbstractModel
         return $this->object;
     }
 
-    /**
-     * @throws \M2E\Otto\Model\Exception\Logic
-     */
     public function getParentObject(string $nick = null): ?self
     {
         if ($this->getObject()->getData('parent_id') === null) {
@@ -91,16 +88,12 @@ class OperationHistory extends \M2E\Otto\Model\ActiveRecord\AbstractModel
         return $parentObject;
     }
 
-    /**
-     * @throws \M2E\Otto\Model\Exception\Logic
-     * @throws \Exception
-     */
-    public function start($nick, $parentId = null, $initiator = Helper::INITIATOR_UNKNOWN, array $data = []): bool
+    public function start(string $nick, ?int $parentId, int $initiator, array $data = []): bool
     {
         $data = [
             'nick' => $nick,
             'parent_id' => $parentId,
-            'data' => \M2E\Core\Helper\Json::encode($data),
+            'data' => json_encode($data),
             'initiator' => $initiator,
             'start_date' => \M2E\Core\Helper\Date::createCurrentGmt()->format('Y-m-d H:i:s'),
         ];
@@ -129,41 +122,28 @@ class OperationHistory extends \M2E\Otto\Model\ActiveRecord\AbstractModel
         return true;
     }
 
-    /**
-     * @param $key
-     * @param $value
-     *
-     * @return bool
-     * @throws \M2E\Otto\Model\Exception\Logic
-     */
-    public function setContentData($key, $value): bool
+    public function setContentData(string $key, $value): bool
     {
         if ($this->object === null) {
             return false;
         }
 
         $data = [];
-        if ($this->object->getData('data') != '') {
-            $data = \M2E\Core\Helper\Json::decode($this->object->getData('data'));
+        $existValue = $this->object->getData('data');
+        if (!empty($existValue)) {
+            $data = (array)json_decode($this->object->getData('data'), true);
         }
 
         $data[$key] = $value;
         $this->object->setData(
             'data',
-            \M2E\Core\Helper\Json::encode($data)
+            json_encode($data)
         )->save();
 
         return true;
     }
 
-    /**
-     * @param $key
-     * @param $value
-     *
-     * @return bool
-     * @throws \M2E\Otto\Model\Exception\Logic
-     */
-    public function addContentData($key, $value): bool
+    public function addContentData(string $key, $value): bool
     {
         $existedData = $this->getContentData($key);
 
@@ -173,28 +153,27 @@ class OperationHistory extends \M2E\Otto\Model\ActiveRecord\AbstractModel
             return $this->setContentData($key, $existedData);
         }
 
-        is_array($existedData) ? $existedData[] = $value : $existedData .= $value;
+        if (is_array($existedData)) {
+            $existedData[] = $value;
+        } else {
+            $existedData .= $value;
+        }
 
         return $this->setContentData($key, $existedData);
     }
 
-    /**
-     * @param $key
-     *
-     * @return mixed|null
-     * @throws \M2E\Otto\Model\Exception\Logic
-     */
-    public function getContentData($key)
+    public function getContentData(string $key)
     {
         if ($this->object === null) {
             return null;
         }
 
-        if ($this->object->getData('data') == '') {
+        $value = $this->object->getData('data');
+        if (empty($value)) {
             return null;
         }
 
-        $data = \M2E\Core\Helper\Json::decode($this->object->getData('data'));
+        $data = (array)json_decode($value, true);
 
         if (isset($data[$key])) {
             return $data[$key];

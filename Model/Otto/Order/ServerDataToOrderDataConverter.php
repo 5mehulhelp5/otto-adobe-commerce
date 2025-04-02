@@ -178,11 +178,7 @@ class ServerDataToOrderDataConverter
         }
 
         if (!empty($deliveryAddition) && !empty($invoiceAddition)) {
-            return sprintf(
-                "%s<br>%s",
-                $deliveryAddition,
-                $invoiceAddition
-            );
+            return $deliveryAddition . ' ' . $invoiceAddition;
         }
 
         return empty($deliveryAddition) ? $invoiceAddition : $deliveryAddition;

@@ -98,14 +98,26 @@ class Form extends AbstractForm
         );
 
         $fieldset->addField(
-            'street_0',
+            'street',
             'text',
             [
-                'name' => 'street[0]',
+                'name' => 'street',
                 'label' => __('Street Address'),
                 'value' => isset($address['street'])
                     ? \M2E\Core\Helper\Data::escapeHtml($address['street']) : '',
                 'required' => true,
+            ]
+        );
+
+        $additionalInfo = $order->getShippingAdditionalInfo();
+        $fieldset->addField(
+            'additional_info',
+            'text',
+            [
+                'name' => 'additional_info',
+                'label' => '',
+                'value' => !empty($additionalInfo)
+                    ? \M2E\Core\Helper\Data::escapeHtml($additionalInfo) : '',
             ]
         );
 

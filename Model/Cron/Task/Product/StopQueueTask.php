@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace M2E\Otto\Model\Cron\Task\Product;
 
-class StopQueue extends \M2E\Otto\Model\Cron\AbstractTask
+class StopQueueTask implements \M2E\Core\Model\Cron\TaskHandlerInterface
 {
     public const NICK = 'listing/product/stop_queue';
-
-    protected int $intervalInSeconds = 3600;
 
     private const MAX_PROCESSED_LIFETIME_HOURS_INTERVAL = 720;
 
@@ -18,36 +16,14 @@ class StopQueue extends \M2E\Otto\Model\Cron\AbstractTask
     private \M2E\Otto\Model\Connector\Client\Single $serverClient;
 
     public function __construct(
-        \M2E\Otto\Model\Cron\Manager $cronManager,
-        \M2E\Otto\Model\Synchronization\LogService $syncLogger,
-        \M2E\Otto\Helper\Data $helperData,
-        \Magento\Framework\Event\Manager $eventManager,
-        \M2E\Otto\Model\ActiveRecord\Factory $activeRecordFactory,
-        \M2E\Otto\Model\Cron\TaskRepository $taskRepo,
-        \Magento\Framework\App\ResourceConnection $resource,
         \M2E\Otto\Model\StopQueue\Repository $repository,
         \M2E\Otto\Model\Connector\Client\Single $serverClient
     ) {
-        parent::__construct(
-            $cronManager,
-            $syncLogger,
-            $helperData,
-            $eventManager,
-            $activeRecordFactory,
-            $taskRepo,
-            $resource,
-        );
-
         $this->repository = $repository;
         $this->serverClient = $serverClient;
     }
 
-    protected function getNick(): string
-    {
-        return self::NICK;
-    }
-
-    protected function performActions(): void
+    public function process($context): void
     {
         $this->deleteOldProcessedItems();
 

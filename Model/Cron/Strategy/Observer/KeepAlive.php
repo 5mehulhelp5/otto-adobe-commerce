@@ -14,9 +14,7 @@ class KeepAlive implements \Magento\Framework\Event\ObserverInterface
 
     private ?int $circleStartTime = null;
 
-    //########################################
-
-    public function enable()
+    public function enable(): self
     {
         $this->isEnabled = true;
         $this->circleStartTime = null;
@@ -24,7 +22,7 @@ class KeepAlive implements \Magento\Framework\Event\ObserverInterface
         return $this;
     }
 
-    public function disable()
+    public function disable(): self
     {
         $this->isEnabled = false;
         $this->circleStartTime = null;
@@ -34,7 +32,7 @@ class KeepAlive implements \Magento\Framework\Event\ObserverInterface
 
     //########################################
 
-    public function setLockItemManager(\M2E\Otto\Model\Lock\Item\Manager $lockItemManager)
+    public function setLockItemManager(\M2E\Otto\Model\Lock\Item\Manager $lockItemManager): self
     {
         $this->lockItemManager = $lockItemManager;
 

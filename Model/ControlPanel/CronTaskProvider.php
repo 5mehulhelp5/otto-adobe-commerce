@@ -6,18 +6,18 @@ namespace M2E\Otto\Model\ControlPanel;
 
 class CronTaskProvider implements \M2E\Core\Model\ControlPanel\Cron\TaskProviderInterface
 {
-    private \M2E\Otto\Model\Cron\TaskRepository $taskRepository;
+    private \M2E\Otto\Model\Cron\TaskCollection $taskCollection;
 
     private array $tasks;
 
-    public function __construct(\M2E\Otto\Model\Cron\TaskRepository $taskRepository)
+    public function __construct(\M2E\Otto\Model\Cron\TaskCollection $taskCollection)
     {
-        $this->taskRepository = $taskRepository;
+        $this->taskCollection = $taskCollection;
     }
 
     public function getExtensionModuleName(): string
     {
-        return \M2E\Otto\Model\ControlPanel\Extension::NAME;
+        return Extension::NAME;
     }
 
     public function getTasks(): array
@@ -28,14 +28,12 @@ class CronTaskProvider implements \M2E\Core\Model\ControlPanel\Cron\TaskProvider
         }
 
         $tasks = [];
-        foreach ($this->taskRepository->getRegisteredGroups() as $group) {
-            foreach ($this->taskRepository->getGroupTasks($group) as $groupTask) {
-                $tasks[] = new \M2E\Core\Model\ControlPanel\CronTask(
-                    $group,
-                    $this->taskRepository->getNick($groupTask),
-                    $groupTask,
-                );
-            }
+        foreach ($this->taskCollection->getAllTasks() as $taskDefinition) {
+            $tasks[] = new \M2E\Core\Model\ControlPanel\CronTask(
+                $taskDefinition->getGroup(),
+                $taskDefinition->getNick(),
+                $taskDefinition->getNick(),
+            );
         }
 
         return $this->tasks = $tasks;

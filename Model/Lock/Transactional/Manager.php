@@ -1,33 +1,27 @@
 <?php
 
+declare(strict_types=1);
+
 namespace M2E\Otto\Model\Lock\Transactional;
 
-/**
- * Class \M2E\Otto\Model\Lock\Transactional\Manager
- */
-class Manager extends \M2E\Otto\Model\AbstractModel
+class Manager
 {
-    private $nick = 'undefined';
+    private string $nick;
+    private bool $isTableLocked = false;
+    private bool $isTransactionStarted = false;
 
-    private $isTableLocked = false;
-    private $isTransactionStarted = false;
-
-    /** @var \Magento\Framework\App\ResourceConnection */
-    private $resourceConnection;
-
-    /** @var \M2E\Otto\Model\ActiveRecord\Factory */
-    private $activeRecordFactory;
+    /** @var \M2E\Otto\Model\Lock\Transactional\Repository */
+    private Repository $repository;
+    private \M2E\Otto\Model\Lock\TransactionalFactory $lockFactory;
 
     public function __construct(
-        \Magento\Framework\App\ResourceConnection $resourceConnection,
-        \M2E\Otto\Model\ActiveRecord\Factory $activeRecordFactory,
-        $nick,
-        array $data = []
+        string $nick,
+        Repository $repository,
+        \M2E\Otto\Model\Lock\TransactionalFactory $lockFactory
     ) {
-        parent::__construct($data);
-        $this->resourceConnection = $resourceConnection;
-        $this->activeRecordFactory = $activeRecordFactory;
         $this->nick = $nick;
+        $this->repository = $repository;
+        $this->lockFactory = $lockFactory;
     }
 
     public function __destruct()
@@ -35,7 +29,14 @@ class Manager extends \M2E\Otto\Model\AbstractModel
         $this->unlock();
     }
 
-    //########################################
+    // ----------------------------------------
+
+    public function getNick(): string
+    {
+        return $this->nick;
+    }
+
+    // ----------------------------------------
 
     public function lock()
     {
@@ -47,26 +48,25 @@ class Manager extends \M2E\Otto\Model\AbstractModel
         $this->getExclusiveLock();
     }
 
-    public function unlock()
+    public function unlock(): void
     {
-        $this->isTableLocked && $this->unlockTable();
-        $this->isTransactionStarted && $this->commitTransaction();
+        if ($this->isTableLocked) {
+            $this->unlockTable();
+        }
+
+        if ($this->isTransactionStarted) {
+            $this->commitTransaction();
+        }
     }
 
-    //########################################
+    // ----------------------------------------
 
-    private function getExclusiveLock()
+    private function getExclusiveLock(): bool
     {
         $this->startTransaction();
 
-        $connection = $this->resourceConnection->getConnection();
-        $lockId = (int)$connection->select()
-                                  ->from($this->getTableName(), ['id'])
-                                  ->where('nick = ?', $this->nick)
-                                  ->forUpdate()
-                                  ->query()->fetchColumn();
-
-        if ($lockId) {
+        $lockId = $this->repository->retrieveLock($this->nick);
+        if ($lockId !== null) {
             return true;
         }
 
@@ -75,75 +75,48 @@ class Manager extends \M2E\Otto\Model\AbstractModel
         return false;
     }
 
-    private function createExclusiveLock()
+    private function createExclusiveLock(): void
     {
         $this->lockTable();
 
-        $lock = $this->activeRecordFactory->getObjectLoaded(
-            'Lock\Transactional',
-            $this->nick,
-            'nick',
-            false
-        );
-
+        $lock = $this->repository->findByNick($this->nick);
         if ($lock === null) {
-            $lock = $this->activeRecordFactory->getObject('Lock\Transactional');
-            $lock->setData([
-                'nick' => $this->nick,
-            ]);
-            $lock->save();
+            $lock = $this->lockFactory->create($this->nick);
+            $this->repository->create($lock);
         }
 
         $this->unlockTable();
     }
 
-    //########################################
+    // ----------------------------------------
 
-    private function startTransaction()
+    private function startTransaction(): void
     {
-        $connection = $this->resourceConnection->getConnection();
-        $connection->beginTransaction();
+        $this->repository->startTransaction();
 
         $this->isTransactionStarted = true;
     }
 
-    private function commitTransaction()
+    private function commitTransaction(): void
     {
-        $connection = $this->resourceConnection->getConnection();
-        $connection->commit();
+        $this->repository->commitTransaction();
 
         $this->isTransactionStarted = false;
     }
 
     // ----------------------------------------
 
-    private function lockTable()
+    private function lockTable(): void
     {
-        $connection = $this->resourceConnection->getConnection();
-        $connection->query("LOCK TABLES `{$this->getTableName()}` WRITE");
+        $this->repository->lockTable();
 
         $this->isTableLocked = true;
     }
 
-    private function unlockTable()
+    private function unlockTable(): void
     {
-        $connection = $this->resourceConnection->getConnection();
-        $connection->query('UNLOCK TABLES');
+        $this->repository->unlockTable();
 
         $this->isTableLocked = false;
     }
-
-    private function getTableName()
-    {
-        return $this->activeRecordFactory->getObject('Lock\Transactional')->getResource()->getMainTable();
-    }
-
-    //########################################
-
-    public function getNick()
-    {
-        return $this->nick;
-    }
-
-    //########################################
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace M2E\Otto\Model\Lock\Item;
 
 class ManagerFactory
