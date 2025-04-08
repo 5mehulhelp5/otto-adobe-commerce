@@ -25,11 +25,11 @@ class ShippingAddress extends \M2E\Otto\Model\Order\ShippingAddress
             'company' => $this->getData('company'),
 
             'billing_name' => $this->getData('billing_name'),
-            'billing_postal_code' => $this->getData('billing_postal_code') ?? '0000',
+            'billing_postal_code' => $this->getData('billing_postal_code') ?: '0000',
             'billing_country_id' => $this->getData('billing_country_code'),
             'billing_city' => $this->getData('billing_city'),
             'billing_street' => $this->getData('billing_street'),
-            'billing_telephone' => $this->getData('billing_phone') ?? '0000000000',
+            'billing_telephone' => $this->getData('billing_phone') ?: '0000000000',
             'billing_company' => null,
         ];
     }

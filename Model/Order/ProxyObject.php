@@ -336,9 +336,7 @@ class ProxyObject
 
     public function shouldIgnoreBillingAddressValidation(): bool
     {
-        $billingName = trim($this->order->getShippingAddress()->getRawData()['billing_name']);
-
-        return empty($billingName);
+        return true;
     }
 
     /**
