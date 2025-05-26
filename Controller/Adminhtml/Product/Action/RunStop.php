@@ -38,11 +38,15 @@ class RunStop extends \M2E\Otto\Controller\Adminhtml\Otto\Listing\AbstractAction
             ['result' => $result] = $this->actionService->runStop($products);
             if ($result === 'success') {
                 $this->getMessageManager()->addSuccessMessage(
-                    __('"Stopping Selected Items On Otto" task has completed.'),
+                    __('"Stopping Selected Items On %channel_title" task has completed.', [
+                        'channel_title' => \M2E\Otto\Helper\Module::getChannelTitle(),
+                    ])
                 );
             } else {
                 $this->getMessageManager()->addErrorMessage(
-                    __('"Stopping Selected Items On Otto" task has completed with errors.'),
+                    __('"Stopping Selected Items On %channel_title" task has completed with errors.', [
+                        'channel_title' => \M2E\Otto\Helper\Module::getChannelTitle(),
+                    ])
                 );
             }
 
@@ -52,7 +56,9 @@ class RunStop extends \M2E\Otto\Controller\Adminhtml\Otto\Listing\AbstractAction
         $this->actionService->scheduleStop($products);
 
         $this->getMessageManager()->addSuccessMessage(
-            __('"Stopping Selected Items On Otto" task has completed.'),
+            __('"Stopping Selected Items On %channel_title" task has completed.', [
+                'channel_title' => \M2E\Otto\Helper\Module::getChannelTitle(),
+            ])
         );
 
         return $this->redirectToGrid();

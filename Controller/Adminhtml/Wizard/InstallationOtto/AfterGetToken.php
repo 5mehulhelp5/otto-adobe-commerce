@@ -55,8 +55,11 @@ class AfterGetToken extends Installation
 
             $this->messageManager->addError(
                 __(
-                    'The Otto access obtaining is currently unavailable.<br/>Reason: %error_message',
-                    ['error_message' => $exception->getMessage()],
+                    'The %channel_title access obtaining is currently unavailable.<br/>Reason: %error_message',
+                    [
+                        'channel_title' => \M2E\Otto\Helper\Module::getChannelTitle(),
+                        'error_message' => $exception->getMessage()
+                    ],
                 ),
             );
 

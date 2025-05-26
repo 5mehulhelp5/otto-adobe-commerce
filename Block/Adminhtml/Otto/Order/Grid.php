@@ -151,7 +151,7 @@ class Grid extends AbstractGrid
         $this->addColumn(
             'otto_order_id',
             [
-                'header' => __('Otto Order #'),
+                'header' => __('%channel_title Order #', ['channel_title' => \M2E\Otto\Helper\Module::getChannelTitle()]),
                 'align' => 'left',
                 'width' => '145px',
                 'index' => 'otto_order_id',

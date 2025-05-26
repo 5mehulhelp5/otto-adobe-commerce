@@ -28,8 +28,11 @@ class Index extends AbstractTemplate
             $this->addExtendedErrorMessage(
                 __(
                     'You are not authorized to access Shipping Profiles. ' .
-                    'Please use the "Update Access Data" button in your <a href="%url">Otto Seller Account</a> to proceed.',
-                    ['url' => $url]
+                    'Please use the "Update Access Data" button in your <a href="%url">%channel_title Seller Account</a> to proceed.',
+                    [
+                        'url' => $url,
+                        'channel_title' => \M2E\Otto\Helper\Module::getChannelTitle()
+                    ]
                 )
             );
         }

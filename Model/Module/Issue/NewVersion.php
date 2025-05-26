@@ -55,7 +55,10 @@ class NewVersion implements \M2E\Otto\Model\Issue\LocatorInterface
         $title = $this->module->getName();
 
         $text = (string)__(
-            "A new version of M2E Otto Connect is now available! Upgrade now to access the latest features and improvements."
+            "A new version of %extension_title is now available! Upgrade now to access the latest features and improvements.",
+            [
+                'extension_title' => \M2E\Otto\Helper\Module::getExtensionTitle(),
+            ]
         );
 
         return $this->issueFactory->createNoticeDataObject($title, $text, null);

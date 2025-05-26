@@ -42,10 +42,10 @@ class Notifications extends \M2E\Otto\Block\Adminhtml\Magento\Form\AbstractForm
             self::HELP_BLOCK,
             [
                 'content' => __(
-                    'You can specify how M2E Otto should notify you about Health Status of your M2E Otto by selecting:
+                    'You can specify how %extension_title should notify you about Health Status of your %extension_title by selecting:
                         <ul>
                             <li><b>Do Not Notify</b> - no notification required;</li>
-                            <li><b>On each Extension Page (default)</b> - notification will be shown on each page of M2E Otto Module;</li>
+                            <li><b>On each Extension Page (default)</b> - notification will be shown on each page of %extension_title Module;</li>
                             <li><b>On each Magento Page</b> - notification will be shown on each page of Magento;</li>
                             <li><b>As Magento System Notification</b> - notification will be shown via Magento global messages system;</li>
                             <li><b>Send me an eMail</b> - notification will be sent you to the provided email.</li>
@@ -55,7 +55,10 @@ class Notifications extends \M2E\Otto\Block\Adminhtml\Magento\Form\AbstractForm
                             <li><b>Critical/Error (default)</b> - notification will arise only for critical issue and error;</li>
                             <li><b>Warning</b> - notification will arise once the error or warning occur;</li>
                             <li><b>Notice</b> - notification will arise in case the error, warning or notice occur.</li>
-                        </ul>'
+                        </ul>',
+                    [
+                        'extension_title' => \M2E\Otto\Helper\Module::getExtensionTitle(),
+                    ]
                 ),
             ]
         );

@@ -48,7 +48,10 @@ class View extends \M2E\Otto\Plugin\AbstractPlugin
         $interceptor->addButton(
             'go_to_otto_order',
             [
-                'label' => __('Show Otto Order'),
+                'label' => __(
+                    'Show %channel_title Order',
+                    ['channel_title' => \M2E\Otto\Helper\Module::getChannelTitle()],
+                ),
                 'onclick' => "setLocation('$buttonUrl')",
             ],
             0,

@@ -68,7 +68,7 @@ class Form extends \M2E\Otto\Block\Adminhtml\Magento\Form\AbstractForm
 
         $templateNick = $this->getTemplateNick();
         if ($templateNick == \M2E\Otto\Model\Otto\Template\Manager::TEMPLATE_SHIPPING) {
-            if ($this->getRequest()->getParam('account_id', false) !== false) {
+            if (!empty($templateData['account_id'])) {
                 $fieldset->addField(
                     'account_id_hidden',
                     'hidden',

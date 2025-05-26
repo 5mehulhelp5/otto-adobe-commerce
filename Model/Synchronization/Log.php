@@ -17,7 +17,7 @@ class Log extends \M2E\Otto\Model\Log\AbstractModel
     public const _TASK_OTHER = 'Other';
 
     public const TASK_LISTINGS = 2;
-    public const _TASK_LISTINGS = 'M2E Otto Listings';
+    public const _TASK_LISTINGS = 'M2E Otto Connect Listings';
 
     public const TASK_OTHER_LISTINGS = 5;
     public const _TASK_OTHER_LISTINGS = 'Unmanaged Listings';

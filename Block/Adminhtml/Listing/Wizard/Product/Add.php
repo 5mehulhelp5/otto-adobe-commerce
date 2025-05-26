@@ -103,19 +103,19 @@ class Add extends \M2E\Otto\Block\Adminhtml\Magento\Grid\AbstractContainer
 
     private function getAutoactionPopupHtml()
     {
+        $message = __(
+            '<h3>Do you want to set up a Rule by which Products will be automatically ' .
+            'Added or Deleted from the current %extension_title Listing?</h3> Click <b>Start Configure</b> ' .
+            'to create a Rule or <b>Cancel</b> if you do not want to do it now.<br/><br/>' .
+            '<b>Note:</b> You can always return to it by clicking Auto Add/Remove Rules Button on this Page.',
+            [
+                'extension_title' => \M2E\Otto\Helper\Module::getExtensionTitle(),
+            ]
+        );
+
         return <<<HTML
 <div id="autoaction_popup_content" style="display: none">
-    <div style="margin-top: 10px;">
-        {$this->__(
-            '<h3>
- Do you want to set up a Rule by which Products will be automatically Added or
- Deleted from the current M2E Otto Listing?
-</h3>
-Click <b>Start Configure</b> to create a Rule or <b>Cancel</b> if you do not want to do it now.
-<br/><br/>
-<b>Note:</b> You can always return to it by clicking Auto Add/Remove Rules Button on this Page.',
-        )}
-    </div>
+    <div style="margin-top: 10px;">$message</div>
 </div>
 HTML;
     }

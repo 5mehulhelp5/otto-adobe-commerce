@@ -20,10 +20,11 @@ class Mapping extends \M2E\Otto\Block\Adminhtml\Magento\AbstractContainer
         $this->setChild('product_mapping_grid', $mappingGrid);
 
         $helpBlockHtml = __(
-            'As M2E Otto was not able to find appropriate Product in Magento Catalog,
+            'As %extension_title was not able to find appropriate Product in Magento Catalog,
                      you are supposed to find and map it manually.
                      <br/><br/><b>Note:</b> Magento Order can be only created when all Products of
-                     Order are found in Magento Catalog.'
+                     Order are found in Magento Catalog.',
+            ['extension_title' => \M2E\Otto\Helper\Module::getExtensionTitle()]
         );
 
         $helpBlock = $this

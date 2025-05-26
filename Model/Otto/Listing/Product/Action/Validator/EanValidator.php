@@ -6,7 +6,7 @@ namespace M2E\Otto\Model\Otto\Listing\Product\Action\Validator;
 
 class EanValidator implements \M2E\Otto\Model\Otto\Listing\Product\Action\Validator\ValidatorInterface
 {
-    public function validate(\M2E\Otto\Model\Product $product): ?string
+    public function validate(\M2E\Otto\Model\Product $product): ?ValidatorMessage
     {
         $providerResult = $product->getDataProvider()->getEan();
         if ($providerResult->isSuccess()) {
@@ -18,6 +18,9 @@ class EanValidator implements \M2E\Otto\Model\Otto\Listing\Product\Action\Valida
             $error = reset($errors);
         }
 
-        return $error;
+        return new ValidatorMessage(
+            $error,
+            \M2E\Otto\Model\Tag\ValidatorIssues::ERROR_EAN_MISSING
+        );
     }
 }

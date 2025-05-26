@@ -56,8 +56,6 @@ class Tables
     public const TABLE_NAME_CATEGORY = self::PREFIX . 'category';
     public const TABLE_NAME_CATEGORY_ATTRIBUTES = self::PREFIX . 'category_attributes';
     public const TABLE_NAME_BRAND = self::PREFIX . 'brand';
-
-    public const TABLE_NAME_ATTRIBUTE_MAPPING = self::PREFIX . 'attribute_mapping';
     public const TABLE_NAME_EXTERNAL_CHANGE = self::PREFIX . 'external_change';
 
     private \Magento\Framework\App\ResourceConnection $resourceConnection;
@@ -207,7 +205,6 @@ class Tables
             self::TABLE_NAME_CATEGORY => \M2E\Otto\Model\ResourceModel\Category::class,
             self::TABLE_NAME_CATEGORY_ATTRIBUTES => \M2E\Otto\Model\ResourceModel\Category\Attribute::class,
             self::TABLE_NAME_BRAND => \M2E\Otto\Model\ResourceModel\Brand::class,
-            self::TABLE_NAME_ATTRIBUTE_MAPPING => \M2E\Otto\Model\ResourceModel\AttributeMapping\Pair::class,
             self::TABLE_NAME_EXTERNAL_CHANGE => \M2E\Otto\Model\ResourceModel\ExternalChange::class,
         ];
     }
@@ -260,7 +257,6 @@ class Tables
             self::TABLE_NAME_CATEGORY => \M2E\Otto\Model\Category::class,
             self::TABLE_NAME_CATEGORY_ATTRIBUTES => \M2E\Otto\Model\Category\Attribute::class,
             self::TABLE_NAME_BRAND => \M2E\Otto\Model\Brand::class,
-            self::TABLE_NAME_ATTRIBUTE_MAPPING => \M2E\Otto\Model\AttributeMapping\Pair::class,
             self::TABLE_NAME_EXTERNAL_CHANGE => \M2E\Otto\Model\ExternalChange::class,
         ];
     }

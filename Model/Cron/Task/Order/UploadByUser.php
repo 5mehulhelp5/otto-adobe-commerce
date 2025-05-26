@@ -71,8 +71,11 @@ class UploadByUser implements \M2E\Core\Model\Cron\TaskHandlerInterface
                 $ordersCreator->processMagentoOrders($processOttoOrders);
             } catch (\Throwable $exception) {
                 $message = (string)__(
-                    'The "Upload Orders By User" Action for Otto Account "%account" was completed with error.',
-                    ['account' => $account->getTitle()],
+                    'The "Upload Orders By User" Action for %channel_title Account "%account" was completed with error.',
+                    [
+                        'channel_title' => \M2E\Otto\Helper\Module::getChannelTitle(),
+                        'account' => $account->getTitle()
+                    ],
                 );
 
                 $context->getExceptionHandler()->processTaskAccountException($message, __FILE__, __LINE__);

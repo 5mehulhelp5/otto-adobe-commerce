@@ -67,8 +67,12 @@ class Form extends \M2E\Otto\Block\Adminhtml\Magento\Form\AbstractForm
                 'required' => true,
                 'class' => 'Otto-listing-title',
                 'tooltip' => __(
-                    'Create a descriptive and meaningful Title for your M2E Otto Listing. <br/>
-                    This is used for reference within M2E Otto and will not appear on your Otto Listings.'
+                    'Create a descriptive and meaningful Title for your %extension_title Listing. <br/>
+    This is used for reference within %extension_title and will not appear on your %channel_title Listings.',
+                    [
+                        'channel_title' => \M2E\Otto\Helper\Module::getChannelTitle(),
+                        'extension_title' => \M2E\Otto\Helper\Module::getExtensionTitle(),
+                    ]
                 ),
             ]
         );
@@ -76,7 +80,7 @@ class Form extends \M2E\Otto\Block\Adminhtml\Magento\Form\AbstractForm
         $fieldset = $form->addFieldset(
             'otto_settings_fieldset',
             [
-                'legend' => __('Otto Settings'),
+                'legend' => __('%channel_title Settings', ['channel_title' => \M2E\Otto\Helper\Module::getChannelTitle()]),
                 'collapsable' => false,
             ]
         );
@@ -142,8 +146,11 @@ HTML
                 'required' => true,
                 'has_empty_option' => true,
                 'tooltip' => __(
-                    'Choose the Magento Store View you want to use for this M2E Otto Listing.
-                     Please remember that Attribute values from the selected Store View will be used in the Listing.'
+                    'Choose the Magento Store View you want to use for this %extension_title Listing.
+                    Please remember that Attribute values from the selected Store View will be used in the Listing.',
+                    [
+                        'extension_title' => \M2E\Otto\Helper\Module::getExtensionTitle(),
+                    ]
                 ),
                 'display_default_store_mode' => StoreSwitcher::DISPLAY_DEFAULT_STORE_MODE_DOWN,
             ]

@@ -131,10 +131,13 @@ class Data extends AbstractForm
                     ? $formData['qty_mode'] : '',
                 'create_magento_attribute' => true,
                 'tooltip' => __(
-                    'The number of Items you want to sell on Otto.<br/><br/>
-                    <b>Product Quantity:</b> the number of Items on Otto will be the same as in Magento.<br/>
+                    'The number of Items you want to sell on %channel_title.<br/><br/>
+                    <b>Product Quantity:</b> the number of Items on %channel_title will be the same as in Magento.<br/>
                     <b>Custom Value:</b> set a Quantity in the Policy here.<br/>
-                    <b>Magento Attribute:</b> takes the number from the Attribute you specify.'
+                    <b>Magento Attribute:</b> takes the number from the Attribute you specify.',
+                    [
+                        'channel_title' => \M2E\Otto\Helper\Module::getChannelTitle(),
+                    ]
                 ),
             ]
         )->addCustomAttribute('allowed_attribute_types', 'text');
@@ -178,10 +181,11 @@ class Data extends AbstractForm
                 'values' => $preparedAttributes,
                 'value' => $formData['qty_percentage'],
                 'tooltip' => __(
-                    'Sets the percentage for calculation of Items number to be Listed on Otto basing on
+                    'Sets the percentage for calculation of Items number to be Listed on %channel_title basing on
                     Product Quantity or Magento Attribute. E.g., if Quantity Percentage is set to 10% and
                     Product Quantity is 100, the Quantity to be Listed on
-                    Otto will be calculated as <br/>100 *10%  = 10.<br/>'
+                    %channel_title will be calculated as <br/>100 *10%  = 10.<br/>',
+                    ['channel_title' => \M2E\Otto\Helper\Module::getChannelTitle()]
                 ),
             ]
         );
@@ -199,11 +203,13 @@ class Data extends AbstractForm
                 ],
                 'value' => $formData['qty_modification_mode'],
                 'tooltip' => __(
-                    'Choose whether to limit the amount of Stock you list on Otto,
-                    eg because you want to set some Stock aside for sales off Otto.<br/><br/>
-                    If this Setting is <b>Enabled</b> you can specify the maximum Quantity to be Listed.
-                    If this Setting is <b>Disabled</b>
-                    all Stock for the Product will be Listed as available on Otto.'
+                    'Choose whether to limit the amount of Stock you list on %channel_title, eg ' .
+                    'because you want to set some Stock aside for sales off %channel_title.<br/><br/>If this Setting ' .
+                    'is <b>Enabled</b> you can specify the maximum Quantity to be Listed. If this Setting ' .
+                    'is <b>Disabled</b> all Stock for the Product will be Listed as available on %channel_title.',
+                    [
+                        'channel_title' => \M2E\Otto\Helper\Module::getChannelTitle(),
+                    ]
                 ),
             ]
         );
@@ -220,8 +226,11 @@ class Data extends AbstractForm
                 'required' => true,
                 'tooltip' => __(
                     'If you have 2 pieces in Stock but set a Minimum Quantity to Be Listed of 5,
-                    Item will not be Listed on Otto.<br/>
-                    Otherwise, the Item will be Listed with Quantity according to the Settings in the Selling Policy'
+                    Item will not be Listed on %channel_title.<br/>
+                    Otherwise, the Item will be Listed with Quantity according to the Settings in the Selling Policy',
+                    [
+                        'channel_title' => \M2E\Otto\Helper\Module::getChannelTitle(),
+                    ]
                 ),
             ]
         );
@@ -237,8 +246,11 @@ class Data extends AbstractForm
                 'class' => 'Otto-validate-qty',
                 'required' => true,
                 'tooltip' => __(
-                    'Set a maximum number to sell on Otto, e.g. if you have 10 Items in Stock but want
-                    to keep 2 Items back, set a Maximum Quantity of 8.'
+                    'Set a maximum number to sell on %channel_title, e.g. if you ' .
+                    'have 10 Items in Stock but want to keep 2 Items back, set a Maximum Quantity of 8.',
+                    [
+                        'channel_title' => \M2E\Otto\Helper\Module::getChannelTitle(),
+                    ]
                 ),
             ]
         );

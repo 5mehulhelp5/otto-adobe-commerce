@@ -65,8 +65,11 @@ class CreateMagentoOrder extends AbstractOrder
         if ($warnings) {
             $this->messageManager->addWarning(
                 __(
-                    '%count Magento order(s) are already created for the selected Otto order(s).',
-                    ['count' => $warnings]
+                    '%count Magento order(s) are already created for the selected %channel_title order(s).',
+                    [
+                        'count' => $warnings,
+                        'channel_title' => \M2E\Otto\Helper\Module::getChannelTitle(),
+                    ]
                 )
             );
         }

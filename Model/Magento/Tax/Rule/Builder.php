@@ -4,15 +4,15 @@ namespace M2E\Otto\Model\Magento\Tax\Rule;
 
 class Builder extends \M2E\Otto\Model\AbstractModel
 {
-    public const TAX_CLASS_NAME_PRODUCT = 'M2E Otto Product Tax Class';
-    public const TAX_CLASS_NAME_CUSTOMER = 'M2E Otto Customer Tax Class';
-    public const TAX_CLASS_NAME_SHIPPING = 'M2E Otto Shipping Tax Class';
+    public const TAX_CLASS_NAME_PRODUCT = 'M2E Otto Connect Product Tax Class';
+    public const TAX_CLASS_NAME_CUSTOMER = 'M2E Otto Connect Customer Tax Class';
+    public const TAX_CLASS_NAME_SHIPPING = 'M2E Otto Connect Shipping Tax Class';
 
-    public const TAX_RATE_CODE_PRODUCT = 'M2E Otto Tax Rate';
-    public const TAX_RULE_CODE_PRODUCT = 'M2E Otto Tax Rule';
+    public const TAX_RATE_CODE_PRODUCT = 'M2E Otto Connect Tax Rate';
+    public const TAX_RULE_CODE_PRODUCT = 'M2E Otto Connect Tax Rule';
 
-    public const TAX_RATE_CODE_SHIPPING = 'M2E Otto Shipping Tax Rate';
-    public const TAX_RULE_CODE_SHIPPING = 'M2E Otto Shipping Tax Rule';
+    public const TAX_RATE_CODE_SHIPPING = 'M2E Otto Connect Shipping Tax Rate';
+    public const TAX_RULE_CODE_SHIPPING = 'M2E Otto Connect Shipping Tax Rule';
 
     protected $classModelFactory;
     protected $rateFactory;

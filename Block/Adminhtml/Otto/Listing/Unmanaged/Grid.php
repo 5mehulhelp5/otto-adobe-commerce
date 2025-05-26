@@ -90,7 +90,12 @@ class Grid extends \M2E\Otto\Block\Adminhtml\Magento\Grid\AbstractGrid
         ]);
 
         $this->addColumn('title', [
-            'header' => __('Product Title / Product SKU / Otto Category'),
+            'header' => __(
+                'Product Title / Product SKU / %channel_title Category',
+                [
+                    'channel_title' => \M2E\Otto\Helper\Module::getChannelTitle()
+                ]
+            ),
             'header_export' => __('Product SKU'),
             'align' => 'left',
             'type' => 'text',

@@ -7,15 +7,18 @@ namespace M2E\Otto\Model\Order\MagentoProcessor;
 class InvoiceCreate
 {
     private \M2E\Otto\Model\Magento\Order\InvoiceFactory $magentoInvoiceFactory;
+    private \M2E\Otto\Model\Order\EventDispatcher $orderEventDispatcher;
     private \Magento\Sales\Model\Order\Email\Sender\InvoiceSender $invoiceSender;
     private \M2E\Otto\Helper\Module\Exception $helperModuleException;
 
     public function __construct(
-        \M2E\Otto\Model\Magento\Order\InvoiceFactory $invoiceBuilder,
+        \M2E\Otto\Model\Magento\Order\InvoiceFactory $magentoInvoiceFactory,
+        \M2E\Otto\Model\Order\EventDispatcher $orderEventDispatcher,
         \Magento\Sales\Model\Order\Email\Sender\InvoiceSender $invoiceSender,
         \M2E\Otto\Helper\Module\Exception $helperModuleException
     ) {
-        $this->magentoInvoiceFactory = $invoiceBuilder;
+        $this->magentoInvoiceFactory = $magentoInvoiceFactory;
+        $this->orderEventDispatcher = $orderEventDispatcher;
         $this->invoiceSender = $invoiceSender;
         $this->helperModuleException = $helperModuleException;
     }
@@ -48,6 +51,8 @@ class InvoiceCreate
 
             return;
         }
+
+        $this->orderEventDispatcher->dispatchEventInvoiceCreated($order);
 
         $order->addSuccessLog(
             'Invoice #%invoice_id% was created.',

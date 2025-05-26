@@ -138,7 +138,7 @@ class Grid extends \M2E\Otto\Block\Adminhtml\Magento\Grid\AbstractGrid
         ]);
 
         $this->addColumn('category', [
-            'header' => __('Otto Category'),
+            'header' => __('%channel_title Category', ['channel_title' => \M2E\Otto\Helper\Module::getChannelTitle()]),
             'align' => 'left',
             'width' => '*',
             'index' => 'category',

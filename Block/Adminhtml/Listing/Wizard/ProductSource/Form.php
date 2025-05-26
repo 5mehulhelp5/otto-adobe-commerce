@@ -24,11 +24,15 @@ class Form extends \M2E\Otto\Block\Adminhtml\Magento\Form\AbstractForm
             self::HELP_BLOCK,
             [
                 'content' => __(
-                    '<p>After an M2E Otto listing is configured and created, Magento Products should
-                    be added into it. <br> The Products you add to the Listing will further be
-                    Listed on Otto.</p><br>
-                    <p>There are several different options of how Magento products can be found/selected
-                    and added to the Listing.</p>'
+                    '<p>After a %extension_title listing is configured and created, Magento Products should
+    be added into it. <br> The Products you add to the Listing will further be
+    Listed on %channel_title.</p><br>
+    <p>There are several different options of how Magento products can be found/selected
+    and added to the Listing.</p>',
+                    [
+                        'channel_title' => \M2E\Otto\Helper\Module::getChannelTitle(),
+                        'extension_title' => \M2E\Otto\Helper\Module::getExtensionTitle(),
+                    ]
                 ),
             ]
         );

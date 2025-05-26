@@ -111,8 +111,11 @@ class Save extends \M2E\Otto\Plugin\AbstractPlugin
             \M2E\Otto\Model\Listing\Log::ACTION_UNKNOWN,
             null,
             \M2E\Otto\Helper\Module\Log::encodeDescription(
-                'Source set was changed in the "%stock%" Stock used for M2E Otto Listing.',
-                ['!stock' => $stock->getName()]
+                'Source set was changed in the "%stock%" Stock used for %extension_title% Listing.',
+                [
+                    '!extension_title' => \M2E\Otto\Helper\Module::getExtensionTitle(),
+                    '!stock' => $stock->getName()
+                ]
             ),
             \M2E\Otto\Model\Log\AbstractModel::TYPE_INFO
         );

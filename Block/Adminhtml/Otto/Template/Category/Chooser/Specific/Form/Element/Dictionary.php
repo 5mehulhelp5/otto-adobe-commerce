@@ -152,7 +152,7 @@ class Dictionary extends \Magento\Framework\Data\Form\Element\AbstractElement
             ],
             \M2E\Otto\Model\Otto\Template\Category::VALUE_MODE_OTTO_RECOMMENDED => [
                 'value' => \M2E\Otto\Model\Otto\Template\Category::VALUE_MODE_OTTO_RECOMMENDED,
-                'label' => __('Otto Recommended'),
+                'label' => __('%channel_title Recommended', ['channel_title' => \M2E\Otto\Helper\Module::getChannelTitle()]),
             ],
             \M2E\Otto\Model\Otto\Template\Category::VALUE_MODE_CUSTOM_ATTRIBUTE => [
                 'value' => \M2E\Otto\Model\Otto\Template\Category::VALUE_MODE_CUSTOM_ATTRIBUTE,

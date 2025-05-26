@@ -29,7 +29,14 @@ class Index extends \Magento\Backend\App\Action
 
         $result = $this->pageFactory->create();
 
-        $result->getConfig()->getTitle()->set(__('M2E Otto is currently under maintenance'));
+        $result->getConfig()->getTitle()->set(
+            __(
+                '%extension_title is currently under maintenance',
+                [
+                    'extension_title' => \M2E\Otto\Helper\Module::getExtensionTitle(),
+                ]
+            )
+        );
         $this->_setActiveMenu('M2E_Otto::otto_maintenance');
 
         /** @var \Magento\Framework\View\Element\Template $block */

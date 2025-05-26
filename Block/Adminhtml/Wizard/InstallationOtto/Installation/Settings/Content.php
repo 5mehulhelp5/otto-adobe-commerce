@@ -14,9 +14,18 @@ class Content extends AbstractForm
 
     protected function _prepareLayout()
     {
-        $string = __('In this section, you can provide various Otto Marketplace settings, such as Product Identifier configurations, to optimize your marketplace presence.');
+        $channelTitle = \M2E\Otto\Helper\Module::getChannelTitle();
+        $string = __(
+            'In this section, you can provide various %channel_title Marketplace settings, such as Product Identifier configurations, to optimize your marketplace presence.',
+            [
+                'channel_title' => $channelTitle,
+            ]
+        );
         $settings = __('Anytime you can change these settings under');
-        $path = __('Otto > Configuration > Settings');
+        $path = __(
+            '%channel_title > Configuration > Settings',
+            ['channel_title' => $channelTitle]
+        );
 
         $content = $string . '<br><br>' . $settings . ' <b>' . $path . '</b>';
         $this->getLayout()->getBlock('wizard.help.block')->setContent($content);

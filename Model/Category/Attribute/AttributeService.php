@@ -4,10 +4,7 @@ declare(strict_types=1);
 
 namespace M2E\Otto\Model\Category\Attribute;
 
-use M2E\Otto\Model\AttributeMapping\Gpsr\Pair;
 use M2E\Otto\Model\Category\Attribute;
-
-use function React\Promise\some;
 
 class AttributeService
 {
@@ -16,19 +13,27 @@ class AttributeService
     private \M2E\Otto\Model\Category\Attribute\Repository $attributeRepository;
     private \M2E\Otto\Model\Dictionary\Attribute\Convertor $attributeConvertor;
     private \M2E\Otto\Model\AttributeMapping\GpsrService $gpsrService;
+    private \M2E\Otto\Model\AttributeMapping\GeneralService $generalService;
+
+    /** @var \M2E\Core\Model\AttributeMapping\Pair[] */
+    private array $generalAttributeMapping;
+    /** @var \M2E\Core\Model\AttributeMapping\Pair[] */
+    private array $gpsrAttributeMapping;
 
     public function __construct(
         \M2E\Otto\Model\Dictionary\Attribute\Repository $attributeDictionaryRepository,
         \M2E\Otto\Model\Category\Repository $categoryRepository,
         \M2E\Otto\Model\Category\Attribute\Repository $attributeRepository,
         \M2E\Otto\Model\Dictionary\Attribute\Convertor $attributeConvertor,
-        \M2E\Otto\Model\AttributeMapping\GpsrService $gpsrService
+        \M2E\Otto\Model\AttributeMapping\GpsrService $gpsrService,
+        \M2E\Otto\Model\AttributeMapping\GeneralService $generalService
     ) {
         $this->attributeConvertor = $attributeConvertor;
         $this->attributeRepository = $attributeRepository;
         $this->categoryRepository = $categoryRepository;
         $this->attributeDictionaryRepository = $attributeDictionaryRepository;
         $this->gpsrService = $gpsrService;
+        $this->generalService = $generalService;
     }
 
     public function getProductAttributes(
@@ -39,6 +44,8 @@ class AttributeService
         $savedAttributes = [];
         $attributes = [];
         $gpsrAttributes = $this->getGpsrAttributesByAttributeTitle();
+        $generalAttributes = $this->getGeneralAttributesMappingByTitle();
+        $mappingAttributes = array_replace($gpsrAttributes, $generalAttributes);
 
         $dictionaryAttributes = $this->attributeDictionaryRepository->getAttributesByCategoryGroupId($categoryGroupId);
         $dictionaryAttributes = $this->attributeConvertor->convert($dictionaryAttributes);
@@ -56,7 +63,7 @@ class AttributeService
             }
         } else {
             foreach ($dictionaryAttributes as $productAttribute) {
-                $item = $this->map($productAttribute, $savedAttributes, $gpsrAttributes);
+                $item = $this->map($productAttribute, $savedAttributes, $mappingAttributes);
 
                 if ($item['required']) {
                     array_unshift($attributes, $item);
@@ -74,6 +81,8 @@ class AttributeService
     {
         $savedAttributes = [];
         $gpsrAttributes = $this->getGpsrAttributesByAttributeTitle();
+        $generalAttributes = $this->getGeneralAttributesMappingByTitle();
+        $mappingAttributes = array_replace($gpsrAttributes, $generalAttributes);
 
         if ($categoryId) {
             $category = $this->categoryRepository->get($categoryId);
@@ -86,7 +95,7 @@ class AttributeService
 
         $attributes = [];
         foreach ($this->createCustomAttributes() as $customAttribute) {
-            $item = $this->map($customAttribute, $savedAttributes, $gpsrAttributes);
+            $item = $this->map($customAttribute, $savedAttributes, $mappingAttributes);
 
             if ($item['required']) {
                 array_unshift($attributes, $item);
@@ -102,14 +111,14 @@ class AttributeService
     /**
      * @param \M2E\Otto\Model\Category\AbstractAttribute $attribute
      * @param \M2E\Otto\Model\Category\Attribute[] $savedAttributes
-     * @param \M2E\Otto\Model\AttributeMapping\Gpsr\Pair[] $gpsrAttributes
+     * @param \M2E\Core\Model\AttributeMapping\Pair[] $mappingAttributesByCode
      *
      * @return array
      */
     private function map(
         \M2E\Otto\Model\Category\AbstractAttribute $attribute,
         array $savedAttributes,
-        array $gpsrAttributes
+        array $mappingAttributesByCode
     ): array {
         $item = [
             'id' => $attribute->getId(),
@@ -126,10 +135,10 @@ class AttributeService
         ];
 
         $existsAttribute = $savedAttributes[$attribute->getId()] ?? null;
-        $gpsrMapping = $gpsrAttributes[$attribute->getTitle()] ?? null;
+        $attributeMapping = $mappingAttributesByCode[$attribute->getTitle()] ?? null;
         if (
             $existsAttribute !== null
-            || $gpsrMapping !== null
+            || $attributeMapping !== null
         ) {
             $item['template_attribute'] = [
                 'id' => $existsAttribute ? $existsAttribute->getAttributeId() : null,
@@ -138,12 +147,12 @@ class AttributeService
                 'attribute_title' => $existsAttribute ? $existsAttribute->getAttributeName() : $attribute->getTitle(),
                 'value_mode' => $existsAttribute !== null
                     ? $existsAttribute->getValueMode()
-                    : ($gpsrMapping !== null ? \M2E\Otto\Model\Category\Attribute::VALUE_MODE_CUSTOM_ATTRIBUTE : \M2E\Otto\Model\Category\Attribute::VALUE_MODE_NONE),
+                    : ($attributeMapping !== null ? \M2E\Otto\Model\Category\Attribute::VALUE_MODE_CUSTOM_ATTRIBUTE : \M2E\Otto\Model\Category\Attribute::VALUE_MODE_NONE),
                 'value_otto_recommended' => $existsAttribute ? $existsAttribute->getRecommendedValue() : null,
                 'value_custom_value' => $existsAttribute ? $existsAttribute->getCustomValue() : null,
                 'value_custom_attribute' => $existsAttribute !== null
                     ? $existsAttribute->getCustomAttributeValue()
-                    : ($gpsrMapping !== null ? $gpsrMapping->magentoAttributeCode : null),
+                    : ($attributeMapping !== null ? $attributeMapping->getMagentoAttributeCode() : null),
             ];
         }
 
@@ -247,13 +256,36 @@ class AttributeService
         return $item;
     }
 
+    /**
+     * @return \M2E\Core\Model\AttributeMapping\Pair[]
+     */
     private function getGpsrAttributesByAttributeTitle(): array
     {
-        $result = [];
-        foreach ($this->gpsrService->getConfigured() as $item) {
-            $result[$item->channelAttributeTitle] = $item;
+        /** @psalm-suppress RedundantPropertyInitializationCheck */
+        if (isset($this->gpsrAttributeMapping)) {
+            return $this->gpsrAttributeMapping;
         }
 
-        return $result;
+        $result = $this->gpsrService->getAllByTitle();
+
+        return $this->gpsrAttributeMapping = $result;
+    }
+
+    /**
+     * @return \M2E\Core\Model\AttributeMapping\Pair[]
+     */
+    private function getGeneralAttributesMappingByTitle(): array
+    {
+        /** @psalm-suppress RedundantPropertyInitializationCheck */
+        if (isset($this->generalAttributeMapping)) {
+            return $this->generalAttributeMapping;
+        }
+
+        $result = [];
+        foreach ($this->generalService->getAll() as $item) {
+            $result[$item->getChannelAttributeTitle()] = $item;
+        }
+
+        return $this->generalAttributeMapping = $result;
     }
 }

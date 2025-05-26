@@ -20,7 +20,7 @@
     <?php
     if ($block->getChannelOrderId() != '') : ?>
         <tr>
-            <td style="width: 200px;"><?= __('Otto Order ID') ?>:</td>
+            <td style="width: 200px;"><?= __('%channel_title Order ID', ['channel_title' => \M2E\Otto\Helper\Module::getChannelTitle()]) ?>:</td>
             <td>
                 <?php
                 if ($block->getChannelOrderUrl() !== '') : ?>

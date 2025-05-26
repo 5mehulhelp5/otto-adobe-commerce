@@ -150,13 +150,17 @@ class Tabs extends \M2E\Otto\Block\Adminhtml\Magento\Tabs\AbstractTabs
         $this->jsTranslator->add(
             'confirmation_account_delete',
             __(
-                '<p>You are about to delete your Otto seller account from M2E Otto. This will remove the
+                '<p>You are about to delete your %channel_title seller account from %extension_title. This will remove the
 account-related Listings and Products from the extension and disconnect the synchronization.
 Your listings on the channel will <b>not</b> be affected.</p>
 <p>Please confirm if you would like to delete the account.</p>
-<p>Note: once the account is no longer connected to your M2E Otto, please remember to delete it from
-<a href="%1">M2E Accounts</a></p>',
-                \M2E\Core\Helper\Module\Support::ACCOUNTS_URL,
+<p>Note: once the account is no longer connected to your %extension_title, please remember to delete it from
+<a href="%href">M2E Accounts</a></p>',
+                [
+                    'extension_title' => \M2E\Otto\Helper\Module::getExtensionTitle(),
+                    'href' => \M2E\Core\Helper\Module\Support::ACCOUNTS_URL,
+                    'channel_title' => \M2E\Otto\Helper\Module::getChannelTitle(),
+                ]
             ),
         );
 
@@ -165,10 +169,16 @@ Your listings on the channel will <b>not</b> be affected.</p>
                 'The specified Title is already used for other Account. Account Title must be unique.' => __(
                     'The specified Title is already used for other Account. Account Title must be unique.',
                 ),
-                'Be attentive! By Deleting Account you delete all information on it from M2E Otto Server. '
-                . 'This will cause inappropriate work of all Accounts\' copies.' => __(
-                    'Be attentive! By Deleting Account you delete all information on it from M2E Otto Server. '
+                sprintf(
+                    'Be attentive! By Deleting Account you delete all information on it from %s Server. '
                     . 'This will cause inappropriate work of all Accounts\' copies.',
+                    \M2E\Otto\Helper\Module::getExtensionTitle()
+                ) => __(
+                    'Be attentive! By Deleting Account you delete all information on it from %extension_title Server. '
+                    . 'This will cause inappropriate work of all Accounts\' copies.',
+                    [
+                        'extension_title' => \M2E\Otto\Helper\Module::getExtensionTitle(),
+                    ]
                 ),
                 'No Customer entry is found for specified ID.' => __(
                     'No Customer entry is found for specified ID.',

@@ -30,15 +30,18 @@ class ModuleControlPopup extends \M2E\Otto\Block\Adminhtml\Magento\AbstractBlock
     {
         $isModuleDisabled = (int)$this->moduleHelper->isDisabled();
         if ($isModuleDisabled) {
-            $confirmContent = 'Are you sure ?';
+            $confirmContent = __('Are you sure ?');
         } else {
-            $confirmContent = <<<HTML
-<p>In case you confirm the Module disabling, the M2E Otto Storefront dynamic tasks run by
-Cron will be stopped and the M2E Otto Storefront Interface will be blocked.</p>
-
-<p><b>Note</b>: You can re-enable it anytime you would like by clicking on the <strong>Proceed</strong>
-button for <strong>Enable Module and Automatic Synchronization</strong> option.</p>
-HTML;
+            $confirmContent = __(
+                '<p>In case you confirm the Module disabling, the %extension_title ' .
+                'dynamic tasks run by Cron will be stopped and the %extension_title Interface will be blocked.</p>' .
+                '<p><b>Note</b>: You can re-enable it anytime you would like by clicking on the ' .
+                '<strong>Proceed</strong> button for <strong>Enable Module and ' .
+                'Automatic Synchronization</strong> option.</p>',
+                [
+                    'extension_title' => \M2E\Otto\Helper\Module::getExtensionTitle(),
+                ]
+            );
         }
 
         $html = <<<HTML

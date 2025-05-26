@@ -202,7 +202,7 @@ class Grid extends \M2E\Otto\Block\Adminhtml\Listing\View\AbstractGrid
         $this->addColumn(
             'category',
             [
-                'header' => __('Otto Category'),
+                'header' => __('%channel_title Category', ['channel_title' => \M2E\Otto\Helper\Module::getChannelTitle()]),
                 'align' => 'left',
                 'width' => '200px',
                 'type' => 'text',
@@ -542,14 +542,22 @@ JS
             'Category Settings' => __('Category Settings'),
             'Specifics' => __('Specifics'),
             'task_completed_message' => __('Task completed. Please wait ...'),
-            'sending_data_message' => __('Sending %product_title% Product(s) data on Otto.'),
+            'sending_data_message' => __(
+                'Sending %product_title% Product(s) data on %channel_title.',
+                [
+                    'channel_title' => \M2E\Otto\Helper\Module::getChannelTitle(),
+                ]
+            ),
             'View Full Product Log.' => __('View Full Product Log.'),
             'The Listing was locked by another process. Please try again later.' =>
                 __('The Listing was locked by another process. Please try again later.'),
             'Listing is empty.' => __('Listing is empty.'),
             'Please select Items.' => __('Please select Items.'),
             'Please select Action.' => __('Please select Action.'),
-            'popup_title' => __('Moving Otto Items'),
+            'popup_title' => __(
+                'Moving %channel_title Items',
+                ['channel_title' => \M2E\Otto\Helper\Module::getChannelTitle()]
+            ),
             'task_completed_warning_message' => __(
                 '"%task_title%" Task has completed with warnings. <a target="_blank" href="%url%">View Log</a> for details.'
             ),

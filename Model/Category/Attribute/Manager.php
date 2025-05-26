@@ -12,6 +12,7 @@ class Manager
     private \M2E\Otto\Model\Otto\Template\Category\DiffFactory $diffFactory;
     private \M2E\Otto\Model\Otto\Template\Category\ChangeProcessorFactory $changeProcessorFactory;
     private \M2E\Otto\Model\Otto\Template\Category\AffectedListingsProductsFactory $affectedListingsProductsFactory;
+    private \M2E\Otto\Model\AttributeMapping\GeneralService $attributeMappingGeneralService;
 
     public function __construct(
         \M2E\Otto\Model\Category\Repository $categoryRepository,
@@ -19,7 +20,8 @@ class Manager
         \M2E\Otto\Model\Otto\Template\Category\SnapshotBuilderFactory $snapshotBuilderFactory,
         \M2E\Otto\Model\Otto\Template\Category\DiffFactory $diffFactory,
         \M2E\Otto\Model\Otto\Template\Category\ChangeProcessorFactory $changeProcessorFactory,
-        \M2E\Otto\Model\Otto\Template\Category\AffectedListingsProductsFactory $affectedListingsProductsFactory
+        \M2E\Otto\Model\Otto\Template\Category\AffectedListingsProductsFactory $affectedListingsProductsFactory,
+        \M2E\Otto\Model\AttributeMapping\GeneralService $attributeMappingGeneralService
     ) {
         $this->categoryRepository = $categoryRepository;
         $this->attributeRepository = $attributeRepository;
@@ -27,6 +29,7 @@ class Manager
         $this->diffFactory = $diffFactory;
         $this->changeProcessorFactory = $changeProcessorFactory;
         $this->affectedListingsProductsFactory = $affectedListingsProductsFactory;
+        $this->attributeMappingGeneralService = $attributeMappingGeneralService;
     }
 
     /**
@@ -87,6 +90,7 @@ class Manager
         $category->setUsedProductAttributes($countOfUsedAttributes);
         $category->installStateSaved();
         $this->categoryRepository->save($category);
+        $this->attributeMappingGeneralService->create($category->getRelatedAttributes());
     }
 
     private function updateAttribute(

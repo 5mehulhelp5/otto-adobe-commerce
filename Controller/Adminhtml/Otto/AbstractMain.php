@@ -21,7 +21,7 @@ abstract class AbstractMain extends \M2E\Otto\Controller\Adminhtml\AbstractMain
 
         $this->getResultPage()
              ->getConfig()
-             ->getTitle()->prepend(\M2E\Otto\Helper\View\Otto::getTitle());
+             ->getTitle()->prepend(\M2E\Otto\Helper\Module::getChannelTitle());
 
         if ($this->getLayoutType() != self::LAYOUT_BLANK) {
             $this->getResultPage()->setActiveMenu(\M2E\Otto\Helper\View\Otto::MENU_ROOT_NODE_NICK);

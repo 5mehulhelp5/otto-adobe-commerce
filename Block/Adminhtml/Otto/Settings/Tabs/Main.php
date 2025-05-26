@@ -130,8 +130,9 @@ HTML
                     : '',
                 'create_magento_attribute' => true,
                 'tooltip' => __(
-                    'Otto uses EAN to associate your Item with its catalog. Select Attribute where the
-                     Product ID values are stored.'
+                    '%channel_title uses EAN to associate your Item with its catalog. Select Attribute where the
+                     Product ID values are stored.',
+                    ['channel_title' => \M2E\Otto\Helper\Module::getChannelTitle()]
                 ),
                 'after_element_html' => $warningToolTip,
                 'required' => true,

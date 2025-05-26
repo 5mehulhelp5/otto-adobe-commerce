@@ -174,8 +174,12 @@ abstract class AbstractMain extends AbstractBase
         if (!$moduleHelper->isStaticContentDeployed()) {
             $this->addExtendedErrorMessage(
                 __(
-                    '<p>M2E Otto interface cannot work properly and there is no way to work with it correctly,
-                    as your Magento is set to the Production Mode and the static content data was not deployed.</p>'
+                    '<p>%extension_title interface cannot work properly and there is no way to ' .
+                    'work with it correctly, as your Magento is set to the Production Mode and the static ' .
+                    'content data was not deployed.</p>',
+                    [
+                        'extension_title' => \M2E\Otto\Helper\Module::getExtensionTitle(),
+                    ]
                 ),
                 self::GLOBAL_MESSAGES_GROUP
             );
@@ -228,20 +232,21 @@ abstract class AbstractMain extends AbstractBase
 
         $this->addExtendedWarningMessage(
             __(
-                '<p>Static content data was not deployed during the last M2E Otto installation/upgrade.
-                 It may affect some elements of your Magento user interface.</p>
-                 <p>Please follow <a href="%1" target="_blank">these instructions</a>
-                 to deploy static view files.</p>
-
-                 <a href="%2">Don\'t Show Again</a><br>',
-                'https://devdocs.magento.com/guides/v2.3/config-guide/cli/config-cli-subcommands-static-view.html',
-                $this->getUrl(
-                    '*/general/skipStaticContentValidationMessage',
-                    [
-                        'skip_message' => true,
-                        'back' => base64_encode($this->getUrl('*/*/*', ['_current' => true])),
-                    ]
-                )
+                '<p>Static content data was not deployed during the last %extension_title ' .
+                'installation/upgrade. It may affect some elements of your Magento user interface.</p>' .
+                '<p>Please follow <a href="%docs_url" target="_blank">these instructions</a> to deploy ' .
+                'static view files.</p><a href="%hide_action_url">Don\'t Show Again</a><br>',
+                [
+                    'extension_title' => \M2E\Otto\Helper\Module::getExtensionTitle(),
+                    'docs_url' => 'https://devdocs.magento.com/guides/v2.3/config-guide/cli/config-cli-subcommands-static-view.html',
+                    'hide_action_url' =>  $this->getUrl(
+                        '*/general/skipStaticContentValidationMessage',
+                        [
+                            'skip_message' => true,
+                            'back' => base64_encode($this->getUrl('*/*/*', ['_current' => true])),
+                        ]
+                    )
+                ]
             ),
             self::GLOBAL_MESSAGES_GROUP
         );
@@ -358,8 +363,12 @@ abstract class AbstractMain extends AbstractBase
         if (!$cronConfig->isEnabled()) {
             $this->getMessageManager()->addWarning(
                 __(
-                    'Automatic Synchronization is disabled. You can enable it under <i>Stores > Settings >
-                        Configuration > M2E Otto > Module & Channels > Automatic Synchronization</i>.'
+                    'Automatic Synchronization is disabled. You can enable it under ' .
+                    '<i>Stores > Settings > Configuration > %extension_title > Module & Channels > ' .
+                    'Automatic Synchronization</i>.',
+                    [
+                        'extension_title' => \M2E\Otto\Helper\Module::getExtensionTitle(),
+                    ]
                 ),
                 \M2E\Otto\Controller\Adminhtml\AbstractBase::GLOBAL_MESSAGES_GROUP
             );
@@ -375,11 +384,14 @@ abstract class AbstractMain extends AbstractBase
             && $cronManager->isCronLastRunMoreThan(3600)
         ) {
             $message = __(
-                'Attention! AUTOMATIC Synchronization is not running at the moment.
-                It does not allow M2E Otto to work correctly.
-                <br/>Please check this <a href="%1" target="_blank" class="external-link">article</a>
-                for the details on how to resolve the problem.',
-                'https://help.m2epro.com/support/solutions/articles/9000200402'
+                'Attention! AUTOMATIC Synchronization is not running at the moment.' .
+                ' It does not allow %extension_title to work correctly.' .
+                '<br/>Please check this <a href="%url" target="_blank" class="external-link">article</a>' .
+                ' for the details on how to resolve the problem.',
+                [
+                    'extension_title' => \M2E\Otto\Helper\Module::getExtensionTitle(),
+                    'url' => 'https://help.m2epro.com/support/solutions/articles/9000200402',
+                ]
             );
 
             $this->getMessageManager()->addError(
@@ -410,8 +422,11 @@ abstract class AbstractMain extends AbstractBase
             $url = $configurationHelper->getLicenseUrl($params);
 
             $message = __(
-                'M2E Otto Module requires activation. Go to the <a href="%1" target ="_blank">License Page</a>.',
-                $url
+                '%extension_title Module requires activation. Go to the <a href="%url" target ="_blank">License Page</a>.',
+                [
+                    'extension_title' => \M2E\Otto\Helper\Module::getExtensionTitle(),
+                    'url' => $url,
+                ]
             );
 
             $this->getMessageManager()->addError($message, self::GLOBAL_MESSAGES_GROUP);
@@ -440,9 +455,12 @@ abstract class AbstractMain extends AbstractBase
             $url = $configurationHelper->getLicenseUrl($params);
 
             $message = __(
-                'M2E Otto License Key Validation is failed for this Domain.
-                Go to the <a href="%1" target="_blank">License Page</a>.',
-                $url
+                '%extension_title License Key Validation is failed for this Domain. ' .
+                'Go to the <a href="%url" target="_blank">License Page</a>.',
+                [
+                    'extension_title' => \M2E\Otto\Helper\Module::getExtensionTitle(),
+                    'url' => $url,
+                ]
             );
 
             $this->getMessageManager()->addError($message, self::GLOBAL_MESSAGES_GROUP);
@@ -458,9 +476,12 @@ abstract class AbstractMain extends AbstractBase
             $url = $configurationHelper->getLicenseUrl($params);
 
             $message = __(
-                'M2E Otto License Key Validation is failed for this IP.
-                Go to the <a href="%1" target="_blank">License Page</a>.',
-                $url
+                '%extension_title License Key Validation is failed for this IP. ' .
+                'Go to the <a href="%url" target="_blank">License Page</a>.',
+                [
+                    'extension_title' => \M2E\Otto\Helper\Module::getExtensionTitle(),
+                    'url' => $url,
+                ]
             );
 
             $this->getMessageManager()->addError($message, self::GLOBAL_MESSAGES_GROUP);

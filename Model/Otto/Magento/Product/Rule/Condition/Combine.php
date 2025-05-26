@@ -15,7 +15,7 @@ class Combine extends \M2E\Otto\Model\Magento\Product\Rule\Condition\Combine
 
     protected function getCustomLabel(): string
     {
-        return (string)__('Otto Values');
+        return (string)__('%channel_title Values', ['channel_title' => \M2E\Otto\Helper\Module::getChannelTitle()]);
     }
 
     protected function getCustomOptions(): array

@@ -196,9 +196,12 @@ abstract class AbstractBase extends Action
 
         if ($moduleHelper->isDisabled()) {
             $message = __(
-                'M2E Otto is disabled. Inventory and Order synchronization is not running. ' .
+                '%extension_title is disabled. Inventory and Order synchronization is not running. ' .
                 'The Module interface is unavailable.<br>' .
-                'You can enable the Module under <i>Stores > Settings > Configuration > M2E Otto > Module</i>.'
+                'You can enable the Module under <i>Stores > Settings > Configuration > %extension_title > Module</i>.',
+                [
+                    'extension_title' => \M2E\Otto\Helper\Module::getExtensionTitle(),
+                ]
             );
             $this->getMessageManager()->addNotice($message);
 
@@ -289,7 +292,7 @@ abstract class AbstractBase extends Action
         $this->resultPage = $this->resultPageFactory->create();
         $this->resultPage->addHandle($this->getLayoutType());
 
-        $this->resultPage->getConfig()->getTitle()->set(__('Otto'));
+        $this->resultPage->getConfig()->getTitle()->set(__(\M2E\Otto\Helper\Module::getChannelTitle()));
     }
 
     // ---------------------------------------

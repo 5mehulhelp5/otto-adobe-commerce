@@ -217,4 +217,19 @@ class Module
     {
         $this->permanentCache->removeAllValues();
     }
+
+    public static function getExtensionTitle(): string
+    {
+        return 'M2E Otto Connect';
+    }
+
+    public static function getChannelTitle(): string
+    {
+        return 'Otto';
+    }
+
+    public static function getMenuRootNodeLabel(): string
+    {
+        return (string)__('Otto');
+    }
 }

@@ -51,6 +51,23 @@ class LogService
         );
     }
 
+    public function addRecordToListing(
+        Log\Record $record,
+        \M2E\Otto\Model\Listing $listing,
+        int $initiator,
+        int $action,
+        ?int $actionId
+    ): void {
+        $this->addListing(
+            $listing,
+            $initiator,
+            $action,
+            $actionId,
+            $record->getMessage(),
+            $record->getType(),
+        );
+    }
+
     public function addListing(
         \M2E\Otto\Model\Listing $listing,
         int $initiator,

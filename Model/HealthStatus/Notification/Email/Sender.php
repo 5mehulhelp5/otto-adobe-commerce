@@ -6,7 +6,7 @@ namespace M2E\Otto\Model\HealthStatus\Notification\Email;
 
 class Sender extends \M2E\Otto\Model\AbstractModel
 {
-    private const FROM_NAME = 'M2E Otto Health Status';
+    private const FROM_NAME = 'M2E Otto Connect Health Status';
     private const TEMPLATE_PATH = 'otto_health_status_notification_email_template';
 
     /** @var \Magento\Framework\Translate\Inline\StateInterface */

@@ -17,7 +17,12 @@ class Validator extends \M2E\Otto\Model\Otto\Listing\Product\Action\Type\Abstrac
     public function validate(): bool
     {
         if (!$this->getListingProduct()->isRelistable()) {
-            $this->addMessage('The Item either is Listed, or not Listed yet or not available');
+            $this->addMessage(
+                new \M2E\Otto\Model\Otto\Listing\Product\Action\Validator\ValidatorMessage(
+                    'The Item either is Listed, or not Listed yet or not available',
+                    \M2E\Otto\Model\Tag\ValidatorIssues::NOT_USER_ERROR
+                )
+            );
 
             return false;
         }

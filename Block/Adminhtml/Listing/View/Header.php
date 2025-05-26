@@ -5,31 +5,23 @@ namespace M2E\Otto\Block\Adminhtml\Listing\View;
 class Header extends \M2E\Otto\Block\Adminhtml\Magento\AbstractBlock
 {
     protected $_template = 'listing/view/header.phtml';
-    private bool $isListingViewMode = false;
     private \M2E\Core\Helper\Magento\Store $magentoStoreHelper;
-    private \M2E\Otto\Model\Listing $listing;
+    private \M2E\Otto\Model\Listing\Ui\RuntimeStorage $uiListingRuntimeStorage;
 
     public function __construct(
-        \M2E\Otto\Model\Listing $listing,
+        \M2E\Otto\Model\Listing\Ui\RuntimeStorage $uiListingRuntimeStorage,
         \M2E\Core\Helper\Magento\Store $magentoStoreHelper,
         \M2E\Otto\Block\Adminhtml\Magento\Context\Template $context,
         array $data = []
     ) {
         $this->magentoStoreHelper = $magentoStoreHelper;
-        $this->listing = $listing;
+        $this->uiListingRuntimeStorage = $uiListingRuntimeStorage;
         parent::__construct($context, $data);
     }
 
     public function isListingViewMode(): bool
     {
-        return $this->isListingViewMode;
-    }
-
-    public function setListingViewMode($mode): self
-    {
-        $this->isListingViewMode = $mode;
-
-        return $this;
+        return (bool)$this->getData('listing_view_mode');
     }
 
     public function getProfileTitle(): string
@@ -58,11 +50,12 @@ class Header extends \M2E\Otto\Block\Adminhtml\Magento\AbstractBlock
         return substr($line, 0, 50) . '...';
     }
 
-    /**
-     * @return \M2E\Otto\Model\Listing
-     */
     private function getListing(): \M2E\Otto\Model\Listing
     {
-        return $this->listing;
+        if (!$this->uiListingRuntimeStorage->hasListing()) {
+            throw new \LogicException('Listing was not initialized.');
+        }
+
+        return $this->uiListingRuntimeStorage->getListing();
     }
 }

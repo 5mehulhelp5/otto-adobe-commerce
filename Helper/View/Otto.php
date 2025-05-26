@@ -19,22 +19,6 @@ class Otto
     }
 
     /**
-     * @return \Magento\Framework\Phrase|mixed|string
-     */
-    public static function getTitle(): string
-    {
-        return (string)__('Otto Integration');
-    }
-
-    /**
-     * @return \Magento\Framework\Phrase|mixed|string
-     */
-    public static function getMenuRootNodeLabel(): string
-    {
-        return self::getTitle();
-    }
-
-    /**
      * @return string
      */
     public static function getWizardInstallationNick(): string

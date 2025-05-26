@@ -3,7 +3,7 @@
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
         <tab id="m2e_otto" translate="label" sortOrder="460" class="m2e-tab-otto">
-            <label>M2E Otto</label>
+            <label>M2E Otto Connect</label>
         </tab>
         <section id="otto_module_and_channels" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
             <class>separator-top</class>
@@ -35,7 +35,7 @@
         </section>
         <section id="payment">
             <group id="ottopayment" translate="label" type="text" sortOrder="400" showInDefault="1" showInWebsite="1" showInStore="1">
-                <label>M2E Otto Payment</label>
+                <label>M2E Otto Connect Payment</label>
                 <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Enabled</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
@@ -47,7 +47,7 @@
         </section>
         <section id="carriers">
             <group id="ottoshipping" translate="label" type="text" sortOrder="400" showInDefault="1" showInWebsite="1" showInStore="1">
-                <label>M2E Otto Shipping</label>
+                <label>M2E Otto Connect Shipping</label>
                 <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Enabled</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>

@@ -27,7 +27,7 @@ class MessageBuilder
      */
     public function getHeader(): string
     {
-        return (string)__('M2E Otto Health Status Notification');
+        return (string)__('M2E Otto Connect Health Status Notification');
     }
 
     /**
@@ -36,9 +36,12 @@ class MessageBuilder
     public function getMessage(): string
     {
         return (string)__(
-            'Something went wrong with your M2E Otto running and some actions from your side are required. ' .
-            'You can find detailed information in <a target="_blank" href="%url">M2E Otto Health Status Center</a>.',
-            ['url' => $this->urlBuilder->getUrl('m2e_otto/healthStatus/index')]
+            'Something went wrong with your %extension_title running and some actions from your side are required. ' .
+            'You can find detailed information in <a target="_blank" href="%url">%extension_title Health Status Center</a>.',
+            [
+                'extension_title' => \M2E\Otto\Helper\Module::getExtensionTitle(),
+                'url' => $this->urlBuilder->getUrl('m2e_otto/healthStatus/index')
+            ]
         );
     }
 }

@@ -34,10 +34,16 @@ class Grid extends AccountGrid
                 'The specified Title is already used for other Account. Account Title must be unique.' => __(
                     'The specified Title is already used for other Account. Account Title must be unique.'
                 ),
-                'Be attentive! By Deleting Account you delete all information on it from M2E Otto Server. '
-                . 'This will cause inappropriate work of all Accounts\' copies.' => __(
-                    'Be attentive! By Deleting Account you delete all information on it from M2E Otto Server. '
-                    . 'This will cause inappropriate work of all Accounts\' copies.'
+                sprintf(
+                    'Be attentive! By Deleting Account you delete all information on it from %s Server. '
+                    . 'This will cause inappropriate work of all Accounts\' copies.',
+                    \M2E\Otto\Helper\Module::getExtensionTitle()
+                ) => __(
+                    'Be attentive! By Deleting Account you delete all information on it from %extension_title Server. '
+                    . 'This will cause inappropriate work of all Accounts\' copies.',
+                    [
+                        'extension_title' => \M2E\Otto\Helper\Module::getExtensionTitle(),
+                    ]
                 ),
                 'No Customer entry is found for specified ID.' => __(
                     'No Customer entry is found for specified ID.'

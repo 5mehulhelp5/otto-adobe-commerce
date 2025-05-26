@@ -32,7 +32,10 @@ $attributesByInputTypes = $block->getData('attributes_by_input_types');
                 <?php
                 echo $block->getTooltipHtml(
                     $block->__(
-                        'The Currency for Otto Listings.'
+                        'The Currency for %channel_title Listings.',
+                        [
+                            'channel_title' => \M2E\Otto\Helper\Module::getChannelTitle(),
+                        ],
                     ),
                     true
                 ); ?>

@@ -43,7 +43,13 @@ class Index extends \M2E\Otto\Controller\Adminhtml\Otto\Log\AbstractListing
             }
 
             $this->getResult()->getConfig()->getTitle()->prepend(
-                __('M2E Otto Listing "%s" Log', ['s' => $listing->getTitle()]),
+                __(
+                    '%extension_title Listing "%s" Log',
+                    [
+                        'extension_title' => \M2E\Otto\Helper\Module::getExtensionTitle(),
+                        's' => $listing->getTitle(),
+                    ]
+                ),
             );
         } elseif ($listingProductId) {
             $listingProduct = $this->listingProductRepository->find($listingProductId);
@@ -56,8 +62,11 @@ class Index extends \M2E\Otto\Controller\Adminhtml\Otto\Log\AbstractListing
 
             $this->getResult()->getConfig()->getTitle()->prepend(
                 __(
-                    'M2E Otto Listing Product "%1" Log',
-                    $this->filterManager->truncate($listingProduct->getMagentoProduct()->getName(), ['length' => 28])
+                    '%extension_title Listing Product "%name" Log',
+                    [
+                        'extension_title' => \M2E\Otto\Helper\Module::getExtensionTitle(),
+                        'name' => $this->filterManager->truncate($listingProduct->getMagentoProduct()->getName(), ['length' => 28]),
+                    ]
                 )
             );
         } else {

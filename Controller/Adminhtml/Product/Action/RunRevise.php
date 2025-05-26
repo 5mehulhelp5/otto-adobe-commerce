@@ -38,11 +38,15 @@ class RunRevise extends \M2E\Otto\Controller\Adminhtml\Otto\Listing\AbstractActi
             ['result' => $result] = $this->actionService->runRevise($products);
             if ($result === 'success') {
                 $this->getMessageManager()->addSuccessMessage(
-                    __('"Revising Selected Items On Otto" task has completed.'),
+                    __('"Revising Selected Items On %channel_title" task has completed.', [
+                        'channel_title' => \M2E\Otto\Helper\Module::getChannelTitle(),
+                    ])
                 );
             } else {
                 $this->getMessageManager()->addErrorMessage(
-                    __('"Revising Selected Items On Otto" task has completed with errors.'),
+                    __('"Revising Selected Items On %channel_title" task has completed with errors.', [
+                        'channel_title' => \M2E\Otto\Helper\Module::getChannelTitle(),
+                    ])
                 );
             }
 
@@ -52,7 +56,9 @@ class RunRevise extends \M2E\Otto\Controller\Adminhtml\Otto\Listing\AbstractActi
         $this->actionService->scheduleRevise($products);
 
         $this->getMessageManager()->addSuccessMessage(
-            __('"Revising Selected Items On Otto" task has completed.'),
+            __('"Revising Selected Items On %channel_title" task has completed.', [
+                'channel_title' => \M2E\Otto\Helper\Module::getChannelTitle(),
+            ])
         );
 
         return $this->redirectToGrid();

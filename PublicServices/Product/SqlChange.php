@@ -4,16 +4,16 @@
     // $this->_objectManager instanceof \Magento\Framework\ObjectManagerInterface
     $model = $this->_objectManager->create('\M2E\Otto\PublicServices\Product\SqlChange');
 
-    // notify M2E Otto about some change of product with ID 17
+    // notify M2E about some change of product with ID 17
     $model->markProductChanged(17);
 
-    // make price change of product with ID 18 and then notify M2E Otto
+    // make price change of product with ID 18 and then notify M2E
     $model->markPriceWasChanged(18);
 
-    // make QTY change of product with ID 19 and then notify M2E Otto
+    // make QTY change of product with ID 19 and then notify M2E
     $model->markQtyWasChanged(19);
 
-    // make status change of product with ID 20 and then notify M2E Otto
+    // make status change of product with ID 20 and then notify M2E
     $model->markStatusWasChanged(20);
 
     $model->applyChanges();

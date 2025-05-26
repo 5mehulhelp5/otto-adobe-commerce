@@ -581,3 +581,7 @@ button.action * {
     width: auto !important;
     margin-left: -2.6rem !important;
 }
+
+.otto_channel_attribute {
+    width: 45%;
+}

@@ -271,7 +271,6 @@ class Structure
         );
 
         $result = [];
-        $afterPosition = '';
 
         while ($row = $stmtQuery->fetch()) {
             $result[strtolower($row['Field'])] = [
@@ -281,10 +280,7 @@ class Structure
                 'key' => strtolower($row['Key']),
                 'default' => strtolower($row['Default'] ?? ''),
                 'extra' => strtolower($row['Extra']),
-                'after' => $afterPosition,
             ];
-
-            $afterPosition = strtolower($row['Field']);
         }
 
         $this->runtimeCacheHelper->setValue($cacheKey, $result);

@@ -1,8 +1,10 @@
 <?php
 
-// @codingStandardsIgnoreFile
-
-/** @var $block \M2E\Otto\Block\Adminhtml\Listing\View\Header */
+/**
+ * @var \Magento\Framework\View\TemplateEngine\Php $this
+ * @var \M2E\Otto\Block\Adminhtml\Listing\View\Header $block
+ * @var \Magento\Framework\Escaper $escaper
+ */
 
 ?>
 
@@ -53,12 +55,10 @@
             <li>
                 <label>
                 <span class="label">
-                    <?php
-                    echo \M2E\Core\Helper\Data::escapeHtml($block->__('Listing')); ?>:&nbsp;
+                    <?php echo __('Listing'); ?>:&nbsp;
                 </span>
                     <span class="value">
-                    <?php
-                    echo \M2E\Core\Helper\Data::escapeHtml($block->getProfileTitle()); ?>
+                    <?php echo $escaper->escapeHtml($block->getProfileTitle()); ?>
                 </span>
                 </label>
             </li>
@@ -67,24 +67,20 @@
         <li>
             <label>
                 <span class="label">
-                    <?php
-                    echo \M2E\Core\Helper\Data::escapeHtml($block->__('Account')); ?>:&nbsp;
+                    <?php echo __('Account'); ?>:&nbsp;
                 </span>
                 <span class="value">
-                    <?php
-                    echo \M2E\Core\Helper\Data::escapeHtml($block->getAccountTitle()); ?>
+                    <?php echo $escaper->escapeHtml($block->getAccountTitle()); ?>
                 </span>
             </label>
         </li>
         <li>
             <label>
                 <span class="label">
-                    <?php
-                    echo \M2E\Core\Helper\Data::escapeHtml($block->__('Magento Store View')); ?>:&nbsp;
+                    <?php echo __('Magento Store View'); ?>:&nbsp;
                 </span>
                 <span class="value">
-                    <?php
-                    echo \M2E\Core\Helper\Data::escapeHtml($block->getStoreViewBreadcrumb(false)); ?>
+                    <?php echo $escaper->escapeHtml($block->getStoreViewBreadcrumb(false)); ?>
                 </span>
             </label>
         </li>

@@ -54,22 +54,31 @@ class Order extends AbstractForm
             self::HELP_BLOCK,
             [
                 'content' => __(
-                    '<p>Here you can define how M2E Connect will manage orders imported from Otto marketplace in Magento sales:</p><br/>
-<p><strong>Rules for Magento Order Creation:</strong> Whether the Item was listed via M2E Otto Connect or through another software,
+                    '<p>Here you can define how %extension_title will manage orders imported from %channel_title marketplace in Magento sales:</p><br/>
+<p><strong>Rules for Magento Order Creation:</strong> Whether the Item was listed via %extension_title or through another software,
  you can confirm if it should be created in Magento.</p><br/>
 <p><strong>Quantity Reservation Feature:</strong> In case a Magento order cannot be created immediately,
  the Reserve Quantity feature will hold the stock for the order. This ensures inventory availability
   and prevents overselling.</p><br/>
-<p><strong>Order Number Customization:</strong> You may choose to customize Magento Order number to match your store setup.</p>'
+<p><strong>Order Number Customization:</strong> You may choose to customize Magento Order number to match your store setup.</p>',
+                    [
+                        'channel_title' => \M2E\Otto\Helper\Module::getChannelTitle(),
+                        'extension_title' => \M2E\Otto\Helper\Module::getExtensionTitle(),
+                    ]
                 ),
             ]
         );
 
-        //region Product Is Listed By M2E Otto
+        //region Product Is Listed By M2E
         $fieldset = $form->addFieldset(
             'listed_by_m2e',
             [
-                'legend' => __('Product Is Listed By M2E Otto'),
+                'legend' => __(
+                    'Product Is Listed By %extension_title',
+                    [
+                        'extension_title' => \M2E\Otto\Helper\Module::getExtensionTitle(),
+                    ]
+                ),
                 'collapsable' => false,
             ]
         );
@@ -86,9 +95,14 @@ class Order extends AbstractForm
                 ],
                 'value' => (int)$orderSettings->isListingEnabled(),
                 'tooltip' => __(
-                    'Choose whether a Magento Order should be created if an Otto Order is received for
-                    an Otto Item Listed using M2E Otto.'
+                    'Choose whether a Magento Order should be created if an %channel_title Order is received for
+    an %channel_title Item Listed using %extension_title.',
+                    [
+                        'channel_title' => \M2E\Otto\Helper\Module::getChannelTitle(),
+                        'extension_title' => \M2E\Otto\Helper\Module::getExtensionTitle(),
+                    ]
                 ),
+
             ]
         );
 
@@ -106,7 +120,10 @@ class Order extends AbstractForm
                 'value' => $orderSettings->getListingStoreMode(),
                 'tooltip' => __(
                     'Choose to specify the Magento Store View here or to keep the Magento
-                    Store View used in the M2E Otto Listing.'
+                    Store View used in the %extension_title Listing.',
+                    [
+                        'extension_title' => \M2E\Otto\Helper\Module::getExtensionTitle(),
+                    ]
                 ),
             ]
         );
@@ -148,8 +165,12 @@ class Order extends AbstractForm
                 ],
                 'value' => (int)$orderSettings->isUnmanagedListingEnabled(),
                 'tooltip' => __(
-                    'Choose whether a Magento Order should be created if an Otto Order is received
-for an item that does <b>not</b> belong to the M2E Otto Listing.'
+                    'Choose whether a Magento Order should be created if an %channel_title Order is received
+for an item that does <b>not</b> belong to the %extension_title Listing.',
+                    [
+                        'channel_title' => \M2E\Otto\Helper\Module::getChannelTitle(),
+                        'extension_title' => \M2E\Otto\Helper\Module::getExtensionTitle(),
+                    ]
                 ),
             ]
         );
@@ -187,12 +208,16 @@ for an item that does <b>not</b> belong to the M2E Otto Listing.'
                 'label' => __('Source'),
                 'values' => [
                     \M2E\Otto\Model\Account\Settings\Order::NUMBER_SOURCE_MAGENTO => __('Magento'),
-                    \M2E\Otto\Model\Account\Settings\Order::NUMBER_SOURCE_CHANNEL => __('Otto'),
+                    \M2E\Otto\Model\Account\Settings\Order::NUMBER_SOURCE_CHANNEL => __(\M2E\Otto\Helper\Module::getChannelTitle()),
                 ],
                 'value' => $orderSettings->getMagentoOrderNumberSource(),
                 'tooltip' => __(
-                    'If source is set to Magento, Magento Order numbers are created basing on your Magento Settings.
-                    If source is set to Otto, Magento Order numbers are the same as Otto Order numbers.'
+                    'If source is set to Magento, Magento Order numbers are created basing ' .
+                    'on your Magento Settings. If source is set to %channel_title, Magento Order numbers are the same ' .
+                    'as %channel_title Order numbers.',
+                    [
+                        'channel_title' => \M2E\Otto\Helper\Module::getChannelTitle(),
+                    ],
                 ),
             ]
         );
@@ -205,7 +230,7 @@ for an item that does <b>not</b> belong to the M2E Otto Listing.'
                 'name' => 'magento_orders_settings[number][prefix][prefix]',
                 'label' => __('General Prefix'),
                 'value' => $orderSettings->getMagentoOrdersNumberRegularPrefix(),
-                'maxlength' => 5,
+                'maxlength' => 10,
             ]
         );
 
@@ -289,7 +314,8 @@ for an item that does <b>not</b> belong to the M2E Otto Listing.'
                     You should specify the Magento Customer ID to use.<br/><br/>
                     <b>Create New:</b> Create a new Customer in Magento for the Order.
                     If an existing Magento Customer has the same email address as the email address used for the
-                    Otto Order, the Order will be assigned to that Customer instead.'
+                    %channel_title Order, the Order will be assigned to that Customer instead.',
+                    ['channel_title' => \M2E\Otto\Helper\Module::getChannelTitle()]
                 ),
             ]
         );
@@ -419,8 +445,12 @@ for an item that does <b>not</b> belong to the M2E Otto Listing.'
                 'values' => $values,
                 'value' => $orderSettings->getQtyReservationDays(),
                 'tooltip' => __(
-                    'Choose for how long M2E Otto should reserve Magento Product quantity per Otto Order until
-                    Magento Order is created.'
+                    'Choose for how long %extension_title should reserve Magento Product quantity per %channel_title Order until
+    Magento Order is created.',
+                    [
+                        'channel_title' => \M2E\Otto\Helper\Module::getChannelTitle(),
+                        'extension_title' => \M2E\Otto\Helper\Module::getExtensionTitle(),
+                    ]
                 ),
             ]
         );
@@ -495,8 +525,9 @@ for an item that does <b>not</b> belong to the M2E Otto Listing.'
                 ],
                 'value' => $orderSettings->getStatusMappingMode(),
                 'tooltip' => __(
-                    'Configure the mapping between Otto and Magento order statuses.
-                    Magento order statuses will automatically update according to these settings.'
+                    'Configure the mapping between %channel_title and Magento order statuses.
+                    Magento order statuses will automatically update according to these settings.',
+                    ['channel_title' => \M2E\Otto\Helper\Module::getChannelTitle()]
                 ),
             ]
         );

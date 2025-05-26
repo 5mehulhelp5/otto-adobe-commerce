@@ -100,7 +100,10 @@ class CreateLicense extends \M2E\Otto\Controller\Adminhtml\Wizard\AbstractRegist
             $this->exceptionHelper->process($e);
 
             $message = __(
-                'License Creation is failed. Please contact M2E Otto Support for resolution.'
+                'License Creation is failed. Please contact %extension_title Support for resolution.',
+                [
+                    'extension_title' => \M2E\Otto\Helper\Module::getExtensionTitle()
+                ]
             );
 
             $this->setJsonContent([

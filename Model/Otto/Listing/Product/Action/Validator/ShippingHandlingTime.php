@@ -6,7 +6,7 @@ namespace M2E\Otto\Model\Otto\Listing\Product\Action\Validator;
 
 class ShippingHandlingTime implements \M2E\Otto\Model\Otto\Listing\Product\Action\Validator\ValidatorInterface
 {
-    public function validate(\M2E\Otto\Model\Product $product): ?string
+    public function validate(\M2E\Otto\Model\Product $product): ?ValidatorMessage
     {
         $providerResult = $product->getDataProvider()->getDelivery();
         if ($providerResult->isSuccess()) {
@@ -15,8 +15,9 @@ class ShippingHandlingTime implements \M2E\Otto\Model\Otto\Listing\Product\Actio
                 $deliveryTime > 999
                 || $deliveryTime < 1
             ) {
-                return (string)__(
-                    'Handling Time must be positive whole number less than 1000'
+                return new ValidatorMessage(
+                    (string)__('Handling Time must be positive whole number less than 1000'),
+                    \M2E\Otto\Model\Tag\ValidatorIssues::ERROR_HANDLING_TIME_OUT_OF_RANGE
                 );
             }
 
@@ -28,6 +29,9 @@ class ShippingHandlingTime implements \M2E\Otto\Model\Otto\Listing\Product\Actio
             $error = reset($errors);
         }
 
-        return $error;
+        return new ValidatorMessage(
+            $error,
+            \M2E\Otto\Model\Tag\ValidatorIssues::ERROR_HANDLING_TIME_INVALID
+        );
     }
 }

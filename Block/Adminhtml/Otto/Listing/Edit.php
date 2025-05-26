@@ -92,17 +92,6 @@ class Edit extends \M2E\Otto\Block\Adminhtml\Magento\Form\AbstractContainer
         $this->addButton('save_buttons', $saveButtons);
     }
 
-    public function getFormHtml()
-    {
-        $viewHeaderBlock = $this->getLayout()->createBlock(
-            \M2E\Otto\Block\Adminhtml\Listing\View\Header::class,
-            '',
-            ['listing' => $this->getListing()]
-        );
-
-        return $viewHeaderBlock->toHtml() . parent::getFormHtml();
-    }
-
     protected function getListing(): ?\M2E\Otto\Model\Listing
     {
         if ($this->listing === null && $this->getRequest()->getParam('id')) {

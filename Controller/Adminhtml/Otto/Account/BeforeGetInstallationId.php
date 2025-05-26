@@ -46,8 +46,11 @@ class BeforeGetInstallationId extends AbstractAccount
         } catch (\Throwable $exception) {
             $this->helperException->process($exception);
             $error = __(
-                'The Otto installation is currently unavailable.<br/>Reason: %error_message',
-                ['error_message' => $exception->getMessage()]
+                'The %channel_title installation is currently unavailable.<br/>Reason: %error_message',
+                [
+                    'channel_title' => \M2E\Otto\Helper\Module::getChannelTitle(),
+                    'error_message' => $exception->getMessage()
+                ]
             );
 
             $this->messageManager->addError($error);

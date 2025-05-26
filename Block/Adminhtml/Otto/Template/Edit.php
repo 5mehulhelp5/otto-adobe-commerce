@@ -63,7 +63,10 @@ class Edit extends \M2E\Otto\Block\Adminhtml\Magento\Form\AbstractContainer
             $saveConfirmation = \M2E\Core\Helper\Data::escapeJs(
                 (string)__(
                     '<br/><b>Note:</b> All changes you have made will be automatically
-                    applied to all M2E Otto Listings where this Policy is used.'
+                    applied to all %extension_title Listings where this Policy is used.',
+                    [
+                        'extension_title' => \M2E\Otto\Helper\Module::getExtensionTitle(),
+                    ]
                 )
             );
         }

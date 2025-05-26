@@ -57,16 +57,20 @@ class BeforeGetInstallationId extends Installation
                 || !$this->licenseService->get()->getInfo()->getIpIdentifier()->isValid()
             ) {
                 $error = __(
-                    'The Otto installation is currently unavailable.<br/>Reason: %error_message </br>Go to the <a href="%url" target="_blank">License Page</a>.',
+                    'The %channel_title installation is currently unavailable.<br/>Reason: %error_message </br>Go to the <a href="%url" target="_blank">License Page</a>.',
                     [
+                        'channel_title' => \M2E\Otto\Helper\Module::getChannelTitle(),
                         'error_message' => $exception->getMessage(),
                         'url' => $this->configurationHelper->getLicenseUrl(['wizard' => 1]),
                     ],
                 );
             } else {
                 $error = __(
-                    'The Otto installation is currently unavailable.<br/>Reason: %error_message',
-                    ['error_message' => $exception->getMessage()]
+                    'The %channel_title installation is currently unavailable.<br/>Reason: %error_message',
+                    [
+                        'channel_title' => \M2E\Otto\Helper\Module::getChannelTitle(),
+                        'error_message' => $exception->getMessage()
+                    ]
                 );
             }
 

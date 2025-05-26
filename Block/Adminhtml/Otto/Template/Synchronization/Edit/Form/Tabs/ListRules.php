@@ -74,20 +74,24 @@ class ListRules extends AbstractTab
             [
                 'content' => __(
                     '<p><strong>List Action</strong> - this Action can be executed for each Item in
-                    M2E Otto Listings
+                    %extension_title Listings
                     which has <strong>Not Listed</strong> Status and which Settings meet the List Condition. If an
                     Item was not initially Listed for some reason, automatic synchronization will attempt to list
                     it again only if there is a change of Product Status, Stock Availability or Quantity
                     in Magento.</p><br>
 
-                    <p><strong>Note:</strong> M2E Otto Listings Synchronization must be enabled in
-                    Synchronization <strong>(Otto Integration > Configuration > Settings > Synchronization)
+                    <p><strong>Note:</strong> %extension_title Listings Synchronization must be enabled in
+                    Synchronization <strong>(%channel_title Integration > Configuration > Settings > Synchronization)
                     </strong>.
                     Otherwise, Synchronization Policy Rules will not take effect.</p><br>
 
                     <p>More detailed information about how to work with this Page you can find
                     <a href="%url" target="_blank" class="external-link">here</a>.</p>',
-                    ['url' => 'https://docs-m2.m2epro.com/list-rules-for-otto-listings'],
+                    [
+                        'extension_title' => \M2E\Otto\Helper\Module::getExtensionTitle(),
+                        'channel_title' => \M2E\Otto\Helper\Module::getChannelTitle(),
+                        'url' => 'https://docs-m2.m2epro.com/list-rules-for-otto-listings'
+                    ],
                 ),
             ]
         );
@@ -134,11 +138,14 @@ class ListRules extends AbstractTab
                     1 => __('Enabled'),
                 ],
                 'tooltip' => __(
-                    '<p><strong>Enabled:</strong> List Items on Otto automatically
+                    '<p><strong>Enabled:</strong> List Items on %channel_title automatically
                     if they have status Enabled
                     in Magento Product. (Recommended)</p>
-                    <p><strong>Any:</strong> List Items with any Magento Product status on Otto
-                    automatically</p>'
+                    <p><strong>Any:</strong> List Items with any Magento Product status on %channel_title
+                    automatically</p>',
+                    [
+                        'channel_title' => \M2E\Otto\Helper\Module::getChannelTitle()
+                    ],
                 ),
             ]
         );

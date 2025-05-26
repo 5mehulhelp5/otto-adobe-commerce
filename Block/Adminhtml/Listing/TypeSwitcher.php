@@ -31,7 +31,7 @@ abstract class TypeSwitcher extends \M2E\Otto\Block\Adminhtml\Switcher
             'mode' => [
                 'value' => [
                     [
-                        'label' => __('M2E Otto'),
+                        'label' => __(\M2E\Otto\Helper\Module::getExtensionTitle()),
                         'value' => self::LISTING_TYPE_M2E_PRO,
                     ],
                     [

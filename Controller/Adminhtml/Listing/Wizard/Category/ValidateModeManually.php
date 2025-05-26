@@ -87,11 +87,18 @@ class ValidateModeManually extends AbstractListing
         $message = '';
 
         if ($categoryNotSetCount > 0) {
-            $message .= __('Otto Category is not set for some Products.');
+            $message .= __(
+                '%channel_title Category is not set for some Products.',
+                ['channel_title' => \M2E\Otto\Helper\Module::getChannelTitle()]
+            );
         }
 
         if ($requiredAttributesNotSetCount > 0) {
-            $message .= ' ' . __('Required attributes is not set for some Otto Category');
+            $message .= ' ' .
+                __(
+                    'Required attributes are not set for some %channel_title Category.',
+                    ['channel_title' => \M2E\Otto\Helper\Module::getChannelTitle()]
+                );
         }
 
         $this->setJsonContent([

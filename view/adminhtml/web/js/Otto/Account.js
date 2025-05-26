@@ -1,7 +1,6 @@
 define([
     'Magento_Ui/js/modal/modal',
     'Otto/Common',
-    'extjs/ext-tree-checkbox',
     'mage/adminhtml/form'
 ], function (modal) {
 

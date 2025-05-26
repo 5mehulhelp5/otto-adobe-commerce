@@ -24,6 +24,6 @@ abstract class AbstractWizard extends \M2E\Otto\Controller\Adminhtml\AbstractWiz
 
     protected function getMenuRootNodeLabel()
     {
-        return \M2E\Otto\Helper\View\Otto::getMenuRootNodeLabel();
+        return \M2E\Otto\Helper\Module::getMenuRootNodeLabel();
     }
 }

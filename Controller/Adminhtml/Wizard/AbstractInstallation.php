@@ -16,6 +16,6 @@ abstract class AbstractInstallation extends \M2E\Otto\Controller\Adminhtml\Otto\
         $this->getResultPage()
              ->getConfig()
              ->getTitle()
-             ->prepend(__('Configuration of %channel Integration', ['channel' => (string)__('Otto')]));
+             ->prepend(__('Configuration of %channel_title Integration', ['channel_title' => \M2E\Otto\Helper\Module::getChannelTitle()]));
     }
 }

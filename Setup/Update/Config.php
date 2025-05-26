@@ -67,6 +67,9 @@ class Config implements \M2E\Core\Model\Setup\Upgrade\Entity\ConfigInterface
             'y25_m03' => [
                 \M2E\Otto\Setup\Update\y25_m03\CheckConfigs::class,
             ],
+            'y25_m04' => [
+                \M2E\Otto\Setup\Update\y25_m04\MigrateAttributeMappingToCore::class,
+            ],
         ];
     }
 }

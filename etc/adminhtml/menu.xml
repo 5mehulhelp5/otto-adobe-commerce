@@ -35,6 +35,9 @@
              parent="M2E_Otto::configuration" title="Categories"
              action="m2e_otto/otto_template_category/index"
              resource="M2E_Otto::configuration_categories"/>
+        <add id="M2E_Otto::configuration_mapping" module="M2E_Otto" sortOrder="25"
+             parent="M2E_Otto::configuration" title="Mapping"
+             action="m2e_otto/mapping/index"  resource="M2E_Otto::configuration_mapping"/>
         <add id="M2E_Otto::configuration_accounts" title="Accounts" module="M2E_Otto" sortOrder="30"
              parent="M2E_Otto::configuration" action="m2e_otto/otto_account/index"
              resource="M2E_Otto::configuration_accounts"/>

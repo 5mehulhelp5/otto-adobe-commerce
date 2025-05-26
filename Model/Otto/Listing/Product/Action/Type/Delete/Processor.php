@@ -18,8 +18,11 @@ class Processor extends \M2E\Otto\Model\Otto\Listing\Product\Action\AbstractSync
         ValidatorFactory $actionValidatorFactory,
         RequestFactory $requestFactory,
         ResponseFactory $responseFactory,
-        \M2E\Otto\Model\Connector\Client\Single $serverClient
+        \M2E\Otto\Model\Connector\Client\Single $serverClient,
+        \M2E\Otto\Model\Otto\Listing\Product\Action\TagManager $tagManager
     ) {
+        parent::__construct($tagManager);
+
         $this->serverClient = $serverClient;
         $this->actionValidatorFactory = $actionValidatorFactory;
         $this->requestFactory = $requestFactory;

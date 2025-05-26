@@ -10,7 +10,7 @@
 
             <div class="fieldset-wrapper-title admin__fieldset-wrapper-title">
                 <strong class="admin__collapsible-title">
-                    <span><?= __('Otto Order'); ?> # <?= $block->order->getOttoOrderNumber() ?></span>
+                    <span><?= __('%channel_title Order', ['channel_title' => \M2E\Otto\Helper\Module::getChannelTitle()]); ?> # <?= $block->order->getOttoOrderNumber() ?></span>
                 </strong>
                 <div class="form-buttons"></div>
             </div>

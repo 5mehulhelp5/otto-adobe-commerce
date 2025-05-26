@@ -65,6 +65,7 @@ class Order extends \M2E\Otto\Model\ActiveRecord\AbstractModel
     private \M2E\Core\Helper\Magento\Store $magentoStoreHelper;
     private \M2E\Otto\Model\Account\Repository $accountRepository;
     private Order\Repository $orderRepository;
+    private Order\EventDispatcher $orderEventDispatcher;
     /** @var \M2E\Otto\Model\Order\Item[] */
     private array $items;
 
@@ -75,6 +76,7 @@ class Order extends \M2E\Otto\Model\ActiveRecord\AbstractModel
     public function __construct(
         \M2E\Otto\Model\Order\LogicItemCollectionFactory $logicItemCollectionFactory,
         \M2E\Otto\Model\Order\Repository $orderRepository,
+        \M2E\Otto\Model\Order\EventDispatcher $orderEventDispatcher,
         \M2E\Otto\Model\Account\Repository $accountRepository,
         \M2E\Otto\Model\Magento\Quote\Manager $quoteManager,
         \M2E\Otto\Model\Magento\Quote\BuilderFactory $magentoQuoteBuilderFactory,
@@ -110,6 +112,7 @@ class Order extends \M2E\Otto\Model\ActiveRecord\AbstractModel
         );
 
         $this->orderRepository = $orderRepository;
+        $this->orderEventDispatcher = $orderEventDispatcher;
         $this->storeManager = $storeManager;
         $this->orderFactory = $orderFactory;
         $this->resourceConnection = $resourceConnection;
@@ -251,7 +254,7 @@ class Order extends \M2E\Otto\Model\ActiveRecord\AbstractModel
     }
 
     /**
-     * Check whether the order has items, listed by M2E Otto (also true for linked Unmanaged listings)
+     * Check whether the order has items, listed by M2E (also true for linked Unmanaged listings)
      */
     public function hasListingProductItems(): bool
     {
@@ -552,15 +555,25 @@ class Order extends \M2E\Otto\Model\ActiveRecord\AbstractModel
 
         if (!$store->getConfig('payment/ottopayment/active')) {
             throw new \M2E\Otto\Model\Exception(
-                'Payment method "M2E Otto Payment" is disabled under
-                <i>Stores > Settings > Configuration > Sales > Payment Methods > M2E Otto Payment.</i>'
+                strtr(
+                    'Payment method ":extension_title Payment" is disabled under
+                <i>Stores > Settings > Configuration > Sales > Payment Methods > :extension_title Payment.</i>',
+                    [
+                        ':extension_title' => \M2E\Otto\Helper\Module::getExtensionTitle(),
+                    ]
+                )
             );
         }
 
         if (!$store->getConfig('carriers/ottoshipping/active')) {
             throw new \M2E\Otto\Model\Exception(
-                'Shipping method "M2E Otto Shipping" is disabled under
-                <i>Stores > Settings > Configuration > Sales > Shipping Methods > M2E Otto Shipping.</i>'
+                strtr(
+                    'Shipping method ":extension_title Shipping" is disabled under
+                <i>Stores > Settings > Configuration > Sales > Shipping Methods > :extension_title Shipping.</i>',
+                    [
+                        ':extension_title' => \M2E\Otto\Helper\Module::getExtensionTitle(),
+                    ]
+                )
             );
         }
     }
@@ -779,7 +792,7 @@ class Order extends \M2E\Otto\Model\ActiveRecord\AbstractModel
         $magentoOrderUpdater->finishUpdate();
         // ---------------------------------------
 
-        $this->_eventManager->dispatch('m2e_otto_order_place_success', ['order' => $this]);
+        $this->orderEventDispatcher->dispatchEventsMagentoOrderCreated($this);
 
         $this->addSuccessLog('Magento Order #%order_id% was created.', [
             '!order_id' => $this->getMagentoOrder()->getRealOrderId(),

@@ -82,7 +82,12 @@ class HandleOrder
     private function writeLogAboutCreate(\M2E\Otto\Model\Order $order): void
     {
         $order->addInfoLog(
-            'Magento order creation rules are met. M2E Otto will attempt to create Magento order.',
+            strtr(
+                'Magento order creation rules are met. :extension_title will attempt to create Magento order.',
+                [
+                    ':extension_title' => \M2E\Otto\Helper\Module::getExtensionTitle(),
+                ]
+            ),
             [],
             [],
             true

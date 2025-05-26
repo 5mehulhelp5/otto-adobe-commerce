@@ -184,13 +184,14 @@ HTML;
             $helpBlockHtml = $this->getLayout()->createBlock(\M2E\Otto\Block\Adminhtml\HelpBlock::class)->setData(
                 [
                     'content' => __(
-                        '
-                      Item(s) can be moved to a Listing within the same Otto Account <br>
-                You can select an existing M2E Otto Listing or create a new one.<br><br>
-
-                <strong>Note:</strong> Once the Items are moved, they will be updated
-                 based on the new Listing settings.
-                 '
+                        'Item(s) can be moved to a Listing within the same %channel_title Account ' .
+                        '.<br>You can select an existing %extension_titleListing or create a new one.<br><br>' .
+                        '<strong>Note:</strong> Once the Items are moved, they will be updated based on the ' .
+                        'new Listing settings.',
+                        [
+                            'channel_title' => \M2E\Otto\Helper\Module::getChannelTitle(),
+                            'extension_title' => \M2E\Otto\Helper\Module::getExtensionTitle(),
+                        ]
                     ),
                 ]
             )->toHtml();

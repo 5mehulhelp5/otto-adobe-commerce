@@ -42,10 +42,13 @@ class General extends \M2E\Otto\Block\Adminhtml\Magento\Form\AbstractContainer
         $helpBlock->addData(
             [
                 'content' => __(
-                    '<p>It is necessary to select an Otto Account (existing or create a new one) as well as choose a Shop that you
+                    '<p>It is necessary to select an %channel_title Account (existing or create a new one) as well as choose a Shop that you
 are going to sell Magento Products on.</p><br>
 <p>It is also important to specify a Store View in accordance with which Magento Attribute values will be used in the
-Listing settings.</p>'
+Listing settings.</p>',
+                    [
+                        'channel_title' => \M2E\Otto\Helper\Module::getChannelTitle()
+                    ]
                 ),
                 'style' => 'margin-top: 30px',
             ]

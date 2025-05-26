@@ -65,10 +65,13 @@ class View extends \M2E\Otto\Block\Adminhtml\Magento\Grid\AbstractContainer
             $this->appendHelpBlock(
                 [
                     'content' => __(
-                        '<p>Otto Listing is a group of Magento Products sold on a certain Shop
-                    from a particular Account. M2E Otto has several options to display the content of
+                        '<p>%extension_title Listing is a group of Magento Products sold on a certain Shop
+                    from a particular Account. %extension_title has several options to display the content of
                     Listings referring to different data details. Each of the view options contains a
-                    unique set of available Actions accessible in the Mass Actions drop-down.</p>'
+                    unique set of available Actions accessible in the Mass Actions drop-down.</p>',
+                        [
+                            'extension_title' => \M2E\Otto\Helper\Module::getExtensionTitle(),
+                        ]
                     ),
                 ]
             );
@@ -185,14 +188,6 @@ class View extends \M2E\Otto\Block\Adminhtml\Magento\Grid\AbstractContainer
             return parent::getGridHtml();
         }
 
-        /** @var \M2E\Otto\Block\Adminhtml\Listing\View\Header $viewHeaderBlock */
-        $viewHeaderBlock = $this->getLayout()->createBlock(
-            \M2E\Otto\Block\Adminhtml\Listing\View\Header::class,
-            '',
-            ['listing' => $this->uiListingRuntimeStorage->getListing()]
-        );
-        $viewHeaderBlock->setListingViewMode(true);
-
         $helper = $this->dataHelper;
 
         $this->jsUrl->addUrls(
@@ -241,7 +236,7 @@ class View extends \M2E\Otto\Block\Adminhtml\Magento\Grid\AbstractContainer
             ]
         );
 
-        return $viewHeaderBlock->toHtml() . parent::getGridHtml();
+        return parent::getGridHtml();
     }
 
     private function getSettingsButtonDropDownItems(): array

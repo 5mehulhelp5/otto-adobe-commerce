@@ -230,12 +230,15 @@ class Data extends AbstractForm
                 'create_magento_attribute' => true,
                 'tooltip' => __(
                     'Adds small thumbnails that appear under the large Base Image.
-                     You can add up to 8 additional photos to each Listing on Otto.
+                     You can add up to 8 additional photos to each Listing on %channel_title.
                         <br/><b>Note:</b> Text, Multiple Select or Dropdown type Attribute can be used.
                         The value of Attribute must contain absolute urls.
                         <br/>In Text type Attribute urls must be separated with comma.
                         <br/>e.g. http://mymagentostore.com/images/baseimage1.jpg,
-                        http://mymagentostore.com/images/baseimage2.jpg'
+                        http://mymagentostore.com/images/baseimage2.jpg',
+                    [
+                        'channel_title' => \M2E\Otto\Helper\Module::getChannelTitle(),
+                    ]
                 ),
             ]
         )->addCustomAttribute('allowed_attribute_types', 'text,textarea,select,multiselect');
@@ -260,7 +263,10 @@ class Data extends AbstractForm
                 ],
                 'value' => $formData['title_mode'],
                 'tooltip' => __(
-                    'This is the Title that Buyers will see on Otto. A good Title ensures better visibility.'
+                    'This is the Title that Buyers will see on %channel_title. A good Title ensures better visibility.',
+                    [
+                        'channel_title' => \M2E\Otto\Helper\Module::getChannelTitle(),
+                    ]
                 ),
             ]
         );
@@ -332,10 +338,9 @@ class Data extends AbstractForm
         );
 
         $tooltipMessage = __(
-            <<<HTML
-                        Choose whether to use Magento <strong>Product Description</strong>
-                        or <strong>Product Short Description</strong> for the Otto Listing Description.
-                        HTML
+            'Choose whether to use Magento <strong>Product Description</strong>
+ or <strong>Product Short Description</strong> for the %channel_title Listing Description.',
+            ['channel_title' => \M2E\Otto\Helper\Module::getChannelTitle()]
         );
         $fieldset->addField(
             'description_mode',
@@ -624,7 +629,7 @@ JS
 
         $OttoAttributes = [
             'title' => __('Title'),
-            'fixed_price' => __('Otto Price'),
+            'fixed_price' => __('%channel_title Price', ['channel_title' => \M2E\Otto\Helper\Module::getChannelTitle()]),
             'qty' => __('QTY'),
         ];
 
@@ -634,7 +639,7 @@ JS
             'custom_inserts_otto_attribute',
             'select',
             [
-                'label' => __('M2E Otto'),
+                'label' => __(\M2E\Otto\Helper\Module::getExtensionTitle()),
                 'values' => $OttoAttributes,
                 'after_element_html' => $button->toHtml(),
             ]
@@ -663,10 +668,14 @@ HTML;
                     provide its ID into the <strong>Magento Product ID</strong> input and select
                     a <strong>Magento Store View</strong> the values
                     should be taken from. As a result you will see the Item Description which will be sent to
-                    Otto basing on the settings you specified.<br />
+                    %channel_title basing on the settings you specified.<br />
 
-                    Also, you can press a <strong>Select Randomly</strong> button to allow M2E Otto
-                    to automatically select the most suitable Product for its previewing.'
+                    Also, you can press a <strong>Select Randomly</strong> button to allow %extension_title
+                    to automatically select the most suitable Product for its previewing.',
+                    [
+                        'extension_title' => \M2E\Otto\Helper\Module::getExtensionTitle(),
+                        'channel_title' => \M2E\Otto\Helper\Module::getChannelTitle()
+                    ]
                 ),
             ]
         );

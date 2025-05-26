@@ -133,7 +133,7 @@ class Config extends \M2E\Otto\Plugin\AbstractPlugin
                 $maintenanceMenuItem = $this->itemFactory->create([
                     'id' => Maintenance::MENU_ROOT_NODE_NICK,
                     'module' => Module::IDENTIFIER,
-                    'title' => 'Otto',
+                    'title' => \M2E\Otto\Helper\Module::getChannelTitle(),
                     'resource' => $maintenanceMenuItemResource,
                     'action' => 'm2e_otto/maintenance',
                 ]);

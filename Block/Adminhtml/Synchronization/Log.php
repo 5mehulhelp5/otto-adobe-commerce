@@ -48,8 +48,11 @@ class Log extends AbstractContainer
                 [
                     'data' => [
                         'content' => __(
-                            'The Log includes information about synchronization of
-                             M2E Otto Listings, Orders, Shops, Unmanaged Listings.'
+                            'The Log includes information about synchronization ' .
+                            'of %extension_title Listings, Orders, Shops, Unmanaged Listings.',
+                            [
+                                'extension_title' => \M2E\Otto\Helper\Module::getExtensionTitle(),
+                            ]
                         ),
                     ],
                 ]

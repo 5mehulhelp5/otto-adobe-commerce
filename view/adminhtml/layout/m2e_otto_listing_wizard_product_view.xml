@@ -2,6 +2,7 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       layout="admin-1column"
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="m2e_otto_listing_header_handler"/>
     <body>
         <referenceContainer name="content">
             <container name="m2e.otto.listing.header">

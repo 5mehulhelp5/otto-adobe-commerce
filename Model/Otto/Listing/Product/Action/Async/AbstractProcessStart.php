@@ -12,6 +12,7 @@ abstract class AbstractProcessStart
 {
     use ActionLoggerTrait;
 
+    private \M2E\Otto\Model\Otto\Listing\Product\Action\TagManager $tagManager;
     private \M2E\Otto\Model\Product\LockManager $lockManager;
     private \M2E\Otto\Model\Product $listingProduct;
     private \M2E\Otto\Model\Otto\Listing\Product\Action\Configurator $actionConfigurator;
@@ -19,6 +20,12 @@ abstract class AbstractProcessStart
     private Async\Processing\InitiatorFactory $processingInitiatorFactory;
     private array $params;
     private int $statusChanger;
+
+    public function __construct(
+        \M2E\Otto\Model\Otto\Listing\Product\Action\TagManager $tagManager
+    ) {
+        $this->tagManager = $tagManager;
+    }
 
     public function initialize(
         \M2E\Otto\Model\Otto\Listing\Product\Action\Logger $actionLogger,
@@ -93,16 +100,22 @@ abstract class AbstractProcessStart
     {
         $validationResult = $this->getActionValidator()->validate();
 
-        foreach ($this->getActionValidator()->getMessages() as $messageData) {
+        foreach ($this->getActionValidator()->getMessages() as $message) {
             $this->addActionLogMessage(
                 \M2E\Core\Model\Response\Message::create(
-                    (string)$messageData['text'],
-                    $messageData['type']
+                    $message->getText(),
+                    $message->getType()
                 ),
             );
         }
 
-        return $validationResult;
+        if ($validationResult) {
+            return true;
+        }
+
+        $this->tagManager->addErrorTags($this->listingProduct, $this->getActionValidator()->getMessages());
+
+        return false;
     }
 
     abstract protected function getActionValidator(): Type\AbstractValidator;

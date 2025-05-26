@@ -28,7 +28,11 @@ class Content extends \M2E\Otto\Block\Adminhtml\Magento\Form\AbstractForm
     {
         $this->getLayout()->getBlock('wizard.help.block')->setContent(
             __(
-                'On this step, you should link your Otto Account with your M2E Otto.<br/><br/>'
+                'On this step, you should link your %channel_title Account with your %extension_title.<br/><br/>',
+                [
+                    'channel_title' => \M2E\Otto\Helper\Module::getChannelTitle(),
+                    'extension_title' => \M2E\Otto\Helper\Module::getExtensionTitle(),
+                ]
             )
         );
 
@@ -60,7 +64,12 @@ class Content extends \M2E\Otto\Block\Adminhtml\Magento\Form\AbstractForm
     {
         $this->jsTranslator->add(
             'An error during of account creation.',
-            $this->__('The Otto token obtaining is currently unavailable. Please try again later.')
+            __(
+                'The %channel_title token obtaining is currently unavailable. Please try again later.',
+                [
+                    'channel_title' => \M2E\Otto\Helper\Module::getChannelTitle(),
+                ]
+            )
         );
 
         return parent::_beforeToHtml();

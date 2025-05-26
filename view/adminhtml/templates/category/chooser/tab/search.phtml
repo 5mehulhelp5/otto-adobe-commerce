@@ -17,7 +17,9 @@
         <div data-bind='if: hasMoreCategories'>
             <div class='message message-notice notice'>
                 <div data-ui-id='messages-message-notice'>
-                    <?= __('Showing the top 20 matching Otto categories below. For more options, please refine your search with a more specific query.') ?>
+                    <?= __('Showing the top 20 matching %channel_title categories below. For more options,
+                     please refine your search with a more specific query.',
+                        ['channel_title' => \M2E\Otto\Helper\Module::getChannelTitle()]) ?>
                 </div>
             </div>
         </div>

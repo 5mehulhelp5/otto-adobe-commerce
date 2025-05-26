@@ -131,7 +131,7 @@ class Grid extends \M2E\Otto\Block\Adminhtml\Listing\View\AbstractGrid
         ]);
 
         $this->addColumn('otto_product_sku', [
-            'header' => __('Otto Product SKU'),
+            'header' => __('%channel_title Product SKU', ['channel_title' => \M2E\Otto\Helper\Module::getChannelTitle()]),
             'align' => 'left',
             'width' => '100px',
             'type' => 'text',
@@ -219,27 +219,44 @@ class Grid extends \M2E\Otto\Block\Adminhtml\Listing\View\AbstractGrid
         // ---------------------------------------
 
         $this->getMassactionBlock()->addItem('list', [
-            'label' => __('List Item(s) on Otto'),
+            'label' => __(
+                'List Item(s) on %channel_title',
+                ['channel_title' => \M2E\Otto\Helper\Module::getChannelTitle()]
+            ),
             'url' => '',
         ], 'actions');
 
         $this->getMassactionBlock()->addItem('revise', [
-            'label' => __('Revise Item(s) on Otto'),
+            'label' => __(
+                'Revise Item(s) on %channel_title',
+                ['channel_title' => \M2E\Otto\Helper\Module::getChannelTitle()]
+            ),
             'url' => '',
         ], 'actions');
 
         $this->getMassactionBlock()->addItem('relist', [
-            'label' => __('Relist Item(s) on Otto'),
+            'label' => __(
+                'Relist Item(s) on %channel_title',
+                ['channel_title' => \M2E\Otto\Helper\Module::getChannelTitle()]
+            ),
             'url' => '',
         ], 'actions');
 
         $this->getMassactionBlock()->addItem('stop', [
-            'label' => __('Stop Item(s) on Otto'),
+            'label' => __(
+                'Stop Item(s) on %channel_title',
+                ['channel_title' => \M2E\Otto\Helper\Module::getChannelTitle()]
+            ),
             'url' => '',
         ], 'actions');
 
         $this->getMassactionBlock()->addItem('stopAndRemove', [
-            'label' => __('Stop on Otto / Remove From Listing'),
+            'label' => __(
+                'Stop on %channel_title / Remove From Listing',
+                [
+                    'channel_title' => \M2E\Otto\Helper\Module::getChannelTitle(),
+                ]
+            ),
             'url' => '',
         ], 'actions');
 
@@ -463,13 +480,20 @@ JS
             'otto_listing/getListingProductBids'
         );
 
+        $channelTitle = \M2E\Otto\Helper\Module::getChannelTitle();
+
         $this->jsTranslator->addTranslations([
             'task_completed_message' => __('Task completed. Please wait ...'),
 
             'task_completed_warning_message' => __('"%task_title%" task has completed with warnings. <a target="_blank" href="%url%">View Log</a> for details.'),
             'task_completed_error_message' => __('"%task_title%" task has completed with errors. <a target="_blank" href="%url%">View Log</a> for details.'),
 
-            'sending_data_message' => __('Sending %product_title% Product(s) data on Otto.'),
+            'sending_data_message' => __(
+                'Sending %product_title% Product(s) data on %channel_title.',
+                [
+                    'channel_title' => $channelTitle,
+                ]
+            ),
 
             'View Full Product Log' => __('View Full Product Log.'),
 
@@ -478,13 +502,29 @@ JS
 
             'Listing is empty.' => __('Listing is empty.'),
 
-            'listing_all_items_message' => __('Listing All Items On Otto'),
-            'listing_selected_items_message' => __('Listing Selected Items On Otto'),
-            'revising_selected_items_message' => __('Revising Selected Items On Otto'),
-            'relisting_selected_items_message' => __('Relisting Selected Items On Otto'),
-            'stopping_selected_items_message' => __('Stopping Selected Items On Otto'),
+            'listing_all_items_message' => __(
+                'Listing All Items On %channel_title',
+                ['channel_title' => $channelTitle]
+            ),
+            'listing_selected_items_message' => __(
+                'Listing Selected Items On %channel_title',
+                ['channel_title' => $channelTitle]
+            ),
+            'revising_selected_items_message' => __(
+                'Revising Selected Items On %channel_title',
+                ['channel_title' => $channelTitle]
+            ),
+            'relisting_selected_items_message' => __(
+                'Relisting Selected Items On %channel_title',
+                ['channel_title' => $channelTitle]
+            ),
+            'stopping_selected_items_message' => __(
+                'Stopping Selected Items On %channel_title',
+                ['channel_title' => $channelTitle]
+            ),
             'stopping_and_removing_selected_items_message' => __(
-                'Stopping On Otto And Removing From Listing Selected Items'
+                'Stopping On %channel_title And Removing From Listing Selected Items',
+                ['channel_title' => $channelTitle]
             ),
             'removing_selected_items_message' => __('Removing From Listing Selected Items'),
 

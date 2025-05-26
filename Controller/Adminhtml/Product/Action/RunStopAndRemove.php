@@ -38,11 +38,17 @@ class RunStopAndRemove extends \M2E\Otto\Controller\Adminhtml\Otto\Listing\Abstr
             ['result' => $result] = $this->actionService->runStopAndRemove($products);
             if ($result === 'success') {
                 $this->getMessageManager()->addSuccessMessage(
-                    __('"Stopping On Otto And Removing From Listing Selected Items" task has completed.'),
+                    __(
+                        '"Stopping On %channel_title And Removing From Listing Selected Items" task has completed.',
+                        ['channel_title' => \M2E\Otto\Helper\Module::getChannelTitle()]
+                    ),
                 );
             } else {
                 $this->getMessageManager()->addErrorMessage(
-                    __('"Stopping On Otto And Removing From Listing Selected Items"as completed with errors.'),
+                    __(
+                        '"Stopping On %channel_title And Removing From Listing Selected Items"as completed with errors.',
+                        ['channel_title' => \M2E\Otto\Helper\Module::getChannelTitle()]
+                    ),
                 );
             }
 
@@ -52,7 +58,10 @@ class RunStopAndRemove extends \M2E\Otto\Controller\Adminhtml\Otto\Listing\Abstr
         $this->actionService->scheduleStopAndRemove($products);
 
         $this->getMessageManager()->addSuccessMessage(
-            __('"Stopping On Otto And Removing From Listing Selected Items" task has completed.'),
+            __(
+                '"Stopping On %channel_title And Removing From Listing Selected Items" task has completed.',
+                ['channel_title' => \M2E\Otto\Helper\Module::getChannelTitle()]
+            ),
         );
 
         return $this->redirectToGrid();

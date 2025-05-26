@@ -82,10 +82,12 @@ details.</p><br>
                 ],
                 'value' => $this->configurationHelper->getViewShowBlockNoticesMode(),
                 'tooltip' => __(
-                    '<p>Choose whether you want the help information to be available at the top of
-                    each M2E Otto Page.</p><br>
-                    <p><strong>Please note</strong>, it does not disable the help-tips
-                    (the icons with the additional information next to the main options).</p>'
+                    '<p>Choose whether you want the help information to be available at the top of ' .
+                    'each %extension_title Page.</p><br><p><strong>Please note</strong>, it does not disable the ' .
+                    'help-tips (the icons with the additional information next to the main options).</p>',
+                    [
+                        'extension_title' => \M2E\Otto\Helper\Module::getExtensionTitle(),
+                    ]
                 ),
             ]
         );
@@ -120,9 +122,12 @@ details.</p><br>
                 ],
                 'value' => $this->configurationHelper->isEnableProductForceQtyMode(),
                 'tooltip' => __(
-                    'Choose whether Otto is allowed to List Products with unlimited stock or that are
+                    'Choose whether %channel_title is allowed to List Products with unlimited stock or that are
                     temporarily out of stock.<br>
-                    <b>Disallow</b> is the recommended setting for Otto Integration.'
+                    <b>Disallow</b> is the recommended setting for %channel_title Integration.',
+                    [
+                        'channel_title' => \M2E\Otto\Helper\Module::getChannelTitle(),
+                    ],
                 ),
             ]
         );
@@ -156,12 +161,18 @@ details.</p><br>
                 ],
                 'value' => $this->configurationHelper
                     ->getMagentoAttributePriceTypeConvertingMode(),
-                'tooltip' => __('<p>Set this option to "Yes" to activate currency conversion for price values ' .
+                'tooltip' => __(
+                    '<p>Set this option to "Yes" to activate currency conversion for price values ' .
                     'from custom Magento Attributes (conversion for standard Magento Price attributes is automatic).</p>' .
-                    '<p>Once enabled, M2E will convert prices according to your Magento Currency Settings. <strong>For example</strong>, ' .
-                    'M2E handles the conversion using the established exchange rate (e.g., 1 USD = 0.92 EUR). If a product\'s ' .
-                    'price is set to 5 USD in a Magento Attribute, it will be listed at 4.62 EUR on Otto, where EUR is ' .
-                    'the base currency.</p>'),
+                    '<p>Once enabled, %extension_title will convert prices according to your Magento Currency Settings. <strong>For example</strong>, ' .
+                    '%extension_title handles the conversion using the established exchange rate (e.g., 1 USD = 0.92 EUR). If a product\'s ' .
+                    'price is set to 5 USD in a Magento Attribute, it will be listed at 4.62 EUR on %channel_title, where EUR is ' .
+                    'the base currency.</p>',
+                    [
+                        'extension_title' => \M2E\Otto\Helper\Module::getExtensionTitle(),
+                        'channel_title' => \M2E\Otto\Helper\Module::getChannelTitle(),
+                    ]
+                ),
             ]
         );
 

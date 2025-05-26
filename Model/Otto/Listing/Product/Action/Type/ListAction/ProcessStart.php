@@ -17,8 +17,11 @@ class ProcessStart extends \M2E\Otto\Model\Otto\Listing\Product\Action\Async\Abs
     public function __construct(
         RequestFactory $requestFactory,
         ValidatorFactory $actionValidatorFactory,
-        \M2E\Otto\Model\Product\Repository $productRepository
+        \M2E\Otto\Model\Product\Repository $productRepository,
+        \M2E\Otto\Model\Otto\Listing\Product\Action\TagManager $tagManager
     ) {
+        parent::__construct($tagManager);
+
         $this->requestFactory = $requestFactory;
         $this->actionValidatorFactory = $actionValidatorFactory;
         $this->productRepository = $productRepository;

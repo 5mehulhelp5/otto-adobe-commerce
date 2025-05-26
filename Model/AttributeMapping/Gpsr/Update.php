@@ -4,19 +4,17 @@ declare(strict_types=1);
 
 namespace M2E\Otto\Model\AttributeMapping\Gpsr;
 
-use M2E\Otto\Model\Category\Attribute;
+use M2E\Otto\Model\AttributeMapping\GpsrService;
 
 class Update
 {
-    private \M2E\Otto\Model\AttributeMapping\Repository $attributeMappingRepository;
-    private \M2E\Otto\Model\AttributeMapping\PairFactory $mappingFactory;
+    private \M2E\Core\Model\AttributeMapping\Adapter $attributeMappingAdapter;
+    private \M2E\Core\Model\AttributeMapping\AdapterFactory $attributeMappingAdapterFactory;
 
     public function __construct(
-        \M2E\Otto\Model\AttributeMapping\Repository $attributeMappingRepository,
-        \M2E\Otto\Model\AttributeMapping\PairFactory $mappingFactory
+        \M2E\Core\Model\AttributeMapping\AdapterFactory $attributeMappingAdapterFactory
     ) {
-        $this->attributeMappingRepository = $attributeMappingRepository;
-        $this->mappingFactory = $mappingFactory;
+        $this->attributeMappingAdapterFactory = $attributeMappingAdapterFactory;
     }
 
     /**
@@ -29,44 +27,38 @@ class Update
         $attributesMapping = $this->removeUnknownAttributes($attributesMapping);
         $existedByAttributeCode = $this->getExistedMappingGroupedByCode();
 
-        $processedCount = 0;
+        $new = [];
+        $exists = [];
         foreach ($attributesMapping as $newPair) {
             $exist = $existedByAttributeCode[$newPair->channelAttributeCode] ?? null;
             if ($exist === null) {
-                $new = $this->mappingFactory->create(
-                    \M2E\Otto\Model\AttributeMapping\GpsrService::MAPPING_TYPE,
+                $new[] = $this->getAdapter()->createPair(
+                    GpsrService::MAPPING_TYPE,
                     $newPair->channelAttributeTitle,
                     $newPair->channelAttributeCode,
                     $newPair->magentoAttributeCode
                 );
-
-                $this->attributeMappingRepository->create($new);
-
-                $processedCount++;
-
-                continue;
+            } else {
+                $exists[] =
+                    $this->getAdapter()->createPair(
+                        GpsrService::MAPPING_TYPE,
+                        $newPair->channelAttributeTitle,
+                        $newPair->channelAttributeCode,
+                        $newPair->magentoAttributeCode
+                    );
             }
 
             unset($existedByAttributeCode[$newPair->channelAttributeCode]);
-
-            if ($exist->getMagentoAttributeCode() === $newPair->magentoAttributeCode) {
-                continue;
-            }
-
-            $exist->setMagentoAttributeCode($newPair->magentoAttributeCode);
-
-            $this->attributeMappingRepository->save($exist);
-
-            $processedCount++;
         }
+
+        $processedCountCreate = $this->getAdapter()->create($new, GpsrService::MAPPING_TYPE);
+        $processedCountCreateUpdate = $this->getAdapter()->update($exists, GpsrService::MAPPING_TYPE);
 
         if (!empty($existedByAttributeCode)) {
-            foreach ($existedByAttributeCode as $someOld) {
-                $this->attributeMappingRepository->remove($someOld);
-            }
+            $this->getAdapter()->removeByChannelCodes($existedByAttributeCode);
         }
 
-        return $processedCount;
+        return $processedCountCreate + $processedCountCreateUpdate;
     }
 
     /**
@@ -90,19 +82,29 @@ class Update
     }
 
     /**
-     * @return \M2E\Otto\Model\AttributeMapping\Pair[]
+     * @return \M2E\Core\Model\AttributeMapping\Pair[]
      */
     private function getExistedMappingGroupedByCode(): array
     {
         $result = [];
 
-        $existed = $this->attributeMappingRepository->findByType(
-            \M2E\Otto\Model\AttributeMapping\GpsrService::MAPPING_TYPE
-        );
+        $existed = $this->getAdapter()->findByType(GpsrService::MAPPING_TYPE);
         foreach ($existed as $pair) {
             $result[$pair->getChannelAttributeCode()] = $pair;
         }
 
         return $result;
+    }
+
+    private function getAdapter(): \M2E\Core\Model\AttributeMapping\Adapter
+    {
+        /** @psalm-suppress RedundantPropertyInitializationCheck */
+        if (!isset($this->attributeMappingAdapter)) {
+            $this->attributeMappingAdapter = $this->attributeMappingAdapterFactory->create(
+                \M2E\Otto\Helper\Module::IDENTIFIER
+            );
+        }
+
+        return $this->attributeMappingAdapter;
     }
 }

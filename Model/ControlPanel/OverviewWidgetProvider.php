@@ -80,6 +80,7 @@ class OverviewWidgetProvider implements \M2E\Core\Model\ControlPanel\Overview\Wi
                 \M2E\Otto\Helper\Module\Database\Tables::TABLE_NAME_PRODUCT_LOCK,
                 \M2E\Otto\Helper\Module\Database\Tables::TABLE_NAME_PRODUCT,
                 \M2E\Otto\Helper\Module\Database\Tables::TABLE_NAME_LISTING_OTHER,
+                \M2E\Core\Helper\Module\Database\Tables::TABLE_NAME_ATTRIBUTE_MAPPING
             ],
             'Processing' => [
                 \M2E\Otto\Helper\Module\Database\Tables::TABLE_NAME_PROCESSING,

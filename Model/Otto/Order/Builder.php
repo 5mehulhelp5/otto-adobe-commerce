@@ -76,7 +76,7 @@ class Builder extends \Magento\Framework\DataObject
 
         // ---------------------------------------
 
-        // duplicated Otto orders. remove M2E Otto order without magento order id or newest order
+        // duplicated Otto orders. remove M2E order without magento order id or newest order
         // ---------------------------------------
         if (count($existOrders) > 1) {
             $isDeleted = false;
@@ -290,8 +290,9 @@ class Builder extends \Magento\Framework\DataObject
 
         $this->order->addSuccessLog(
             sprintf(
-                'Order status was updated to %s on Otto',
-                $this->orderStatusHelper->getStatusLabel($this->order->getOrderStatus())
+                'Order status was updated to %s on %s',
+                $this->orderStatusHelper->getStatusLabel($this->order->getOrderStatus()),
+                \M2E\Otto\Helper\Module::getChannelTitle()
             )
         );
     }

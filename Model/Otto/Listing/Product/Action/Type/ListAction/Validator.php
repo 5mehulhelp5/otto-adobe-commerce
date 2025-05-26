@@ -35,15 +35,21 @@ class Validator extends \M2E\Otto\Model\Otto\Listing\Product\Action\Type\Abstrac
     public function validate(): bool
     {
         if (!$this->getListingProduct()->isListable()) {
-            $this->addMessage((string)__('Item is Listed or not available'));
+            $this->addMessage(
+                new \M2E\Otto\Model\Otto\Listing\Product\Action\Validator\ValidatorMessage(
+                    (string)__('Item is Listed or not available'),
+                    \M2E\Otto\Model\Tag\ValidatorIssues::NOT_USER_ERROR
+                )
+            );
 
             return false;
         }
 
         if (!$this->getListingProduct()->getListing()->isDescriptionPolicyExist()) {
             $this->addMessage(
-                (string)__(
-                    'No Description policy is set for this M2E Listing. Please assign a Description policy to the Listing first.'
+                new \M2E\Otto\Model\Otto\Listing\Product\Action\Validator\ValidatorMessage(
+                    (string)__('No Description policy is set for this M2E Listing. Please assign a Description policy to the Listing first.'),
+                    \M2E\Otto\Model\Tag\ValidatorIssues::ERROR_NO_DESCRIPTION_POLICY
                 )
             );
 
@@ -52,8 +58,9 @@ class Validator extends \M2E\Otto\Model\Otto\Listing\Product\Action\Type\Abstrac
 
         if (!$this->getListingProduct()->getListing()->isShippingPolicyExist()) {
             $this->addMessage(
-                (string)__(
-                    'No Shipping policy is set for this M2E Listing. Please assign a Shipping policy to the Listing first.'
+                new \M2E\Otto\Model\Otto\Listing\Product\Action\Validator\ValidatorMessage(
+                    (string)__('No Shipping policy is set for this M2E Listing. Please assign a Shipping policy to the Listing first.'),
+                    \M2E\Otto\Model\Tag\ValidatorIssues::ERROR_NO_SHIPPING_POLICY
                 )
             );
 

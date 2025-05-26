@@ -39,11 +39,15 @@ class UnmanagedListing extends AbstractForm
             self::HELP_BLOCK,
             [
                 'content' => __(
-                    '<p>This tab of the Account settings contains main configurations for the Unmanaged Listing management.
-You can set preferences whether you would like to import Unmanaged Listings
-(Items that were Listed on Otto either directly on the channel or with the help of
-other than M2E Otto tool),
-automatically link them to Magento Product, etc.</p>'
+                    '<p>This tab of the Account settings contains main configurations ' .
+                    'for the Unmanaged Listing management. You can set preferences whether you would like to ' .
+                    'import Unmanaged Listings (Items that were Listed on %channel_title either directly on the ' .
+                    'channel or with the help of other than %extension_title tool), automatically link them ' .
+                    'to Magento Product, etc.</p>',
+                    [
+                        'channel_title' => \M2E\Otto\Helper\Module::getChannelTitle(),
+                        'extension_title' => \M2E\Otto\Helper\Module::getExtensionTitle(),
+                    ]
                 ),
             ]
         );
@@ -68,8 +72,13 @@ automatically link them to Magento Product, etc.</p>'
                 ],
                 'value' => (int)$unmanagedListingSettings->isSyncEnabled(),
                 'tooltip' => __(
-                    'Choose whether to import items that have been listed on Otto either directly or using a tool
-                    other than M2E Otto. M2E Otto will import only active Otto items.'
+                    'Choose whether to import items that have been listed on %channel_title ' .
+                    'either directly or using a tool other than %extension_title. %extension_title will ' .
+                    'import only active %channel_title items.',
+                    [
+                        'channel_title' => \M2E\Otto\Helper\Module::getChannelTitle(),
+                        'extension_title' => \M2E\Otto\Helper\Module::getExtensionTitle(),
+                    ]
                 ),
             ]
         );
@@ -88,8 +97,9 @@ automatically link them to Magento Product, etc.</p>'
                 ],
                 'value' => (int)$unmanagedListingSettings->isMappingEnabled(),
                 'tooltip' => __(
-                    'Choose whether imported Otto Listings should automatically link to a
-                    Product in your Magento Inventory.'
+                    'Choose whether imported %channel_title Listings should automatically link to a
+                    Product in your Magento Inventory.',
+                    ['channel_title' => \M2E\Otto\Helper\Module::getChannelTitle()]
                 ),
             ]
         );
@@ -102,8 +112,9 @@ automatically link them to Magento Product, etc.</p>'
                 'tooltip' => __(
                     '<p>In this section you can provide settings for automatic Linking of the newly
                     imported Unmanaged Listings to the appropriate Magento Products.</p><br>
-                    <p>The imported Items are linked based on the correspondence between Otto Item
-                    values and Magento Product Attribute values. </p>'
+                    <p>The imported Items are linked based on the correspondence between %channel_title Item
+                    values and Magento Product Attribute values. </p>',
+                    ['channel_title' => \M2E\Otto\Helper\Module::getChannelTitle()]
                 ),
             ]
         );

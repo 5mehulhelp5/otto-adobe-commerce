@@ -39,22 +39,21 @@ class License extends \M2E\Otto\Block\Adminhtml\System\Config\Sections
                 'no_collapse' => true,
                 'no_hide' => true,
                 'content' => __(
-                    '<p>To use M2E Otto, you need to register on M2E Accounts and generate a
-License Key.</p><br>
-
-                    <p>Your email address used during the initial setup of M2E Otto automatically
-                    registers you on
-                    M2E Accounts. After logging in, you can manage your Subscription and Billing information.</p><br>
-
-                    <p>License Key is a unique identifier of M2E Otto instance which is generated automatically
-                    and strictly associated with the current IP and Domain of your Magento.</p><br>
-
-                    <p>The same License Key cannot be used for different domains, sub-domains or IPs.
-                    If your Magento Server changes its location, the new License Key must be obtained and provided
-                    to M2E Otto License section. Click <strong>Save</strong> after the changes are made.</p><br>
-
-                    <p><strong>Note:</strong> If you need some assistance to activate your M2E Otto instance,
-                    please contact Support Team at <a href="mailto:support@m2epro.com">support@m2epro.com</a>.</p>'
+                    '<p>To use %extension_title, you need to register on M2E Accounts ' .
+                    'and generate a License Key.</p><br><p>Your email address used during the initial setup ' .
+                    'of %extension_title automatically registers you on M2E Accounts. After logging in, you can ' .
+                    'manage your Subscription and Billing information.</p><br><p>License Key is a unique ' .
+                    'identifier of %extension_title instance which is generated automatically and strictly ' .
+                    'associated with the current IP and Domain of your Magento.</p><br><p>The same License Key ' .
+                    'cannot be used for different domains, sub-domains or IPs. If your Magento Server changes ' .
+                    'its location, the new License Key must be obtained and provided to %extension_title License ' .
+                    'section. Click <strong>Save</strong> after the changes are made.</p><br><p>' .
+                    '<strong>Note:</strong> If you need some assistance to activate your %extension_title instance, ' .
+                    'please contact Support Team at <a href="mailto:%email">%email</a>.</p>',
+                    [
+                        'extension_title' => \M2E\Otto\Helper\Module::getExtensionTitle(),
+                        'email' => 'support@m2epro.com'
+                    ]
                 ),
             ]
         );

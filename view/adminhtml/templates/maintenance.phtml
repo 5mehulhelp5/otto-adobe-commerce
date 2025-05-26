@@ -4,16 +4,18 @@
  */ ?>
 
 <?php
+$extensionTitle = \M2E\Otto\Helper\Module::getExtensionTitle();
+
 if ($block->getData('is_maintenance_due_low_magento_version')) : ?>
-    <p>M2E Otto has been placed on maintenance mode because your current Magento version is no longer supported
-        and compatible with the latest version of M2E Otto extension.</p>
+    <p><?= $extensionTitle ?> has been placed on maintenance mode because your current Magento version is no longer supported
+        and compatible with the latest version of <?= $extensionTitle ?> extension.</p>
     <p>To restore the functionality, we recommend considering one of the following conditions:</p>
     <ol style="margin-left: 30px; max-width: 800px;">
         <li>
             <p>Upgrade your Magento:</p>
             <p>
                 Upgrading your Magento to the latest stable version will not only ensure
-                compatibility with the latest M2E Otto version but also provide access to new features,
+                compatibility with the latest <?= $extensionTitle ?> version but also provide access to new features,
                 performance enhancements, and security patches.
             </p>
         </li>
@@ -22,7 +24,7 @@ if ($block->getData('is_maintenance_due_low_magento_version')) : ?>
         to our support team at <a href="mailto:support@m2epro.com">support@m2epro.com</a></p>
 <?php
 else : ?>
-    <p>Inventory and Order synchronization is not running. The Module interface is unavailable. M2E Otto can be
+    <p>Inventory and Order synchronization is not running. The Module interface is unavailable. <?= $extensionTitle ?> can be
         put under maintenance automatically due to the following reasons:</p>
 
     <ul style="margin-left: 30px; max-width: 800px;">
@@ -31,7 +33,7 @@ else : ?>
                 incompatibility of Magento and its Modules, or other technical issues.</p>
         </li>
         <li>
-            <p>Module upgrade failed, e.g. due to the improper M2E Otto tables updating or php
+            <p>Module upgrade failed, e.g. due to the improper <?= $extensionTitle ?> tables updating or php
                 %magento2_installation_dir%/bin/magento setup:upgrade command running.</p>
         </li>
     </ul>

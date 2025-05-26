@@ -9,8 +9,8 @@
                 <methods>ottoshipping</methods>
                 <sallowspecific>0</sallowspecific>
                 <model>M2E\Otto\Model\Magento\Shipping</model>
-                <name>M2E Otto Shipping</name>
-                <title>M2E Otto Shipping</title>
+                <name>M2E Otto Connect Shipping</name>
+                <title>M2E Otto Connect Shipping</title>
                 <handling_type>F</handling_type>
             </ottoshipping>
         </carriers>
@@ -19,7 +19,7 @@
                 <active>1</active>
                 <model>M2E\Otto\Model\Magento\Payment</model>
                 <order_status>pending</order_status>
-                <title>M2E Otto Payment</title>
+                <title>M2E Otto Connect Payment</title>
                 <allowspecific>0</allowspecific>
                 <sort_order>1</sort_order>
             </ottopayment>

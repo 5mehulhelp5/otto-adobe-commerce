@@ -7,10 +7,20 @@
 <div id='category_info_messaged_container'></div>
 
 <div class="control-value">
-    <?= __('You need to choose Categories for Products in order to list them on Otto.') ?>
+    <?= __(
+        'You need to choose Categories for Products in order to list them on %channel_title.',
+        [
+            'channel_title' => \M2E\Otto\Helper\Module::getChannelTitle(),
+        ],
+    ) ?>
 </div>
 <div style="padding-top: 3px; font-weight: normal">
-    <?= __('Products will be Listed using the same Otto Category.') ?>
+    <?= __(
+        'Products will be Listed using the same %channel_title Category.',
+        [
+            'channel_title' => \M2E\Otto\Helper\Module::getChannelTitle(),
+        ],
+    ) ?>
 </div>
 <div style="margin: 7px 52px">
     <b><?= __('Category') ?></b>:

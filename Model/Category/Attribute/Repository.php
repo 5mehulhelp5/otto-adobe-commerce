@@ -134,4 +134,29 @@ class Repository
             $this->delete($attribute);
         }
     }
+
+    /**
+     * @return string[]
+     */
+    public function getAllCustomAttributeTitles(): array
+    {
+        $collection = $this->attributeCollectionFactory->create();
+        $collection->addFieldToFilter(
+            AttributeResource::COLUMN_VALUE_MODE,
+            \M2E\Otto\Model\Category\Attribute::VALUE_MODE_CUSTOM_ATTRIBUTE
+        );
+
+        $collection->removeAllFieldsFromSelect();
+
+        $collection->addFieldToSelect(AttributeResource::COLUMN_ATTRIBUTE_TITLE);
+        $collection->distinct(true);
+
+        $result = [];
+        /** @var \M2E\Otto\Model\Category\Attribute $item */
+        foreach ($collection->getItems() as $item) {
+            $result[] = $item->getAttributeName();
+        }
+
+        return $result;
+    }
 }

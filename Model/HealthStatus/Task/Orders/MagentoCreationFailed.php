@@ -33,9 +33,10 @@ class MagentoCreationFailed extends IssueType
             $result->setTaskData($failedOrders);
             $result->setTaskMessage(
                 (string)__(
-                    'During the last 24 hours, M2E Otto has not created Magento orders for <strong>%failed_orders_count</strong>
+                    'During the last 24 hours, %extension_title has not created Magento orders for <strong>%failed_orders_count</strong>
 imported Channel orders. See the <a target="_blank" href="%url">Order Log</a> for more details.',
                     [
+                        'extension_title' => \M2E\Otto\Helper\Module::getExtensionTitle(),
                         'failed_orders_count' => $failedOrders,
                         'url' => $this->urlBuilder->getUrl(
                             '*/otto_log_order/index',

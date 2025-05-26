@@ -28,8 +28,11 @@ class Create
         $obj = $this->create($order, $note);
 
         $comment = (string)__(
-            'Custom Note was added to the corresponding Otto order: %note.',
-            ['note' => $obj->getNote()],
+            'Custom Note was added to the corresponding %channel_title order: %note.',
+            [
+                'note' => $obj->getNote(),
+                'channel_title' => \M2E\Otto\Helper\Module::getChannelTitle(),
+            ],
         );
         $this->updateMagentoOrderComment($order, $comment);
 

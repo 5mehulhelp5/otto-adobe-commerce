@@ -5,6 +5,14 @@
     <body>
         <referenceContainer name="content">
             <block class="M2E\Otto\Block\Adminhtml\Category\Chooser\Prepare"/>
+
+            <container name="m2e.otto.listing.header">
+                <block class="M2E\Otto\Block\Adminhtml\Listing\View\Header">
+                    <arguments>
+                        <argument name="listing_view_mode" xsi:type="boolean">true</argument>
+                    </arguments>
+                </block>
+            </container>
         </referenceContainer>
     </body>
 </page>

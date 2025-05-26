@@ -53,12 +53,12 @@ class Order extends AbstractContainer
     {
         $this->appendHelpBlock([
             'content' => __(
-                '<p>In this section, you can find the list of the Orders imported from Otto. </p>
-                <p>An Otto Order, for which Magento Order is created, contains a value in
+                '<p>In this section, you can find the list of the Orders imported from %channel_title. </p>
+                <p>An %channel_title Order, for which Magento Order is created, contains a value in
                 <strong>Magento Order #</strong> column of the grid. You can find the corresponding
                 Magento Order in Sales > Orders section of your Magento</p><br>
 
-                <p>To manage the imported Otto Orders, you can use Mass Action options available in the
+                <p>To manage the imported %channel_title Orders, you can use Mass Action options available in the
                 Actions bulk: Reserve QTY, Cancel QTY Reserve, Mark Order(s) as Shipped or Paid and Resend
                 Shipping Information.</p><br>
 
@@ -67,7 +67,10 @@ class Order extends AbstractContainer
 
                 <p><strong>Note:</strong> Automatic creation of Magento Orders, Invoices, and Shipments is
                 performed in accordance with the Order settings specified in <br>
-                <strong>Account Settings (Otto Integration > Configuration > Accounts)</strong>. </p>'
+                <strong>Account Settings (%channel_title Integration > Configuration > Accounts)</strong>. </p>',
+                [
+                    'channel_title' => \M2E\Otto\Helper\Module::getChannelTitle(),
+                ]
             ),
         ]);
 
@@ -120,10 +123,6 @@ JS,
         $className = !$accountId ? \M2E\Otto\Block\Adminhtml\Magento\Button\DropDown::class : null;
 
         $dropDownOptions = $this->getAccountSettingsDropDownItems($accountId);
-
-        if ($dropDownOptions === []) {
-            return;
-        }
 
         $this->addButton(
             'order_settings',

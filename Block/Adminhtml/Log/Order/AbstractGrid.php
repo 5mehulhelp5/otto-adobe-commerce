@@ -134,7 +134,7 @@ abstract class AbstractGrid extends \M2E\Otto\Block\Adminhtml\Log\AbstractGrid
         ]);
 
         $this->addColumn('channel_order_number', [
-            'header' => __('Otto Order #'),
+            'header' => __('%channel_title Order #', ['channel_title' => \M2E\Otto\Helper\Module::getChannelTitle()]),
             'align' => 'left',
             'sortable' => false,
             'index' => 'channel_order_number',

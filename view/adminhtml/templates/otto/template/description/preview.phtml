@@ -12,7 +12,11 @@ echo $block->getLayout()->createBlock(\M2E\Otto\Block\Adminhtml\HelpBlock::class
     'no_hide' => true,
     'title' => $block->__('Description Preview'),
     'content' => $block->__(
-        'If your description contains M2E Otto Attributes, some of them such as Image URLs, Images, etc. might display for the previewing the value which is different from the actual one that will be sent to Otto.'
+        'If your description contains %extension_title Attributes, some of them such as Image URLs, Images, etc. might display for the previewing the value which is different from the actual one that will be sent to %channel_title.',
+        [
+            'extension_title' => \M2E\Otto\Helper\Module::getExtensionTitle(),
+            'channel_title' => \M2E\Otto\Helper\Module::getChannelTitle(),
+        ]
     ),
 ])->toHtml() ?>
 

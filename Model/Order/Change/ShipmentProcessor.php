@@ -136,14 +136,16 @@ class ShipmentProcessor
             $params = [
                 '!tracking' => $tracking,
                 '!carrier' => $carrier,
+                '!channel_title' => \M2E\Otto\Helper\Module::getChannelTitle(),
             ];
-            $message = 'Order status was updated to Shipped. Tracking number %tracking% for %carrier% has been sent to Otto.';
+            $message = 'Order status was updated to Shipped. Tracking number %tracking% for %carrier% has been sent to %channel_title%.';
 
             if ($returnCarrier && $returnTracking) {
                 $message = 'Order status was updated to Shipped. Tracking number %tracking% for %carrier% and return' .
-                    ' tracking number %returntracking% for %returncarrier% has been sent to Otto.';
+                    ' tracking number %returntracking% for %returncarrier% has been sent to %channel_title%.';
                 $params['!returntracking'] = $returnTracking;
                 $params['!returncarrier'] = $returnCarrier;
+                $params['!channel_title'] = \M2E\Otto\Helper\Module::getChannelTitle();
             }
 
             $changeData['order']->addSuccessLog($message, $params);
