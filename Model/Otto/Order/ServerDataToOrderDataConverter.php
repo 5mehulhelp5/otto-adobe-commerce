@@ -25,7 +25,7 @@ class ServerDataToOrderDataConverter
             'order_status' => $this->orderStatusResolver->resolveByOrderItems($data['order_items']),
             'purchase_update_date' => $data['update_date'],
             'purchase_create_date' => $data['create_date'],
-            'currency' => 'EUR',
+            'currency' => \M2E\Otto\Model\Currency::CURRENCY_EUR,
             'buyer_name' => $this->getBuyerName($data),
             'buyer_email' => $this->getEmail($data),
             'payment_method_name' => $data['payment_method'],

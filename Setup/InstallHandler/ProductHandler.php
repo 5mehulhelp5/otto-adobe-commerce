@@ -218,54 +218,6 @@ class ProductHandler implements \M2E\Core\Model\Setup\InstallHandlerInterface
                 ['default' => null]
             )
             ->addColumn(
-                ListingProductResource::COLUMN_TEMPLATE_SELLING_FORMAT_MODE,
-                Table::TYPE_SMALLINT,
-                null,
-                ['unsigned' => true, 'nullable' => false, 'default' => 0]
-            )
-            ->addColumn(
-                ListingProductResource::COLUMN_TEMPLATE_SELLING_FORMAT_ID,
-                Table::TYPE_INTEGER,
-                null,
-                ['unsigned' => true, 'default' => null]
-            )
-            ->addColumn(
-                ListingProductResource::COLUMN_TEMPLATE_SYNCHRONIZATION_MODE,
-                Table::TYPE_SMALLINT,
-                null,
-                ['unsigned' => true, 'nullable' => false, 'default' => 0]
-            )
-            ->addColumn(
-                ListingProductResource::COLUMN_TEMPLATE_SYNCHRONIZATION_ID,
-                Table::TYPE_INTEGER,
-                null,
-                ['unsigned' => true, 'default' => null]
-            )
-            ->addColumn(
-                ListingProductResource::COLUMN_TEMPLATE_DESCRIPTION_MODE,
-                Table::TYPE_SMALLINT,
-                null,
-                ['unsigned' => true, 'nullable' => false, 'default' => 0]
-            )
-            ->addColumn(
-                ListingProductResource::COLUMN_TEMPLATE_DESCRIPTION_ID,
-                Table::TYPE_INTEGER,
-                null,
-                ['unsigned' => true, 'default' => null]
-            )
-            ->addColumn(
-                ListingProductResource::COLUMN_TEMPLATE_SHIPPING_MODE,
-                Table::TYPE_SMALLINT,
-                null,
-                ['unsigned' => true, 'nullable' => false, 'default' => 0]
-            )
-            ->addColumn(
-                ListingProductResource::COLUMN_TEMPLATE_SHIPPING_ID,
-                Table::TYPE_INTEGER,
-                null,
-                ['unsigned' => true, 'default' => null]
-            )
-            ->addColumn(
                 ListingProductResource::COLUMN_LAST_BLOCKING_ERROR_DATE,
                 Table::TYPE_DATETIME,
                 null,
@@ -303,14 +255,6 @@ class ProductHandler implements \M2E\Core\Model\Setup\InstallHandlerInterface
             ->addIndex('online_category', ListingProductResource::COLUMN_ONLINE_CATEGORY)
             ->addIndex('online_title', ListingProductResource::COLUMN_ONLINE_TITLE)
             ->addIndex('template_category_id', ListingProductResource::COLUMN_TEMPLATE_CATEGORY_ID)
-            ->addIndex('template_selling_format_mode', ListingProductResource::COLUMN_TEMPLATE_SELLING_FORMAT_MODE)
-            ->addIndex('template_selling_format_id', ListingProductResource::COLUMN_TEMPLATE_SELLING_FORMAT_ID)
-            ->addIndex('template_synchronization_mode', ListingProductResource::COLUMN_TEMPLATE_SYNCHRONIZATION_MODE)
-            ->addIndex('template_synchronization_id', ListingProductResource::COLUMN_TEMPLATE_SYNCHRONIZATION_ID)
-            ->addIndex('template_description_mode', ListingProductResource::COLUMN_TEMPLATE_DESCRIPTION_MODE)
-            ->addIndex('template_description_id', ListingProductResource::COLUMN_TEMPLATE_DESCRIPTION_ID)
-            ->addIndex('template_shipping_mode', ListingProductResource::COLUMN_TEMPLATE_SHIPPING_MODE)
-            ->addIndex('template_shipping_id', ListingProductResource::COLUMN_TEMPLATE_SHIPPING_ID)
             ->setOption('type', 'INNODB')
             ->setOption('charset', 'utf8')
             ->setOption('collate', 'utf8_general_ci')

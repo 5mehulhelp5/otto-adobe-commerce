@@ -6,12 +6,12 @@
 
 ?>
 
-<script type="text/javascript">
+<script>
 
     <?php if ($block->getIsAjax()) : ?>
     BlockNoticeObj.init(true);
 
-    <?php echo
+    <?php /* @noEscape */ echo
         $block->jsPhp->render()
         . $block->jsTranslator->render()
         . $block->jsUrl->render()
@@ -21,11 +21,11 @@
     initializationCustomAttributeInputs();
     initCollapsable();
 
-    <?php else : ?>
-    var BLOCK_NOTICES_SHOW = <?php echo $block->blockNoticesShow ? 'true' : 'false'; ?>;
+    <?php else: ?>
+    var BLOCK_NOTICES_SHOW = <?php /* @noEscape */ echo $block->blockNoticesShow ? 'true' : 'false'; ?>;
 
-    var IS_VIEW_OTTO = <?php echo json_encode($block->viewHelper->isCurrentViewOtto()); ?>;
-    var IS_VIEW_CONFIGURATION = <?php echo json_encode($block->viewHelper->isCurrentViewConfiguration()); ?>;
+    var IS_VIEW_OTTO = <?php /* @noEscape */ echo json_encode($block->viewHelper->isCurrentViewOtto()); ?>;
+    var IS_VIEW_CONFIGURATION = <?php /* @noEscape */ echo json_encode($block->viewHelper->isCurrentViewConfiguration()); ?>;
 
     var Otto = {};
 
@@ -37,9 +37,9 @@
         Otto.formData = {};
         Otto.customData = {};
 
-        <?php echo $block->jsPhp->render(); ?>
-        <?php echo $block->jsTranslator->render(); ?>
-        <?php echo $block->jsUrl->render(); ?>
+        <?php /* @noEscape */ echo $block->jsPhp->render(); ?>
+        <?php /* @noEscape */ echo $block->jsTranslator->render(); ?>
+        <?php /* @noEscape */ echo $block->jsUrl->render(); ?>
 
         window.CommonObj = new window.Common();
         CommonObj.initCommonValidators();
@@ -47,7 +47,7 @@
         window.BlockNoticeObj = new BlockNotice();
         BlockNoticeObj.init();
 
-        <?php echo $block->js->render(); ?>
+        <?php /* @noEscape */ echo $block->js->render(); ?>
 
         window.initializationCustomAttributeInputs = function () {
             $$('select.Otto-custom-attribute-can-be-created').each(function (selectObj) {
@@ -70,7 +70,7 @@
     require(['Otto/ControlPanel'], function (controlPanel) {
 
         window.ControlPanelObj = new ControlPanel();
-        window.ControlPanelObj.setControlPanelUrl('<?php echo $block->getUrl('*/controlPanel'); ?>')
+        window.ControlPanelObj.setControlPanelUrl('<?php /* @noEscape */ echo $block->getUrl('*/controlPanel'); ?>')
     });
 
     <?php endif; ?>
@@ -78,5 +78,5 @@
 </script>
 
 <style type="text/css">
-    <?php echo $block->css->render(); ?>
+    <?php /* @noEscape */ echo $block->css->render(); ?>
 </style>

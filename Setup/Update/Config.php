@@ -34,7 +34,7 @@ class Config implements \M2E\Core\Model\Setup\Upgrade\Entity\ConfigInterface
                 \M2E\Otto\Setup\Update\y24_m06\RemoveListingProductConfigurations::class,
             ],
             'y24_m07' => [
-                \M2E\Otto\Setup\Update\y24_m07\AddMoinColumnsToProductTable::class
+                \M2E\Otto\Setup\Update\y24_m07\AddMoinColumnsToProductTable::class,
             ],
             'y24_m08' => [
                 \M2E\Otto\Setup\Update\y24_m08\DropImageAndImageRelationTables::class,
@@ -62,13 +62,16 @@ class Config implements \M2E\Core\Model\Setup\Upgrade\Entity\ConfigInterface
                 \M2E\Otto\Setup\Update\y25_m02\MigrateConfigToCore::class,
                 \M2E\Otto\Setup\Update\y25_m02\MigrateRegistryToCore::class,
                 \M2E\Otto\Setup\Update\y25_m02\RemoveServerHost::class,
-                \M2E\Otto\Setup\Update\y25_m02\RemoveOldCronValues::class
+                \M2E\Otto\Setup\Update\y25_m02\RemoveOldCronValues::class,
             ],
             'y25_m03' => [
                 \M2E\Otto\Setup\Update\y25_m03\CheckConfigs::class,
             ],
             'y25_m04' => [
                 \M2E\Otto\Setup\Update\y25_m04\MigrateAttributeMappingToCore::class,
+            ],
+            'y25_m06' => [
+                \M2E\Otto\Setup\Update\y25_m06\RemoveReferencesOfPolicyFromProduct::class,
             ],
         ];
     }

@@ -41,7 +41,7 @@ class OnlinePrice extends \Magento\Ui\Component\Listing\Columns\Column
             }
 
             $onlinePrice = $this->currency->formatPrice(
-                'EUR',
+                \M2E\Otto\Model\Currency::CURRENCY_EUR,
                 $product->getOnlineCurrentPrice()
             );
 

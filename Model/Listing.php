@@ -28,7 +28,10 @@ class Listing extends \M2E\Otto\Model\ActiveRecord\AbstractModel
     public const INSTRUCTION_INITIATOR_CHANGED_LISTING_STORE_VIEW = 'changed_listing_store_view';
 
     private ?\M2E\Otto\Model\Account $account = null;
-
+    private \M2E\Otto\Model\Template\SellingFormat $templateSellingFormat;
+    private \M2E\Otto\Model\Template\Synchronization $templateSynchronization;
+    private \M2E\Otto\Model\Template\Description $templateDescription;
+    private \M2E\Otto\Model\Template\Shipping $templateShipping;
     private \M2E\Otto\Model\Product\Repository $listingProductRepository;
     private \M2E\Otto\Model\Account\Repository $accountRepository;
     private \M2E\Otto\Model\Template\SellingFormat\Repository $sellingFormatTemplateRepository;
@@ -45,8 +48,8 @@ class Listing extends \M2E\Otto\Model\ActiveRecord\AbstractModel
         \M2E\Otto\Model\Template\Shipping\Repository $shippingTemplateRepository,
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
-        \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
-        \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
+        ?\Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
+        ?\Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
         array $data = []
     ) {
         parent::__construct(
@@ -102,8 +105,13 @@ class Listing extends \M2E\Otto\Model\ActiveRecord\AbstractModel
      */
     public function getTemplateSellingFormat(): Template\SellingFormat
     {
-        return $this->sellingFormatTemplateRepository
-            ->get($this->getTemplateSellingFormatId());
+        /** @psalm-suppress RedundantPropertyInitializationCheck */
+        if (!isset($this->templateSellingFormat)) {
+            $this->templateSellingFormat = $this->sellingFormatTemplateRepository
+                ->get($this->getTemplateSellingFormatId());
+        }
+
+        return $this->templateSellingFormat;
     }
 
     /**
@@ -111,8 +119,13 @@ class Listing extends \M2E\Otto\Model\ActiveRecord\AbstractModel
      */
     public function getTemplateSynchronization(): Template\Synchronization
     {
-        return $this->synchronizationTemplateRepository
-            ->get($this->getTemplateSynchronizationId());
+        /** @psalm-suppress RedundantPropertyInitializationCheck */
+        if (!isset($this->templateSynchronization)) {
+            $this->templateSynchronization = $this->synchronizationTemplateRepository
+                ->get($this->getTemplateSynchronizationId());
+        }
+
+        return $this->templateSynchronization;
     }
 
     /**
@@ -120,8 +133,13 @@ class Listing extends \M2E\Otto\Model\ActiveRecord\AbstractModel
      */
     public function getTemplateDescription(): Template\Description
     {
-        return $this->descriptionTemplateRepository
-            ->get($this->getTemplateDescriptionId());
+        /** @psalm-suppress RedundantPropertyInitializationCheck */
+        if (!isset($this->templateDescription)) {
+            $this->templateDescription = $this->descriptionTemplateRepository
+                ->get($this->getTemplateDescriptionId());
+        }
+
+        return $this->templateDescription;
     }
 
     /**
@@ -129,8 +147,13 @@ class Listing extends \M2E\Otto\Model\ActiveRecord\AbstractModel
      */
     public function getTemplateShipping(): Template\Shipping
     {
-        return $this->shippingTemplateRepository
-            ->get($this->getTemplateShippingId());
+        /** @psalm-suppress RedundantPropertyInitializationCheck */
+        if (!isset($this->templateShipping)) {
+            $this->templateShipping = $this->shippingTemplateRepository
+                ->get($this->getTemplateShippingId());
+        }
+
+        return $this->templateShipping;
     }
 
     // ----------------------------------------

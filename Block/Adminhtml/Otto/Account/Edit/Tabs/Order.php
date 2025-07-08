@@ -27,7 +27,7 @@ class Order extends AbstractForm
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \M2E\Core\Helper\Magento\Store\Website $storeWebsite,
-        \M2E\Otto\Model\Account $account = null,
+        ?\M2E\Otto\Model\Account $account = null,
         array $data = []
     ) {
         $this->customerGroupCollectionFactory = $customerGroupCollectionFactory;

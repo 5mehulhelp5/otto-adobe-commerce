@@ -37,14 +37,6 @@ class Product extends \M2E\Otto\Model\ResourceModel\ActiveRecord\AbstractModel
     public const COLUMN_PRODUCT_MOIN = 'product_moin';
     public const COLUMN_OTTO_PRODUCT_URL = 'otto_product_url';
     public const COLUMN_TEMPLATE_CATEGORY_ID = 'template_category_id';
-    public const COLUMN_TEMPLATE_SELLING_FORMAT_MODE = 'template_selling_format_mode';
-    public const COLUMN_TEMPLATE_SELLING_FORMAT_ID = 'template_selling_format_id';
-    public const COLUMN_TEMPLATE_SYNCHRONIZATION_MODE = 'template_synchronization_mode';
-    public const COLUMN_TEMPLATE_SYNCHRONIZATION_ID = 'template_synchronization_id';
-    public const COLUMN_TEMPLATE_DESCRIPTION_MODE = 'template_description_mode';
-    public const COLUMN_TEMPLATE_DESCRIPTION_ID = 'template_description_id';
-    public const COLUMN_TEMPLATE_SHIPPING_MODE = 'template_shipping_mode';
-    public const COLUMN_TEMPLATE_SHIPPING_ID = 'template_shipping_id';
     public const COLUMN_LAST_BLOCKING_ERROR_DATE = 'last_blocking_error_date';
     public const COLUMN_ADDITIONAL_DATA = 'additional_data';
     public const COLUMN_MARKETPLACE_ERRORS = 'marketplace_errors';

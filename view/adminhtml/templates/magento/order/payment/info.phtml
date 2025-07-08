@@ -10,7 +10,7 @@
     <?php
     if ($block->getPaymentMethod() != '') : ?>
         <tr>
-            <td style="width: 200px;"><label><?= __('Payment Method'); ?>:</label></td>
+            <td style="width: 200px;"><label><?= /* @noEscape */ __('Payment Method'); ?>:</label></td>
             <td><strong><?php
                     echo $block->escapeHtml($block->getPaymentMethod()); ?></strong></td>
         </tr>
@@ -20,16 +20,16 @@
     <?php
     if ($block->getChannelOrderId() != '') : ?>
         <tr>
-            <td style="width: 200px;"><?= __('%channel_title Order ID', ['channel_title' => \M2E\Otto\Helper\Module::getChannelTitle()]) ?>:</td>
+            <td style="width: 200px;"><?= /* @noEscape */ __('%channel_title Order ID', ['channel_title' => \M2E\Otto\Helper\Module::getChannelTitle()]) ?>:</td>
             <td>
                 <?php
                 if ($block->getChannelOrderUrl() !== '') : ?>
-                    <a href="<?= $block->getChannelOrderUrl() ?>" target="_blank">
+                    <a href="<?= /* @noEscape */ $block->getChannelOrderUrl() ?>" target="_blank">
                         <?php
                         echo $block->escapeHtml($block->getChannelOrderId()); ?>
                     </a>
                 <?php
-                else : ?>
+                else: ?>
                     <strong><?php
                         echo $block->escapeHtml($block->getChannelOrderId()); ?></strong>
                 <?php
@@ -42,15 +42,15 @@
     <?php
     if ($block->getCashOnDeliveryCost() > 0) : ?>
         <tr>
-            <td style="width: 200px;"><?= __('Cash On Delivery Cost') ?>:</td>
+            <td style="width: 200px;"><?= /* @noEscape */ __('Cash On Delivery Cost') ?>:</td>
             <td>
                 <strong>
                     <?php
                     if ($block->getOrder() !== null) : ?>
-                        <?= $block->getOrder()->formatPrice($block->getCashOnDeliveryCost()) ?>
+                        <?= /* @noEscape */ $block->getOrder()->formatPrice($block->getCashOnDeliveryCost()) ?>
                     <?php
-                    else : ?>
-                        <?= $block->getCashOnDeliveryCost() ?>
+                    else: ?>
+                        <?= /* @noEscape */ $block->getCashOnDeliveryCost() ?>
                     <?php
                     endif; ?>
                 </strong>
@@ -62,9 +62,9 @@
     <?php
     if ($block->getTaxId() != '') : ?>
         <tr>
-            <td style="width: 200px;"><?= __('Buyer Tax ID') ?>:</td>
+            <td style="width: 200px;"><?= /* @noEscape */ __('Buyer Tax ID') ?>:</td>
             <td><strong><?php
-                    echo $block->getTaxId(); ?></strong></td>
+                  /* @noEscape */ echo $block->getTaxId(); ?></strong></td>
         </tr>
     <?php
     endif; ?>

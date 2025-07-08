@@ -194,10 +194,7 @@ class UpdateService
 
         $changeProcessor = $this->sellingFormatChangeProcessorFactory->create();
 
-        $affectedProducts = $affectedListingsProducts->getObjectsData(
-            ['id', 'status'],
-            ['template' => \M2E\Otto\Model\Otto\Template\Manager::TEMPLATE_SELLING_FORMAT]
-        );
+        $affectedProducts = $affectedListingsProducts->getObjectsData(['id', 'status']);
         $changeProcessor->process($diff, $affectedProducts);
     }
 
@@ -229,10 +226,7 @@ class UpdateService
 
         $changeProcessor = $this->synchronizationChangeProcessorFactory->create();
 
-        $affectedProducts = $affectedListingsProducts->getObjectsData(
-            ['id', 'status'],
-            ['template' => \M2E\Otto\Model\Otto\Template\Manager::TEMPLATE_SYNCHRONIZATION]
-        );
+        $affectedProducts = $affectedListingsProducts->getObjectsData(['id', 'status']);
         $changeProcessor->process($diff, $affectedProducts);
     }
 
@@ -264,10 +258,7 @@ class UpdateService
 
         $changeProcessor = $this->descriptionChangeProcessorFactory->create();
 
-        $affectedProducts = $affectedListingsProducts->getObjectsData(
-            ['id', 'status'],
-            ['template' => \M2E\Otto\Model\Otto\Template\Manager::TEMPLATE_DESCRIPTION]
-        );
+        $affectedProducts = $affectedListingsProducts->getObjectsData(['id', 'status']);
         $changeProcessor->process($diff, $affectedProducts);
     }
 
@@ -284,18 +275,7 @@ class UpdateService
     ): void {
         $changeProcessor = $this->shippingChangeProcessorFactory->create();
 
-        $affectedProducts = $affectedListingsProducts->getObjectsData(
-            ['id', 'status'],
-            ['template' => \M2E\Otto\Model\Otto\Template\Manager::TEMPLATE_SHIPPING]
-        );
+        $affectedProducts = $affectedListingsProducts->getObjectsData(['id', 'status']);
         $changeProcessor->process($this->shippingDiffStub, $affectedProducts);
-    }
-
-    private function makeShippingTemplateSnapshot(Shipping $shippingTemplate)
-    {
-        $snapshotBuilder = $this->shippingSnapshotBuilderFactory->create();
-        $snapshotBuilder->setModel($shippingTemplate);
-
-        return $snapshotBuilder->getSnapshot();
     }
 }

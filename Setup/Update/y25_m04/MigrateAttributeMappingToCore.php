@@ -26,7 +26,6 @@ class MigrateAttributeMappingToCore extends \M2E\Core\Model\Setup\Upgrade\Entity
                            ->from($newTable, ['channel_attribute_code'])
                            ->where('`channel_attribute_code` = ?', $row['channel_attribute_code'])
                            ->where('`extension_name` = ?', \M2E\Otto\Helper\Module::IDENTIFIER)
-
             );
 
             if (!$exists) {

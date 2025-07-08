@@ -15,19 +15,19 @@ class AddDescriptionColumnsToProductTable extends \M2E\Core\Model\Setup\Upgrade\
         $modifier = $this->createTableModifier(Tables::TABLE_NAME_PRODUCT);
 
         $modifier->addColumn(
-            ListingProductResource::COLUMN_TEMPLATE_DESCRIPTION_MODE,
+            'template_description_mode',
             'SMALLINT NOT NULL',
             0,
-            ListingProductResource::COLUMN_TEMPLATE_SYNCHRONIZATION_ID,
+            'template_synchronization_id',
             false,
             false
         );
 
         $modifier->addColumn(
-            ListingProductResource::COLUMN_TEMPLATE_DESCRIPTION_ID,
+            'template_description_id',
             Table::TYPE_INTEGER,
             null,
-            ListingProductResource::COLUMN_TEMPLATE_DESCRIPTION_MODE,
+            'template_description_mode',
             false,
             false
         );

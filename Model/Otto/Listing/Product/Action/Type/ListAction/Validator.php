@@ -13,6 +13,7 @@ class Validator extends \M2E\Otto\Model\Otto\Listing\Product\Action\Type\Abstrac
     private \M2E\Otto\Model\Otto\Listing\Product\Action\Validator\PriceValidator $priceValidator;
     private \M2E\Otto\Model\Otto\Listing\Product\Action\Validator\ShippingHandlingTime $shippingHandlingTime;
     private \M2E\Otto\Model\Otto\Listing\Product\Action\Validator\CheckShippingPolicy $checkShippingPolicy;
+    private \M2E\Otto\Model\Otto\Listing\Product\Action\Validator\QtyValidator $qtyValidator;
 
     public function __construct(
         \M2E\Otto\Model\Otto\Listing\Product\Action\Validator\SameSkuAlreadyExists $sameSkuAlreadyExists,
@@ -21,7 +22,8 @@ class Validator extends \M2E\Otto\Model\Otto\Listing\Product\Action\Type\Abstrac
         \M2E\Otto\Model\Otto\Listing\Product\Action\Validator\ImageValidator $imageValidator,
         \M2E\Otto\Model\Otto\Listing\Product\Action\Validator\PriceValidator $priceValidator,
         \M2E\Otto\Model\Otto\Listing\Product\Action\Validator\ShippingHandlingTime $shippingHandlingTime,
-        \M2E\Otto\Model\Otto\Listing\Product\Action\Validator\CheckShippingPolicy $checkShippingPolicy
+        \M2E\Otto\Model\Otto\Listing\Product\Action\Validator\CheckShippingPolicy $checkShippingPolicy,
+        \M2E\Otto\Model\Otto\Listing\Product\Action\Validator\QtyValidator $qtyValidator
     ) {
         $this->checkShippingPolicy = $checkShippingPolicy;
         $this->priceValidator = $priceValidator;
@@ -30,6 +32,7 @@ class Validator extends \M2E\Otto\Model\Otto\Listing\Product\Action\Type\Abstrac
         $this->eanValidator = $eanValidator;
         $this->sameSkuAlreadyExists = $sameSkuAlreadyExists;
         $this->shippingHandlingTime = $shippingHandlingTime;
+        $this->qtyValidator = $qtyValidator;
     }
 
     public function validate(): bool
@@ -80,6 +83,12 @@ class Validator extends \M2E\Otto\Model\Otto\Listing\Product\Action\Type\Abstrac
         }
 
         if ($error = $this->priceValidator->validate($this->getListingProduct())) {
+            $this->addMessage($error);
+
+            return false;
+        }
+
+        if ($error = $this->qtyValidator->validate($this->getListingProduct())) {
             $this->addMessage($error);
 
             return false;

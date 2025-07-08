@@ -610,7 +610,7 @@ class PriceCalculator
 
     private function getCurrencyForPriceConvert()
     {
-        return 'EUR';
+        return \M2E\Otto\Model\Currency::CURRENCY_EUR;
     }
 
     private function calculateBundleTierValue(Product $product, $baseValue)

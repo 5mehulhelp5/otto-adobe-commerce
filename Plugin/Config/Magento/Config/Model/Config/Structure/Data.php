@@ -45,7 +45,7 @@ class Data extends \M2E\Otto\Plugin\AbstractPlugin
 
         if (
             $this->moduleMaintenanceHelper->isEnabled()
-            || !$this->moduleHelper->areImportantTablesExist()
+            || !$this->isModuleTablesExist()
         ) {
             unset($result['sections'][Configuration::MODULE_AND_CHANNELS_SECTION_COMPONENT]);
             unset($result['sections'][Configuration::INTERFACE_AND_MAGENTO_INVENTORY_SECTION_COMPONENT]);

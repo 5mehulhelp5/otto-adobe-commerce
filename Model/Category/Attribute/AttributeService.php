@@ -38,7 +38,7 @@ class AttributeService
 
     public function getProductAttributes(
         string $categoryGroupId,
-        int $categoryId = null
+        ?int $categoryId = null
     ): array {
 
         $savedAttributes = [];

@@ -16,14 +16,15 @@ class Save extends \M2E\Otto\Plugin\AbstractPlugin
         \M2E\Otto\Model\Listing\LogService $listingLogService,
         \M2E\Otto\Model\MSI\AffectedProducts $msiAffectedProducts,
         \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder,
-        \Magento\Inventory\Model\SourceItemRepository $sourceItemRepository,
-        \M2E\Otto\Model\Magento\Product\ChangeAttributeTrackerFactory $changeAttributeTrackerFactory
+        \M2E\Otto\Model\Magento\Product\ChangeAttributeTrackerFactory $changeAttributeTrackerFactory,
+        \Magento\Framework\ObjectManagerInterface $objectManager
     ) {
         $this->msiAffectedProducts = $msiAffectedProducts;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
-        $this->sourceItemRepo = $sourceItemRepository;
         $this->changeAttributeTrackerFactory = $changeAttributeTrackerFactory;
         $this->listingLogService = $listingLogService;
+
+        $this->sourceItemRepo = $objectManager->get(\Magento\Inventory\Model\SourceItemRepository::class);
     }
 
     public function aroundExecute($interceptor, \Closure $callback, ...$arguments)

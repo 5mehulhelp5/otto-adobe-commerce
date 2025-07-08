@@ -15,19 +15,19 @@ class AddShippingColumnsToProductTable extends \M2E\Core\Model\Setup\Upgrade\Ent
         $modifier = $this->createTableModifier(Tables::TABLE_NAME_PRODUCT);
 
         $modifier->addColumn(
-            ListingProductResource::COLUMN_TEMPLATE_SHIPPING_MODE,
+            'template_shipping_mode',
             'SMALLINT NOT NULL',
             0,
-            ListingProductResource::COLUMN_TEMPLATE_DESCRIPTION_ID,
+            'template_description_id',
             false,
             false
         );
 
         $modifier->addColumn(
-            ListingProductResource::COLUMN_TEMPLATE_SHIPPING_ID,
+            'template_shipping_id',
             Table::TYPE_INTEGER,
             null,
-            ListingProductResource::COLUMN_TEMPLATE_SHIPPING_MODE,
+            'template_shipping_mode',
             false,
             false
         );

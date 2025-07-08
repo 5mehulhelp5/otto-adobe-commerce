@@ -9,7 +9,7 @@
         'Otto/Category/Chooser'
     ], () => {
         window.OttoCategoryChooserObj = new OttoCategoryChooser(
-            <?= $block->getAccountId() ?>
+            <?= /* @noEscape */ $block->getAccountId() ?>
         );
     });
 </script>
@@ -21,7 +21,7 @@
                 "components": {
                     "category_search": {
                         "component": "M2E_Otto/js/Category/Chooser/Tabs/Search",
-                        "searchUrl": "<?= $block->getSearchUrl() ?>"                    }
+                        "searchUrl": "<?= /* @noEscape */ $block->getSearchUrl() ?>"                    }
                 }
             }
         }

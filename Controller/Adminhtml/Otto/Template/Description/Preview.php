@@ -101,7 +101,7 @@ class Preview extends AbstractDescription
 
     private function getDescription(
         \M2E\Otto\Model\Magento\Product $magentoProduct,
-        \M2E\Otto\Model\Product $listingProduct = null
+        ?\M2E\Otto\Model\Product $listingProduct = null
     ): string {
         $descriptionModeProduct = DescriptionAlias::DESCRIPTION_MODE_PRODUCT;
         $descriptionModeShort = DescriptionAlias::DESCRIPTION_MODE_SHORT;

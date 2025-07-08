@@ -80,6 +80,7 @@ class Collection extends \Magento\Framework\Data\Collection implements SearchRes
                 'product_' . ProductResource::COLUMN_ONLINE_TITLE => ProductResource::COLUMN_ONLINE_TITLE,
                 'product_' . ProductResource::COLUMN_TEMPLATE_CATEGORY_ID => ProductResource::COLUMN_TEMPLATE_CATEGORY_ID,
                 'product_' . ProductResource::COLUMN_IS_INCOMPLETE => ProductResource::COLUMN_IS_INCOMPLETE,
+                'product_currency' => $this->createCurrencyExpression()
             ],
         );
 
@@ -262,5 +263,14 @@ class Collection extends \Magento\Framework\Data\Collection implements SearchRes
     public function getTotalCount(): int
     {
         return $this->wrappedCollection->getSize();
+    }
+
+    private function createCurrencyExpression(): string
+    {
+        $currencyExpression = new \Magento\Framework\DB\Sql\Expression(
+            sprintf("('%s')", \M2E\Otto\Model\Currency::CURRENCY_EUR)
+        );
+
+        return (string)$currencyExpression;
     }
 }

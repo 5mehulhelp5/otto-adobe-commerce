@@ -42,41 +42,21 @@ class Product extends \M2E\Otto\Model\ActiveRecord\AbstractModel implements
     public const INSTRUCTION_TYPE_CHANNEL_PRODUCT_URL_CHANGED = 'channel_product_url_changed';
     public const INSTRUCTION_TYPE_CHANNEL_SHIPPING_PROFILE_ID_CHANGED = 'channel_shipping_profile_id_changed';
 
-    public const TEMPLATE_MODE_PARENT = 0;
-    public const TEMPLATE_MODE_CUSTOM = 1;
-    public const TEMPLATE_MODE_TEMPLATE = 2;
-
     private \M2E\Otto\Model\Listing $listing;
-
     private \M2E\Otto\Model\Category $category;
     private \M2E\Otto\Model\Product\DataProvider $dataProvider;
-
     private \M2E\Otto\Model\Magento\Product\Cache $magentoProductModel;
     private \M2E\Otto\Model\Listing\Repository $listingRepository;
-    private ?\M2E\Otto\Model\Template\SellingFormat $sellingFormatTemplateModel = null;
-    private ?\M2E\Otto\Model\Template\Synchronization $synchronizationTemplateModel = null;
-    private ?\M2E\Otto\Model\Template\Description $descriptionTemplateModel = null;
-    private ?\M2E\Otto\Model\Template\Shipping $shippingTemplateModel = null;
     private \M2E\Otto\Model\Magento\Product\CacheFactory $magentoProductFactory;
-    private \M2E\Otto\Model\Template\SellingFormat\Repository $sellingFormatTemplateRepository;
-    private \M2E\Otto\Model\Template\Synchronization\Repository $synchronizationTemplateRepository;
-    private \M2E\Otto\Model\Template\Description\Repository $descriptionTemplateRepository;
-    private \M2E\Otto\Model\Template\Shipping\Repository $shippingTemplateRepository;
     private \M2E\Otto\Model\Otto\Listing\Product\Description\RendererFactory $descriptionRendererFactory;
     private \M2E\Otto\Model\Policy\ShippingDataProviderFactory $shippingDataProviderFactory;
-    /** @var \M2E\Otto\Model\Category\Repository */
-    private Category\Repository $categoryRepository;
-    /** @var \M2E\Otto\Model\Product\DataProviderFactory */
-    private Product\DataProviderFactory $dataProviderFactory;
+    private \M2E\Otto\Model\Category\Repository $categoryRepository;
+    private \M2E\Otto\Model\Product\DataProviderFactory $dataProviderFactory;
 
     public function __construct(
         \M2E\Otto\Model\Product\DataProviderFactory $dataProviderFactory,
         \M2E\Otto\Model\Category\Repository $categoryRepository,
-        \M2E\Otto\Model\Template\SellingFormat\Repository $sellingFormatTemplateRepository,
-        \M2E\Otto\Model\Template\Description\Repository $descriptionTemplateRepository,
         \M2E\Otto\Model\Otto\Listing\Product\Description\RendererFactory $descriptionRendererFactory,
-        \M2E\Otto\Model\Template\Synchronization\Repository $synchronizationTemplateRepository,
-        \M2E\Otto\Model\Template\Shipping\Repository $shippingTemplateRepository,
         \M2E\Otto\Model\Listing\Repository $listingRepository,
         \M2E\Otto\Model\Magento\Product\CacheFactory $magentoProductFactory,
         \M2E\Otto\Model\Policy\ShippingDataProviderFactory $shippingDataProviderFactory,
@@ -85,13 +65,9 @@ class Product extends \M2E\Otto\Model\ActiveRecord\AbstractModel implements
     ) {
         parent::__construct($context, $registry);
 
-        $this->descriptionTemplateRepository = $descriptionTemplateRepository;
         $this->descriptionRendererFactory = $descriptionRendererFactory;
         $this->listingRepository = $listingRepository;
         $this->magentoProductFactory = $magentoProductFactory;
-        $this->sellingFormatTemplateRepository = $sellingFormatTemplateRepository;
-        $this->synchronizationTemplateRepository = $synchronizationTemplateRepository;
-        $this->shippingTemplateRepository = $shippingTemplateRepository;
         $this->shippingDataProviderFactory = $shippingDataProviderFactory;
         $this->categoryRepository = $categoryRepository;
         $this->dataProviderFactory = $dataProviderFactory;
@@ -240,7 +216,7 @@ class Product extends \M2E\Otto\Model\ActiveRecord\AbstractModel implements
     public function setStatus(int $status, int $changer): self
     {
         $this->setData(ListingProductResource::COLUMN_STATUS, $status)
-            ->setStatusChanger($changer);
+             ->setStatusChanger($changer);
 
         $this->setStatusChangeDate(\M2E\Core\Helper\Date::createCurrentGmt());
 
@@ -341,16 +317,7 @@ class Product extends \M2E\Otto\Model\ActiveRecord\AbstractModel implements
      */
     public function getSellingFormatTemplate(): \M2E\Otto\Model\Template\SellingFormat
     {
-        if ($this->sellingFormatTemplateModel === null) {
-            if ($this->getTemplateSellingFormatMode() === self::TEMPLATE_MODE_PARENT) {
-                $this->sellingFormatTemplateModel = $this->getListing()->getTemplateSellingFormat();
-            } else {
-                $this->sellingFormatTemplateModel = $this->sellingFormatTemplateRepository
-                    ->get($this->getTemplateSellingFormatId());
-            }
-        }
-
-        return $this->sellingFormatTemplateModel;
+        return $this->getListing()->getTemplateSellingFormat();
     }
 
     /**
@@ -358,33 +325,15 @@ class Product extends \M2E\Otto\Model\ActiveRecord\AbstractModel implements
      */
     public function getSynchronizationTemplate(): \M2E\Otto\Model\Template\Synchronization
     {
-        if ($this->synchronizationTemplateModel === null) {
-            if ($this->getTemplateSynchronizationMode() === self::TEMPLATE_MODE_PARENT) {
-                $this->synchronizationTemplateModel = $this->getListing()->getTemplateSynchronization();
-            } else {
-                $this->synchronizationTemplateModel = $this->synchronizationTemplateRepository
-                    ->get($this->getTemplateSynchronizationId());
-            }
-        }
-
-        return $this->synchronizationTemplateModel;
+        return $this->getListing()->getTemplateSynchronization();
     }
 
+    /**
+     * @throws \M2E\Otto\Model\Exception\Logic
+     */
     public function getDescriptionTemplate(): ?\M2E\Otto\Model\Template\Description
     {
-        if ($this->descriptionTemplateModel === null) {
-            if ($this->getTemplateDescriptionMode() === self::TEMPLATE_MODE_PARENT) {
-                if (!$this->getListing()->isDescriptionPolicyExist()) {
-                    return null;
-                }
-                $this->descriptionTemplateModel = $this->getListing()->getTemplateDescription();
-            } else {
-                $this->descriptionTemplateModel = $this->descriptionTemplateRepository
-                    ->get($this->getTemplateDescriptionId());
-            }
-        }
-
-        return $this->descriptionTemplateModel;
+        return $this->getListing()->getTemplateDescription();
     }
 
     /**
@@ -401,16 +350,7 @@ class Product extends \M2E\Otto\Model\ActiveRecord\AbstractModel implements
      */
     public function getShippingTemplate(): \M2E\Otto\Model\Template\Shipping
     {
-        if ($this->shippingTemplateModel === null) {
-            if ($this->getTemplateShippingMode() === self::TEMPLATE_MODE_PARENT) {
-                $this->shippingTemplateModel = $this->getListing()->getTemplateShipping();
-            } else {
-                $this->shippingTemplateModel = $this->shippingTemplateRepository
-                    ->get($this->getTemplateShippingId());
-            }
-        }
-
-        return $this->shippingTemplateModel;
+        return $this->getListing()->getTemplateShipping();
     }
 
     public function getRenderedDescription(): string
@@ -462,26 +402,6 @@ class Product extends \M2E\Otto\Model\ActiveRecord\AbstractModel implements
         $this->setData(ListingProductResource::COLUMN_TEMPLATE_CATEGORY_ID, $id);
 
         return $this;
-    }
-
-    public function getTemplateDescriptionMode(): int
-    {
-        return (int)$this->getData(ListingProductResource::COLUMN_TEMPLATE_DESCRIPTION_MODE);
-    }
-
-    private function getTemplateDescriptionId(): int
-    {
-        return (int)$this->getData(ListingProductResource::COLUMN_TEMPLATE_DESCRIPTION_ID);
-    }
-
-    public function getTemplateShippingMode(): int
-    {
-        return (int)$this->getData(ListingProductResource::COLUMN_TEMPLATE_SHIPPING_MODE);
-    }
-
-    private function getTemplateShippingId(): int
-    {
-        return (int)$this->getData(ListingProductResource::COLUMN_TEMPLATE_SHIPPING_ID);
     }
 
     public function getOnlineTitle(): string
@@ -610,7 +530,7 @@ class Product extends \M2E\Otto\Model\ActiveRecord\AbstractModel implements
     {
         $value = [
             'delivery_type' => $deliveryType,
-            'delivery_time' => $deliveryTime
+            'delivery_time' => $deliveryTime,
         ];
 
         $this->setData(ListingProductResource::COLUMN_ONLINE_DELIVERY_DATA, json_encode($value));
@@ -784,7 +704,7 @@ class Product extends \M2E\Otto\Model\ActiveRecord\AbstractModel implements
                 'code' => $message->getCode(),
                 'text' => $message->getText(),
                 'type' => $message->getType(),
-                'sender' => \M2E\Core\Model\Connector\Response\Message::SENDER_COMPONENT //todo method in Core
+                'sender' => \M2E\Core\Model\Connector\Response\Message::SENDER_COMPONENT, //todo method in Core
             ];
         }
 
@@ -831,28 +751,6 @@ class Product extends \M2E\Otto\Model\ActiveRecord\AbstractModel implements
     {
         $this->validateStatusChanger($statusChanger);
         $this->setData(ListingProductResource::COLUMN_STATUS_CHANGER, $statusChanger);
-    }
-
-    // ----------------------------------------
-
-    public function getTemplateSellingFormatMode(): int
-    {
-        return (int)$this->getData(ListingProductResource::COLUMN_TEMPLATE_SELLING_FORMAT_MODE);
-    }
-
-    public function getTemplateSellingFormatId(): int
-    {
-        return (int)$this->getData(ListingProductResource::COLUMN_TEMPLATE_SELLING_FORMAT_ID);
-    }
-
-    public function getTemplateSynchronizationMode(): int
-    {
-        return (int)$this->getData(ListingProductResource::COLUMN_TEMPLATE_SYNCHRONIZATION_MODE);
-    }
-
-    public function getTemplateSynchronizationId(): int
-    {
-        return (int)$this->getData(ListingProductResource::COLUMN_TEMPLATE_SYNCHRONIZATION_ID);
     }
 
     // ----------------------------------------
@@ -906,7 +804,7 @@ class Product extends \M2E\Otto\Model\ActiveRecord\AbstractModel implements
             self::STATUS_CHANGER_SYNCH,
             self::STATUS_CHANGER_USER,
             self::STATUS_CHANGER_COMPONENT,
-            self::STATUS_CHANGER_OBSERVER
+            self::STATUS_CHANGER_OBSERVER,
         ];
 
         if (!in_array($changer, $allowed)) {

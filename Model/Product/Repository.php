@@ -369,6 +369,40 @@ class Repository
         return (int)$collection->getSize();
     }
 
+    public function hasListedProducts(): bool
+    {
+        return $this->getCountOfListedProducts() > 0;
+    }
+
+    public function getCountOfListedProducts(): int
+    {
+        $collection = $this->listingProductCollectionFactory->create();
+        $collection->addFieldToFilter(
+            ListingProductResource::COLUMN_STATUS,
+            \M2E\Otto\Model\Product::STATUS_LISTED
+        );
+
+        return (int)$collection->getSize();
+    }
+
+    public function getCountOfNotListedProducts(): int
+    {
+        $collection = $this->listingProductCollectionFactory->create();
+        $collection->addFieldToFilter(
+            ListingProductResource::COLUMN_STATUS,
+            ['neq' => \M2E\Otto\Model\Product::STATUS_LISTED]
+        );
+
+        return (int)$collection->getSize();
+    }
+
+    public function getTotalCountOfListingProducts(): int
+    {
+        $collection = $this->listingProductCollectionFactory->create();
+
+        return (int)$collection->getSize();
+    }
+
     /**
      * @return \M2E\Otto\Model\Product[]
      */

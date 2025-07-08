@@ -4,20 +4,22 @@ declare(strict_types=1);
 
 namespace M2E\Otto\Model\Order;
 
+use M2E\Otto\Model\ResourceModel\Order as OrderResource;
+
 class Repository
 {
     private \M2E\Otto\Model\ResourceModel\Order\CollectionFactory $orderCollectionFactory;
     private \M2E\Otto\Model\ResourceModel\Order\Item\CollectionFactory $orderItemCollectionFactory;
     private \M2E\Otto\Model\ResourceModel\Order\Change\CollectionFactory $orderChangeCollectionFactory;
     private \M2E\Otto\Model\ResourceModel\Order\Note\CollectionFactory $orderNoteCollectionFactory;
-    private \M2E\Otto\Model\ResourceModel\Order $orderResource;
+    private OrderResource $orderResource;
     private \M2E\Otto\Model\OrderFactory $orderFactory;
     private \M2E\Otto\Model\ResourceModel\Order\Item $orderItemResource;
     /** @var \M2E\Otto\Model\Order\ItemFactory */
     private ItemFactory $itemFactory;
 
     public function __construct(
-        \M2E\Otto\Model\ResourceModel\Order $orderResource,
+        OrderResource $orderResource,
         \M2E\Otto\Model\OrderFactory $orderFactory,
         \M2E\Otto\Model\ResourceModel\Order\Item $orderItemResource,
         \M2E\Otto\Model\Order\ItemFactory $itemFactory,
@@ -61,7 +63,7 @@ class Repository
     public function findByMagentoOrderId(int $id): ?\M2E\Otto\Model\Order
     {
         $order = $this->orderFactory->create();
-        $this->orderResource->load($order, $id, \M2E\Otto\Model\ResourceModel\Order::COLUMN_MAGENTO_ORDER_ID);
+        $this->orderResource->load($order, $id, OrderResource::COLUMN_MAGENTO_ORDER_ID);
 
         if ($order->isObjectNew()) {
             return null;
@@ -92,7 +94,7 @@ class Repository
     {
         $orderCollection = $this->orderCollectionFactory->create();
         $orderCollection->addFieldToFilter(
-            \M2E\Otto\Model\ResourceModel\Order::COLUMN_ACCOUNT_ID,
+            OrderResource::COLUMN_ACCOUNT_ID,
             $accountId
         );
         $orderCollection->getSelect()
@@ -113,7 +115,7 @@ class Repository
     {
         $orderCollection = $this->orderCollectionFactory->create();
         $orderCollection->addFieldToFilter(
-            \M2E\Otto\Model\ResourceModel\Order::COLUMN_ACCOUNT_ID,
+            OrderResource::COLUMN_ACCOUNT_ID,
             $accountId
         );
         $orderCollection->getSelect()
@@ -134,7 +136,7 @@ class Repository
     {
         $orderCollection = $this->orderCollectionFactory->create();
         $orderCollection->addFieldToFilter(
-            \M2E\Otto\Model\ResourceModel\Order::COLUMN_ACCOUNT_ID,
+            OrderResource::COLUMN_ACCOUNT_ID,
             $accountId
         );
         $orderCollection->getSelect()
@@ -188,25 +190,182 @@ class Repository
         int $creationAttemptsLessThan
     ): array {
         $collection = $this->orderCollectionFactory->create();
-        $collection->addFieldToFilter(\M2E\Otto\Model\ResourceModel\Order::COLUMN_ACCOUNT_ID, $account->getId());
-        $collection->addFieldToFilter(\M2E\Otto\Model\ResourceModel\Order::COLUMN_MAGENTO_ORDER_ID, ['null' => true]);
+        $collection->addFieldToFilter(OrderResource::COLUMN_ACCOUNT_ID, $account->getId());
+        $collection->addFieldToFilter(OrderResource::COLUMN_MAGENTO_ORDER_ID, ['null' => true]);
         $collection->addFieldToFilter(
-            \M2E\Otto\Model\ResourceModel\Order::COLUMN_MAGENTO_ORDER_CREATION_FAILURE,
+            OrderResource::COLUMN_MAGENTO_ORDER_CREATION_FAILURE,
             \M2E\Otto\Model\Order::MAGENTO_ORDER_CREATION_FAILED_YES,
         );
         $collection->addFieldToFilter(
-            \M2E\Otto\Model\ResourceModel\Order::COLUMN_MAGENTO_ORDER_CREATION_FAILS_COUNT,
+            OrderResource::COLUMN_MAGENTO_ORDER_CREATION_FAILS_COUNT,
             ['lt' => $creationAttemptsLessThan],
         );
         $collection->addFieldToFilter(
-            \M2E\Otto\Model\ResourceModel\Order::COLUMN_MAGENTO_ORDER_CREATION_LATEST_ATTEMPT_DATE,
+            OrderResource::COLUMN_MAGENTO_ORDER_CREATION_LATEST_ATTEMPT_DATE,
             ['lt' => $borderDate->format('Y-m-d H:i:s')],
         );
         $collection->getSelect()->order(
-            \M2E\Otto\Model\ResourceModel\Order::COLUMN_MAGENTO_ORDER_CREATION_LATEST_ATTEMPT_DATE . ' ASC'
+            OrderResource::COLUMN_MAGENTO_ORDER_CREATION_LATEST_ATTEMPT_DATE . ' ASC'
         );
         $collection->setPageSize(25);
 
         return $collection->getItems();
+    }
+
+    public function getUnshippedCountForRange(
+        \DateTimeInterface $from,
+        \DateTimeInterface $to
+    ): int {
+        $collection = $this->orderCollectionFactory->create();
+        $collection->addFieldToFilter(OrderResource::COLUMN_SHIPPING_DATE_TO, ['notnull' => true]);
+        $collection->addFieldToFilter(OrderResource::COLUMN_SHIPPING_DATE_TO, [
+            'from' => $from->format('Y-m-d H:i:s'),
+            'to'   => $to->format('Y-m-d H:i:s'),
+        ]);
+        $collection->addFieldToFilter(
+            OrderResource::COLUMN_ORDER_STATUS,
+            \M2E\Otto\Model\Order::STATUS_UNSHIPPED
+        );
+
+        return (int)$collection->getSize();
+    }
+
+    public function getLateUnshippedCount(): int
+    {
+        $currentDate = \M2E\Core\Helper\Date::createCurrentGmt();
+
+        $collection = $this->orderCollectionFactory->create();
+        $collection->addFieldToFilter(OrderResource::COLUMN_SHIPPING_DATE_TO, ['notnull' => true]);
+        $collection->addFieldToFilter(
+            OrderResource::COLUMN_SHIPPING_DATE_TO,
+            ['lt' => $currentDate->format('Y-m-d H:i:s')]
+        );
+
+        $collection->addFieldToFilter(
+            OrderResource::COLUMN_ORDER_STATUS,
+            \M2E\Otto\Model\Order::STATUS_UNSHIPPED
+        );
+
+        return (int)$collection->getSize();
+    }
+
+    public function getUnshippedCountFrom(\DateTimeInterface $from): int
+    {
+        $collection = $this->orderCollectionFactory->create();
+        $collection->addFieldToFilter(OrderResource::COLUMN_SHIPPING_DATE_TO, ['notnull' => true]);
+        $collection->addFieldToFilter(
+            OrderResource::COLUMN_SHIPPING_DATE_TO,
+            ['gteq' => $from->format('Y-m-d H:i:s')]
+        );
+
+        $collection->addFieldToFilter(
+            OrderResource::COLUMN_ORDER_STATUS,
+            \M2E\Otto\Model\Order::STATUS_UNSHIPPED
+        );
+
+        return (int)$collection->getSize();
+    }
+
+    /**
+     * @return \M2E\Core\Model\Dashboard\Sales\Point[]
+     */
+    public function getAmountPoints(
+        \DateTimeInterface $from,
+        \DateTimeInterface $to,
+        bool $isHourlyInterval
+    ): array {
+        return $this->getPoints('SUM(paid_amount)', $from, $to, $isHourlyInterval);
+    }
+
+    /**
+     * @return \M2E\Core\Model\Dashboard\Sales\Point[]
+     */
+    public function getQuantityPoints(
+        \DateTimeInterface $from,
+        \DateTimeInterface $to,
+        bool $isHourlyInterval
+    ): array {
+        return $this->getPoints('COUNT(*)', $from, $to, $isHourlyInterval);
+    }
+
+    /**
+     * @return \M2E\Core\Model\Dashboard\Sales\Point[]
+     */
+    private function getPoints(
+        string $valueColumn,
+        \DateTimeInterface $from,
+        \DateTimeInterface $to,
+        bool $isHourlyInterval
+    ): array {
+        $collection = $this->orderCollectionFactory->create();
+
+        $collection->addFieldToFilter(OrderResource::COLUMN_ORDER_STATUS, ['in' => [
+            \M2E\Otto\Model\Order::STATUS_UNSHIPPED,
+            \M2E\Otto\Model\Order::STATUS_SHIPPED,
+            \M2E\Otto\Model\Order::STATUS_SHIPPED_PARTIALLY
+        ]]);
+        $collection->addFieldToFilter(OrderResource::COLUMN_PURCHASE_CREATE_DATE, [
+            'from' => $from->format('Y-m-d H:i:s'),
+            'to'   => $to->format('Y-m-d H:i:s')
+        ]);
+
+        $select = $collection->getSelect();
+        $select->reset('columns');
+        $select->columns(
+            [
+                sprintf(
+                    'DATE_FORMAT(%s, "%s") AS date',
+                    OrderResource::COLUMN_PURCHASE_CREATE_DATE,
+                    $isHourlyInterval ? '%Y-%m-%d %H' : '%Y-%m-%d'
+                ),
+                sprintf('%s AS value', $valueColumn),
+            ]
+        );
+
+        if ($isHourlyInterval) {
+            $select->group(sprintf('HOUR(main_table.%s)', OrderResource::COLUMN_PURCHASE_CREATE_DATE));
+        }
+        $select->group(sprintf('DAY(main_table.%s)', OrderResource::COLUMN_PURCHASE_CREATE_DATE));
+        $select->order('date');
+
+        $queryData = $select->query()->fetchAll();
+
+        $keyValueData = array_combine(
+            array_column($queryData, 'date'),
+            array_column($queryData, 'value')
+        );
+
+        return $this->makePoint($keyValueData, $from, $to, $isHourlyInterval);
+    }
+
+    /**
+     * @return \M2E\Core\Model\Dashboard\Sales\Point[]
+     */
+    private function makePoint(
+        array $data,
+        \DateTimeInterface $from,
+        \DateTimeInterface $to,
+        bool $isHourlyInterval
+    ): array {
+        $intervalFormat = $isHourlyInterval ? 'PT1H' : 'P1D';
+        $dateFormat = $isHourlyInterval ? 'Y-m-d H' : 'Y-m-d';
+
+        $period = new \DatePeriod(
+            $from,
+            new \DateInterval($intervalFormat),
+            $to
+        );
+
+        $points = [];
+        foreach ($period as $value) {
+            $pointValue = (float)($data[$value->format($dateFormat)] ?? 0);
+            $pointDate = clone $value;
+            $points[] = new \M2E\Core\Model\Dashboard\Sales\Point(
+                $pointValue,
+                $pointDate
+            );
+        }
+
+        return $points;
     }
 }

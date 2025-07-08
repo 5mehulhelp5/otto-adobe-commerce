@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace M2E\Otto\Model\ResourceModel;
 
-use M2E\Otto\Model\ResourceModel\ActiveRecord;
-
 class Listing extends ActiveRecord\AbstractModel
 {
     public const COLUMN_ID = 'id';

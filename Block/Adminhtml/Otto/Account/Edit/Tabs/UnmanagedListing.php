@@ -17,7 +17,7 @@ class UnmanagedListing extends AbstractForm
         \M2E\Otto\Block\Adminhtml\Magento\Context\Template $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
-        \M2E\Otto\Model\Account $account = null,
+        ?\M2E\Otto\Model\Account $account = null,
         array $data = []
     ) {
         $this->magentoAttributeHelper = $magentoAttributeHelper;

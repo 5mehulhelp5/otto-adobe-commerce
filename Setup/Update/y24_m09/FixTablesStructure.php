@@ -44,10 +44,10 @@ class FixTablesStructure extends \M2E\Core\Model\Setup\Upgrade\Entity\AbstractFe
             \M2E\Otto\Model\ResourceModel\Product::COLUMN_OTTO_PRODUCT_SKU,
             false
         );
-        $modifier->addIndex(ProductResource::COLUMN_TEMPLATE_DESCRIPTION_MODE, false);
-        $modifier->addIndex(ProductResource::COLUMN_TEMPLATE_DESCRIPTION_ID, false);
-        $modifier->addIndex(ProductResource::COLUMN_TEMPLATE_SHIPPING_MODE, false);
-        $modifier->addIndex(ProductResource::COLUMN_TEMPLATE_SHIPPING_ID, false);
+        $modifier->addIndex('template_description_mode', false);
+        $modifier->addIndex('template_description_id', false);
+        $modifier->addIndex('template_shipping_mode', false);
+        $modifier->addIndex('template_shipping_id', false);
         $modifier->commit();
 
         $modifier = $this->createTableModifier(Tables::TABLE_NAME_PRODUCT_LOCK);

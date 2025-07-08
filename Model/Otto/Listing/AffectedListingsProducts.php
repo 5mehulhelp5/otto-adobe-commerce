@@ -23,31 +23,6 @@ class AffectedListingsProducts extends \M2E\Otto\Model\Template\AffectedListings
             $this->getModel()->getId()
         );
 
-        if (isset($filters['template'])) {
-            $template = $filters['template'];
-
-            if ($template === \M2E\Otto\Model\Otto\Template\Manager::TEMPLATE_SELLING_FORMAT) {
-                $collection->addFieldToFilter(
-                    \M2E\Otto\Model\ResourceModel\Product::COLUMN_TEMPLATE_SELLING_FORMAT_MODE,
-                    ['eq' => \M2E\Otto\Model\Otto\Template\Manager::MODE_PARENT]
-                );
-            }
-
-            if ($template === \M2E\Otto\Model\Otto\Template\Manager::TEMPLATE_DESCRIPTION) {
-                $collection->addFieldToFilter(
-                    \M2E\Otto\Model\ResourceModel\Product::COLUMN_TEMPLATE_DESCRIPTION_MODE,
-                    ['eq' => \M2E\Otto\Model\Otto\Template\Manager::MODE_PARENT]
-                );
-            }
-
-            if ($template === \M2E\Otto\Model\Otto\Template\Manager::TEMPLATE_SYNCHRONIZATION) {
-                $collection->addFieldToFilter(
-                    \M2E\Otto\Model\ResourceModel\Product::COLUMN_TEMPLATE_SYNCHRONIZATION_MODE,
-                    ['eq' => \M2E\Otto\Model\Otto\Template\Manager::MODE_PARENT]
-                );
-            }
-        }
-
         return $collection;
     }
 }

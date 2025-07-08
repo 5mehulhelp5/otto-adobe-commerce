@@ -29,7 +29,10 @@ abstract class AffectedListingsProductsAbstract extends \M2E\Otto\Model\Template
         $collection = $this->listingProductCollectionFactory->create();
         $collection->joinInner(
             ['listing' => $this->listingResource->getMainTable()],
-            'listing_id = listing.id',
+            sprintf(
+                'listing_id = `listing`.`%s`',
+                \M2E\Otto\Model\ResourceModel\Listing::COLUMN_ID
+            ),
             []
         );
 
@@ -38,62 +41,25 @@ abstract class AffectedListingsProductsAbstract extends \M2E\Otto\Model\Template
             $this->getModel()->getId()
         );
 
-        $collection->getSelect()->orWhere(
-            sprintf(
-                '`main_table`.`%s` IN(?) AND `main_table`.`%s` = %s',
-                $this->columnTemplateMode(),
-                $this->columnTemplateId(),
-                $this->getModel()->getId()
-            ),
-            [
-                \M2E\Otto\Model\Otto\Template\Manager::MODE_CUSTOM,
-                \M2E\Otto\Model\Otto\Template\Manager::MODE_TEMPLATE,
-            ]
-        );
-
         return $collection;
-    }
-
-    /**
-     * @throws \M2E\Otto\Model\Exception\Logic
-     */
-    private function columnTemplateMode(): string
-    {
-        if ($this->getTemplateNick() === \M2E\Otto\Model\Otto\Template\Manager::TEMPLATE_DESCRIPTION) {
-            return \M2E\Otto\Model\ResourceModel\Product::COLUMN_TEMPLATE_DESCRIPTION_MODE;
-        }
-
-        if ($this->getTemplateNick() === \M2E\Otto\Model\Otto\Template\Manager::TEMPLATE_SELLING_FORMAT) {
-            return \M2E\Otto\Model\ResourceModel\Product::COLUMN_TEMPLATE_SELLING_FORMAT_MODE;
-        }
-
-        if ($this->getTemplateNick() === \M2E\Otto\Model\Otto\Template\Manager::TEMPLATE_SYNCHRONIZATION) {
-            return \M2E\Otto\Model\ResourceModel\Product::COLUMN_TEMPLATE_SYNCHRONIZATION_MODE;
-        }
-
-        if ($this->getTemplateNick() === \M2E\Otto\Model\Otto\Template\Manager::TEMPLATE_SHIPPING) {
-            return \M2E\Otto\Model\ResourceModel\Product::COLUMN_TEMPLATE_SHIPPING_MODE;
-        }
-
-        throw new \M2E\Otto\Model\Exception\Logic('Unknown template ' . $this->getTemplateNick());
     }
 
     private function columnTemplateId(): string
     {
         if ($this->getTemplateNick() === \M2E\Otto\Model\Otto\Template\Manager::TEMPLATE_DESCRIPTION) {
-            return \M2E\Otto\Model\ResourceModel\Product::COLUMN_TEMPLATE_DESCRIPTION_ID;
+            return \M2E\Otto\Model\ResourceModel\Listing::COLUMN_TEMPLATE_DESCRIPTION_ID;
         }
 
         if ($this->getTemplateNick() === \M2E\Otto\Model\Otto\Template\Manager::TEMPLATE_SELLING_FORMAT) {
-            return \M2E\Otto\Model\ResourceModel\Product::COLUMN_TEMPLATE_SELLING_FORMAT_ID;
+            return \M2E\Otto\Model\ResourceModel\Listing::COLUMN_TEMPLATE_SELLING_FORMAT_ID;
         }
 
         if ($this->getTemplateNick() === \M2E\Otto\Model\Otto\Template\Manager::TEMPLATE_SYNCHRONIZATION) {
-            return \M2E\Otto\Model\ResourceModel\Product::COLUMN_TEMPLATE_SYNCHRONIZATION_ID;
+            return \M2E\Otto\Model\ResourceModel\Listing::COLUMN_TEMPLATE_SYNCHRONIZATION_ID;
         }
 
         if ($this->getTemplateNick() === \M2E\Otto\Model\Otto\Template\Manager::TEMPLATE_SHIPPING) {
-            return \M2E\Otto\Model\ResourceModel\Product::COLUMN_TEMPLATE_SHIPPING_ID;
+            return \M2E\Otto\Model\ResourceModel\Listing::COLUMN_TEMPLATE_SHIPPING_ID;
         }
 
         throw new \M2E\Otto\Model\Exception\Logic('Unknown template ' . $this->getTemplateNick());

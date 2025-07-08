@@ -30,25 +30,19 @@ abstract class AbstractPlugin
     protected function canExecute(): bool
     {
         /** @var \M2E\Core\Helper\Magento $helper */
-        $magentoHelper = \Magento\Framework\App\ObjectManager::getInstance()->get(
-            \M2E\Core\Helper\Magento::class
-        );
+        $magentoHelper = $this->getService(\M2E\Core\Helper\Magento::class);
         if ($magentoHelper->isInstalled() === false) {
             return false;
         }
 
         /** @var \M2E\Otto\Helper\Module\Maintenance $maintenanceHelper */
-        $maintenanceHelper = \Magento\Framework\App\ObjectManager::getInstance()->get(
-            \M2E\Otto\Helper\Module\Maintenance::class
-        );
+        $maintenanceHelper = $this->getService(\M2E\Otto\Helper\Module\Maintenance::class);
         if ($maintenanceHelper->isEnabled()) {
             return false;
         }
 
         /** @var \M2E\Otto\Helper\Module $moduleHelper */
-        $moduleHelper = \Magento\Framework\App\ObjectManager::getInstance()->get(
-            \M2E\Otto\Helper\Module::class
-        );
+        $moduleHelper = $this->getService(\M2E\Otto\Helper\Module::class);
 
         if (!$moduleHelper->isReadyToWork()) {
             return false;
@@ -59,5 +53,18 @@ abstract class AbstractPlugin
         }
 
         return true;
+    }
+
+    protected function isModuleTablesExist(): bool
+    {
+        /** @var \M2E\Otto\Model\Module $module */
+        $module = $this->getService(\M2E\Otto\Model\Module::class);
+
+        return $module->areImportantTablesExist();
+    }
+
+    private function getService(string $name): object
+    {
+        return \Magento\Framework\App\ObjectManager::getInstance()->get($name);
     }
 }

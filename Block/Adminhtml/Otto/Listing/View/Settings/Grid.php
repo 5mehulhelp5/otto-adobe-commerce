@@ -2,14 +2,8 @@
 
 namespace M2E\Otto\Block\Adminhtml\Otto\Listing\View\Settings;
 
-use M2E\Otto\Block\Adminhtml\Otto\Listing\View\Settings\Grid\Column\Filter\PolicySettings
-    as PolicySettingsFilter;
 use M2E\Otto\Model\ResourceModel\Product as ListingProductResource;
-use M2E\Otto\Model\ResourceModel\Template\Description as DescriptionResource;
-use M2E\Otto\Model\ResourceModel\Template\SellingFormat as SellingFormatResource;
-use M2E\Otto\Model\ResourceModel\Template\Synchronization as SynchronizationResource;
 use M2E\Otto\Model\ResourceModel\Category as CategoryResource;
-use M2E\Otto\Model\Otto\Template\Manager;
 
 class Grid extends \M2E\Otto\Block\Adminhtml\Listing\View\AbstractGrid
 {
@@ -19,21 +13,9 @@ class Grid extends \M2E\Otto\Block\Adminhtml\Listing\View\AbstractGrid
     private ListingProductResource $listingProductResource;
     private \M2E\Core\Helper\Url $urlHelper;
     private \M2E\Otto\Model\Magento\ProductFactory $magentoProductFactory;
-    private DescriptionResource $descriptionResource;
-    private SellingFormatResource $sellingFormatResource;
-    private SynchronizationResource $synchronizationResource;
-    private \M2E\Otto\Model\Template\Description\Repository $descriptionRepository;
-    private \M2E\Otto\Model\Template\SellingFormat\Repository $sellingFormatRepository;
-    private \M2E\Otto\Model\Template\Synchronization\Repository $synchronizationRepository;
 
     public function __construct(
         CategoryResource $categoryResource,
-        \M2E\Otto\Model\Template\Description\Repository $descriptionRepository,
-        \M2E\Otto\Model\Template\SellingFormat\Repository $sellingFormatRepository,
-        \M2E\Otto\Model\Template\Synchronization\Repository $synchronizationRepository,
-        DescriptionResource $descriptionResource,
-        SellingFormatResource $sellingFormatResource,
-        SynchronizationResource $synchronizationResource,
         \M2E\Otto\Model\Magento\ProductFactory $magentoProductFactory,
         ListingProductResource $listingProductResource,
         \M2E\Otto\Model\ResourceModel\Magento\Product\CollectionFactory $magentoProductCollectionFactory,
@@ -51,12 +33,7 @@ class Grid extends \M2E\Otto\Block\Adminhtml\Listing\View\AbstractGrid
         $this->sessionDataHelper = $sessionDataHelper;
         $this->listingProductResource = $listingProductResource;
         $this->magentoProductFactory = $magentoProductFactory;
-        $this->descriptionResource = $descriptionResource;
-        $this->sellingFormatResource = $sellingFormatResource;
-        $this->synchronizationResource = $synchronizationResource;
-        $this->descriptionRepository = $descriptionRepository;
-        $this->sellingFormatRepository = $sellingFormatRepository;
-        $this->synchronizationRepository = $synchronizationRepository;
+
         parent::__construct(
             $context,
             $backendHelper,
@@ -109,13 +86,6 @@ class Grid extends \M2E\Otto\Block\Adminhtml\Listing\View\AbstractGrid
                 'online_brand_name' => ListingProductResource::COLUMN_ONLINE_BRAND_NAME,
                 'online_brand_id' => ListingProductResource::COLUMN_ONLINE_BRAND_ID,
                 'template_category_id' => ListingProductResource::COLUMN_TEMPLATE_CATEGORY_ID,
-                'template_description_mode' => ListingProductResource::COLUMN_TEMPLATE_DESCRIPTION_MODE,
-                'template_selling_format_mode' => ListingProductResource::COLUMN_TEMPLATE_SELLING_FORMAT_MODE,
-                'template_synchronization_mode' => ListingProductResource::COLUMN_TEMPLATE_SYNCHRONIZATION_MODE,
-                'template_description_id' => ListingProductResource::COLUMN_TEMPLATE_DESCRIPTION_ID,
-                'template_selling_format_id' => ListingProductResource::COLUMN_TEMPLATE_SELLING_FORMAT_ID,
-                'template_synchronization_id' => ListingProductResource::COLUMN_TEMPLATE_SYNCHRONIZATION_ID,
-                'template_shipping_id' => ListingProductResource::COLUMN_TEMPLATE_SHIPPING_ID,
             ],
             sprintf(
                 '{{table}}.%s = %s',
@@ -124,34 +94,8 @@ class Grid extends \M2E\Otto\Block\Adminhtml\Listing\View\AbstractGrid
             )
         );
 
-        $templateDescriptionTableName = $this->descriptionResource->getMainTable();
-        $templateSellingFormatTableName = $this->sellingFormatResource->getMainTable();
-        $templateSynchronizationTableName = $this->synchronizationResource->getMainTable();
         $categoryTableName = $this->categoryResource->getMainTable();
         $collection
-            ->joinTable(
-                ['td' => $templateDescriptionTableName],
-                sprintf('%s = template_description_id', DescriptionResource::COLUMN_ID),
-                [
-                    'description_policy_title' => DescriptionResource::COLUMN_TITLE,
-                ],
-                null,
-                'left'
-            )
-            ->joinTable(
-                ['tsf' => $templateSellingFormatTableName],
-                sprintf('%s = template_selling_format_id', SellingFormatResource::COLUMN_ID),
-                ['selling_policy_title' => SellingFormatResource::COLUMN_TITLE],
-                null,
-                'left'
-            )
-            ->joinTable(
-                ['ts' => $templateSynchronizationTableName],
-                sprintf('%s = template_synchronization_id', SynchronizationResource::COLUMN_ID),
-                ['synchronization_policy_title' => SynchronizationResource::COLUMN_TITLE],
-                null,
-                'left'
-            )
             ->joinTable(
                 ['category' => $categoryTableName],
                 sprintf('%s = template_category_id', CategoryResource::COLUMN_ID),
@@ -202,27 +146,15 @@ class Grid extends \M2E\Otto\Block\Adminhtml\Listing\View\AbstractGrid
         $this->addColumn(
             'category',
             [
-                'header' => __('%channel_title Category', ['channel_title' => \M2E\Otto\Helper\Module::getChannelTitle()]),
+                'header' => __(
+                    '%channel_title Category',
+                    ['channel_title' => \M2E\Otto\Helper\Module::getChannelTitle()]
+                ),
                 'align' => 'left',
                 'width' => '200px',
                 'type' => 'text',
                 'frame_callback' => [$this, 'callbackColumnCategory'],
                 'filter_condition_callback' => [$this, 'callbackFilterCategory'],
-            ]
-        );
-
-        $this->addColumn(
-            'setting',
-            [
-                'index' => 'name',
-                'header' => __('Listing Policies Overrides'),
-                'align' => 'left',
-                'type' => 'text',
-                'sortable' => false,
-                'filter' => PolicySettingsFilter::class,
-                'frame_callback' => [$this, 'callbackColumnSetting'],
-                'filter_condition_callback' => [$this, 'callbackFilterSetting'],
-                'column_css_class' => 'listing-grid-column-setting',
             ]
         );
 
@@ -294,65 +226,6 @@ class Grid extends \M2E\Otto\Block\Adminhtml\Listing\View\AbstractGrid
 HTML;
     }
 
-    public function callbackColumnSetting($value, $row, $column, $isExport): string
-    {
-        $templatesNames = [
-            Manager::TEMPLATE_SELLING_FORMAT => __('Selling'),
-            Manager::TEMPLATE_DESCRIPTION => __('Description'),
-            Manager::TEMPLATE_SYNCHRONIZATION => __('Synchronization'),
-        ];
-
-        $modes = array_keys($templatesNames);
-        $listingSettings = array_filter($modes, function ($templateNick) use ($row) {
-            $templateMode = $row->getData('template_' . $templateNick . '_mode');
-
-            return $templateMode == Manager::MODE_PARENT;
-        });
-
-        if (count($listingSettings) === count($templatesNames)) {
-            return __('Use from Listing Settings');
-        }
-
-        $html = '';
-        foreach ($templatesNames as $templateNick => $templateTitle) {
-            $templateMode = $row->getData('template_' . $templateNick . '_mode');
-
-            if ($templateMode == Manager::MODE_PARENT) {
-                continue;
-            }
-
-            $templateLink = '';
-            if ($templateMode == Manager::MODE_CUSTOM) {
-                $templateLink = '<span>' . __('Custom Settings') . '</span>';
-            } elseif ($templateMode == Manager::MODE_TEMPLATE) {
-                $id = (int)$row->getData('template_' . $templateNick . '_id');
-
-                $url = $this->getUrl('*/otto_template/edit', [
-                    'id' => $id,
-                    'nick' => $templateNick,
-                ]);
-
-                $objTitle = '';
-                if ($templateNick === Manager::TEMPLATE_SELLING_FORMAT) {
-                    $objTitle = $this->sellingFormatRepository->get($id)->getTitle();
-                } elseif ($templateNick === Manager::TEMPLATE_DESCRIPTION) {
-                    $objTitle = $this->descriptionRepository->get($id)->getTitle();
-                } else {
-                    $objTitle = $this->synchronizationRepository->get($id)->getTitle();
-                }
-
-                $templateLink = '<a href="' . $url . '" target="_blank">' . $objTitle . '</a>';
-            }
-
-            $html .= "<div style='padding: 2px 0 0 0px'>
-                                    <strong>$templateTitle:</strong>
-                                    <span style='padding: 0 0px 0 5px'>$templateLink</span>
-                               </div>";
-        }
-
-        return $html;
-    }
-
     public function callbackFilterTitle($collection, $column)
     {
         $inputValue = $column->getFilter()->getValue();
@@ -372,71 +245,6 @@ HTML;
         $filter = $column->getFilter();
         if ($value = $filter->getValue()) {
             $collection->getSelect()->where('online_category LIKE ?', '%' . $value . '%');
-        }
-    }
-
-    public function callbackFilterSetting($collection, $column)
-    {
-        $value = $column->getFilter()->getValue();
-        $inputValue = null;
-
-        if (is_array($value) && isset($value['input'])) {
-            $inputValue = $value['input'];
-        } elseif (is_string($value)) {
-            $inputValue = $value;
-        }
-
-        if ($inputValue !== null) {
-            /** @var \M2E\Otto\Model\ResourceModel\Magento\Product\Collection $collection */
-            $collection->addAttributeToFilter(
-                [
-                    ['attribute' => 'description_policy_title', 'like' => '%' . $inputValue . '%'],
-                    ['attribute' => 'selling_policy_title', 'like' => '%' . $inputValue . '%'],
-                    ['attribute' => 'synchronization_policy_title', 'like' => '%' . $inputValue . '%'],
-                ]
-            );
-        }
-
-        if (isset($value['select'])) {
-            switch ($value['select']) {
-                case Manager::MODE_PARENT:
-                    // no policy overrides
-
-                    $collection->addAttributeToFilter(
-                        'template_description_mode',
-                        ['eq' => Manager::MODE_PARENT]
-                    );
-                    $collection->addAttributeToFilter(
-                        'template_selling_format_mode',
-                        ['eq' => Manager::MODE_PARENT]
-                    );
-                    $collection->addAttributeToFilter(
-                        'template_synchronization_mode',
-                        ['eq' => Manager::MODE_PARENT]
-                    );
-                    break;
-                case Manager::MODE_TEMPLATE:
-                case Manager::MODE_CUSTOM:
-                    // policy templates and custom settings
-                    $collection->addAttributeToFilter(
-                        [
-
-                            [
-                                'attribute' => 'template_description_mode',
-                                'eq' => (int)$value['select'],
-                            ],
-                            [
-                                'attribute' => 'template_selling_format_mode',
-                                'eq' => (int)$value['select'],
-                            ],
-                            [
-                                'attribute' => 'template_synchronization_mode',
-                                'eq' => (int)$value['select'],
-                            ],
-                        ]
-                    );
-                    break;
-            }
         }
     }
 
@@ -490,8 +298,6 @@ JS
             \M2E\Otto\Helper\Data::getClassConstants(\M2E\Otto\Model\Otto\Template\Manager::class)
         );
         // ---------------------------------------
-
-        // ---------------------------------------
         $this->jsUrl->addUrls($helper->getControllerActions('Otto\Listing', ['_current' => true]));
 
         $this->jsUrl->add(
@@ -523,18 +329,9 @@ JS
             'listing_product_category_settings/edit'
         );
 
-        $this->jsUrl->add(
-            $this->getUrl('*/otto_template/editListingProductsPolicy'),
-            'otto_template/editListingProductsPolicy'
-        );
-        $this->jsUrl->add(
-            $this->getUrl('*/otto_template/saveListingProductsPolicy'),
-            'otto_template/saveListingProductsPolicy'
-        );
-
         //------------------------------
+        //todo: check translates
         $this->jsTranslator->addTranslations([
-            'Edit Description Policy Setting' => __('Edit Description Policy Setting'),
             'Edit Selling Policy Setting' => __('Edit Selling Policy Setting'),
             'Edit Synchronization Policy Setting' => __('Edit Synchronization Policy Setting'),
             'Edit Settings' => __('Edit Settings'),

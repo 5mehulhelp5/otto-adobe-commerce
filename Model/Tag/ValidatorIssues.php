@@ -19,6 +19,8 @@ class ValidatorIssues
     public const ERROR_DUPLICATE_SKU_IN_LISTING = '0009-m2e';
     public const ERROR_HANDLING_TIME_OUT_OF_RANGE = '0010-m2e';
     public const ERROR_HANDLING_TIME_INVALID = '0011-m2e';
+    public const ERROR_ZERO_QTY = '0012-m2e';
+    public const ERROR_QUANTITY_POLICY_CONTRADICTION = '0015-m2e';
 
     public function mapByCode(string $code): ?\M2E\Otto\Model\Otto\Listing\Product\Action\Validator\ValidatorMessage
     {
@@ -34,6 +36,8 @@ class ValidatorIssues
             self::ERROR_DUPLICATE_SKU_IN_LISTING => (string)__('Product with the same SKU already exists in another Listing.'),
             self::ERROR_HANDLING_TIME_OUT_OF_RANGE => (string)__('Handling Time must be positive whole number less than 1000.'),
             self::ERROR_HANDLING_TIME_INVALID => (string)__('Handling Time is missing or invalid.'),
+            self::ERROR_ZERO_QTY => (string)__('The Product Quantity must be greater than 0.'),
+            self::ERROR_QUANTITY_POLICY_CONTRADICTION => (string)__('You\'re submitting an item with QTY contradicting the QTY settings in your Selling Policy.'),
         ];
 
         if (!isset($map[$code])) {

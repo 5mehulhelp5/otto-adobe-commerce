@@ -27,7 +27,7 @@ class AddBrandTable extends \M2E\Core\Model\Setup\Upgrade\Entity\AbstractFeature
                     'nullable' => false,
                     'auto_increment' => true,
                 ]
-        )
+            )
             ->addColumn(
                 BrandResource::COLUMN_BRAND_ID,
                 Table::TYPE_TEXT,

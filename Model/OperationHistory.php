@@ -61,7 +61,7 @@ class OperationHistory extends \M2E\Otto\Model\ActiveRecord\AbstractModel
         return $this->object;
     }
 
-    public function getParentObject(string $nick = null): ?self
+    public function getParentObject(?string $nick = null): ?self
     {
         if ($this->getObject()->getData('parent_id') === null) {
             return null;

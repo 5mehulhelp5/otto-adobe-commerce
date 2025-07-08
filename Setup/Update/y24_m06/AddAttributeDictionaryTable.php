@@ -27,7 +27,7 @@ class AddAttributeDictionaryTable extends \M2E\Core\Model\Setup\Upgrade\Entity\A
                     'nullable' => false,
                     'auto_increment' => true,
                 ]
-        )
+            )
             ->addColumn(
                 AttributeDictionaryResource::COLUMN_CATEGORY_GROUP_ID,
                 Table::TYPE_TEXT,

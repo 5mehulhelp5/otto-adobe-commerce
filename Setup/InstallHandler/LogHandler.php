@@ -363,5 +363,4 @@ class LogHandler implements \M2E\Core\Model\Setup\InstallHandlerInterface
 
         $setup->getConnection()->createTable($table);
     }
-
 }

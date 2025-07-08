@@ -10,7 +10,7 @@ class SystemError extends \M2E\Otto\Model\Exception
 
     public function __construct(
         string $message = '',
-        \M2E\Core\Model\Connector\Response\MessageCollection $messageCollection = null,
+        ?\M2E\Core\Model\Connector\Response\MessageCollection $messageCollection = null,
         array $additionalData = [],
         int $code = 0
     ) {

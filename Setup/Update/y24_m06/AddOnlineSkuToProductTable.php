@@ -9,7 +9,6 @@ use Magento\Framework\DB\Ddl\Table;
 
 class AddOnlineSkuToProductTable extends \M2E\Core\Model\Setup\Upgrade\Entity\AbstractFeature
 {
-
     public function execute(): void
     {
         $modifier = $this->createTableModifier(Tables::TABLE_NAME_PRODUCT);

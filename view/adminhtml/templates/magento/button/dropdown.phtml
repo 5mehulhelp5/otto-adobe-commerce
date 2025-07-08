@@ -29,7 +29,7 @@ echo $block->getAttributesHtml(); ?>>
         <?php
         if (!$block->getDisabled()): ?>
             <ul class="dropdown-menu" <?php
-            /* @escapeNotVerified */
+            /* @noEscape */
             echo $block->getUiId("dropdown-menu"); ?>>
                 <?php
                 foreach ($block->getOptions() as $key => $option): ?>
@@ -42,7 +42,7 @@ echo $block->getAttributesHtml(); ?>>
                         <?php
                         if (isset($option['hint'])): ?>
                             <div class="tooltip" <?php
-                            /* @escapeNotVerified */
+                            /* @noEscape */
                             echo $block->getUiId('item', $key, 'tooltip'); ?>>
                                 <a href="<?php
                                 echo $block->escapeHtml($option['hint']['href']) ?>" class="help">

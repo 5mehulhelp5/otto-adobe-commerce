@@ -10,6 +10,11 @@
         <add id="M2E_Otto::otto" title="Otto" module="M2E_Otto" sortOrder="35"
              dependsOnModule="M2E_Otto" resource="M2E_Otto::otto"/>
 
+        <!-- Dashboard -->
+
+        <add id="M2E_Otto::overview" module="M2E_Otto" sortOrder="5" parent="M2E_Otto::otto" title="Overview" resource="M2E_Otto::otto"/>
+        <add id="M2E_Otto::otto_dashboard" title="Dashboard" module="M2E_Otto" sortOrder="10" parent="M2E_Otto::overview" action="m2e_otto/dashboard/index" resource="M2E_Otto::otto"/>
+
         <!-- Listing -->
 
         <add id="M2E_Otto::listings" module="M2E_Otto" sortOrder="10" parent="M2E_Otto::otto"

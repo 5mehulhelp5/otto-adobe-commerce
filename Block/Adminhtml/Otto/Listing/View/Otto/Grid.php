@@ -131,7 +131,7 @@ class Grid extends \M2E\Otto\Block\Adminhtml\Listing\View\AbstractGrid
         ]);
 
         $this->addColumn('otto_product_sku', [
-            'header' => __('%channel_title Product SKU', ['channel_title' => \M2E\Otto\Helper\Module::getChannelTitle()]),
+            'header' => __('Channel SKU'),
             'align' => 'left',
             'width' => '100px',
             'type' => 'text',
@@ -368,7 +368,7 @@ class Grid extends \M2E\Otto\Block\Adminhtml\Listing\View\AbstractGrid
         }
 
         return $this->currency->formatPrice(
-            'EUR',
+            \M2E\Otto\Model\Currency::CURRENCY_EUR,
             (float)$value
         );
     }

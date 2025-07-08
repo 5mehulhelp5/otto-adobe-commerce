@@ -24,8 +24,8 @@ class Account extends \M2E\Otto\Model\ActiveRecord\AbstractModel
         \M2E\Otto\Model\ResourceModel\Listing\CollectionFactory $listingCollectionFactory,
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
-        \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
-        \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null
+        ?\Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
+        ?\Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null
     ) {
         parent::__construct(
             $context,

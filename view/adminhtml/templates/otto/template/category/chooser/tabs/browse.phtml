@@ -30,10 +30,10 @@ require([
      >
     <div class="chooser_input_container">
         <input id="category_search_query" type="text" placeholder="<?=
-        __('Enter category name'); ?>"
+        /* @noEscape */ __('Enter category name'); ?>"
                onkeyup="OttoTemplateCategoryChooserTabsBrowseObj.applySearchFilter();">
         <a onclick="OttoTemplateCategoryChooserTabsBrowseObj.resetSearchFilter()" style="margin-left: 2rem;"><?=
-            __('Reset'); ?></a>
+            /* @noEscape */ __('Reset'); ?></a>
     </div>
 </div>
 
