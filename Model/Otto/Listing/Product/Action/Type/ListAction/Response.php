@@ -68,6 +68,10 @@ class Response extends \M2E\Otto\Model\Otto\Listing\Product\Action\Type\Abstract
             $product->setOttoProductMoin($responseData['products'][0]['moin']);
         }
         $this->productRepository->save($product);
+
+        $this->getLogBuffer()->addWarning(
+            (string)__('Product has been created but is not yet available. Item Status was changed to incomplete.')
+        );
     }
 
     protected function processSuccess(): void

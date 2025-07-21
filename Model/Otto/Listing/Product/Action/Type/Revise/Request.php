@@ -82,6 +82,10 @@ class Request extends \M2E\Otto\Model\Otto\Listing\Product\Action\AbstractReques
                 'bullet_points' => $detailsData->bulletPoints,
             ];
 
+            if ($product->getOttoProductMoin() !== null) {
+                $request['details']['moin'] = $product->getOttoProductMoin();
+            }
+
             $this->metadata['details'] = [
                 'brand_name' => $brandName,
                 'brand_id' => $request['details']['brand_id'],

@@ -96,8 +96,10 @@ class RequestData
         return $this->renderHtml($body);
     }
 
-    private function printFormForCalculateAction(string $productMagentoSku = '', string $selectedAction = 'auto'): string
-    {
+    private function printFormForCalculateAction(
+        string $productMagentoSku = '',
+        string $selectedAction = 'auto'
+    ): string {
         $formKey = $this->formKey->getFormKey();
         $actionUrl = $this->url->getUrl('*/*/*', ['action' => 'getRequestData']);
 
@@ -145,33 +147,23 @@ HTML;
         \M2E\Otto\Model\Product $product,
         \M2E\Otto\Model\Product\Action $action
     ): ?string {
-        if ($action->isActionList()) {
-            $calculateAction = 'List';
-            $request = $this->listRequestFactory->create()->getActionData($product, $action->getConfigurator(), []);
-        } elseif ($action->isActionRevise()) {
-            $calculateAction = sprintf(
-                'Revise (Reason (%s))',
-                implode(' | ', $action->getConfigurator()->getAllowedDataTypes()),
-            );
-            $request = $this->reviseRequestFactory->create()->getActionData($product, $action->getConfigurator(), []);
-        } elseif ($action->isActionStop()) {
-            $calculateAction = 'Stop';
-            $request = $this->stopRequestFactory->create()->getActionData($product, $action->getConfigurator(), []);
-        } elseif ($action->isActionRelist()) {
-            $calculateAction = 'Relist';
-            $request = $this->relistRequestFactory->create()->getActionData($product, $action->getConfigurator(), []);
-        } else {
-            $request = null;
-            $calculateAction = 'Nothing action allowed.';
+        $request = $this->getRequestInstanceByAction($action);
+        $calculateAction = $this->getHumanAction($action);
+
+        $requestDataString = 'Nothing action allowed.';
+        $requestMetaDataString = 'Nothing action allowed.';
+
+        if ($request !== null) {
+            $requestData = $request->build(
+                $product,
+                $action->getConfigurator(),
+                new \M2E\Otto\Model\Otto\Listing\Product\Action\LogBuffer(),
+                []
+            )->getData();
+
+            $requestDataString = $this->printCodeBlock($requestData);
+            $requestMetaDataString = $this->printCodeBlock($request->getMetadata());
         }
-
-        $requestData = $request === null
-            ? 'Nothing action allowed.'
-            : $this->printCodeBlock($request);
-
-        $requestMetaData = $request === null
-            ? 'Nothing action allowed.'
-            : $this->printCodeBlock($request);
 
         $currentStatusTitle = \M2E\Otto\Model\Product::getStatusTitle($product->getStatus());
         $productSku = $product->getMagentoProduct()->getSku();
@@ -179,30 +171,12 @@ HTML;
 
         return <<<HTML
 <table>
-    <tr>
-        <td>Listing</td>
-        <td>$listingTitle</td>
-    </tr>
-    <tr>
-        <td>Product (SKU)</td>
-        <td>$productSku</td>
-    </tr>
-    <tr>
-        <td>Current Product Status</td>
-        <td>$currentStatusTitle</td>
-    </tr>
-    <tr>
-        <td>Calculate Action</td>
-        <td>$calculateAction</td>
-    </tr>
-    <tr>
-        <td>Request Data</td>
-        <td>$requestData</td>
-    </tr>
-    <tr>
-        <td>Request MetaData</td>
-        <td>$requestMetaData</td>
-    </tr>
+    <tr><td>Listing</td><td>$listingTitle</td></tr>
+    <tr><td>Product (SKU)</td><td>$productSku</td></tr>
+    <tr><td>Current Product Status</td><td>$currentStatusTitle</td></tr>
+    <tr><td>Calculate Action</td><td>$calculateAction</td></tr>
+    <tr><td>Request Data</td><td>$requestDataString</td></tr>
+    <tr><td>Request MetaData</td><td>$requestMetaDataString</td></tr>
 </table>
 HTML;
     }
@@ -214,7 +188,7 @@ HTML;
             $this->escaper->escapeHtml(
                 json_encode(
                     $data,
-                    JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR,
+                    JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR,
                 ),
                 ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401,
             ),
@@ -292,5 +266,51 @@ HTML;
   <body>$body</body>
 </html>
 HTML;
+    }
+
+    private function getRequestInstanceByAction(
+        \M2E\Otto\Model\Product\Action $action
+    ): ?\M2E\Otto\Model\Otto\Listing\Product\Action\AbstractRequest {
+        if ($action->isActionList()) {
+            return $this->listRequestFactory->create();
+        }
+
+        if ($action->isActionRevise()) {
+            return $this->reviseRequestFactory->create();
+        }
+
+        if ($action->isActionStop()) {
+            return $this->stopRequestFactory->create();
+        }
+
+        if ($action->isActionRelist()) {
+            return $this->relistRequestFactory->create();
+        }
+
+        return null;
+    }
+
+    private function getHumanAction(\M2E\Otto\Model\Product\Action $action): string
+    {
+        if ($action->isActionList()) {
+            return 'List';
+        }
+
+        if ($action->isActionRevise()) {
+            return sprintf(
+                'Revise (Reason (%s))',
+                implode(' | ', $action->getConfigurator()->getAllowedDataTypes()),
+            );
+        }
+
+        if ($action->isActionStop()) {
+            return 'Stop';
+        }
+
+        if ($action->isActionRelist()) {
+            return 'Relist';
+        }
+
+        return 'Nothing action allowed.';
     }
 }

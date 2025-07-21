@@ -58,6 +58,9 @@ class Updater
         );
 
         foreach ($existed as $product) {
+            if (!$collection->has($product->getOttoProductSku())) {
+                continue;
+            }
             $existInListingCollection->add($collection->get($product->getOttoProductSku()));
 
             $collection->remove($product->getOttoProductSKU());

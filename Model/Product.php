@@ -201,7 +201,38 @@ class Product extends \M2E\Otto\Model\ActiveRecord\AbstractModel implements
 
     public function setStatusNotListed(int $changer): self
     {
-        $this->setStatus(self::STATUS_NOT_LISTED, $changer);
+        $this->setStatus(self::STATUS_NOT_LISTED, $changer)
+
+            ->setData(ListingProductResource::COLUMN_OTTO_PRODUCT_SKU, null)
+            ->setData(ListingProductResource::COLUMN_OTTO_PRODUCT_URL, null)
+            ->setData(ListingProductResource::COLUMN_PRODUCT_MOIN, null)
+
+            ->setData(ListingProductResource::COLUMN_ONLINE_EAN, null)
+            ->setData(ListingProductResource::COLUMN_ONLINE_SKU, null)
+            ->setData(ListingProductResource::COLUMN_ONLINE_PRODUCT_REFERENCE, null)
+
+            ->setData(ListingProductResource::COLUMN_ONLINE_TITLE, null)
+            ->setData(ListingProductResource::COLUMN_ONLINE_DESCRIPTION, null)
+            ->setData(ListingProductResource::COLUMN_ONLINE_BRAND_NAME, null)
+            ->setData(ListingProductResource::COLUMN_ONLINE_BRAND_ID, null)
+            ->setData(ListingProductResource::COLUMN_ONLINE_IMAGES_DATA, null)
+
+            ->setData(ListingProductResource::COLUMN_ONLINE_MPN, null)
+            ->setData(ListingProductResource::COLUMN_ONLINE_MANUFACTURER, null)
+
+            ->setData(ListingProductResource::COLUMN_ONLINE_CATEGORY, null)
+            ->setData(ListingProductResource::COLUMN_ONLINE_CATEGORY_ATTRIBUTES_DATA, null)
+
+            ->setData(ListingProductResource::COLUMN_ONLINE_PRICE, null)
+            ->setData(ListingProductResource::COLUMN_ONLINE_QTY, null)
+
+            ->setData(ListingProductResource::COLUMN_ONLINE_DELIVERY_DATA, null)
+            ->setData(ListingProductResource::COLUMN_ONLINE_DELIVERY_TYPE, null)
+            ->setData(ListingProductResource::COLUMN_ONLINE_SHIPPING_PROFILE_ID, null);
+
+        if ($this->isProductIncomplete()) {
+            $this->makeProductComplete();
+        }
 
         return $this;
     }
