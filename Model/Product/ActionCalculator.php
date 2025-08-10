@@ -79,7 +79,10 @@ class ActionCalculator
 
         if (
             $syncPolicy->isListWhenQtyCalculatedHasValue()
-            && !$this->isProductHasCalculatedQtyForListRevise($product, (int)$syncPolicy->getListWhenQtyCalculatedHasValue())
+            && !$this->isProductHasCalculatedQtyForListRevise(
+                $product,
+                (int)$syncPolicy->getListWhenQtyCalculatedHasValue()
+            )
         ) {
             return false;
         }
@@ -219,7 +222,10 @@ class ActionCalculator
 
         if (
             $syncPolicy->isStopWhenQtyCalculatedHasValue()
-            && $this->isProductHasCalculatedQtyForStop($product, (int)$syncPolicy->getStopWhenQtyCalculatedHasValueMin())
+            && $this->isProductHasCalculatedQtyForStop(
+                $product,
+                (int)$syncPolicy->getStopWhenQtyCalculatedHasValueMin()
+            )
         ) {
             return true;
         }
@@ -320,7 +326,26 @@ class ActionCalculator
 
     private function isChangedPrice(\M2E\Otto\Model\Product $product): bool
     {
-        return $product->getOnlineCurrentPrice() !== $product->getDataProvider()->getPrice()->getValue()->price;
+        return $product->getOnlineCurrentPrice() !== $product->getDataProvider()->getPrice()->getValue()->price
+            || $this->isChangedSalePrice($product);
+    }
+
+    private function isChangedSalePrice(\M2E\Otto\Model\Product $product): bool
+    {
+        $salePriceData = $product->getDataProvider()->getSalePrice()->getValue();
+
+        $productData = [
+            'value' => $product->getOnlineSalePrice(),
+            'start_date' => $product->getOnlineSalePriceStartDate(),
+            'end_date' => $product->getOnlineSalePriceEndDate(),
+        ];
+        $policyData = [
+            'value' => $salePriceData === null ? null : $salePriceData->value,
+            'start_date' => $salePriceData === null ? null : $salePriceData->getFormattedStartDate(),
+            'end_date' => $salePriceData === null ? null : $salePriceData->getFormattedEndDate(),
+        ];
+
+        return $productData !== $policyData;
     }
 
     private function updateConfiguratorAddTitle(
@@ -470,7 +495,10 @@ class ActionCalculator
 
         if (
             $syncPolicy->isRelistWhenQtyCalculatedHasValue()
-            && !$this->isProductHasCalculatedQtyForListRevise($product, (int)$syncPolicy->getListWhenQtyCalculatedHasValue())
+            && !$this->isProductHasCalculatedQtyForListRevise(
+                $product,
+                (int)$syncPolicy->getListWhenQtyCalculatedHasValue()
+            )
         ) {
             return false;
         }

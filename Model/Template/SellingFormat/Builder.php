@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace M2E\Otto\Model\Template\SellingFormat;
 
+use M2E\Otto\Model\ResourceModel\Template\SellingFormat as SellingFormatResource;
 use M2E\Otto\Model\Template\SellingFormat as SellingFormat;
 
 class Builder extends \M2E\Otto\Model\Otto\Template\AbstractBuilder
@@ -224,6 +225,62 @@ class Builder extends \M2E\Otto\Model\Otto\Template\AbstractBuilder
             $data['ignore_variations'] = (int)$this->rawData['ignore_variations'];
         }
 
+        if (isset($this->rawData['sale_price_mode'])) {
+            $data[SellingFormatResource::COLUMN_SALE_PRICE_MODE] = (int)$this->rawData['sale_price_mode'];
+        }
+
+        if (isset($this->rawData['sale_price_attribute'])) {
+            $value = $this->rawData['sale_price_attribute'];
+            if (
+                empty($value)
+                || $data[SellingFormatResource::COLUMN_SALE_PRICE_MODE] === SellingFormat::SALE_PRICE_MODE_NONE
+            ) {
+                $value = null;
+            }
+            $data[SellingFormatResource::COLUMN_SALE_PRICE_ATTRIBUTE] = $value;
+        }
+
+        if (isset($this->rawData['sale_price_start_date_mode'])) {
+            $value = (int)$this->rawData['sale_price_start_date_mode'];
+            if ($data[SellingFormatResource::COLUMN_SALE_PRICE_MODE] === SellingFormat::SALE_PRICE_MODE_NONE) {
+                $value = SellingFormat::SALE_PRICE_MODE_NONE;
+            }
+
+            $data[SellingFormatResource::COLUMN_SALE_PRICE_START_DATE_MODE] = $value;
+        }
+
+        if (isset($this->rawData['sale_price_start_date_value'])) {
+            $value = $this->rawData['sale_price_start_date_value'];
+            if (
+                empty($value)
+                || $data[SellingFormatResource::COLUMN_SALE_PRICE_START_DATE_MODE] === SellingFormat::SALE_PRICE_MODE_NONE
+            ) {
+                $value = null;
+            }
+
+            $data[SellingFormatResource::COLUMN_SALE_PRICE_START_DATE_VALUE] = $value;
+        }
+
+        if (isset($this->rawData['sale_price_end_date_mode'])) {
+            $value = (int)$this->rawData['sale_price_end_date_mode'];
+            if ($data[SellingFormatResource::COLUMN_SALE_PRICE_MODE] === SellingFormat::SALE_PRICE_MODE_NONE) {
+                $value = SellingFormat::SALE_PRICE_MODE_NONE;
+            }
+
+            $data[SellingFormatResource::COLUMN_SALE_PRICE_END_DATE_MODE] = $value;
+        }
+
+        if (isset($this->rawData['sale_price_end_date_value'])) {
+            $value = $this->rawData['sale_price_end_date_value'];
+            if (
+                empty($value)
+                || $data[SellingFormatResource::COLUMN_SALE_PRICE_END_DATE_MODE] === SellingFormat::SALE_PRICE_MODE_NONE
+            ) {
+                $value = null;
+            }
+            $data[SellingFormatResource::COLUMN_SALE_PRICE_END_DATE_VALUE] = $value;
+        }
+
         return $data;
     }
 
@@ -260,7 +317,7 @@ class Builder extends \M2E\Otto\Model\Otto\Template\AbstractBuilder
     {
         return [
 
-            'qty_mode' => \M2E\Otto\Model\Template\SellingFormat::QTY_MODE_PRODUCT,
+            'qty_mode' => SellingFormat::QTY_MODE_PRODUCT,
             'qty_custom_value' => 1,
             'qty_custom_attribute' => '',
             'qty_percentage' => 100,
@@ -268,9 +325,16 @@ class Builder extends \M2E\Otto\Model\Otto\Template\AbstractBuilder
             'qty_min_posted_value' => SellingFormat::QTY_MIN_POSTED_DEFAULT_VALUE,
             'qty_max_posted_value' => SellingFormat::QTY_MAX_POSTED_DEFAULT_VALUE,
 
-            'fixed_price_mode' => \M2E\Otto\Model\Template\SellingFormat::PRICE_MODE_PRODUCT,
+            'fixed_price_mode' => SellingFormat::PRICE_MODE_PRODUCT,
             'fixed_price_modifier' => '[]',
             'fixed_price_custom_attribute' => '',
+
+            SellingFormatResource::COLUMN_SALE_PRICE_MODE => SellingFormat::SALE_PRICE_MODE_NONE,
+            SellingFormatResource::COLUMN_SALE_PRICE_ATTRIBUTE => '',
+            SellingFormatResource::COLUMN_SALE_PRICE_START_DATE_MODE => SellingFormat::SALE_PRICE_MODE_NONE,
+            SellingFormatResource::COLUMN_SALE_PRICE_START_DATE_VALUE => '',
+            SellingFormatResource::COLUMN_SALE_PRICE_END_DATE_MODE => SellingFormat::SALE_PRICE_MODE_NONE,
+            SellingFormatResource::COLUMN_SALE_PRICE_END_DATE_VALUE => '',
         ];
     }
 

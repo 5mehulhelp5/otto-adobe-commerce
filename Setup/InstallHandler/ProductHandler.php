@@ -153,6 +153,24 @@ class ProductHandler implements \M2E\Core\Model\Setup\InstallHandlerInterface
                 ['unsigned' => true, 'default' => null]
             )
             ->addColumn(
+                ListingProductResource::COLUMN_ONLINE_SALE_PRICE,
+                Table::TYPE_DECIMAL,
+                [12, 4],
+                ['unsigned' => true, 'default' => null]
+            )
+            ->addColumn(
+                ListingProductResource::COLUMN_ONLINE_SALE_PRICE_START_DATE,
+                Table::TYPE_DATETIME,
+                null,
+                ['default' => null]
+            )
+            ->addColumn(
+                ListingProductResource::COLUMN_ONLINE_SALE_PRICE_END_DATE,
+                Table::TYPE_DATETIME,
+                null,
+                ['default' => null]
+            )
+            ->addColumn(
                 ListingProductResource::COLUMN_ONLINE_CURRENCY,
                 Table::TYPE_TEXT,
                 10

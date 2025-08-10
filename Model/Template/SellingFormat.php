@@ -19,6 +19,9 @@ class SellingFormat extends \M2E\Otto\Model\ActiveRecord\AbstractModel implement
     public const PRICE_MODE_ATTRIBUTE = 3;
     public const PRICE_MODE_TIER = 4;
 
+    public const SALE_PRICE_MODE_NONE = 0;
+    public const SALE_PRICE_MODE_ATTRIBUTE = 1;
+
     public const PRICE_MODIFIER_NONE = 0;
     public const PRICE_MODIFIER_ABSOLUTE_INCREASE = 1;
     public const PRICE_MODIFIER_ABSOLUTE_DECREASE = 2;
@@ -164,6 +167,36 @@ class SellingFormat extends \M2E\Otto\Model\ActiveRecord\AbstractModel implement
         }
 
         return json_decode($modifier, true);
+    }
+
+    public function getSalePriceMode(): int
+    {
+        return (int)$this->getData(SellingFormatResource::COLUMN_SALE_PRICE_MODE);
+    }
+
+    public function getSalePriceAttribute(): string
+    {
+        return (string)$this->getData(SellingFormatResource::COLUMN_SALE_PRICE_ATTRIBUTE);
+    }
+
+    public function getSalePriceStartDateMode(): int
+    {
+        return (int)$this->getData(SellingFormatResource::COLUMN_SALE_PRICE_START_DATE_MODE);
+    }
+
+    public function getSalePriceStartDateAttribute(): string
+    {
+        return (string)$this->getData(SellingFormatResource::COLUMN_SALE_PRICE_START_DATE_VALUE);
+    }
+
+    public function getSalePriceEndDateMode(): int
+    {
+        return (int)$this->getData(SellingFormatResource::COLUMN_SALE_PRICE_END_DATE_MODE);
+    }
+
+    public function getSalePriceEndDateAttribute(): string
+    {
+        return (string)$this->getData(SellingFormatResource::COLUMN_SALE_PRICE_END_DATE_VALUE);
     }
 
     public function getFixedPriceSource(): array

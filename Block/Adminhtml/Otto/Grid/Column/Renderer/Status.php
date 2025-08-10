@@ -208,10 +208,6 @@ HTML;
         $messageCollection = \M2E\Otto\Model\Product::getMessageCollection($marketplaceErrors);
         $tooltipItems = [];
         foreach ($messageCollection->getMessages() as $message) {
-            if (!$message->isWarning()) {
-                continue;
-            }
-
             $codeParts = explode(' - ', $message->getCode(), 2);
             $shortCode = $codeParts[1] ?? $codeParts[0];
             $tooltipItems[] = sprintf('<li><b>%s</b> - %s</li>', $shortCode, $message->getText());

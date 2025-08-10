@@ -113,6 +113,13 @@ class Response extends \M2E\Otto\Model\Otto\Listing\Product\Action\Type\Abstract
             $product->setOttoProductMoin($responseData['products'][0]['moin']);
         }
 
+        if (array_key_exists('sale_price', $requestMetadata)) {
+            $salesPriceMetadata = $requestMetadata['sale_price'];
+            $product->setOnlineSalePrice($salesPriceMetadata['amount'] ?? null);
+            $product->setOnlineSalePriceStartDate($salesPriceMetadata['start_date'] ?? null);
+            $product->setOnlineSalePriceEndDate($salesPriceMetadata['end_date'] ?? null);
+        }
+
         $product
             ->setOnlineQty($requestMetadata[QtyProvider::NICK]['qty'] ?? $requestMetadata['qty'])
             ->setOnlinePrice($requestMetadata[PriceProvider::NICK]['price'] ?? $requestMetadata['price'])

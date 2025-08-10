@@ -19,6 +19,7 @@ class Factory
         EanProvider::NICK => EanProvider::class,
         DetailsProvider::NICK => DetailsProvider::class,
         ProductReference::NICK => ProductReference::class,
+        SalePriceProvider::NICK => SalePriceProvider::class,
     ];
 
     private \Magento\Framework\ObjectManagerInterface $objectManager;

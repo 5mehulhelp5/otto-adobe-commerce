@@ -118,6 +118,42 @@ class PolicyHandler implements \M2E\Core\Model\Setup\InstallHandlerInterface
                 ['nullable' => false]
             )
             ->addColumn(
+                \M2E\Otto\Model\ResourceModel\Template\SellingFormat::COLUMN_SALE_PRICE_MODE,
+                Table::TYPE_SMALLINT,
+                null,
+                ['unsigned' => true, 'nullable' => false]
+            )
+            ->addColumn(
+                \M2E\Otto\Model\ResourceModel\Template\SellingFormat::COLUMN_SALE_PRICE_ATTRIBUTE,
+                Table::TYPE_TEXT,
+                255,
+                ['default' => null]
+            )
+            ->addColumn(
+                \M2E\Otto\Model\ResourceModel\Template\SellingFormat::COLUMN_SALE_PRICE_START_DATE_MODE,
+                Table::TYPE_SMALLINT,
+                null,
+                ['unsigned' => true, 'nullable' => false]
+            )
+            ->addColumn(
+                \M2E\Otto\Model\ResourceModel\Template\SellingFormat::COLUMN_SALE_PRICE_START_DATE_VALUE,
+                Table::TYPE_TEXT,
+                255,
+                ['default' => null]
+            )
+            ->addColumn(
+                \M2E\Otto\Model\ResourceModel\Template\SellingFormat::COLUMN_SALE_PRICE_END_DATE_MODE,
+                Table::TYPE_SMALLINT,
+                null,
+                ['unsigned' => true, 'nullable' => false]
+            )
+            ->addColumn(
+                \M2E\Otto\Model\ResourceModel\Template\SellingFormat::COLUMN_SALE_PRICE_END_DATE_VALUE,
+                Table::TYPE_TEXT,
+                255,
+                ['default' => null]
+            )
+            ->addColumn(
                 SellingFormatResource::COLUMN_UPDATE_DATE,
                 Table::TYPE_DATETIME,
                 null,

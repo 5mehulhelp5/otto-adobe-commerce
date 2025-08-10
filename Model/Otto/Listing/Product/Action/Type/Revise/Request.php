@@ -20,6 +20,7 @@ class Request extends \M2E\Otto\Model\Otto\Listing\Product\Action\AbstractReques
         $dataProvider = $product->getDataProvider();
 
         $priceData = $dataProvider->getPrice()->getValue();
+        $salePriceData = $dataProvider->getSalePrice()->getValue();
 
         $request = [
             'sku' => $product->getOttoProductSKU(),
@@ -27,13 +28,27 @@ class Request extends \M2E\Otto\Model\Otto\Listing\Product\Action\AbstractReques
             'price' => $priceData->price,
             'currency_code' => $priceData->currencyCode,
             'qty' => $dataProvider->getQty()->getValue(),
+            'sale_price' => null,
         ];
 
         $this->metadata = [
             'price' => $request['price'],
             'qty' => $request['qty'],
-
+            'sale_price' => null,
         ];
+
+        if ($salePriceData !== null) {
+            $request['sale_price'] = [
+                'amount' => $salePriceData->value,
+                'start_date' => $salePriceData->getFormattedStartDate(),
+                'end_date' => $salePriceData->getFormattedEndDate(),
+            ];
+            $this->metadata['sale_price'] = [
+                'amount' => $salePriceData->value,
+                'start_date' => $salePriceData->getFormattedStartDate(),
+                'end_date' => $salePriceData->getFormattedEndDate(),
+            ];
+        }
 
         if (
             $actionConfigurator->isDetailsAllowed()

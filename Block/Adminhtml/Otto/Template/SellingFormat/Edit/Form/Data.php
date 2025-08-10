@@ -62,6 +62,7 @@ class Data extends AbstractForm
             ]
         );
 
+        # region qty
         $fieldset = $form->addFieldset(
             'magento_block_template_selling_format_edit_form_qty_and_duration',
             [
@@ -127,7 +128,7 @@ class Data extends AbstractForm
                         ],
                     ],
                 ],
-                'value' => $formData['qty_mode'] != \M2E\Otto\Model\Template\SellingFormat::QTY_MODE_ATTRIBUTE
+                'value' => $formData['qty_mode'] != SellingFormat::QTY_MODE_ATTRIBUTE
                     ? $formData['qty_mode'] : '',
                 'create_magento_attribute' => true,
                 'tooltip' => __(
@@ -254,7 +255,9 @@ class Data extends AbstractForm
                 ),
             ]
         );
+        # endregion
 
+        # region price
         $fieldset = $form->addFieldset(
             'magento_block_template_selling_format_edit_form_prices',
             [
@@ -271,6 +274,128 @@ class Data extends AbstractForm
                 'css_class' => 'Otto-fieldset-table',
             ]
         );
+
+        // ----------------------------------------
+
+        $selectValue =
+            $formData['sale_price_mode'] != SellingFormat::SALE_PRICE_MODE_ATTRIBUTE
+                ? $formData['sale_price_mode']
+                : '';
+
+        $fieldset->addField(
+            'sale_price_mode',
+            self::SELECT,
+            [
+                'label' => __('Sale Price'),
+                'name' => 'selling_format[sale_price_mode]',
+                'class' => 'select-main',
+                'value' => $selectValue,
+                'values' => [
+                    SellingFormat::SALE_PRICE_MODE_NONE => __('None'),
+                    [
+                        'label' => __('Magento Attributes'),
+                        'value' => $this->prepareAttributesForSalesPrice(
+                            $formData['sale_price_mode'],
+                            $formData['sale_price_attribute'],
+                            $attributesByInputTypes['text_price'],
+                        ),
+                        'attrs' => [
+                            'is_magento_attribute' => true,
+                        ],
+                    ],
+                ],
+                'create_magento_attribute' => true,
+                'tooltip' => __('Select Magento attribute that contains the sale price value.'),
+            ]
+        );
+
+        $fieldset->addField(
+            'sale_price_attribute',
+            'hidden',
+            [
+                'name' => 'selling_format[sale_price_attribute]',
+                'value' => $formData['sale_price_attribute'],
+            ]
+        );
+
+        $fieldset->addField(
+            'sale_price_start_date_mode',
+            self::SELECT,
+            [
+                'container_id' => 'sale_price_start_date_mode_tr',
+                'label' => __('Start Date'),
+                'class' => 'select-main',
+                'name' => 'selling_format[sale_price_start_date_mode]',
+                'values' => [
+                    SellingFormat::SALE_PRICE_MODE_NONE => __('None'),
+                    [
+                        'label' => __('Magento Attributes'),
+                        'value' => $this->prepareAttributesForSalesPrice(
+                            $formData['sale_price_start_date_mode'],
+                            $formData['sale_price_start_date_value'],
+                            $attributesByInputTypes['text_date'],
+                        ),
+                        'attrs' => [
+                            'is_magento_attribute' => true,
+                        ],
+                    ],
+                ],
+                'value' => $formData['sale_price_start_date_mode'] != SellingFormat::SALE_PRICE_MODE_ATTRIBUTE
+                    ? $formData['sale_price_start_date_mode'] : '',
+                'create_magento_attribute' => true,
+                'tooltip' => __('Time and date when the <i>Sale Price</i> will be displayed on Otto.'),
+            ]
+        )->addCustomAttribute('allowed_attribute_types', 'text,date');
+
+        $fieldset->addField(
+            'sale_price_start_date_value',
+            'hidden',
+            [
+                'name' => 'selling_format[sale_price_start_date_value]',
+                'value' => $formData['sale_price_start_date_value'],
+            ]
+        );
+
+        $fieldset->addField(
+            'sale_price_end_date_mode',
+            self::SELECT,
+            [
+                'container_id' => 'sale_price_end_date_mode_tr',
+                'label' => __('End Date'),
+                'class' => 'select-main',
+                'name' => 'selling_format[sale_price_end_date_mode]',
+                'values' => [
+                    SellingFormat::SALE_PRICE_MODE_NONE => __('None'),
+                    [
+                        'label' => __('Magento Attributes'),
+                        'value' => $this->prepareAttributesForSalesPrice(
+                            $formData['sale_price_end_date_mode'],
+                            $formData['sale_price_end_date_value'],
+                            $attributesByInputTypes['text_date'],
+                        ),
+                        'attrs' => [
+                            'is_magento_attribute' => true,
+                        ],
+                    ],
+                ],
+                'value' => $formData['sale_price_end_date_mode'] != SellingFormat::SALE_PRICE_MODE_ATTRIBUTE
+                    ? $formData['sale_price_end_date_mode'] : '',
+                'create_magento_attribute' => true,
+                'tooltip' => __('Time and date when the <i>Sale Price</i> will be hidden on Otto.'),
+            ]
+        )->addCustomAttribute('allowed_attribute_types', 'text,date');
+
+        $fieldset->addField(
+            'sale_price_end_date_value',
+            'hidden',
+            [
+                'name' => 'selling_format[sale_price_end_date_value]',
+                'value' => $formData['sale_price_end_date_value'],
+            ]
+        );
+        # endregion
+
+        // ----------------------------------------
 
         $this->setForm($form);
 
@@ -309,7 +434,7 @@ JS;
         $this->js->add(
             <<<JS
     require([
-        'Otto/Otto/Template/SellingFormat',
+        'Otto/Otto/Template/SellingFormat'
     ], function(){
         window.OttoTemplateSellingFormatObj = new OttoTemplateSellingFormat();
         OttoTemplateSellingFormatObj.initObservers();
@@ -322,7 +447,7 @@ JS
         return parent::_prepareForm();
     }
 
-    private function getTitle()
+    private function getTitle(): string
     {
         $template = $this->globalDataHelper->getValue('otto_template_selling_format');
 
@@ -330,6 +455,7 @@ JS
             return '';
         }
 
+        /** @var \M2E\Otto\Model\Template\SellingFormat $template */
         return $template->getTitle();
     }
 
@@ -341,10 +467,11 @@ JS
             return [];
         }
 
+        /** @var \M2E\Otto\Model\Template\SellingFormat $template */
         return $template->getData();
     }
 
-    private function getAttributesByInputTypes()
+    private function getAttributesByInputTypes(): array
     {
         $attributes = $this->globalDataHelper->getValue('otto_attributes');
 
@@ -352,6 +479,7 @@ JS
             'text' => $this->magentoAttributeHelper->filterByInputTypes($attributes, ['text']),
             'text_select' => $this->magentoAttributeHelper->filterByInputTypes($attributes, ['text', 'select']),
             'text_price' => $this->magentoAttributeHelper->filterByInputTypes($attributes, ['text', 'price']),
+            'text_date' => $this->magentoAttributeHelper->filterByInputTypes($attributes, ['text', 'date']),
         ];
     }
 
@@ -373,5 +501,34 @@ JS
         ]);
 
         return $block->toHtml();
+    }
+
+    /**
+     * @param int $mode
+     * @param string $value
+     * @param array[] $attributes
+     *
+     * @return array
+     */
+    private function prepareAttributesForSalesPrice($mode, $value, $attributes): array
+    {
+        $result = [];
+        foreach ($attributes as $attribute) {
+            $attrs = ['attribute_code' => $attribute['code']];
+            if (
+                $mode == SellingFormat::SALE_PRICE_MODE_ATTRIBUTE
+                && $value == $attribute['code']
+            ) {
+                $attrs['selected'] = 'selected';
+            }
+
+            $result[] = [
+                'attrs' => $attrs,
+                'value' => SellingFormat::SALE_PRICE_MODE_ATTRIBUTE,
+                'label' => $attribute['label'],
+            ];
+        }
+
+        return $result;
     }
 }

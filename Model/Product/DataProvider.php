@@ -46,6 +46,25 @@ class DataProvider
         return $result;
     }
 
+    public function getSalePrice(): DataProvider\SalePrice\Result
+    {
+        if ($this->hasResult(DataProvider\SalePriceProvider::NICK)) {
+            /** @var DataProvider\SalePrice\Result */
+            return $this->getResult(DataProvider\SalePriceProvider::NICK);
+        }
+
+        /** @var \M2E\Otto\Model\Product\DataProvider\SalePriceProvider $builder */
+        $builder = $this->getBuilder(\M2E\Otto\Model\Product\DataProvider\SalePriceProvider::NICK);
+
+        $value = $builder->getSalePrice($this->product);
+
+        $result = DataProvider\SalePrice\Result::success($value);
+
+        $this->addResult(DataProvider\SalePriceProvider::NICK, $result);
+
+        return $result;
+    }
+
     public function getQty(): DataProvider\Qty\Result
     {
         if ($this->hasResult(DataProvider\QtyProvider::NICK)) {

@@ -33,6 +33,12 @@ class Diff extends \M2E\Otto\Model\ActiveRecord\Diff
             \M2E\Otto\Model\ResourceModel\Template\SellingFormat::COLUMN_FIXED_PRICE_MODE,
             \M2E\Otto\Model\ResourceModel\Template\SellingFormat::COLUMN_FIXED_PRICE_MODIFIER,
             \M2E\Otto\Model\ResourceModel\Template\SellingFormat::COLUMN_FIXED_PRICE_CUSTOM_ATTRIBUTE,
+            \M2E\Otto\Model\ResourceModel\Template\SellingFormat::COLUMN_SALE_PRICE_MODE,
+            \M2E\Otto\Model\ResourceModel\Template\SellingFormat::COLUMN_SALE_PRICE_ATTRIBUTE,
+            \M2E\Otto\Model\ResourceModel\Template\SellingFormat::COLUMN_SALE_PRICE_START_DATE_MODE,
+            \M2E\Otto\Model\ResourceModel\Template\SellingFormat::COLUMN_SALE_PRICE_START_DATE_VALUE,
+            \M2E\Otto\Model\ResourceModel\Template\SellingFormat::COLUMN_SALE_PRICE_END_DATE_MODE,
+            \M2E\Otto\Model\ResourceModel\Template\SellingFormat::COLUMN_SALE_PRICE_END_DATE_VALUE,
         ];
 
         return $this->isSettingsDifferent($keys);

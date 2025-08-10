@@ -19,6 +19,12 @@ class SellingFormat extends \M2E\Otto\Model\ResourceModel\ActiveRecord\AbstractM
     public const COLUMN_FIXED_PRICE_MODE = 'fixed_price_mode';
     public const COLUMN_FIXED_PRICE_MODIFIER = 'fixed_price_modifier';
     public const COLUMN_FIXED_PRICE_CUSTOM_ATTRIBUTE = 'fixed_price_custom_attribute';
+    public const COLUMN_SALE_PRICE_MODE = 'sale_price_mode';
+    public const COLUMN_SALE_PRICE_ATTRIBUTE = 'sale_price_attribute';
+    public const COLUMN_SALE_PRICE_START_DATE_MODE = 'sale_price_start_date_mode';
+    public const COLUMN_SALE_PRICE_START_DATE_VALUE = 'sale_price_start_date_value';
+    public const COLUMN_SALE_PRICE_END_DATE_MODE = 'sale_price_end_date_mode';
+    public const COLUMN_SALE_PRICE_END_DATE_VALUE = 'sale_price_end_date_value';
     public const COLUMN_UPDATE_DATE = 'update_date';
     public const COLUMN_CREATE_DATE = 'create_date';
 

@@ -117,6 +117,22 @@ define([
             $('fixed_price_mode')
                     .observe('change', this.fixed_price_mode_change)
                     .simulate('change');
+
+            $('sale_price_mode')
+                    .observe('change', OttoTemplateSellingFormatObj.sale_price_mode_change)
+                    .simulate('change');
+
+            if ($('sale_price_start_date_mode')) {
+                $('sale_price_start_date_mode')
+                        .observe('change', OttoTemplateSellingFormatObj.sale_price_start_date_mode_change)
+                        .simulate('change');
+            }
+
+            if ($('sale_price_end_date_mode')) {
+                $('sale_price_end_date_mode')
+                        .observe('change', OttoTemplateSellingFormatObj.sale_price_end_date_mode_change)
+                        .simulate('change');
+            }
         },
 
 
@@ -472,8 +488,42 @@ define([
             } else {
                 return '-' + currency + -price;
             }
-        }
+        },
 
+        sale_price_mode_change: function()
+        {
+            const self = OttoTemplateSellingFormatObj;
+
+            if (this.value == Otto.php.constant('M2E_Otto_Model_Template_SellingFormat::SALE_PRICE_MODE_NONE')) {
+                $('sale_price_start_date_mode_tr', 'sale_price_end_date_mode_tr').invoke('hide');
+            } else {
+                $('sale_price_start_date_mode_tr', 'sale_price_end_date_mode_tr').invoke('show');
+            }
+
+            $('sale_price_attribute').value = '';
+            if (this.value == Otto.php.constant('M2E_Otto_Model_Template_SellingFormat::SALE_PRICE_MODE_ATTRIBUTE')) {
+                self.updateHiddenValue(this, $('sale_price_attribute'));
+            }
+        },
+
+        sale_price_start_date_mode_change: function()
+        {
+            $('sale_price_start_date_value').value = '';
+
+            if (this.value == Otto.php.constant('M2E_Otto_Model_Template_SellingFormat::SALE_PRICE_MODE_ATTRIBUTE')) {
+                OttoTemplateSellingFormatObj.updateHiddenValue(this, $('sale_price_start_date_value'));
+            }
+        },
+
+        sale_price_end_date_mode_change: function()
+        {
+            $('sale_price_end_date_value').value = '';
+
+            if (this.value == Otto.php.constant('M2E_Otto_Model_Template_SellingFormat::SALE_PRICE_MODE_ATTRIBUTE')) {
+                OttoTemplateSellingFormatObj.updateHiddenValue(this, $('sale_price_end_date_value'));
+            }
+
+        },
 
         // ---------------------------------------
     });

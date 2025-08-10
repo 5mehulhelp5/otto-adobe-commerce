@@ -25,6 +25,7 @@ class Request extends \M2E\Otto\Model\Otto\Listing\Product\Action\AbstractReques
         $detailsData = $dataProvider->getDetails()->getValue();
         $brandData = $dataProvider->getBrand()->getValue();
         $imagesData = $dataProvider->getImages()->getValue();
+        $salePriceData = $dataProvider->getSalePrice()->getValue();
 
         $request = [
             'sku' => $product->getMagentoProduct()->getSku(),
@@ -59,7 +60,16 @@ class Request extends \M2E\Otto\Model\Otto\Listing\Product\Action\AbstractReques
             'mpn' => $detailsData->mpn,
             'manufacturer' => $detailsData->manufacturer,
             'bullet_points' => $detailsData->bulletPoints,
+            'sale_price' => null,
         ];
+
+        if ($salePriceData !== null) {
+            $request['sale_price'] = [
+                'amount' => $salePriceData->value,
+                'start_date' => $salePriceData->getFormattedStartDate(),
+                'end_date' => $salePriceData->getFormattedEndDate(),
+            ];
+        }
 
         if ($deliveryData->shippingProfileId !== null) {
             $request['shipping_profile_id'] = $deliveryData->shippingProfileId;
@@ -87,7 +97,16 @@ class Request extends \M2E\Otto\Model\Otto\Listing\Product\Action\AbstractReques
             'mpn' => $request['mpn'],
             'manufacturer' => $request['manufacturer'],
             'images_hash' => $imagesData->imagesHash,
+            'sale_price' => null,
         ];
+
+        if ($salePriceData !== null) {
+            $this->metadata['sale_price'] = [
+                'amount' => $salePriceData->value,
+                'start_date' => $salePriceData->getFormattedStartDate(),
+                'end_date' => $salePriceData->getFormattedEndDate(),
+            ];
+        }
 
         $this->processDataProviderLogs($dataProvider);
 

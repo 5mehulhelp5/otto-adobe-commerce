@@ -459,6 +459,47 @@ class Product extends \M2E\Otto\Model\ActiveRecord\AbstractModel implements
         return (float)$this->getData(\M2E\Otto\Model\ResourceModel\Product::COLUMN_ONLINE_PRICE);
     }
 
+    public function getOnlineSalePrice(): ?float
+    {
+        $salePrice = $this->getData(\M2E\Otto\Model\ResourceModel\Product::COLUMN_ONLINE_SALE_PRICE);
+        if ($salePrice === null) {
+            return null;
+        }
+
+        return (float)$salePrice;
+    }
+
+    public function setOnlineSalePrice(?float $salePrice): self
+    {
+        $this->setData(\M2E\Otto\Model\ResourceModel\Product::COLUMN_ONLINE_SALE_PRICE, $salePrice);
+
+        return $this;
+    }
+
+    public function getOnlineSalePriceStartDate(): ?string
+    {
+        return $this->getData(\M2E\Otto\Model\ResourceModel\Product::COLUMN_ONLINE_SALE_PRICE_START_DATE);
+    }
+
+    public function setOnlineSalePriceStartDate(?string $salePriceStartDate): self
+    {
+        $this->setData(\M2E\Otto\Model\ResourceModel\Product::COLUMN_ONLINE_SALE_PRICE_START_DATE, $salePriceStartDate);
+
+        return $this;
+    }
+
+    public function getOnlineSalePriceEndDate(): ?string
+    {
+        return $this->getData(\M2E\Otto\Model\ResourceModel\Product::COLUMN_ONLINE_SALE_PRICE_END_DATE);
+    }
+
+    public function setOnlineSalePriceEndDate(?string $salePriceEndDate): self
+    {
+        $this->setData(\M2E\Otto\Model\ResourceModel\Product::COLUMN_ONLINE_SALE_PRICE_END_DATE, $salePriceEndDate);
+
+        return $this;
+    }
+
     public function getOnlineQty(): int
     {
         return (int)$this->getData(ListingProductResource::COLUMN_ONLINE_QTY);
